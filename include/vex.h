@@ -11,7 +11,9 @@
 #include "v5_vcs.h"
 #include "robot-config.h"
 #include "functional"
+
 #include "odometry/odometry.h"
+#include "pid/pid.h"
 
 #define waitUntil(condition) \
   do                         \

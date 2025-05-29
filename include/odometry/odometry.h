@@ -6,6 +6,10 @@
 using namespace vex;
 using namespace std;
 
+/**
+ * @brief Gets the current position of the robot using a combination of the Pilons
+ * arc tracking strategy and Monte Carlo Localization
+ */
 class Odometry
 {
 private:
@@ -52,6 +56,7 @@ public:
   /**
    * @brief Does the odometry math to update position
    * Uses the Pilons arc method outline here: https://wiki.purduesigbots.com/software/odometry
+   * Also uses Monte Carlo Localization: https://www.ri.cmu.edu/pub_files/pub1/dellaert_frank_1999_2/dellaert_frank_1999_2.pdf
    * Updates the private x and y position variables which can later be accessed
    */
   void updatePosition();
