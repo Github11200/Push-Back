@@ -36,7 +36,23 @@ private:
   double updateTime = 0;
 
 public:
+  /**
+   * @brief Update the local variables based on the new information
+   *
+   */
   void compute();
+
+  /**
+   * @brief Reset all the values in the PID back to 0 other than the constants
+   *
+   */
+  void resetPID();
+
+  /**
+   * @brief Check if the PID is settled by look at the timeout or settle time
+   *
+   */
+  void isSettled();
 };
 
 #endif
