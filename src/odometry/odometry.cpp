@@ -4,27 +4,34 @@
 using namespace vex;
 using namespace std;
 
+bool trackingOn = false;
+double x = 0.0;
+double y = 0.0;
+double theta = 0.0;
+
 void Odometry::startPositionTrackThread()
 {
+  trackingOn = true;
 }
 
 void Odometry::stopPositionTrackThread()
 {
+  trackingOn = false;
 }
 
 double Odometry::getCurrentXPosition()
 {
-  return 0;
+  return x;
 }
 
 double Odometry::getCurrentYPosition()
 {
-  return 0;
+  return y;
 }
 
 double Odometry::getAbsoluteHeading()
 {
-  return 0;
+  return theta;
 }
 
 void Odometry::updatePosition()
