@@ -6,6 +6,10 @@
 using namespace vex;
 using namespace std;
 
+/**
+ * @brief
+ *
+ */
 class PID
 {
 private:
