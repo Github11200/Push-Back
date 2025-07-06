@@ -12,6 +12,11 @@
 #include "robot-config.h"
 #include "functional"
 
+#include "types/params.h"
+#include "types/vector.h"
+#include "types/angle.h"
+#include "types/pose.h"
+
 #include "utils.h"
 #include "odometry/odometry.h"
 #include "pid/pid.h"
