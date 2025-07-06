@@ -3,25 +3,43 @@
 
 double PID::compute(double error)
 {
-  if (fabs(error) < this->getSettleError())
-    this->setTimeSpentSettled(this->getTimeSpentSettled() + this->getUpdateTime());
-  this->setOutput(error * this->getKp() + this->getAccumulatedError() * this->getKi() + (error - this->getPreviousError()) * this->getKd());
+  if (fabs(error) < settleError)
+    timeSpentSettled += updateTime;
+  else
+    timeSpentSettled = 0;
+
+  // If the robot is tweaking out and oscilating then get rid of the integral
+  if (sgn(error) != sgn(previousError))
+    accumulatedError = 0;
+
+  if (error < stopIntegratingLimit)
+    accumulatedError += error;
+  else
+    accumulatedError = 0;
+
+  output = error * kP + accumulatedError * kI + (error - previousError) * kD;
+
+  timeSpentRunning += updateTime;
+  previousError = error;
+
+  return output;
 }
 
 void PID::resetPID()
 {
-  this->setError(0);
-  this->setPreviousError(0);
-  this->setOutput(0);
-  this->setStartingIntegrating(0);
-  this->setTimeSpentRunning(0);
-  this->setTimeSpentSettled(0);
+  error = 0;
+  previousError = 0;
+  output = 0;
+  stopIntegratingLimit = 0;
+  timeSpentRunning = 0;
+  timeSpentSettled = 0;
 }
 
 bool PID::isSettled()
 {
-  if (this->getTimeSpentRunning() > this->getTimeout())
+  if (timeSpentRunning > timeout)
     return true;
-  if (this->getTimeSpentSettled() > this->getSettleTime())
+  if (timeSpentSettled > settleTime)
     return true;
+  return false;
 }

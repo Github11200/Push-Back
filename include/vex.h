@@ -12,6 +12,7 @@
 #include "robot-config.h"
 #include "functional"
 
+#include "utils.h"
 #include "odometry/odometry.h"
 #include "pid/pid.h"
 
