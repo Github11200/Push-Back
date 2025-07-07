@@ -1,7 +1,7 @@
 #ifndef ODOMETRY_H
 #define ODOMETRY_H
 
-#include "vex.h"
+#include "types/pose.h"
 
 using namespace vex;
 using namespace std;
@@ -13,10 +13,7 @@ using namespace std;
 class Odometry
 {
 private:
-  double currentX;
-  double currentY;
-  double currentTheta;
-
+  Pose<double> currentPose;
   thread positionTrackThread;
 
 public:
@@ -32,26 +29,8 @@ public:
    */
   void stopPositionTrackThread();
 
-  /**
-   * @brief Get the Current X Position of the robot
-   *
-   * @return Returns the value stored in the private variable
-   */
-  double getCurrentXPosition();
-
-  /**
-   * @brief Get the Current X Position of the robot
-   *
-   * @return Returns the value stored in the private variable
-   */
-  double getCurrentYPosition();
-
-  /**
-   * @brief Get the current orientation of the robot
-   *
-   * @return Returns the value stored in the private variable
-   */
-  double getAbsoluteHeading();
+  // Returns the currentPoseVariable
+  Pose<double> getPose();
 
   /**
    * @brief Does the odometry math to update position
@@ -70,5 +49,7 @@ public:
    */
   void resetPosition(double xPosition, double yPosition, double theta);
 };
+
+extern Odometry odometry;
 
 #endif

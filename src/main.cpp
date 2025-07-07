@@ -7,6 +7,9 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
+// TODO: Make sure all the cos, sin and tan functions take parameters in as radians
+// TODO: Make sure the Angle struct is always returning in degrees
+
 #include "vex.h"
 
 using namespace vex;

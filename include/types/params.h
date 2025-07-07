@@ -1,56 +1,59 @@
 #ifndef PARAMS_H
 #define PARAMS_H
 
-#include "vex.h"
-
-using namespace vex;
 using namespace std;
 
-struct DriveParams
+struct Settings
 {
-  double drive_min_voltage = 1;
-  double drive_max_voltage = 1;
-  double heading_max_voltage = 1;
-  double drive_settle_error = 1;
-  double drive_settle_time = 1;
-  double drive_timeout = 1;
-  double drive_kp = 1;
-  double drive_ki = 1;
-  double drive_kd = 1;
-  double drive_starti = 1;
-  double drive_slew = 1;
-  double heading_kp = 1;
-  double heading_ki = 1;
-  double heading_kd = 1;
-  double heading_starti = 1;
+  // TODO: Make sure this update time is good
+  int updateTime = 10;
+  bool forwards = true;
 
-  DriveParams() = default;
+  Settings() = default;
 };
 
 struct TurnParams
 {
-  double turn_max_voltage = 1;
-  double turn_settle_error = 1;
-  double turn_settle_time = 1;
-  double turn_timeout = 1;
-  double turn_kp = 1;
-  double turn_ki = 1;
-  double turn_kd = 1;
-  double turn_starti = 1;
+  double turnMinVoltage = 1;
+  double turnMaxVoltage = 1;
+  double turnSettleError = 1;
+  double turnSettleTime = 1;
+  double turnTimeout = 1;
+  double turnKp = 1;
+  double turnKi = 1;
+  double turnKd = 1;
+  double turnStopIntegratingLimit = 1;
+  double turnSlew = 1;
 
   TurnParams() = default;
 };
 
+struct DriveParams
+{
+  double driveMinVoltage = 1;
+  double driveMaxVoltage = 1;
+  double driveSettleError = 1;
+  double driveSettleTime = 1;
+  double driveTimeout = 1;
+  double driveKp = 1;
+  double driveKi = 1;
+  double driveKd = 1;
+  double driveStopIntegratingLimit = 1;
+  double driveSlew = 1;
+
+  DriveParams() = default;
+};
+
 struct SwingParams
 {
-  double swing_max_voltage = 1;
-  double swing_settle_error = 1;
-  double swing_settle_time = 1;
-  double swing_timeout = 1;
-  double swing_kp = 1;
-  double swing_ki = 1;
-  double swing_kd = 1;
-  double swing_starti = 1;
+  double swingMaxVoltage = 1;
+  double swingSettleError = 1;
+  double swingSettleTime = 1;
+  double swingTimeout = 1;
+  double swingKp = 1;
+  double swingKi = 1;
+  double swingKd = 1;
+  double swingStartI = 1;
 
   SwingParams() = default;
 };

@@ -21,6 +21,8 @@
 #include "odometry/odometry.h"
 #include "pid/pid.h"
 
+#include "chassis.h"
+
 #define waitUntil(condition) \
   do                         \
   {                          \
