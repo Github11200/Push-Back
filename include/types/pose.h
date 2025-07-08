@@ -1,7 +1,6 @@
 #ifndef POSE_H
 #define POSE_H
 
-#include "angle.h"
 #include "vector.h"
 
 using namespace std;

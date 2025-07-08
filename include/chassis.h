@@ -6,7 +6,6 @@
 
 #include "odometry/odometry.h"
 #include "types/pose.h"
-#include "types/angle.h"
 #include "types/params.h"
 
 #include "pid/pid.h"
@@ -23,6 +22,7 @@ class Chassis
 private:
   inertial Inertial;
   double inertialScaling = 360;
+  motor_group Left, Right;
 
 public:
   Chassis(/* args */);
@@ -31,10 +31,10 @@ public:
   void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead);
 
-  void turnToAngle(Angle<double> target, TurnParams params, Settings settings);
-  void turnToPoint(Pose<double> target, TurnParams params, Settings settings);
+  void turnTo(Pose<double> target, TurnParams params, Settings settings);
 
   Angle<double> getAbsoluteHeading();
+  pair<double, double> getMotorVelocities(double driveOutput, double turnOutput);
 
   ~Chassis();
 };

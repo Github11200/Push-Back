@@ -17,4 +17,7 @@ T clamp(T value, T min, T max);
 template <class T>
 T slew(T current, T target, T maxChange);
 
-#endif UTIL_H
+template <class T>
+T toVoltage(T percent);
+
+#endif

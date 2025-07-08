@@ -8,23 +8,24 @@ using namespace std;
 
 void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings)
 {
-  PID drive(settings.updateTime, driveParams);
-  PID angular(settings.updateTime, turnParams);
+  PID drivePID(settings.updateTime, driveParams);
+  PID turnPID(settings.updateTime, turnParams);
 
   Pose<double> currentPose;
 
   double driveOutput = 0;
-  double angularOutput = 0;
+  double turnOutput = 0;
 
   double previousDriveOutput = 0;
-  double previousAngularOutput = 0;
+  double previousTurnOutput = 0;
 
   double headingScaleFactor = 0;
 
   bool isClose = false;
+  int previousSide = -1; // -1 is null
   Angle<double> initialHeading;
 
-  while (!drive.isSettled() && !angular.isSettled())
+  while (!drivePID.isSettled())
   {
     currentPose = odometry.getPose();
 
@@ -34,21 +35,20 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       isClose = true;
       // TODO: Change the 4.5 to be a parameter or dynamic
       driveParams.driveMaxVoltage = max(abs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = max(abs(previousAngularOutput), 4.5);
+      turnParams.turnMaxVoltage = max(abs(previousTurnOutput), 4.5);
     }
 
-    double lateralError = hypot(target.position.x - currentPose.position.x, target.position.y - currentPose.position.y);
-    Angle<double> angularError = ((currentPose.position.angleTo(target.position).toDeg()) - getAbsoluteHeading()).constrainNegative180To180();
+    double driveError = hypot(target.position.x - currentPose.position.x, target.position.y - currentPose.position.y);
+    Angle<double> turnError = (currentPose.position.angleTo(target.position) - getAbsoluteHeading()).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
-
     /*
       What it's meant to do is that when the robot is facing perpendicular to the target (90 degrees) then
       cos(90) = 0 so there is no lateral movement, it focuses just on turning, but as it gets closer to the
      target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
      the lateral rather than the angular movement
     */
-    headingScaleFactor = cos(angularError.toRad().angle);
+    headingScaleFactor = cos(turnError.toRad().angle);
 
     {
       Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
@@ -56,24 +56,42 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
 
       // false = before the line, true = after the line
       const bool side = lineFromCurrentPositionToTarget.crossProduct(projectedPerpendicularLine) <= driveParams.driveSettleError;
+      if (previousSide == -1)
+        previousSide = side;
+      const bool sameSide = previousSide == side ? true : false;
+
+      // If the robot crossed over this perpendicular line and the min drive voltage is not 0 then it'll
+      // keep oscillating and not settle so instead just have it stop the motion
+      if (!sameSide && driveParams.driveMinVoltage > 0)
+        break;
+      previousSide = side;
     }
 
-    driveOutput = drive.compute(lateralError) * headingScaleFactor;
-    angularOutput = angular.compute(angularError.angle);
+    driveOutput = drivePID.compute(driveError) * headingScaleFactor;
+    turnOutput = turnPID.compute(turnError.angle);
 
-    // clamp the values
+    // TODO: Possibly flip the values if the robot is driving backwards
+
+    // Clamp the values
     driveOutput = clamp(driveOutput, driveParams.driveMinVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
-    angularOutput = clamp(angularOutput, turnParams.turnMinVoltage, turnParams.turnMaxVoltage);
+    turnOutput = clamp(turnOutput, turnParams.turnMinVoltage, turnParams.turnMaxVoltage);
 
-    // add in the slews
-    driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
-    angularOutput = slew(previousAngularOutput, angularOutput, driveParams.driveSlew);
+    // Add in the slews if the robot is not close
+    driveOutput = isClose ? driveOutput : slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
+    turnOutput = isClose ? turnOutput : slew(previousTurnOutput, turnOutput, driveParams.driveSlew);
 
     previousDriveOutput = driveOutput;
-    previousAngularOutput = angularOutput;
+    previousTurnOutput = turnOutput;
 
-    wait(settings.updateTime, vex::timeUnits::msec);
+    pair<double, double> motorOutputs = getMotorVelocities(driveOutput, turnOutput);
+    Left.spin(fwd, motorOutputs.first, volt);
+    Right.spin(fwd, motorOutputs.second, volt);
+
+    wait(settings.updateTime, msec);
   }
+
+  Left.stop(hold);
+  Right.stop(hold);
 }
 
 #endif

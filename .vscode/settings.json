@@ -1,22 +1,22 @@
 {
-  "C_Cpp.default.systemIncludePath": [
-    "${config:vexrobotics.vexcode.Cpp.Sdk.Home}\\V5\\V5_20240802_15_00_00\\vexv5\\gcc\\include\\sys"
-  ],
-  "files.associations": {
-    "algorithm": "cpp",
-    "chrono": "cpp",
-    "string": "cpp",
-    "exception": "cpp",
-    "cmath": "cpp",
-    "functional": "cpp",
-    "fstream": "cpp",
-    "iostream": "cpp",
-    "istream": "cpp",
-    "new": "cpp",
-    "ostream": "cpp",
-    "ratio": "cpp",
-    "sstream": "cpp",
-    "tuple": "cpp",
-    "typeinfo": "cpp"
-  }
+	"C_Cpp.default.systemIncludePath": [
+		"${config:vexrobotics.vexcode.Cpp.Sdk.Home}\\V5\\V5_20240802_15_00_00\\vexv5\\gcc\\include\\sys"
+	],
+	"files.associations": {
+		"algorithm": "cpp",
+		"chrono": "cpp",
+		"string": "cpp",
+		"exception": "cpp",
+		"cmath": "cpp",
+		"functional": "cpp",
+		"fstream": "cpp",
+		"iostream": "cpp",
+		"istream": "cpp",
+		"new": "cpp",
+		"ostream": "cpp",
+		"ratio": "cpp",
+		"sstream": "cpp",
+		"tuple": "cpp",
+		"typeinfo": "cpp"
+	}
 }

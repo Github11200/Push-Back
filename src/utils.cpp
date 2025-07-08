@@ -30,3 +30,9 @@ T slew(T current, T target, T maxChange)
     change = -maxChange;
   return current + change;
 }
+
+template <class T>
+T toVoltage(T percent)
+{
+  return (percent / 100) * 12;
+}
