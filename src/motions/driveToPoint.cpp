@@ -11,7 +11,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
 
-  Pose<double> currentPose;
+  Pose<double> currentPose = odometry.getPose();
 
   double driveOutput = 0;
   double turnOutput = 0;
@@ -23,7 +23,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
 
   bool isClose = false;
   int previousSide = -1; // -1 is null
-  Angle<double> initialHeading;
+  Angle<double> initialHeading = currentPose.position.angleTo(target.position);
 
   while (!drivePID.isSettled())
   {
@@ -54,7 +54,8 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
       Vector2D<double> lineFromCurrentPositionToTarget(currentPose.position.x - target.position.x, currentPose.position.y - target.position.y);
 
-      // false = before the line, true = after the line
+      // If the cross product is negative then it is before the line and if it is positive then it is after the line
+      // https://www.desmos.com/calculator/apijy0bvki, this is a visualization of what's happening
       const bool side = lineFromCurrentPositionToTarget.crossProduct(projectedPerpendicularLine) <= driveParams.driveSettleError;
       if (previousSide == -1)
         previousSide = side;
