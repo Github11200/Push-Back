@@ -13,11 +13,6 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
   double angularOutput = 0;
   double previousAngularOutput = 0;
 
-  double headingScaleFactor = 0;
-
-  int previousSide = -1; // -1 is null
-  Angle<double> initialHeading;
-
   Angle<double> turnError;
   Angle<double> previousTurnError = Angle<double>(-360);
 
@@ -31,7 +26,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
     if (target.orientation.angle == -360)
       turnError = (currentPose.position.angleTo(target.position).constrain0To360() - getAbsoluteHeading()).constrainNegative180To180();
     else // we want to turn to an angle
-      turnError = currentPose.orientation.angleTo(target.orientation.angle);
+      turnError = currentPose.orientation.angleTo(target.orientation);
 
     if (previousTurnError.angle == -360)
       previousTurnError = turnError;

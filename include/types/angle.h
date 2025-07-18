@@ -22,7 +22,7 @@ struct Angle
   constexpr Angle<T> toDeg() const { return Angle<T>(angle * RADIANS); }
   constexpr Angle<T> toRad() const { return Angle<T>(angle / RADIANS); }
 
-  constexpr Angle<T> angleTo(Angle<T> other) { return constrainNegative180To180(other.angle - angle); }
+  constexpr Angle<T> angleTo(Angle<T> other) { return Angle<double>(other.angle - angle).constrainNegative180To180(); }
 
   // Constrains to [0, 360)
   constexpr Angle<T> constrain0To360() const

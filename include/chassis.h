@@ -29,7 +29,7 @@ public:
 
   void driveDistance(double distance, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
-  void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback);
+  void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
 
   void turnTo(Pose<double> target, TurnParams params, Settings settings);
 

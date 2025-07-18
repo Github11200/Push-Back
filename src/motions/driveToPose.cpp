@@ -6,7 +6,7 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback)
+void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driftCompensation)
 {
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
@@ -70,16 +70,53 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
       previousSameSide = sameSide;
     }
 
+    turnOutput = [&]() -> double
+    {
+      double output = 0;
+      output = turnPID.compute(turnError.angle);
+      output = clamp(output, -turnParams.turnMinVoltage, turnParams.turnMaxVoltage);
+      previousTurnOutput = output;
+      return output;
+    }();
+
     driveOutput = [&]() -> double
     {
       double output = 0;
 
       output = drivePID.compute(driveError) * headingScaleFactor;
       output = clamp(output, -driveParams.driveMaxVoltage, driveParams.driveMaxVoltage);
+
+      // Limit accleration
+      if (!isClose)
+        output = slew(output, previousDriveOutput, driveParams.driveSlew);
+
+      const double radius = 1 / abs(getSignedTangentArcCurvature(currentPose, carrotPoint));
+
+      // If the drift compensation is 0 that means it should be disabled
+      if (driftCompensation != 0)
+      {
+        // The equation used here is the one for lateral acceleration in a turn, so a = v^2 / r. Here a is the drift compensation
+        // so what the maximum lateral acceleration is and radius is the radius of the turn to get to the carrot point
+        const double maxSlipSpeed = sqrt(driftCompensation * radius);
+        output = clamp(output, -maxSlipSpeed, maxSlipSpeed);
+      }
+
+      // If this variable is positive then that means there's more of an emphasis on turning
+      const double overTurnVoltage = abs(output) + abs(turnOutput) - driveParams.driveMaxVoltage;
+      // Move the drive output closer to 0 so that there is more of an emphasis on turning
+      if (overTurnVoltage > 0)
+        output -= output > 0 ? overTurnVoltage : -overTurnVoltage;
+
+      // Constrain to the minimum voltage
+      output = clampMin(output, driveParams.driveMinVoltage);
+
+      previousDriveOutput = output;
+      return output;
     }();
 
-    turnOutput = turnPID.compute(turnError.angle);
-    turnOutput = clamp(turnOutput, -turnParams.turnMinVoltage, turnParams.turnMaxVoltage);
+    pair<double, double> outputs = getMotorVelocities(driveOutput, turnOutput);
+    Left.spin(fwd, outputs.first, volt);
+    Right.spin(fwd, outputs.second, volt);
   }
 
   Left.stop(hold);
