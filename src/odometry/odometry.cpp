@@ -9,6 +9,8 @@ double x = 0.0;
 double y = 0.0;
 double theta = 0.0;
 
+Odometry odometry;
+
 void Odometry::startPositionTrackThread()
 {
   trackingOn = true;
@@ -19,19 +21,9 @@ void Odometry::stopPositionTrackThread()
   trackingOn = false;
 }
 
-double Odometry::getCurrentXPosition()
+Pose<double> Odometry::getPose()
 {
-  return x;
-}
-
-double Odometry::getCurrentYPosition()
-{
-  return y;
-}
-
-double Odometry::getAbsoluteHeading()
-{
-  return theta;
+  return currentPose;
 }
 
 void Odometry::updatePosition()

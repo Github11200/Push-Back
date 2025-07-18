@@ -1,7 +1,7 @@
 #ifndef PID_H
 #define PID_H
 
-#include "vex.h"
+#include "../types/params.h"
 
 using namespace vex;
 using namespace std;
@@ -12,19 +12,17 @@ using namespace std;
  */
 class PID
 {
-private:
+protected:
   double error = 0;
+  double accumulatedError = 0;
   double previousError = 0;
+  double output = 0;
 
   double kP = 0;
   double kI = 0;
   double kD = 0;
 
-  double turnkP = 0;
-  double turnkI = 0;
-  double turnkD = 0;
-
-  double startingIntegrating = 0;
+  double stopIntegratingLimit = 0;
 
   double timeout = 0;
   double timeSpentRunning = 0;
@@ -37,10 +35,10 @@ private:
 
 public:
   /**
-   * @brief Update the local variables based on the new information
+   * @brief Compute the new values such as time spent running, error, etc.
    *
    */
-  void compute();
+  double compute(double error);
 
   /**
    * @brief Reset all the values in the PID back to 0 other than the constants
@@ -52,7 +50,26 @@ public:
    * @brief Check if the PID is settled by look at the timeout or settle time
    *
    */
-  void isSettled();
+  bool isSettled();
+
+  PID() {}
+  PID(int updateTime, DriveParams driveParams) : kP(driveParams.driveKp),
+                                                 kI(driveParams.driveKi),
+                                                 kD(driveParams.driveKd),
+                                                 stopIntegratingLimit(driveParams.driveStopIntegratingLimit),
+                                                 timeout(driveParams.driveTimeout),
+                                                 settleError(driveParams.driveSettleError),
+                                                 settleTime(driveParams.driveSettleTime),
+                                                 updateTime(updateTime) {}
+
+  PID(int updateTime, TurnParams turnParams) : kP(turnParams.turnKp),
+                                               kI(turnParams.turnKi),
+                                               kD(turnParams.turnKd),
+                                               stopIntegratingLimit(turnParams.turnStopIntegratingLimit),
+                                               timeout(turnParams.turnTimeout),
+                                               settleError(turnParams.turnSettleError),
+                                               settleTime(turnParams.turnSettleTime),
+                                               updateTime(updateTime) {}
 };
 
 #endif
