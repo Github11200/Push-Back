@@ -12,7 +12,8 @@
 // TODO: Check that before constraining angles they have been converted to degrees
 // TODO: Make sure that when any angles are returned from vector.h or something that they have been constrained from 0 to 360
 
-#include "chassis.h"
+#include "../include/chassis.h"
+#include "../include/testing/tests.h"
 
 using namespace vex;
 
