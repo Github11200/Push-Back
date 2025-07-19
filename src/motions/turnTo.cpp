@@ -10,8 +10,8 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
 {
   PID turnPID(settings.updateTime, params);
 
-  double angularOutput = 0;
-  double previousAngularOutput = 0;
+  double turnOutput = 0;
+  double previousTurnOutput = 0;
 
   Angle<double> turnError;
   Angle<double> previousTurnError = Angle<double>(-360);
@@ -35,15 +35,20 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
     if (params.turnMinVoltage != 0 && sgn(previousTurnError) != sgn(turnError))
       break;
 
-    angularOutput = turnPID.compute(turnError.angle);
+    turnOutput = [&]() -> double
+    {
+      double output = 0;
+      output = turnPID.compute(turnError.angle);
 
-    // Clamp the values
-    angularOutput = clamp(angularOutput, params.turnMinVoltage, params.turnMaxVoltage);
+      output = clamp(turnOutput, -params.turnMaxVoltage, params.turnMaxVoltage);
+      output = clampMin(turnOutput, params.turnMinVoltage);
 
-    previousAngularOutput = angularOutput;
+      previousTurnOutput = output;
+      return output;
+    }();
 
-    Left.spin(fwd, -toVoltage(angularOutput), volt);
-    Right.spin(fwd, toVoltage(angularOutput), volt);
+    Left.spin(fwd, -toVoltage(turnOutput), volt);
+    Right.spin(fwd, toVoltage(turnOutput), volt);
 
     wait(settings.updateTime, msec);
   }

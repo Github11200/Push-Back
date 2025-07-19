@@ -1,8 +1,6 @@
 #ifndef PARAMS_H
 #define PARAMS_H
 
-using namespace std;
-
 struct Settings
 {
   // TODO: Make sure this update time is good
@@ -23,7 +21,7 @@ struct TurnParams
   double turnKi = 1;
   double turnKd = 1;
   double turnStopIntegratingLimit = 1;
-  double turnSlew = 1;
+  double turnSlew = 12; // by default the turn slew will be disabled
 
   TurnParams() = default;
 };
@@ -39,7 +37,7 @@ struct DriveParams
   double driveKi = 1;
   double driveKd = 1;
   double driveStopIntegratingLimit = 1;
-  double driveSlew = 1;
+  double driveSlew = 12; // by default the drive slew will be disabled
 
   DriveParams() = default;
 };

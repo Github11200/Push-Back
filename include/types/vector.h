@@ -1,7 +1,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <math.h>
 #include "angle.h"
 
 using namespace std;

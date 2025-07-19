@@ -2,6 +2,8 @@
 #define PID_H
 
 #include "../types/params.h"
+#include "../utils.h"
+#include "../vex.h"
 
 using namespace vex;
 using namespace std;
