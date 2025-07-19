@@ -68,21 +68,38 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       previousSide = side;
     }
 
-    driveOutput = drivePID.compute(driveError) * headingScaleFactor;
-    turnOutput = turnPID.compute(turnError.angle);
+    turnOutput = [&]() -> double
+    {
+      double output = 0;
+      output = turnPID.compute(turnError.angle);
 
-    // TODO: Possibly flip the values if the robot is driving backwards
+      // Clamp the values
+      output = clamp(output, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
+      output = clampMin(output, turnParams.turnMinVoltage);
 
-    // Clamp the values
-    driveOutput = clamp(driveOutput, driveParams.driveMinVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
-    turnOutput = clamp(turnOutput, turnParams.turnMinVoltage, turnParams.turnMaxVoltage);
+      if (!isClose)
+        output = slew(previousTurnOutput, turnOutput, turnParams.turnSlew);
 
-    // Add in the slews if the robot is not close
-    driveOutput = isClose ? driveOutput : slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
-    turnOutput = isClose ? turnOutput : slew(previousTurnOutput, turnOutput, driveParams.driveSlew);
+      previousTurnOutput = output;
+      return output;
+    }();
 
-    previousDriveOutput = driveOutput;
-    previousTurnOutput = turnOutput;
+    driveOutput = [&]() -> double
+    {
+      double output = 0;
+
+      output = drivePID.compute(driveError) * headingScaleFactor;
+
+      // CLamp it between min and max values
+      output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
+      output = clampMin(output, driveParams.driveMinVoltage);
+
+      if (isClose)
+        output = slew(previousDriveOutput, output, driveParams.driveSlew);
+
+      previousDriveOutput = output;
+      return output;
+    }();
 
     pair<double, double> motorOutputs = getMotorVelocities(driveOutput, turnOutput);
     Left.spin(fwd, motorOutputs.first, volt);

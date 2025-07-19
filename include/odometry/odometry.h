@@ -2,6 +2,7 @@
 #define ODOMETRY_H
 
 #include "types/pose.h"
+#include "vex.h"
 
 using namespace vex;
 using namespace std;

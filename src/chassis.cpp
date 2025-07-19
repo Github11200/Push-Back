@@ -1,4 +1,3 @@
-#include "vex.h"
 #include "../include/chassis.h"
 
 using namespace vex;

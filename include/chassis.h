@@ -1,15 +1,8 @@
 #ifndef CHASSIS_H
 #define CHASSIS_H
 
-#include "v5.h"
-#include "v5_vcs.h"
-
 #include "odometry/odometry.h"
-#include "types/pose.h"
-#include "types/params.h"
-
 #include "pid/pid.h"
-#include "utils.h"
 
 #include <stdlib.h>
 #include <complex>

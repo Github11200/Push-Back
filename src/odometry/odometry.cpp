@@ -1,4 +1,3 @@
-#include "vex.h"
 #include "../../include/odometry/odometry.h"
 
 using namespace vex;

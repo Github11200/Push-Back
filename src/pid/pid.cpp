@@ -1,4 +1,3 @@
-#include "vex.h"
 #include "../../include/pid/pid.h"
 
 double PID::compute(double error)
