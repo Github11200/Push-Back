@@ -20,5 +20,5 @@ pair<double, double> Chassis::getMotorVelocities(double driveOutput, double turn
     right /= sum;
   }
 
-  return pair<int, int>(toVoltage(left), toVoltage(right));
+  return pair<double, double>(toVoltage(left), toVoltage(right));
 }

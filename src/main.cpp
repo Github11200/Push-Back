@@ -15,6 +15,8 @@
 #include "../include/chassis.h"
 #include "../include/testing/tests.h"
 
+#include "vex.h"
+
 using namespace vex;
 
 // A global instance of competition
