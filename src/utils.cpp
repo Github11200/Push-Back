@@ -1,4 +1,5 @@
 #include "../include/utils.h"
+#include <iostream>
 
 template <class T>
 int sgn(T number)
@@ -44,20 +45,42 @@ T slew(T current, T target, T maxChange)
 template <class T>
 T toVoltage(T percent)
 {
-  return (percent / 100) * 12;
+  return (percent / 100.0) * 12.0;
 }
 
+// TODO: Make sure this sign convention is consistent, curving to the left is negative and curving to the right is positive
 double getSignedTangentArcCurvature(Pose<double> start, Vector2D<double> end)
 {
   const Pose<double> delta = end - start.position;
-  const Vector2D<double> normalVector = Vector2D<double>(sin(start.orientation.angle), cos(start.orientation.angle));
-  const int side = sgn(delta.position.crossProduct(normalVector));
+  const Vector2D<double> normalVector = Vector2D<double>(cos(start.orientation.angle), sin(start.orientation.angle));
+  const int side = sgn<double>(delta.position.crossProduct(normalVector));
 
   // Calculate the center point of the circle and then the radius
   const double a = -tan(start.orientation.angle);
   const double c = tan(start.orientation.angle) * start.position.x - start.position.y;
-  const double x = fabs(a * end.x + end.y * c) / sqrt(a * a + 1);
+  const double x = fabs(a * end.x + end.y + c) / sqrt(a * a + 1);
   const double d = start.position.distanceTo(end);
 
   return side * ((2 * x) / (d * d));
 }
+
+// Explicit template instantiations for commonly used types
+template int sgn<int>(int number);
+template int sgn<double>(double number);
+template int sgn<float>(float number);
+
+template int clamp<int>(int value, int min, int max);
+template double clamp<double>(double value, double min, double max);
+template float clamp<float>(float value, float min, float max);
+
+template int clampMin<int>(int value, int min);
+template double clampMin<double>(double value, double min);
+template float clampMin<float>(float value, float min);
+
+template int slew<int>(int current, int target, int maxChange);
+template double slew<double>(double current, double target, double maxChange);
+template float slew<float>(float current, float target, float maxChange);
+
+template int toVoltage<int>(int percent);
+template double toVoltage<double>(double percent);
+template float toVoltage<float>(float percent);

@@ -341,3 +341,202 @@ TEST(testPoseXYAngleConstructor)
 
   return Testing::Result::PASS;
 }
+
+// ====================
+// UTILITY FUNCTION TESTS
+// ====================
+
+TEST(testSgnPositive)
+{
+  ASSERT_EQUAL(sgn<int>(5), 1);
+  ASSERT_EQUAL(sgn<double>(10.5), 1);
+  ASSERT_EQUAL(sgn<double>(0.1), 1);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testSgnNegative)
+{
+  ASSERT_EQUAL(sgn<int>(-5), -1);
+  ASSERT_EQUAL(sgn<double>(-10.5), -1);
+  ASSERT_EQUAL(sgn<double>(-0.1), -1);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testSgnZero)
+{
+  ASSERT_EQUAL(sgn<int>(0), 0);
+  ASSERT_EQUAL(sgn<double>(0.0), 0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testClampInRange)
+{
+  // Value within range should remain unchanged
+  ASSERT_EQUAL(clamp<int>(5, 0, 10), 5);
+  ASSERT_EQUAL(clamp<double>(2.5, 0.0, 10.0), 2.5);
+  ASSERT_EQUAL(clamp<int>(-3, -5, 5), -3);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testClampBelowMin)
+{
+  // Value below minimum should be clamped to minimum
+  ASSERT_EQUAL(clamp<int>(-5, 0, 10), 0);
+  ASSERT_EQUAL(clamp<double>(-2.5, 0.0, 10.0), 0.0);
+  ASSERT_EQUAL(clamp<int>(-10, -5, 5), -5);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testClampAboveMax)
+{
+  // Value above maximum should be clamped to maximum
+  ASSERT_EQUAL(clamp<int>(15, 0, 10), 10);
+  ASSERT_EQUAL(clamp<double>(12.5, 0.0, 10.0), 10.0);
+  ASSERT_EQUAL(clamp<int>(10, -5, 5), 5);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testClampMinPositiveValue)
+{
+  // Positive values below minimum should be clamped to minimum
+  ASSERT_EQUAL(clampMin<int>(2, 5), 5);
+  ASSERT_EQUAL(clampMin<double>(3.5, 4.0), 4.0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testClampMinNegativeValue)
+{
+  // Negative values above -minimum should be clamped to -minimum
+  ASSERT_EQUAL(clampMin<int>(-2, 5), -5);
+  ASSERT_EQUAL(clampMin<double>(-3.5, 4.0), -4.0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testClampMinValueAtThreshold)
+{
+  // Values at or beyond threshold should remain unchanged
+  ASSERT_EQUAL(clampMin<int>(5, 5), 5);
+  ASSERT_EQUAL(clampMin<int>(-5, 5), -5);
+  ASSERT_EQUAL(clampMin<int>(10, 5), 10);
+  ASSERT_EQUAL(clampMin<int>(-10, 5), -10);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testSlewWithinLimit)
+{
+  // Change within limit should reach target
+  ASSERT_EQUAL(slew<int>(0, 5, 10), 5);
+  ASSERT_EQUAL(slew<double>(10.0, 12.0, 5.0), 12.0);
+  ASSERT_EQUAL(slew<int>(-5, -2, 5), -2);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testSlewExceedsPositiveLimit)
+{
+  // Change exceeding positive limit should be limited
+  ASSERT_EQUAL(slew<int>(0, 15, 10), 10);
+  ASSERT_EQUAL(slew<double>(5.0, 20.0, 8.0), 13.0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testSlewExceedsNegativeLimit)
+{
+  // Change exceeding negative limit should be limited
+  ASSERT_EQUAL(slew<int>(10, -5, 8), 2);
+  ASSERT_EQUAL(slew<double>(20.0, 5.0, 10.0), 10.0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testSlewZeroChange)
+{
+  // Zero change should remain at current value
+  ASSERT_EQUAL(slew<int>(5, 5, 10), 5);
+  ASSERT_EQUAL(slew<double>(-3.5, -3.5, 2.0), -3.5);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testToVoltagePositive)
+{
+  // Positive percentages
+  ASSERT_EQUAL(toVoltage<int>(100), 12);
+  ASSERT_EQUAL(toVoltage<int>(50), 6);
+  ASSERT_EQUAL(toVoltage<int>(25), 3);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testToVoltageNegative)
+{
+  // Negative percentages
+  ASSERT_EQUAL(toVoltage<int>(-100), -12);
+  ASSERT_EQUAL(toVoltage<int>(-50), -6);
+  ASSERT_EQUAL(toVoltage<int>(-25), -3);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testToVoltageZero)
+{
+  // Zero percentage
+  ASSERT_EQUAL(toVoltage<int>(0), 0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testToVoltageFloat)
+{
+  // Float percentages
+  ASSERT_EQUAL(toVoltage<double>(33.33), 3.9996);
+  ASSERT_EQUAL(toVoltage<double>(75.0), 9.0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testGetSignedTangentArcCurvatureParallelPath)
+{
+  // Test with a straight path (no curvature)
+  Pose<double> start(0, 0, 0); // Starting at origin, facing right (0 degrees)
+  Vector2D<double> end(10, 0); // End point straight ahead
+
+  double curvature = getSignedTangentArcCurvature(start, end);
+  ASSERT_EQUAL(curvature, 0); // Should be zero curvature for straight line
+
+  return Testing::Result::PASS;
+}
+
+TEST(testGetSignedTangentArcCurvatureLeftTurn)
+{
+  // Test with a left turn (negative curvature)
+  Pose<double> start(0, 0, 0); // Starting at origin, facing right
+  Vector2D<double> end(0, 10); // End point to the left
+
+  double curvature = getSignedTangentArcCurvature(start, end);
+  ASSERT_TRUE(curvature < 0); // Should be negative for left turn
+
+  return Testing::Result::PASS;
+}
+
+TEST(testGetSignedTangentArcCurvatureRightTurn)
+{
+  // Test with a right turn (positive curvature)
+  Pose<double> start(0, 0, 0);  // Starting at origin, facing right
+  Vector2D<double> end(0, -10); // End point to the right
+
+  double curvature = getSignedTangentArcCurvature(start, end);
+  ASSERT_TRUE(curvature > 0); // Should be positive for right turn
+
+  return Testing::Result::PASS;
+}
