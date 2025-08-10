@@ -70,6 +70,8 @@ void autonomous(void)
 
 void usercontrol(void)
 {
+  Testing::runAllTests();
+
   // User control code here, inside the loop
   while (1)
   {

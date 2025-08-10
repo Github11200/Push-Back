@@ -75,11 +75,11 @@ namespace Testing
   } testRegistrarInstance_##name;                    \
   Testing::Result test_##name(string &errorMessage)
 
-#define ASSERT_EQUAL(actual, expected)                            \
-  if ((actual) != (expected))                                     \
-  {                                                               \
-    errorMessage = "\tEXPECTED: " #expected "\n\tACTUAL" #actual; \
-    return Testing::Result::FAIL;                                 \
+#define ASSERT_EQUAL(actual, expected)                                      \
+  if ((actual) != (expected))                                               \
+  {                                                                         \
+    errorMessage = "\n\t   EXPECTED: " #expected "\n\t   ACTUAL: " #actual; \
+    return Testing::Result::FAIL;                                           \
   }
 
 #define ASSERT_TRUE(value)                                          \
