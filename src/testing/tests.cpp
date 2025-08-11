@@ -540,3 +540,137 @@ TEST(testGetSignedTangentArcCurvatureRightTurn)
 
   return Testing::Result::PASS;
 }
+
+// ====================
+// LERP FUNCTION TESTS
+// ====================
+
+TEST(testLerpStartPoint)
+{
+  // Test lerp at t=0 (should return start point)
+  Vector2D<double> start(0, 0);
+  Vector2D<double> end(10, 10);
+  Vector2D<double> result = lerp(start, end, 0.0);
+
+  ASSERT_EQUAL(result.x, 0);
+  ASSERT_EQUAL(result.y, 0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpEndPoint)
+{
+  // Test lerp at t=1 (should return end point)
+  Vector2D<double> start(2, 3);
+  Vector2D<double> end(8, 9);
+  Vector2D<double> result = lerp(start, end, 1.0);
+
+  ASSERT_EQUAL(result.x, 8);
+  ASSERT_EQUAL(result.y, 9);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpMidpoint)
+{
+  // Test lerp at t=0.5 (should return midpoint)
+  Vector2D<double> start(0, 0);
+  Vector2D<double> end(10, 20);
+  Vector2D<double> result = lerp(start, end, 0.5);
+
+  ASSERT_EQUAL(result.x, 5);
+  ASSERT_EQUAL(result.y, 10);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpQuarterPoint)
+{
+  // Test lerp at t=0.25
+  Vector2D<double> start(0, 0);
+  Vector2D<double> end(8, 12);
+  Vector2D<double> result = lerp(start, end, 0.25);
+
+  ASSERT_EQUAL(result.x, 2);
+  ASSERT_EQUAL(result.y, 3);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpThreeQuarterPoint)
+{
+  // Test lerp at t=0.75
+  Vector2D<double> start(0, 0);
+  Vector2D<double> end(8, 12);
+  Vector2D<double> result = lerp(start, end, 0.75);
+
+  ASSERT_EQUAL(result.x, 6);
+  ASSERT_EQUAL(result.y, 9);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpNegativeCoordinates)
+{
+  // Test lerp with negative coordinates
+  Vector2D<double> start(-5, -10);
+  Vector2D<double> end(5, 10);
+  Vector2D<double> result = lerp(start, end, 0.5);
+
+  ASSERT_EQUAL(result.x, 0);
+  ASSERT_EQUAL(result.y, 0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpExtrapolation)
+{
+  // Test lerp with t > 1 (extrapolation)
+  Vector2D<double> start(0, 0);
+  Vector2D<double> end(5, 5);
+  Vector2D<double> result = lerp(start, end, 2.0);
+
+  ASSERT_EQUAL(result.x, 10);
+  ASSERT_EQUAL(result.y, 10);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpNegativeExtrapolation)
+{
+  // Test lerp with t < 0 (negative extrapolation)
+  Vector2D<double> start(5, 5);
+  Vector2D<double> end(10, 10);
+  Vector2D<double> result = lerp(start, end, -1.0);
+
+  ASSERT_EQUAL(result.x, 0);
+  ASSERT_EQUAL(result.y, 0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpIdenticalPoints)
+{
+  // Test lerp with identical start and end points
+  Vector2D<double> start(7, 3);
+  Vector2D<double> end(7, 3);
+  Vector2D<double> result = lerp(start, end, 0.7);
+
+  ASSERT_EQUAL(result.x, 7);
+  ASSERT_EQUAL(result.y, 3);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testLerpFloatPrecision)
+{
+  // Test lerp with floating point values
+  Vector2D<double> start(1.5, 2.5);
+  Vector2D<double> end(3.5, 6.5);
+  Vector2D<double> result = lerp(start, end, 0.5);
+
+  ASSERT_EQUAL(result.x, 2.5);
+  ASSERT_EQUAL(result.y, 4.5);
+
+  return Testing::Result::PASS;
+}

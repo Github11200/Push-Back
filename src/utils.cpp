@@ -48,6 +48,12 @@ T toVoltage(T percent)
   return (percent / 100.0) * 12.0;
 }
 
+template <class T>
+Vector2D<T> lerp(Vector2D<T> startPoint, Vector2D<T> endPoint, T t)
+{
+  return startPoint + Vector2D<double>((endPoint - startPoint).x * t, (endPoint - startPoint).y * t);
+}
+
 // TODO: Make sure this sign convention is consistent, curving to the left is negative and curving to the right is positive
 double getSignedTangentArcCurvature(Pose<double> start, Vector2D<double> end)
 {
@@ -84,3 +90,5 @@ template float slew<float>(float current, float target, float maxChange);
 template int toVoltage<int>(int percent);
 template double toVoltage<double>(double percent);
 template float toVoltage<float>(float percent);
+
+template Vector2D<double> lerp(Vector2D<double> startPoint, Vector2D<double> endPoint, double t);

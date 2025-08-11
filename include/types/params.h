@@ -56,4 +56,14 @@ struct SwingParams
   SwingParams() = default;
 };
 
+struct PursuitParams
+{
+  bool forward;
+  double lookAheadDistance = 1;
+  double slewGain = 1;
+  double timeout = 1;
+  double kP = 1;
+  double kV = 1;
+};
+
 #endif

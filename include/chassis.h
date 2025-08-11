@@ -16,6 +16,7 @@ private:
   inertial Inertial;
   double inertialScaling = 360;
   motor_group Left, Right;
+  double trackWidth;
 
 public:
   Chassis(/* args */);
