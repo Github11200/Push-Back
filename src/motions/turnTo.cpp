@@ -20,7 +20,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
 
   while (!turnPID.isSettled())
   {
-    currentPose = odometry.getPose();
+    currentPose = odometry->getPose();
 
     // If the angle is -360 that means we want to turn to a point
     if (target.orientation.angle == -360)

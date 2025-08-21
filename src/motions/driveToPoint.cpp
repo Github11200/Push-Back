@@ -11,7 +11,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
 
-  Pose<double> currentPose = odometry.getPose();
+  Pose<double> currentPose = odometry->getPose();
 
   double driveOutput = 0;
   double turnOutput = 0;
@@ -27,10 +27,10 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
 
   while (!drivePID.isSettled())
   {
-    currentPose = odometry.getPose();
+    currentPose = odometry->getPose();
 
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && odometry.getPose().position.distanceTo(target.position) <= 7.0)
+    if (!isClose && odometry->getPose().position.distanceTo(target.position) <= 7.0)
     {
       isClose = true;
       // TODO: Change the 4.5 to be a parameter or dynamic
@@ -45,8 +45,8 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     /*
       What it's meant to do is that when the robot is facing perpendicular to the target (90 degrees) then
       cos(90) = 0 so there is no lateral movement, it focuses just on turning, but as it gets closer to the
-     target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
-     the lateral rather than the angular movement
+      target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
+      the lateral rather than the angular movement
     */
     headingScaleFactor = cos(turnError.toRad().angle);
 
@@ -101,9 +101,9 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       return output;
     }();
 
-    pair<double, double> motorOutputs = getMotorVelocities(driveOutput, turnOutput);
-    Left.spin(fwd, motorOutputs.first, volt);
-    Right.spin(fwd, motorOutputs.second, volt);
+    Pair motorOutputs = getMotorVelocities(driveOutput, turnOutput);
+    Left.spin(fwd, motorOutputs.left, volt);
+    Right.spin(fwd, motorOutputs.right, volt);
 
     wait(settings.updateTime, msec);
   }

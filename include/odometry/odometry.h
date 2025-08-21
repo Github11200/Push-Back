@@ -7,6 +7,25 @@
 using namespace vex;
 using namespace std;
 
+class Chassis;
+
+struct TrackerPositions
+{
+  double forward;
+  double sideways;
+
+  TrackerPositions() : forward(0), sideways(0) {}
+  TrackerPositions(double forward, double sideways) : forward(forward), sideways(sideways) {}
+};
+
+enum TrackerSetup
+{
+  ZERO_TRACKER,
+  FORWARD_TRACKER,
+  SIDEWAYS_TRACKER,
+  TWO_TRACKER
+};
+
 /**
  * @brief Gets the current position of the robot using a combination of the Pilons
  * arc tracking strategy and Monte Carlo Localization
@@ -14,10 +33,26 @@ using namespace std;
 class Odometry
 {
 private:
+  Chassis *chassis;
+
+  TrackerPositions previousTrackerPositions;
+  Angle<double> previousHeading;
+
   Pose<double> currentPose;
-  thread positionTrackThread;
+
+  thread *positionTrackThread;
+  bool isTracking = false;
+  TrackerSetup trackerSetup;
+
+  double forwardTrackerCenterDistance;
+  double sidewaysTrackerCenterDistance;
 
 public:
+  Odometry(Chassis *chassis, double forwardTrackerCenterDistance, double sidewaysTrackerCenterDistance);
+  ~Odometry();
+
+  TrackerPositions getTrackersPositions();
+
   /**
    * @brief Stops the position tracking thread, this function should typically be
    * run when drive control starts
@@ -31,7 +66,8 @@ public:
   void stopPositionTrackThread();
 
   // Returns the currentPoseVariable
-  Pose<double> getPose();
+  Pose<double>
+  getPose();
 
   /**
    * @brief Does the odometry math to update position
@@ -48,7 +84,7 @@ public:
    * @param yPosition The new y position
    * @param theta The new orientation (e.g. what orientation the robot would be starting at for the start of the match)
    */
-  void resetPosition(double xPosition, double yPosition, double theta);
+  void setPosition(double xPosition, double yPosition, double theta);
 };
 
 extern Odometry odometry;

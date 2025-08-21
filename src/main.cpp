@@ -70,7 +70,9 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  Testing::runAllTests();
+  // Testing::runAllTests();
+  Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
+  chassis->odometry->startPositionTrackThread();
 
   // User control code here, inside the loop
   while (1)
@@ -87,6 +89,8 @@ void usercontrol(void)
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
+
+  chassis->odometry->stopPositionTrackThread();
 }
 
 //

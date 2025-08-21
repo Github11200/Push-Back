@@ -31,10 +31,10 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
 
   while (!drivePID.isSettled() && !turnPID.isSettled())
   {
-    currentPose = odometry.getPose();
+    currentPose = odometry->getPose();
 
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && odometry.getPose().position.distanceTo(target.position) <= 7.0)
+    if (!isClose && odometry->getPose().position.distanceTo(target.position) <= 7.0)
     {
       isClose = true;
     }
@@ -114,9 +114,9 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
       return output;
     }();
 
-    pair<double, double> outputs = getMotorVelocities(driveOutput, turnOutput);
-    Left.spin(fwd, outputs.first, volt);
-    Right.spin(fwd, outputs.second, volt);
+    Pair outputs = getMotorVelocities(driveOutput, turnOutput);
+    Left.spin(fwd, outputs.left, volt);
+    Right.spin(fwd, outputs.right, volt);
   }
 
   Left.stop(hold);

@@ -10,16 +10,29 @@
 using namespace vex;
 using namespace std;
 
+struct Pair
+{
+  double left;
+  double right;
+  Pair(double left, double right) : left(left), right(right) {}
+};
+
 class Chassis
 {
 private:
   inertial Inertial;
+  rotation forwardTracker;
+  rotation sidewaysTracker;
+
   double inertialScaling = 360;
   motor_group Left, Right;
   double trackWidth;
+  double inchesToDegreesRatio;
 
 public:
-  Chassis(/* args */);
+  Odometry *odometry;
+
+  ~Chassis();
 
   void driveDistance(double distance, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
@@ -28,9 +41,14 @@ public:
   void turnTo(Pose<double> target, TurnParams params, Settings settings);
 
   Angle<double> getAbsoluteHeading();
-  pair<double, double> getMotorVelocities(double driveOutput, double turnOutput);
+  Pair getMotorVelocities(double driveOutput, double turnOutput);
+  Pair getMotorsPosition();
 
-  ~Chassis();
+  void calibrateInertial();
+  void resetEncoders();
+
+  double getForwardTrackerPosition();
+  double getSidewaysTrackerPosition();
 };
 
 #endif
