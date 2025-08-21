@@ -18,8 +18,8 @@ Chassis::Chassis(int inertialPort,
                                                    Right(rightMotorGroup),
                                                    inchesToDegreesRatio(inchesToDegreesRatio)
 {
-  chassis->calibrateInertial();
-  chassis->resetEncoders();
+  calibrateInertial();
+  resetEncoders();
   odometry = new Odometry(this, forwardTrackerDistance, sidewaysTrackerDistance);
 }
 
@@ -38,12 +38,12 @@ Pair Chassis::getMotorVelocities(double driveOutput, double turnOutput)
   double left = driveOutput - turnOutput;
   double right = driveOutput + turnOutput;
 
-  double sum = driveOutput + turnOutput;
-  if (sum > 1)
-  {
-    left /= sum;
-    right /= sum;
-  }
+  // double sum = driveOutput + turnOutput;
+  // if (sum > 1)
+  // {
+  //   left /= sum;
+  //   right /= sum;
+  // }
 
   return Pair(toVoltage(left), toVoltage(right));
 }

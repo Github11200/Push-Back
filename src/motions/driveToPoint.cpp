@@ -41,6 +41,14 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     double driveError = hypot(target.position.x - currentPose.position.x, target.position.y - currentPose.position.y);
     Angle<double> turnError = (currentPose.position.angleTo(target.position) - getAbsoluteHeading()).constrainNegative180To180();
 
+    cout << "current x: " << currentPose.position.x << endl;
+    cout << "current y: " << currentPose.position.y << endl;
+    cout << "target x: " << target.position.x << endl;
+    cout << "target y: " << target.position.y << endl;
+    cout << "current heading: " << getAbsoluteHeading().angle << endl;
+    cout << "drive error: " << driveError << endl;
+    cout << "turn error: " << turnError.angle << endl;
+
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
       What it's meant to do is that when the robot is facing perpendicular to the target (90 degrees) then
@@ -72,6 +80,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     {
       double output = 0;
       output = turnPID.compute(turnError.angle);
+      cout << "turn output: " << output << endl;
 
       // Clamp the values
       output = clamp(output, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
@@ -89,22 +98,27 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       double output = 0;
 
       output = drivePID.compute(driveError) * headingScaleFactor;
+      cout << "drive output: " << output << endl;
 
       // CLamp it between min and max values
       output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
       output = clampMin(output, driveParams.driveMinVoltage);
 
+      cout << "clamped output: " << output << endl;
+
       if (isClose)
         output = slew(previousDriveOutput, output, driveParams.driveSlew);
 
-      previousDriveOutput = output;
       return output;
     }();
 
     Pair motorOutputs = getMotorVelocities(driveOutput, turnOutput);
+    cout << "Motor output left: " << motorOutputs.left << "\n";
+    cout << "Motor output right: " << motorOutputs.right << "\n";
     Left.spin(fwd, motorOutputs.left, volt);
     Right.spin(fwd, motorOutputs.right, volt);
 
+    cout << "update time: " << settings.updateTime << endl;
     wait(settings.updateTime, msec);
   }
 

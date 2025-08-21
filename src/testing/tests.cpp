@@ -5,6 +5,8 @@
 #include "../../include/types/pose.h"
 #include "../../include/types/params.h"
 
+#include "../../include/pid/pid.h"
+
 using namespace vex;
 using namespace std;
 
@@ -538,6 +540,58 @@ TEST(testGetSignedTangentArcCurvatureRightTurn)
   double curvature = getSignedTangentArcCurvature(start, end);
   ASSERT_TRUE(curvature > 0); // Should be positive for right turn
 
+  return Testing::Result::PASS;
+}
+
+// ====================
+// PID TESTS
+// ====================
+
+TEST(testPIDBasicResponse)
+{
+  PID pid(10, DriveParams{1.0, 0.1, 0.01, 1000, 100, 0.5, 50});
+  double output = pid.compute(10);
+  ASSERT_TRUE(output != 0);
+  return Testing::Result::PASS;
+}
+
+TEST(testPIDIntegralResetOnSignChange)
+{
+  PID pid(10, DriveParams{1.0, 0.5, 0.0, 1000, 100, 0.5, 50});
+  pid.compute(10);                // positive error
+  double out1 = pid.compute(-10); // sign change, should reset integral
+  ASSERT_TRUE(out1 < 0);
+  return Testing::Result::PASS;
+}
+
+TEST(testPIDAccumulatedErrorLimit)
+{
+  PID pid(10, DriveParams{1.0, 0.5, 0.0, 5, 100, 0.5, 50});
+  pid.compute(10);
+  double out1 = pid.compute(10);
+  double out2 = pid.compute(2);
+  ASSERT_TRUE(out2 != out1);
+  return Testing::Result::PASS;
+}
+
+TEST(testPIDReset)
+{
+  PID pid(10, DriveParams{1.0, 0.5, 0.0, 1000, 100, 0.5, 50});
+  pid.compute(10);
+  pid.resetPID();
+  double out = pid.compute(0);
+  ASSERT_EQUAL(out, 0);
+  return Testing::Result::PASS;
+}
+
+TEST(testPIDIsSettled)
+{
+  PID pid(10, DriveParams{1.0, 0.5, 0.0, 1000, 20, 0.5, 30});
+  for (int i = 0; i < 4; ++i)
+  {
+    pid.compute(0.1);
+  }
+  ASSERT_TRUE(pid.isSettled());
   return Testing::Result::PASS;
 }
 

@@ -32,6 +32,14 @@ private:
 public:
   Odometry *odometry;
 
+  Chassis(int inertialPort,
+          int forwardTrackerPort,
+          int sidewaysTrackerPort,
+          motor_group leftMotorGroup,
+          motor_group rightMotorGroup,
+          double inchesToDegreesRatio,
+          double forwardTrackerDistance,
+          double sidewaysTrackerDistance);
   ~Chassis();
 
   void driveDistance(double distance, DriveParams driveParams, TurnParams turnParams, Settings settings);
