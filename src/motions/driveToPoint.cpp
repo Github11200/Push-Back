@@ -35,7 +35,6 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       isClose = true;
       // TODO: Change the 4.5 to be a parameter or dynamic
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      // turnParams.turnMaxVoltage = max(fabs(previousTurnOutput), 4.5);
       turnParams.turnMaxVoltage = 0;
     }
 
