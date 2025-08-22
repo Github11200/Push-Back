@@ -30,16 +30,17 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     currentPose = odometry->getPose();
 
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && odometry->getPose().position.distanceTo(target.position) <= 7.0)
+    if (!isClose && currentPose.position.distanceTo(target.position) <= 7.0)
     {
       isClose = true;
       // TODO: Change the 4.5 to be a parameter or dynamic
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = max(fabs(previousTurnOutput), 4.5);
+      // turnParams.turnMaxVoltage = max(fabs(previousTurnOutput), 4.5);
+      turnParams.turnMaxVoltage = 0;
     }
 
-    double driveError = hypot(target.position.x - currentPose.position.x, target.position.y - currentPose.position.y);
-    Angle<double> turnError = (currentPose.position.angleTo(target.position) - getAbsoluteHeading()).constrainNegative180To180();
+    double driveError = currentPose.position.distanceTo(target.position);
+    Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
@@ -49,6 +50,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       the lateral rather than the angular movement
     */
     headingScaleFactor = cos(turnError.toRad().angle);
+    turnError = turnError.constrainNegative90To90();
 
     {
       Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
@@ -97,7 +99,6 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       if (isClose)
         output = slew(previousDriveOutput, output, driveParams.driveSlew);
 
-      previousDriveOutput = output;
       return output;
     }();
 
@@ -105,8 +106,22 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     Left.spin(fwd, motorOutputs.left, volt);
     Right.spin(fwd, motorOutputs.right, volt);
 
+    cout << "drive error: " << driveError << endl;
+    // cout << "x: " << currentPose.position.x << endl;
+    // cout << "y: " << currentPose.position.y << endl;
+    // cout << "theta: " << currentPose.orientation.angle << endl;
+    // cout << "turn error: " << turnError.angle << endl;
+    // cout << "angle to: " << currentPose.position.angleTo(target.position).angle << endl;
+    // cout << "drive error: " << driveError << endl;
+    // cout << "drive output: " << driveOutput << endl;
+    // cout << "turn output: " << turnOutput << endl;
+    // cout << "left output: " << motorOutputs.left << endl;
+    // cout << "right output: " << motorOutputs.right << "\n\n";
+
     wait(settings.updateTime, msec);
   }
+
+  cout << "done!" << endl;
 
   Left.stop(hold);
   Right.stop(hold);

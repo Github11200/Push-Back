@@ -55,12 +55,13 @@ namespace Testing
         cout << "[FAILED] " << testCase.name << ": " << errorMessage << "\n";
         ++numberFailed;
       }
+      wait(5, msec);
     }
 
-    cout << "\n\nRESULTS:\n";
-    cout << "\t[# PASSED] " << numberPassed << "\n";
-    cout << "\t[# FAILED] " << numberFailed << "\n";
-    cout << "\t[TOTAL] " << numberOfTestCases << "\n";
+    cout << "\n\nRESULTS:\n"
+         << "\t[# PASSED] " << numberPassed << "\n"
+         << "\t[# FAILED] " << numberFailed << "\n"
+         << "\t[TOTAL] " << numberOfTestCases << "\n";
   }
 };
 
