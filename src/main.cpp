@@ -78,7 +78,29 @@ void usercontrol(void)
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
   chassis->odometry->startPositionTrackThread();
 
-  chassis->driveToPoint(Pose<double>(0, 20, 0), {.driveKp = 0.5, .driveKi = 0, .driveKd = 0.2, .driveMaxVoltage = 6, .driveMinVoltage = 0, .driveSettleError = 0.5, .driveSettleTime = 100, .driveTimeout = 1000000}, {.turnKp = 0.05, .turnKi = 0, .turnKd = 0.5, .turnMaxVoltage = 6, .turnMinVoltage = 0, .turnSettleError = 1, .turnSettleTime = 200, .turnTimeout = 2000}, {.forwards = true, .updateTime = 10});
+  chassis->driveToPose(
+      Pose<double>(20, 20, 90),
+      {.driveKp = 0.2,
+       .driveKi = 0,
+       .driveKd = 0.4,
+       .driveMaxVoltage = 12,
+       .driveMinVoltage = 0,
+       .driveSettleError = 0.1,
+       .driveSettleTime = 300,
+       .driveTimeout = 1000000},
+      {.turnKp = 0.2,
+       .turnKi = 0,
+       .turnKd = 0.4,
+       .turnMaxVoltage = 12,
+       .turnMinVoltage = 0,
+       .turnSettleError = 1,
+       .turnSettleTime = 500,
+       .turnTimeout = 100000},
+      {.forwards = true,
+       .updateTime = 10},
+      0.5,
+      0,
+      0);
 
   // User control code here, inside the loop
   while (1)
