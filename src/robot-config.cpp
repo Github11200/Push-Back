@@ -18,6 +18,8 @@ motor BackLeft = motor(PORT15, ratio6_1, true);
 motor_group Left = motor_group(FrontLeft, MiddleLeft, BackLeft);
 motor_group Right = motor_group(FrontRight, MiddleRight, BackRight);
 
+bool stopPlease = false;
+
 void vexcodeInit(void)
 {
   // nothing to initialize

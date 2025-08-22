@@ -70,11 +70,15 @@ void autonomous(void)
 
 void usercontrol(void)
 {
+  // KILL SWITCH for "safety"
+  Controller.ButtonA.pressed([]()
+                             { stopPlease = true; });
+
   // Testing::runAllTests();
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
   chassis->odometry->startPositionTrackThread();
 
-  chassis->driveToPoint(Pose<double>(0, 10, 0), {.driveMinVoltage = 0, .driveMaxVoltage = 12, .driveKp = 1.5, .driveKi = 0.1, .driveKd = 0.5, .driveTimeout = 10000}, {.turnMinVoltage = 0, .turnMaxVoltage = 12, .turnKp = 0.06, .turnKi = 0, .turnKd = 0, .turnTimeout = 10000}, {});
+  chassis->driveToPoint(Pose<double>(0, 20, 0), {.driveKp = 0.5, .driveKi = 0, .driveKd = 0.2, .driveMaxVoltage = 6, .driveMinVoltage = 0, .driveSettleError = 0.5, .driveSettleTime = 100, .driveTimeout = 1000000}, {.turnKp = 0.05, .turnKi = 0, .turnKd = 0.5, .turnMaxVoltage = 6, .turnMinVoltage = 0, .turnSettleError = 1, .turnSettleTime = 200, .turnTimeout = 2000}, {.forwards = true, .updateTime = 10});
 
   // User control code here, inside the loop
   while (1)

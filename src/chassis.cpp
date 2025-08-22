@@ -35,17 +35,17 @@ Angle<double> Chassis::getAbsoluteHeading()
 
 Pair Chassis::getMotorVelocities(double driveOutput, double turnOutput)
 {
-  double left = driveOutput - turnOutput;
-  double right = driveOutput + turnOutput;
+  double left = driveOutput + turnOutput;
+  double right = driveOutput - turnOutput;
 
-  // double sum = driveOutput + turnOutput;
-  // if (sum > 1)
-  // {
-  //   left /= sum;
-  //   right /= sum;
-  // }
+  double sum = (driveOutput + turnOutput) / 12;
+  if (sum > 1)
+  {
+    left /= sum;
+    right /= sum;
+  }
 
-  return Pair(toVoltage(left), toVoltage(right));
+  return Pair(left, right);
 }
 
 Pair Chassis::getMotorsPosition()
@@ -58,7 +58,7 @@ void Chassis::calibrateInertial()
   Inertial.calibrate();
   while (Inertial.isCalibrating())
     wait(50, msec);
-  Controller.rumble("..");
+  // Controller.rumble("..");
   cout << "Inertial calibrated" << endl;
 }
 

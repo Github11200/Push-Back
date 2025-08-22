@@ -41,6 +41,7 @@ void Odometry::startPositionTrackThread()
   isTracking = true;
   previousHeading = Angle<double>(0);
   previousTrackerPositions = TrackerPositions(0, 0);
+  Brain.Screen.setPenWidth(10);
   positionTrackThread = new thread([]()
                                    {
                                       while (odometryPointer->isTracking) {
@@ -106,6 +107,16 @@ void Odometry::updatePosition()
 
   currentPose.position.x += globalTranslation.x;
   currentPose.position.y += globalTranslation.y;
+  currentPose.orientation = absoluteHeading.toDeg();
+
+  Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(0, 0);
+  Brain.Screen.newLine();
+  Brain.Screen.print("X: %.3f", currentPose.position.x);
+  Brain.Screen.newLine();
+  Brain.Screen.print("Y: %.3f", currentPose.position.y);
+  Brain.Screen.newLine();
+  Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;

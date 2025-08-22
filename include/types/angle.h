@@ -51,6 +51,20 @@ struct Angle
     }
     return tempAngle;
   }
+
+  // Constrains to [-90, 90)
+  constexpr Angle<T> constrainNegative90To90() const
+  {
+    T tempAngle = this->angle;
+    while (tempAngle < -90 || tempAngle >= 90)
+    {
+      if (tempAngle < -90)
+        tempAngle += 180;
+      else if (tempAngle >= 90)
+        tempAngle -= 180;
+    }
+    return tempAngle;
+  }
 };
 
 #endif
