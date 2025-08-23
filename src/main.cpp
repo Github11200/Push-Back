@@ -13,6 +13,7 @@
 // TODO: Make sure that when any angles are returned from vector.h or something that they have been constrained from 0 to 360
 
 #include "../include/chassis.h"
+#include "../include/pursuit.h"
 #include "../include/testing/tests.h"
 
 #include "vex.h"
@@ -78,29 +79,22 @@ void usercontrol(void)
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
   chassis->odometry->startPositionTrackThread();
 
-  chassis->driveToPose(
-      Pose<double>(20, 20, 90),
-      {.driveKp = 0.2,
-       .driveKi = 0,
-       .driveKd = 0.4,
-       .driveMaxVoltage = 12,
-       .driveMinVoltage = 0,
-       .driveSettleError = 0.1,
-       .driveSettleTime = 300,
-       .driveTimeout = 1000000},
-      {.turnKp = 0.2,
-       .turnKi = 0,
-       .turnKd = 0.4,
-       .turnMaxVoltage = 12,
-       .turnMinVoltage = 0,
-       .turnSettleError = 1,
-       .turnSettleTime = 500,
-       .turnTimeout = 100000},
-      {.forwards = true,
-       .updateTime = 10},
-      0.5,
-      0,
-      0);
+  chassis->followPath({
+                          Pose<double>(0, 0, 71.274),
+                          Pose<double>(0, 2, 67.617),
+                          Pose<double>(0, 4, 63.75),
+                          Pose<double>(0, 6, 59.632),
+                          Pose<double>(0, 8, 55.209),
+                          Pose<double>(0, 10, 50.398),
+                          Pose<double>(0, 12, 45.078),
+                          Pose<double>(0, 14, 39.038),
+                          Pose<double>(0, 16, 31.875),
+                          Pose<double>(0, 18, 22.539),
+                          Pose<double>(0, 20, 0),
+                          Pose<double>(0, 20, 0),
+                          Pose<double>(0, 40, 0),
+                      },
+                      {.forward = true, .lookAheadDistance = 12.75, .slewGain = 1, .timeout = 10000, .kP = 1, .kV = 0.8});
 
   // User control code here, inside the loop
   while (1)

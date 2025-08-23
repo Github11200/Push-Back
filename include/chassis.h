@@ -3,6 +3,7 @@
 
 #include "odometry/odometry.h"
 #include "pid/pid.h"
+#include "pursuit.h"
 
 #include <stdlib.h>
 #include <complex>
@@ -25,12 +26,13 @@ private:
   rotation sidewaysTracker;
 
   double inertialScaling = 360;
-  motor_group Left, Right;
   double trackWidth;
   double inchesToDegreesRatio;
 
 public:
   Odometry *odometry;
+  Pursuit *pursuit;
+  motor_group Left, Right;
 
   Chassis(int inertialPort,
           int forwardTrackerPort,
@@ -45,8 +47,9 @@ public:
   void driveDistance(double distance, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
-
   void turnTo(Pose<double> target, TurnParams params, Settings settings);
+
+  void followPath(vector<Pose<double>> path, PursuitParams params);
 
   Angle<double> getAbsoluteHeading();
   Pair getMotorVelocities(double driveOutput, double turnOutput);

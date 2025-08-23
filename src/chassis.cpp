@@ -28,6 +28,12 @@ Chassis::~Chassis()
   delete odometry;
 }
 
+void Chassis::followPath(vector<Pose<double>> path, PursuitParams params)
+{
+  pursuit = new Pursuit(this, params);
+  pursuit->followPath(path);
+}
+
 Angle<double> Chassis::getAbsoluteHeading()
 {
   return Angle<double>((Inertial.heading(deg) * 360) / inertialScaling).constrain0To360();

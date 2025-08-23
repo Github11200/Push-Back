@@ -1,21 +1,27 @@
 #ifndef PURSUIT_H
 #define PURSUIT_H
 
-#include "chassis.h"
+#include "vex.h"
+#include "types/pose.h"
+#include "types/params.h"
 
-typedef vector<Pose<double>> Path;
+typedef std::vector<Pose<double>> Path;
 
-class Pursuit : Chassis
+class Chassis;
+
+class Pursuit
 {
 private:
   Pose<double> currentPosition;
   PursuitParams params;
   Path currentPath;
+  Chassis *chassis;
 
 public:
-  Pursuit(PursuitParams params);
+  Pursuit(Chassis *chassis, PursuitParams params);
+  ~Pursuit();
 
-  Path loadPathFromFile(string fileName);
+  Path loadPathFromFile(std::string fileName);
 
   int findClosestPoint();
   double circleIntersect(Vector2D<double> point1, Vector2D<double> point2);
