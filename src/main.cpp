@@ -13,6 +13,7 @@
 // TODO: Make sure that when any angles are returned from vector.h or something that they have been constrained from 0 to 360
 
 #include "../include/chassis.h"
+#include "../include/pursuit.h"
 #include "../include/testing/tests.h"
 
 #include "vex.h"
@@ -77,8 +78,6 @@ void usercontrol(void)
   // Testing::runAllTests();
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
   chassis->odometry->startPositionTrackThread();
-
-  chassis->driveToPoint(Pose<double>(0, 20, 0), {.driveKp = 0.5, .driveKi = 0, .driveKd = 0.2, .driveMaxVoltage = 6, .driveMinVoltage = 0, .driveSettleError = 0.5, .driveSettleTime = 100, .driveTimeout = 1000000}, {.turnKp = 0.05, .turnKi = 0, .turnKd = 0.5, .turnMaxVoltage = 6, .turnMinVoltage = 0, .turnSettleError = 1, .turnSettleTime = 200, .turnTimeout = 2000}, {.forwards = true, .updateTime = 10});
 
   // User control code here, inside the loop
   while (1)
