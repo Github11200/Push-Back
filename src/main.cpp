@@ -79,23 +79,6 @@ void usercontrol(void)
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
   chassis->odometry->startPositionTrackThread();
 
-  chassis->followPath({
-                          Pose<double>(0, 0, 71.274),
-                          Pose<double>(0, 2, 67.617),
-                          Pose<double>(0, 4, 63.75),
-                          Pose<double>(0, 6, 59.632),
-                          Pose<double>(0, 8, 55.209),
-                          Pose<double>(0, 10, 50.398),
-                          Pose<double>(0, 12, 45.078),
-                          Pose<double>(0, 14, 39.038),
-                          Pose<double>(0, 16, 31.875),
-                          Pose<double>(0, 18, 22.539),
-                          Pose<double>(0, 20, 0),
-                          Pose<double>(0, 20, 0),
-                          Pose<double>(0, 40, 0),
-                      },
-                      {.forward = true, .lookAheadDistance = 12.75, .slewGain = 1, .timeout = 10000, .kP = 1, .kV = 0.8});
-
   // User control code here, inside the loop
   while (1)
   {

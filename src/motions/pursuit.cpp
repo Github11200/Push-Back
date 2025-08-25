@@ -19,59 +19,6 @@ Pursuit::~Pursuit()
   delete chassis;
 }
 
-/// @brief Reads a text file with the path
-/// @param fileName The name of the file
-/// @return An array of points with each point having x and y coordinates and a speed
-Path Pursuit::loadPathFromFile(string fileName)
-{
-  ifstream pathFile(fileName);
-  Path path;
-
-  string line;
-  Pose<double> pose;
-
-  // Loop through the entire file and get each coordinate and add it to the path
-  while (getline(pathFile, line))
-  {
-    if (line == "endData")
-      break;
-
-    string stringNumber = "";
-    int resultIndex = 0;
-    double pointResult[3];
-
-    for (int i = 0; i < line.size(); ++i)
-    {
-      // If it's a comma add the number and then increase the resultIndex
-      if (line[i] == ',')
-      {
-        pointResult[resultIndex] = atof(stringNumber.c_str());
-        ++resultIndex;
-        stringNumber = "";
-        continue;
-      }
-      else if (line[i] == ' ') // Don't do anything for a space
-        continue;
-      else
-        stringNumber += line[i]; // Keep adding characters to get the whole number
-    }
-    pointResult[2] = atof(stringNumber.c_str());
-
-    // Update the properties of the Pose object
-    pose = Pose<double>(pointResult[0], pointResult[1]);
-    // Note: We'll store speed in the orientation angle for now as a workaround
-    // This is not ideal but maintains compatibility with the existing structure
-    pose.orientation = Angle<double>(pointResult[2]);
-
-    // Add it to the path
-    path.push_back(pose);
-  }
-
-  pathFile.close();
-
-  return path;
-}
-
 int Pursuit::findClosestPoint()
 {
   double minDistanceIndex = 0;
@@ -143,25 +90,6 @@ Pose<double> Pursuit::findLookAheadPoint(Vector2D<double> lastLookAhead, int las
   return Pose<double>(lastLookAhead);
 }
 
-double Pursuit::getCurvature(Vector2D<double> lookaheadPoint)
-{
-  Pose<double> robotPose = chassis->odometry->getPose();
-
-  // what side of the path the robot is on
-  Vector2D<double> normalVector = Vector2D<double>(cos(((M_PI / 2) - robotPose.orientation.constrainNegative180To180().toRad().angle)), sin((M_PI / 2) - robotPose.orientation.constrainNegative180To180().toRad().angle));
-  Vector2D<double> delta = lookaheadPoint - robotPose.position;
-  double side = sgn<double>(delta.crossProduct(normalVector));
-
-  double a = -tan(robotPose.orientation.toRad().angle);
-  double c = tan(robotPose.orientation.toRad().angle) * robotPose.position.x - robotPose.position.y;
-
-  // horizontal distance to the look ahead point
-  double x = fabs(a * lookaheadPoint.x + lookaheadPoint.y + c) / sqrt((a * a) + 1);
-  double d = robotPose.position.distanceTo(lookaheadPoint);
-
-  return side * ((2 * x) / (d * d));
-}
-
 // TODO: Make the full state feedback function go slower if the robot is off the path
 double Pursuit::fullStateFeedback(Vector2D<double> target, double targetVelocity, double currentVelocity)
 {
@@ -175,7 +103,6 @@ double Pursuit::fullStateFeedback(Vector2D<double> target, double targetVelocity
 void Pursuit::followPath(Path path)
 {
   currentPath = path;
-  Pose<double> lastPointOnPath = currentPath[currentPath.size() - 1];
   Pose<double> closestPoint;
   Pose<double> lookAheadPoint;
   Vector2D<double> lastLookAheadPoint = currentPath[0].position;
@@ -223,7 +150,9 @@ void Pursuit::followPath(Path path)
     }
 
     // Get the curvature of the path
-    curvature = this->getCurvature(lookAheadPoint.position);
+    Pose<double> curvaturePose = chassis->odometry->getPose();
+    curvaturePose.orientation.angle = (M_PI / 2) - curvaturePose.orientation.constrainNegative180To180().toRad().angle;
+    curvature = getSignedTangentArcCurvature(curvaturePose, lookAheadPoint.position);
 
     // Calculate the velocities
     targetVelocity = closestPoint.orientation.angle; // Speed stored in orientation angle
@@ -264,6 +193,9 @@ void Pursuit::followPath(Path path)
 
     wait(waitTime, vex::timeUnits::msec);
   }
+
+  chassis->Left.stop(brake);
+  chassis->Right.stop(brake);
 
   cout << "Exited Pure Pursuit Curve. Final Position:" << endl;
   Pose<double> finalPose = chassis->odometry->getPose();
