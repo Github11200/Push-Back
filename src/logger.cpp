@@ -5,24 +5,27 @@ using namespace std;
 namespace Logger
 {
 
-  string getPrefix(LogType logType)
+  string getPrefix(MessageType messageType)
   {
-    switch (logType)
+    switch (messageType)
     {
-    case INFO:
-      return "[INFO] ";
-    case WARN:
-      return "[WARNING] ";
-    case ERROR:
-      return "[ERROR] ";
+    case POSITION:
+      return "position,";
+    case MOTION_START:
+      return "motionStart,";
+    case MOTION_END:
+      return "motionEnd,";
     default:
       return "";
     }
   }
 
-  void print(LogType type, string message)
+  void sendPositionData(Pose<double> currentPose)
   {
-    cout << getPrefix(type) << message << endl;
+    cout << "position," << currentPose.position.x << "," << currentPose.position.y << "," << currentPose.orientation.angle << "%";
   }
 
+  void sendMotionStart() {}
+  void sendMotionEnd() {}
+  void sendMessage() {}
 };
