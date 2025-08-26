@@ -61,6 +61,7 @@ Pose<double> Odometry::getPose() { return currentPose; }
 
 void Odometry::updatePosition()
 {
+  static int i = 0;
   TrackerPositions trackerPosition = getTrackersPositions();
   Angle<double> absoluteHeading = chassis->getAbsoluteHeading().toRad();
 
@@ -118,8 +119,16 @@ void Odometry::updatePosition()
   Brain.Screen.newLine();
   Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
 
+  if (i == 50)
+  {
+    Logger::sendPositionData(currentPose);
+    i = 0;
+  }
+
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;
+
+  ++i;
 }
 
 void Odometry::setPosition(double xPosition, double yPosition, double theta)
