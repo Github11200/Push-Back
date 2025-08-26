@@ -5,6 +5,7 @@
 #include "pid/pid.h"
 #include "pursuit.h"
 #include "timer.h"
+#include "logger.h"
 
 #include <stdlib.h>
 #include <complex>

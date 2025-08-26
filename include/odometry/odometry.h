@@ -3,6 +3,7 @@
 
 #include "types/pose.h"
 #include "vex.h"
+#include "logger.h"
 
 using namespace vex;
 using namespace std;

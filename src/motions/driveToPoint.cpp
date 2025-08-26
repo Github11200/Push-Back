@@ -120,8 +120,6 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     wait(settings.updateTime, msec);
   }
 
-  cout << "done!" << endl;
-
   Left.stop(hold);
   Right.stop(hold);
 }

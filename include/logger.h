@@ -15,12 +15,22 @@ namespace Logger
     MESSAGE = 3
   };
 
-  std::string getPrefix(MessageType messageType);
+  enum MotionType
+  {
+    DRIVE_TO_POINT = 0,
+    DRIVE_TO_POSE = 1,
+    TURN_TO = 2,
+    PURSUIT = 3
+  };
 
-  void sendPositionData(Pose<double> currentPose);
-  void sendMotionStart(Pose<double> target);
-  void sendMotionEnd();
-  void sendMessage();
+  std::string messageTypeEnumToString(MessageType messageType);
+  std::string motionTypeEnumToString(MotionType motionType);
+
+  void sendPositionData(Pose<double> &currentPose);
+  void sendMotionStart(MotionType motionType, Pose<double> target, std::string extraParams);
+  void sendMotionEnd(double elapsedTime);
+  void sendMessage(std::string message);
+
 };
 
 #endif
