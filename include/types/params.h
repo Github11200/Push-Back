@@ -66,4 +66,12 @@ struct PursuitParams
   double kV = 1;
 };
 
+struct MotionProfile
+{
+  double maximumVelocity = 5;
+  double finalVelocity = 0;
+  double maximumAcceleration = 0;
+  double kA = 0.1;
+};
+
 #endif

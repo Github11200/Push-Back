@@ -1,6 +1,3 @@
-#ifndef DRIVE_TO_POINT_H
-#define DRIVE_TO_POINT_H
-
 #include "../../include/chassis.h"
 
 using namespace vex;
@@ -105,23 +102,9 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     Left.spin(fwd, motorOutputs.left, volt);
     Right.spin(fwd, motorOutputs.right, volt);
 
-    cout << "drive error: " << driveError << endl;
-    // cout << "x: " << currentPose.position.x << endl;
-    // cout << "y: " << currentPose.position.y << endl;
-    // cout << "theta: " << currentPose.orientation.angle << endl;
-    // cout << "turn error: " << turnError.angle << endl;
-    // cout << "angle to: " << currentPose.position.angleTo(target.position).angle << endl;
-    // cout << "drive error: " << driveError << endl;
-    // cout << "drive output: " << driveOutput << endl;
-    // cout << "turn output: " << turnOutput << endl;
-    // cout << "left output: " << motorOutputs.left << endl;
-    // cout << "right output: " << motorOutputs.right << "\n\n";
-
     wait(settings.updateTime, msec);
   }
 
   Left.stop(hold);
   Right.stop(hold);
 }
-
-#endif
