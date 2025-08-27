@@ -121,7 +121,7 @@ void Odometry::updatePosition()
 
   if (i == 50)
   {
-    Logger::sendPositionData(currentPose);
+    // Logger::sendPositionData(currentPose);
     i = 0;
   }
 

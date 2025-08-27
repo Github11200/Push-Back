@@ -80,6 +80,14 @@ void usercontrol(void)
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
   chassis->odometry->startPositionTrackThread();
 
+  // chassis->trapezoidalMotionProfile(20, {
+  //                                           .maximumVelocity = 27.5,
+  //                                           .finalVelocity = 0,
+  //                                           .maximumAcceleration = 5,
+  //                                           .kA = 0.5,
+  //                                       },
+  //                                   {.driveKp = 1, .driveKi = 0, .driveKd = 3, .driveMaxVoltage = 12, .driveTimeout = 1000000}, {.turnKp = 0.1, .turnKi = 0, .turnKd = 0.5, .turnTimeout = 100000}, {});
+
   // User control code here, inside the loop
   while (1)
   {
