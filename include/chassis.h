@@ -53,7 +53,10 @@ public:
 
   void followPath(vector<Pose<double>> path, PursuitParams params);
 
-  Angle<double> getAbsoluteHeading();
+  void trapezoidalMotionProfile(double distance, MotionProfile motionProfileSettings, DriveParams driveParams, TurnParams turnParams, Settings settings);
+
+  Angle<double>
+  getAbsoluteHeading();
   Pair getMotorVelocities(double driveOutput, double turnOutput);
   Pair getMotorsPosition();
 

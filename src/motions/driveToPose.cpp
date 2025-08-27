@@ -1,6 +1,3 @@
-#ifndef DRIVE_TO_POINT_H
-#define DRIVE_TO_POINT_H
-
 #include "../../include/chassis.h"
 
 using namespace vex;
@@ -130,5 +127,3 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
   Left.stop(hold);
   Right.stop(hold);
 }
-
-#endif

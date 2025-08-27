@@ -1,6 +1,3 @@
-#ifndef TURN_TO_POINT_H
-#define TURN_TO_POINT_H
-
 #include "../../include/chassis.h"
 
 using namespace vex;
@@ -60,5 +57,3 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
   Left.stop(brake);
   Right.stop(brake);
 }
-
-#endif
