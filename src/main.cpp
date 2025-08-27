@@ -70,18 +70,11 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void coolCallback()
-{
-  string weird = "funny button";
-  Logger::sendMessage(weird);
-}
-
 void usercontrol(void)
 {
   // KILL SWITCH for "safety"
   Controller.ButtonA.pressed([]()
                              { stopPlease = true; });
-  Controller.ButtonLeft.pressed(coolCallback);
 
   // Testing::runAllTests();
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
