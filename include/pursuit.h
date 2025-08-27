@@ -4,6 +4,7 @@
 #include "vex.h"
 #include "types/pose.h"
 #include "types/params.h"
+#include "utils/utils.h"
 
 typedef std::vector<Pose<double>> Path;
 

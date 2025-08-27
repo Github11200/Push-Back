@@ -1,6 +1,5 @@
 #include "../../include/pursuit.h"
 #include "../../include/chassis.h"
-#include "../../include/utils.h"
 #include <fstream>
 #include <iostream>
 #include <climits>

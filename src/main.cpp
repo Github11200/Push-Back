@@ -15,6 +15,7 @@
 #include "../include/chassis.h"
 #include "../include/pursuit.h"
 #include "../include/testing/tests.h"
+#include "../include/utils/logger.h"
 
 #include "vex.h"
 
