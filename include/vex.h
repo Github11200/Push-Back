@@ -11,6 +11,7 @@
 #include <limits.h>
 #include <algorithm>
 #include <ctime>
+#include <sstream>
 
 #include "v5.h"
 #include "v5_vcs.h"

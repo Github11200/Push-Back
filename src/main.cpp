@@ -76,7 +76,7 @@ void usercontrol(void)
                              { stopPlease = true; });
 
   // Testing::runAllTests();
-  Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
+  Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625, true);
   chassis->odometry->startPositionTrackThread(true);
 
   // chassis->trapezoidalMotionProfile(20, {

@@ -27,7 +27,6 @@ namespace Logger
 
   struct MotionData
   {
-    MotionType motionType;
     Pose<double> target;
     DriveParams driveParams;
     TurnParams turnParams;
@@ -38,7 +37,7 @@ namespace Logger
 
   void sendPositionData(Pose<double> &currentPose);
 
-  void sendMotionStart(MotionType motionType, Pose<double> target, MotionData data);
+  void sendMotionStart(MotionType motionType, MotionData data);
 
   void sendMotionData(MotionType motionType, double elapsedTime, double turnError, double driveError = __DBL_MAX__);
   void sendMotionEnd(double elapsedTime);

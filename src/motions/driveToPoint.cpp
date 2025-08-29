@@ -22,6 +22,8 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   int previousSide = -1; // -1 is null
   Angle<double> initialHeading = currentPose.position.angleTo(target.position);
 
+  Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, {.driveParams = driveParams, .turnParams = turnParams});
+
   while (!drivePID.isSettled())
   {
     currentPose = odometry->getPose();
