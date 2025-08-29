@@ -34,9 +34,10 @@ TrackerPositions Odometry::getTrackersPositions()
   }
 }
 
-void Odometry::startPositionTrackThread()
+void Odometry::startPositionTrackThread(bool sendLogs)
 {
   static Odometry *odometryPointer = this;
+  static bool staticSendLogs = sendLogs;
 
   isTracking = true;
   previousHeading = Angle<double>(0);
@@ -45,7 +46,7 @@ void Odometry::startPositionTrackThread()
   positionTrackThread = new thread([]()
                                    {
                                       while (odometryPointer->isTracking) {
-                                        odometryPointer->updatePosition();
+                                        odometryPointer->updatePosition(staticSendLogs);
                                         wait(5, msec);
                                       } });
 }
@@ -59,7 +60,7 @@ void Odometry::stopPositionTrackThread()
 
 Pose<double> Odometry::getPose() { return currentPose; }
 
-void Odometry::updatePosition()
+void Odometry::updatePosition(bool sendLogs)
 {
   static int i = 0;
   TrackerPositions trackerPosition = getTrackersPositions();
@@ -121,14 +122,14 @@ void Odometry::updatePosition()
 
   if (i == 50)
   {
-    // Logger::sendPositionData(currentPose);
     i = 0;
+    if (sendLogs)
+      Logger::sendPositionData(currentPose);
   }
+  ++i;
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;
-
-  ++i;
 }
 
 void Odometry::setPosition(double xPosition, double yPosition, double theta)

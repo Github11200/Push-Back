@@ -38,7 +38,6 @@ competition Competition;
 
 void pre_auton(void)
 {
-
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -78,7 +77,7 @@ void usercontrol(void)
 
   // Testing::runAllTests();
   Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625);
-  chassis->odometry->startPositionTrackThread();
+  chassis->odometry->startPositionTrackThread(true);
 
   // chassis->trapezoidalMotionProfile(20, {
   //                                           .maximumVelocity = 27.5,

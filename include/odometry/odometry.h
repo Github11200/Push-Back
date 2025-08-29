@@ -58,7 +58,7 @@ public:
    * @brief Stops the position tracking thread, this function should typically be
    * run when drive control starts
    */
-  void startPositionTrackThread();
+  void startPositionTrackThread(bool sendLogs);
 
   /**
    * @brief Starts the position tracking thread, typcially at the start of auton
@@ -76,7 +76,7 @@ public:
    * Also uses Monte Carlo Localization: https://www.ri.cmu.edu/pub_files/pub1/dellaert_frank_1999_2/dellaert_frank_1999_2.pdf
    * Updates the private x and y position variables which can later be accessed
    */
-  void updatePosition();
+  void updatePosition(bool sendLogs);
 
   /**
    * @brief Resets the robot position, usually done during initialization at the start of the match
