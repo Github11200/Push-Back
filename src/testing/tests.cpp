@@ -728,3 +728,62 @@ TEST(testLerpFloatPrecision)
 
   return Testing::Result::PASS;
 }
+
+// ====================
+// SIGMOID TESTS
+// ====================
+
+TEST(testSigmoidDefaultAtZero)
+{
+  // With default coefficients, sigmoid(0) should be exactly 0.5
+  ASSERT_EQUAL(sigmoid(0.0), 0.5);
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidDefaultMonotonicLimits)
+{
+  // With definition 1/(1+exp(x)), large x -> 0, large -x -> 1
+  ASSERT_TRUE(sigmoid(10.0) < 0.001);
+  ASSERT_TRUE(sigmoid(-10.0) > 0.999);
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithFractionalCoefficient)
+{
+  // fractionalCoefficient scales output linearly
+  ASSERT_EQUAL(sigmoid(0.0, 2.0), 1.0); // 2 * 0.5
+  ASSERT_EQUAL(sigmoid(0.0, 4.0), 2.0); // 4 * 0.5
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithConstantOffset)
+{
+  // constant shifts output downward
+  ASSERT_EQUAL(sigmoid(0.0, 1.0, 1.0, 0.5), 0.0); // 0.5 - 0.5
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithZeroExponentialCoefficient)
+{
+  // exponentialCoefficient = 0 forces exp(0) -> 1, so output is 0.5 (then scaled/offset)
+  ASSERT_EQUAL(sigmoid(3.14, 1.0, 0.0, 0.0), 0.5);
+  ASSERT_EQUAL(sigmoid(-7.0, 2.0, 0.0, 0.5), 0.5); // 2*0.5 - 0.5 = 0.5
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithNegativeExponentialCoefficient)
+{
+  // Negative exponentialCoefficient flips the curve to increasing; check a plausible range
+  double v = sigmoid(1.0, 1.0, -2.0, 0.0); // ~ 1/(1+exp(-2)) ≈ 0.8808
+  ASSERT_TRUE(v > 0.85);
+  ASSERT_TRUE(v < 0.90);
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidLargeMagnitudeEdges)
+{
+  // Very large magnitudes should saturate due to exp overflow/underflow
+  ASSERT_EQUAL(sigmoid(1e6), 0.0);
+  ASSERT_EQUAL(sigmoid(-1e6), 1.0);
+  return Testing::Result::PASS;
+}

@@ -70,6 +70,11 @@ double getSignedTangentArcCurvature(Pose<double> start, Vector2D<double> end)
   return side * ((2 * x) / (d * d));
 }
 
+double sigmoid(double x, double fractionalCoefficient, double exponentialCoefficient, double constant)
+{
+  return fractionalCoefficient * (1 / (1 + exp(x * exponentialCoefficient))) - constant;
+}
+
 // Explicit template instantiations for commonly used types
 template int sgn<int>(int number);
 template int sgn<double>(double number);

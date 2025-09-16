@@ -28,16 +28,16 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   {
     currentPose = odometry->getPose();
 
+    double distanceToTarget = currentPose.position.distanceTo(target.position);
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && currentPose.position.distanceTo(target.position) <= 7.0)
+    if (!isClose && distanceToTarget <= 7.0)
     {
       isClose = true;
-      // TODO: Change the 4.5 to be a parameter or dynamic
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = 0;
+      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.7, 1);
     }
 
-    double driveError = currentPose.position.distanceTo(target.position);
+    double driveError = distanceToTarget;
     Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
