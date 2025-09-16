@@ -11,12 +11,13 @@ Chassis::Chassis(int inertialPort,
                  motor_group rightMotorGroup,
                  double inchesToDegreesRatio,
                  double forwardTrackerDistance,
-                 double sidewaysTrackerDistance) : Inertial(inertialPort),
-                                                   forwardTracker(forwardTrackerPort),
-                                                   sidewaysTracker(sidewaysTrackerPort),
-                                                   Left(leftMotorGroup),
-                                                   Right(rightMotorGroup),
-                                                   inchesToDegreesRatio(inchesToDegreesRatio)
+                 double sidewaysTrackerDistance,
+                 bool enableLogs) : Inertial(inertialPort),
+                                    forwardTracker(forwardTrackerPort),
+                                    sidewaysTracker(sidewaysTrackerPort),
+                                    Left(leftMotorGroup),
+                                    Right(rightMotorGroup),
+                                    inchesToDegreesRatio(inchesToDegreesRatio)
 {
   calibrateInertial();
   resetEncoders();

@@ -43,7 +43,8 @@ public:
           motor_group rightMotorGroup,
           double inchesToDegreesRatio,
           double forwardTrackerDistance,
-          double sidewaysTrackerDistance);
+          double sidewaysTrackerDistance,
+          bool enableLogs = false);
   ~Chassis();
 
   void driveDistance(double distance, DriveParams driveParams, TurnParams turnParams, Settings settings);

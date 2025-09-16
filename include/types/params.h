@@ -3,9 +3,9 @@
 
 struct Settings
 {
-  // TODO: Make sure this update time is good
   int updateTime = 10;
   bool forwards = true;
+  bool sendPositionData = false;
 
   Settings() = default;
 };

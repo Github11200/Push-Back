@@ -41,7 +41,10 @@
 		"stdexcept": "cpp",
 		"type_traits": "cpp",
 		"utility": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"bitset": "cpp"
 	},
-	"C_Cpp.errorSquiggles": "disabled"
+	"C_Cpp.errorSquiggles": "disabled",
+	"editor.fontLigatures": true,
+	"editor.fontFamily": "JetBrains Mono"
 }
