@@ -69,6 +69,10 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+void coolCallback() {
+
+}
+
 void usercontrol(void)
 {
   // KILL SWITCH for "safety"
@@ -87,7 +91,7 @@ void usercontrol(void)
   //                                       },
   //                                   {.driveKp = 1, .driveKi = 0, .driveKd = 3, .driveMaxVoltage = 12, .driveTimeout = 1000000}, {.turnKp = 0.1, .turnKi = 0, .turnKd = 0.5, .turnTimeout = 100000}, {});
 
-  // User control code here, inside the loop
+  // User control code here, inside the loop 
   while (1)
   {
     // This is the main execution loop for the user control program.

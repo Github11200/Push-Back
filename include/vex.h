@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <ctime>
 #include <sstream>
+#include <unordered_map>
 
 #include "v5.h"
 #include "v5_vcs.h"

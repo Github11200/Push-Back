@@ -43,6 +43,7 @@ void Odometry::startPositionTrackThread(bool sendLogs)
   previousHeading = Angle<double>(0);
   previousTrackerPositions = TrackerPositions(0, 0);
   Brain.Screen.setPenWidth(10);
+  
   positionTrackThread = new thread([]()
                                    {
                                       while (odometryPointer->isTracking) {
