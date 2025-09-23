@@ -24,7 +24,12 @@ T slew(T current, T target, T maxChange);
 template <class T>
 T toVoltage(T percent);
 
+template <class T>
+Vector2D<T> lerp(Vector2D<T> startPoint, Vector2D<T> endPoint, T t);
+
 // Visualization (still a work in progress): https://www.desmos.com/calculator/znrpd1hpwu
 double getSignedTangentArcCurvature(Pose<double> start, Vector2D<double> end);
+
+double sigmoid(double x, double fractionalCoefficient = 1, double exponentialCoefficient = 1, double constant = 0);
 
 #endif

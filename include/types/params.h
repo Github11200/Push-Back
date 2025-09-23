@@ -3,23 +3,23 @@
 
 struct Settings
 {
-  // TODO: Make sure this update time is good
   int updateTime = 10;
   bool forwards = true;
+  bool sendPositionData = false;
 
   Settings() = default;
 };
 
 struct TurnParams
 {
-  double turnMinVoltage = 1;
-  double turnMaxVoltage = 1;
+  double turnMinVoltage = 0;
+  double turnMaxVoltage = 12;
   double turnSettleError = 1;
-  double turnSettleTime = 1;
-  double turnTimeout = 1;
-  double turnKp = 1;
-  double turnKi = 1;
-  double turnKd = 1;
+  double turnSettleTime = 200;
+  double turnTimeout = 100000;
+  double turnKp = 0.3;
+  double turnKi = 0;
+  double turnKd = 0.5;
   double turnStopIntegratingLimit = 1;
   double turnSlew = 12; // by default the turn slew will be disabled
 
@@ -28,14 +28,14 @@ struct TurnParams
 
 struct DriveParams
 {
-  double driveMinVoltage = 1;
-  double driveMaxVoltage = 1;
+  double driveMinVoltage = 0.5;
+  double driveMaxVoltage = 12;
   double driveSettleError = 1;
-  double driveSettleTime = 1;
-  double driveTimeout = 1;
-  double driveKp = 1;
-  double driveKi = 1;
-  double driveKd = 1;
+  double driveSettleTime = 200;
+  double driveTimeout = 100000;
+  double driveKp = 0.3;
+  double driveKi = 0;
+  double driveKd = 0.5;
   double driveStopIntegratingLimit = 1;
   double driveSlew = 12; // by default the drive slew will be disabled
 
@@ -54,6 +54,24 @@ struct SwingParams
   double swingStartI = 1;
 
   SwingParams() = default;
+};
+
+struct PursuitParams
+{
+  bool forward;
+  double lookAheadDistance = 1;
+  double slewGain = 1;
+  double timeout = 1;
+  double kP = 1;
+  double kV = 1;
+};
+
+struct MotionProfile
+{
+  double maximumVelocity = 5;
+  double finalVelocity = 0;
+  double maximumAcceleration = 0;
+  double kA = 0.1;
 };
 
 #endif

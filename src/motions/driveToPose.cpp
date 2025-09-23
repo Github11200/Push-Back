@@ -1,6 +1,3 @@
-#ifndef DRIVE_TO_POINT_H
-#define DRIVE_TO_POINT_H
-
 #include "../../include/chassis.h"
 
 using namespace vex;
@@ -31,10 +28,10 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
 
   while (!drivePID.isSettled() && !turnPID.isSettled())
   {
-    currentPose = odometry.getPose();
+    currentPose = odometry->getPose();
 
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && odometry.getPose().position.distanceTo(target.position) <= 7.0)
+    if (!isClose && currentPose.position.distanceTo(target.position) <= 7.0)
     {
       isClose = true;
     }
@@ -56,15 +53,15 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
       Vector2D<double> lineFromCarrotToTarget(carrotPoint.x - target.position.x, carrotPoint.y - target.position.y);
 
       // If it is less than 0 then it is before the target point, otherwise it is after
-      const bool targetSide = projectedPerpendicularLine.crossProduct(lineFromCurrentPositionToTarget) <= driveParams.driveSettleError;
+      const bool robotSide = projectedPerpendicularLine.crossProduct(lineFromCurrentPositionToTarget) <= driveParams.driveSettleError;
 
       // If it is less 0 then the carrot point is before the perpendicular line, and this is always the case
       const bool carrotSide = projectedPerpendicularLine.crossProduct(lineFromCarrotToTarget) <= driveParams.driveSettleError;
 
-      const bool sameSide = targetSide == carrotSide;
+      const bool sameSide = robotSide == carrotSide;
 
       // If the bot is close to being settled, previously it was the same side and now it's not then it means the carrot point is behind
-      // the perpendicular line and the robot is ahead of it, and sincce drive min voltage isn't 0 it'll start tweaking out so just exit
+      // the perpendicular line and the robot is ahead of it, and since drive min voltage isn't 0 it'll start tweaking out so just exit
       if (isClose && previousSameSide && !sameSide && driveParams.driveMinVoltage != 0)
         break;
       previousSameSide = sameSide;
@@ -74,7 +71,11 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
     {
       double output = 0;
       output = turnPID.compute(turnError.angle);
-      output = clamp(output, -turnParams.turnMinVoltage, turnParams.turnMaxVoltage);
+
+      // Clamp the values
+      output = clamp(output, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
+      output = clampMin(output, turnParams.turnMinVoltage);
+
       previousTurnOutput = output;
       return output;
     }();
@@ -84,15 +85,15 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
       double output = 0;
 
       output = drivePID.compute(driveError) * headingScaleFactor;
-      output = clamp(output, -driveParams.driveMaxVoltage, driveParams.driveMaxVoltage);
+      output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
 
       // Limit accleration
       if (!isClose)
-        output = slew(output, previousDriveOutput, driveParams.driveSlew);
+        output = slew(previousDriveOutput, output, driveParams.driveSlew);
 
       const double radius = 1 / abs(getSignedTangentArcCurvature(currentPose, carrotPoint));
 
-      // If the drift compensation is 0 that means it should be disabled
+      // // If the drift compensation is 0 that means it should be disabled
       if (driftCompensation != 0)
       {
         // The equation used here is the one for lateral acceleration in a turn, so a = v^2 / r. Here a is the drift compensation
@@ -114,13 +115,15 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
       return output;
     }();
 
-    pair<double, double> outputs = getMotorVelocities(driveOutput, turnOutput);
-    Left.spin(fwd, outputs.first, volt);
-    Right.spin(fwd, outputs.second, volt);
+    Pair outputs = getMotorVelocities(driveOutput, turnOutput);
+    Left.spin(fwd, outputs.left, volt);
+    Right.spin(fwd, outputs.right, volt);
+
+    wait(settings.updateTime, msec);
   }
+
+  cout << "GET THE HELL OUT, plase :)" << endl;
 
   Left.stop(hold);
   Right.stop(hold);
 }
-
-#endif

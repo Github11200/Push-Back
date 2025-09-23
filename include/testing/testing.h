@@ -55,12 +55,13 @@ namespace Testing
         cout << "[FAILED] " << testCase.name << ": " << errorMessage << "\n";
         ++numberFailed;
       }
+      wait(5, msec);
     }
 
-    cout << "\n\nRESULTS:\n";
-    cout << "\t[# PASSED] " << numberPassed << "\n";
-    cout << "\t[# FAILED] " << numberFailed << "\n";
-    cout << "\t[TOTAL] " << numberOfTestCases << "\n";
+    cout << "\n\nRESULTS:\n"
+         << "\t[# PASSED] " << numberPassed << "\n"
+         << "\t[# FAILED] " << numberFailed << "\n"
+         << "\t[TOTAL] " << numberOfTestCases << "\n";
   }
 };
 
@@ -75,11 +76,11 @@ namespace Testing
   } testRegistrarInstance_##name;                    \
   Testing::Result test_##name(string &errorMessage)
 
-#define ASSERT_EQUAL(actual, expected)                            \
-  if ((actual) != (expected))                                     \
-  {                                                               \
-    errorMessage = "\tEXPECTED: " #expected "\n\tACTUAL" #actual; \
-    return Testing::Result::FAIL;                                 \
+#define ASSERT_EQUAL(actual, expected)                                      \
+  if ((actual) != (expected))                                               \
+  {                                                                         \
+    errorMessage = "\n\t   EXPECTED: " #expected "\n\t   ACTUAL: " #actual; \
+    return Testing::Result::FAIL;                                           \
   }
 
 #define ASSERT_TRUE(value)                                          \

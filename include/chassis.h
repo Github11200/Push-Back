@@ -3,6 +3,9 @@
 
 #include "odometry/odometry.h"
 #include "pid/pid.h"
+#include "pursuit.h"
+#include "utils/timer.h"
+#include "utils/logger.h"
 
 #include <stdlib.h>
 #include <complex>
@@ -10,26 +13,59 @@
 using namespace vex;
 using namespace std;
 
+struct Pair
+{
+  double left;
+  double right;
+  Pair(double left, double right) : left(left), right(right) {}
+};
+
 class Chassis
 {
 private:
   inertial Inertial;
+  rotation forwardTracker;
+  rotation sidewaysTracker;
+
   double inertialScaling = 360;
-  motor_group Left, Right;
+  double trackWidth;
+  double inchesToDegreesRatio;
 
 public:
-  Chassis(/* args */);
+  Odometry *odometry;
+  Pursuit *pursuit;
+  motor_group Left, Right;
+
+  Chassis(int inertialPort,
+          int forwardTrackerPort,
+          int sidewaysTrackerPort,
+          motor_group leftMotorGroup,
+          motor_group rightMotorGroup,
+          double inchesToDegreesRatio,
+          double forwardTrackerDistance,
+          double sidewaysTrackerDistance,
+          bool enableLogs = false);
+  ~Chassis();
 
   void driveDistance(double distance, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
-
   void turnTo(Pose<double> target, TurnParams params, Settings settings);
 
-  Angle<double> getAbsoluteHeading();
-  pair<double, double> getMotorVelocities(double driveOutput, double turnOutput);
+  void followPath(vector<Pose<double>> path, PursuitParams params);
 
-  ~Chassis();
+  void trapezoidalMotionProfile(double distance, MotionProfile motionProfileSettings, DriveParams driveParams, TurnParams turnParams, Settings settings);
+
+  Angle<double>
+  getAbsoluteHeading();
+  Pair getMotorVelocities(double driveOutput, double turnOutput);
+  Pair getMotorsPosition();
+
+  void calibrateInertial();
+  void resetEncoders();
+
+  double getForwardTrackerPosition();
+  double getSidewaysTrackerPosition();
 };
 
 #endif

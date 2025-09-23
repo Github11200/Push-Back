@@ -12,4 +12,9 @@ extern motor MiddleLeft;
 extern motor BackRight;
 extern motor BackLeft;
 
+extern motor_group Left;
+extern motor_group Right;
+
+extern bool stopPlease;
+
 void vexcodeInit(void);

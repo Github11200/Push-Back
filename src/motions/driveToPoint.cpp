@@ -1,6 +1,3 @@
-#ifndef DRIVE_TO_POINT_H
-#define DRIVE_TO_POINT_H
-
 #include "../../include/chassis.h"
 
 using namespace vex;
@@ -11,7 +8,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
 
-  Pose<double> currentPose = odometry.getPose();
+  Pose<double> currentPose = odometry->getPose();
 
   double driveOutput = 0;
   double turnOutput = 0;
@@ -25,30 +22,33 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   int previousSide = -1; // -1 is null
   Angle<double> initialHeading = currentPose.position.angleTo(target.position);
 
+  Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, {.driveParams = driveParams, .turnParams = turnParams});
+
   while (!drivePID.isSettled())
   {
-    currentPose = odometry.getPose();
+    currentPose = odometry->getPose();
 
+    double distanceToTarget = currentPose.position.distanceTo(target.position);
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && odometry.getPose().position.distanceTo(target.position) <= 7.0)
+    if (!isClose && distanceToTarget <= 7.0)
     {
       isClose = true;
-      // TODO: Change the 4.5 to be a parameter or dynamic
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = max(fabs(previousTurnOutput), 4.5);
+      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.7, 1);
     }
 
-    double driveError = hypot(target.position.x - currentPose.position.x, target.position.y - currentPose.position.y);
-    Angle<double> turnError = (currentPose.position.angleTo(target.position) - getAbsoluteHeading()).constrainNegative180To180();
+    double driveError = distanceToTarget;
+    Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
       What it's meant to do is that when the robot is facing perpendicular to the target (90 degrees) then
       cos(90) = 0 so there is no lateral movement, it focuses just on turning, but as it gets closer to the
-     target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
-     the lateral rather than the angular movement
+      target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
+      the lateral rather than the angular movement
     */
     headingScaleFactor = cos(turnError.toRad().angle);
+    turnError = turnError.constrainNegative90To90();
 
     {
       Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
@@ -97,13 +97,12 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       if (isClose)
         output = slew(previousDriveOutput, output, driveParams.driveSlew);
 
-      previousDriveOutput = output;
       return output;
     }();
 
-    pair<double, double> motorOutputs = getMotorVelocities(driveOutput, turnOutput);
-    Left.spin(fwd, motorOutputs.first, volt);
-    Right.spin(fwd, motorOutputs.second, volt);
+    Pair motorOutputs = getMotorVelocities(driveOutput, turnOutput);
+    Left.spin(fwd, motorOutputs.left, volt);
+    Right.spin(fwd, motorOutputs.right, volt);
 
     wait(settings.updateTime, msec);
   }
@@ -111,5 +110,3 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   Left.stop(hold);
   Right.stop(hold);
 }
-
-#endif

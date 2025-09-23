@@ -3,9 +3,29 @@
 
 #include "types/pose.h"
 #include "vex.h"
+#include "utils/logger.h"
 
 using namespace vex;
 using namespace std;
+
+class Chassis;
+
+struct TrackerPositions
+{
+  double forward;
+  double sideways;
+
+  TrackerPositions() : forward(0), sideways(0) {}
+  TrackerPositions(double forward, double sideways) : forward(forward), sideways(sideways) {}
+};
+
+enum TrackerSetup
+{
+  ZERO_TRACKER,
+  FORWARD_TRACKER,
+  SIDEWAYS_TRACKER,
+  TWO_TRACKER
+};
 
 /**
  * @brief Gets the current position of the robot using a combination of the Pilons
@@ -14,15 +34,31 @@ using namespace std;
 class Odometry
 {
 private:
+  Chassis *chassis;
+
+  TrackerPositions previousTrackerPositions;
+  Angle<double> previousHeading;
+
   Pose<double> currentPose;
-  thread positionTrackThread;
+
+  thread *positionTrackThread;
+  bool isTracking = false;
+  TrackerSetup trackerSetup;
+
+  double forwardTrackerCenterDistance;
+  double sidewaysTrackerCenterDistance;
 
 public:
+  Odometry(Chassis *chassis, double forwardTrackerCenterDistance, double sidewaysTrackerCenterDistance);
+  ~Odometry();
+
+  TrackerPositions getTrackersPositions();
+
   /**
    * @brief Stops the position tracking thread, this function should typically be
    * run when drive control starts
    */
-  void startPositionTrackThread();
+  void startPositionTrackThread(bool sendLogs);
 
   /**
    * @brief Starts the position tracking thread, typcially at the start of auton
@@ -31,7 +67,8 @@ public:
   void stopPositionTrackThread();
 
   // Returns the currentPoseVariable
-  Pose<double> getPose();
+  Pose<double>
+  getPose();
 
   /**
    * @brief Does the odometry math to update position
@@ -39,7 +76,7 @@ public:
    * Also uses Monte Carlo Localization: https://www.ri.cmu.edu/pub_files/pub1/dellaert_frank_1999_2/dellaert_frank_1999_2.pdf
    * Updates the private x and y position variables which can later be accessed
    */
-  void updatePosition();
+  void updatePosition(bool sendLogs);
 
   /**
    * @brief Resets the robot position, usually done during initialization at the start of the match
@@ -48,7 +85,7 @@ public:
    * @param yPosition The new y position
    * @param theta The new orientation (e.g. what orientation the robot would be starting at for the start of the match)
    */
-  void resetPosition(double xPosition, double yPosition, double theta);
+  void setPosition(double xPosition, double yPosition, double theta);
 };
 
 extern Odometry odometry;
