@@ -74,4 +74,96 @@ struct MotionProfile
   double kA = 0.1;
 };
 
+DriveParams fastDriveParams()
+{
+  DriveParams driveParams;
+  driveParams.driveMinVoltage = 0.3;
+  driveParams.driveMaxVoltage = 10;
+  driveParams.driveSettleError = 0.5;
+  driveParams.driveSettleTime = 150;
+  driveParams.driveTimeout = 80000;
+  driveParams.driveKp = 0.5;
+  driveParams.driveKi = 0.1;
+  driveParams.driveKd = 5;
+  driveParams.driveStopIntegratingLimit = 0.8;
+  driveParams.driveSlew = 15;
+  return driveParams;
+}
+
+DriveParams slowDriveParams()
+{
+  DriveParams driveParams;
+  driveParams.driveMinVoltage = 0.2;
+  driveParams.driveMaxVoltage = 8;
+  driveParams.driveSettleError = 2;
+  driveParams.driveSettleTime = 300;
+  driveParams.driveTimeout = 120000;
+  driveParams.driveKp = 0.2;
+  driveParams.driveKi = 0.05;
+  driveParams.driveKd = 0.3;
+  driveParams.driveStopIntegratingLimit = 1.2;
+  driveParams.driveSlew = 8;
+  return driveParams;
+}
+
+TurnParams fastTurnParams()
+{
+  TurnParams turnParams;
+  turnParams.turnMinVoltage = 0.2;
+  turnParams.turnMaxVoltage = 10;
+  turnParams.turnSettleError = 0.8;
+  turnParams.turnSettleTime = 180;
+  turnParams.turnTimeout = 90000;
+  turnParams.turnKp = 0.4;
+  turnParams.turnKi = 0.02;
+  turnParams.turnKd = 0.7;
+  turnParams.turnStopIntegratingLimit = 0.9;
+  turnParams.turnSlew = 14;
+  return turnParams;
+}
+
+TurnParams slowTurnParams()
+{
+  TurnParams turnParams;
+  turnParams.turnMinVoltage = 0.1;
+  turnParams.turnMaxVoltage = 6;
+  turnParams.turnSettleError = 1.5;
+  turnParams.turnSettleTime = 250;
+  turnParams.turnTimeout = 110000;
+  turnParams.turnKp = 0.25;
+  turnParams.turnKi = 0.01;
+  turnParams.turnKd = 0.4;
+  turnParams.turnStopIntegratingLimit = 1.3;
+  turnParams.turnSlew = 9;
+  return turnParams;
+}
+
+SwingParams fastSwingParams()
+{
+  SwingParams swingParams;
+  swingParams.swingMaxVoltage = 8;
+  swingParams.swingSettleError = 0.6;
+  swingParams.swingSettleTime = 0.8;
+  swingParams.swingTimeout = 0.7;
+  swingParams.swingKp = 1.2;
+  swingParams.swingKi = 1.1;
+  swingParams.swingKd = 1.3;
+  swingParams.swingStartI = 0.9;
+  return swingParams;
+}
+
+SwingParams slowSwingParams()
+{
+  SwingParams swingParams;
+  swingParams.swingMaxVoltage = 4;
+  swingParams.swingSettleError = 1.2;
+  swingParams.swingSettleTime = 1.5;
+  swingParams.swingTimeout = 1.8;
+  swingParams.swingKp = 0.8;
+  swingParams.swingKi = 0.7;
+  swingParams.swingKd = 0.9;
+  swingParams.swingStartI = 1.2;
+  return swingParams;
+}
+
 #endif
