@@ -80,7 +80,19 @@ void usercontrol(void)
                              { stopPlease = true; });
 
   // Testing::runAllTests();
-  Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625, true);
+  
+  // Create chassis object with sensor ports and configuration
+  Chassis *chassis = new Chassis(
+    PORT19,                           // Inertial sensor port
+    PORT14,                           // Forward tracking wheel port 
+    PORT13,                           // Sideways tracking wheel port
+    Left,                             // Left motor group (FrontLeft, MiddleLeft, BackLeft)
+    Right,                            // Right motor group (FrontRight, MiddleRight, BackRight)
+    ((M_PI * 1.98298) / 360.0),      // Inches to degrees conversion ratio for tracking wheels
+    -0.640625,                        // Forward tracking wheel distance from center (inches)
+    1.625,                            // Sideways tracking wheel distance from center (inches)
+    true                              // Enable debug logging
+  );
   chassis->odometry->startPositionTrackThread(true);
 
   // chassis->trapezoidalMotionProfile(20, {
