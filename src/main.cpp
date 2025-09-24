@@ -73,10 +73,6 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void coolCallback()
-{
-}
-
 void usercontrol(void)
 {
   // KILL SWITCH for "safety"
