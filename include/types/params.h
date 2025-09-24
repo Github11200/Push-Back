@@ -74,7 +74,7 @@ struct MotionProfile
   double kA = 0.1;
 };
 
-DriveParams fastDriveParams()
+inline DriveParams fastDriveParams()
 {
   DriveParams driveParams;
   driveParams.driveMinVoltage = 0.3;
@@ -90,7 +90,7 @@ DriveParams fastDriveParams()
   return driveParams;
 }
 
-DriveParams slowDriveParams()
+inline DriveParams slowDriveParams()
 {
   DriveParams driveParams;
   driveParams.driveMinVoltage = 0.2;
@@ -106,7 +106,7 @@ DriveParams slowDriveParams()
   return driveParams;
 }
 
-TurnParams fastTurnParams()
+inline TurnParams fastTurnParams()
 {
   TurnParams turnParams;
   turnParams.turnMinVoltage = 0.2;
@@ -122,7 +122,7 @@ TurnParams fastTurnParams()
   return turnParams;
 }
 
-TurnParams slowTurnParams()
+inline TurnParams slowTurnParams()
 {
   TurnParams turnParams;
   turnParams.turnMinVoltage = 0.1;
@@ -138,7 +138,7 @@ TurnParams slowTurnParams()
   return turnParams;
 }
 
-SwingParams fastSwingParams()
+inline SwingParams fastSwingParams()
 {
   SwingParams swingParams;
   swingParams.swingMaxVoltage = 8;
@@ -152,7 +152,7 @@ SwingParams fastSwingParams()
   return swingParams;
 }
 
-SwingParams slowSwingParams()
+inline SwingParams slowSwingParams()
 {
   SwingParams swingParams;
   swingParams.swingMaxVoltage = 4;

@@ -16,6 +16,7 @@
 #include "../include/pursuit.h"
 #include "../include/testing/tests.h"
 #include "../include/utils/logger.h"
+#include "../include/autons.h"
 
 #include "vex.h"
 
@@ -25,6 +26,7 @@ using namespace vex;
 competition Competition;
 
 // define your global instances of motors and other devices here
+Autons autons;
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -40,6 +42,7 @@ void pre_auton(void)
 {
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
+  autons.prepareAuton(AutonName::TESTING, vex::color::red);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -57,6 +60,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+  autons.runAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -69,8 +73,8 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void coolCallback() {
-
+void coolCallback()
+{
 }
 
 void usercontrol(void)
@@ -91,7 +95,7 @@ void usercontrol(void)
   //                                       },
   //                                   {.driveKp = 1, .driveKi = 0, .driveKd = 3, .driveMaxVoltage = 12, .driveTimeout = 1000000}, {.turnKp = 0.1, .turnKi = 0, .turnKd = 0.5, .turnTimeout = 100000}, {});
 
-  // User control code here, inside the loop 
+  // User control code here, inside the loop
   while (1)
   {
     // This is the main execution loop for the user control program.
