@@ -3,7 +3,7 @@
 
 #define RADIANS (180.0 / M_PI)
 
-#include "math.h"
+#include <math.h>
 
 using namespace std;
 
