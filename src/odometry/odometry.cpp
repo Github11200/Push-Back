@@ -157,7 +157,7 @@ Wall Odometry::getWallFacing()
     return Wall::LEFT;
 }
 
-void Odometry::wallReset(DistanceSensor distanceSensor)
+void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
 {
   double angle = getPose().orientation.angle;
   vex::distance sensor = distanceSensors[distanceSensor];
@@ -168,8 +168,13 @@ void Odometry::wallReset(DistanceSensor distanceSensor)
     return;
   }
 
-  Wall wall = getWallFacing();
-  if (distanceSensor == DistanceSensor::FRONT)
-  {
-  }
+  double distanceSensorReading = sensor.objectDistance(vex::distanceUnits::in);
+  double angle = this->currentPose.orientation.constrainNegative90To90().toRad().angle;
+  int sign = (wall == Wall::FRONT || wall == Wall::RIGHT) ? 1 : -1;
+  double distance = (72 - (cos(angle) * distanceSensorReading)) * sign;
+
+  if (wall == Wall::FRONT || Wall::REAR)
+    this->currentPose.position.y = distance;
+  else if (wall == Wall::RIGHT || wall == Wall::LEFT)
+    this->currentPose.position.x = distance;
 }

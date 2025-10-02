@@ -35,9 +35,9 @@ enum Coordinate
 
 enum DistanceSensor
 {
-  FRONT = 0,
-  RIGHT = 1,
-  LEFT = 2
+  FORWARD = 0,
+  STARBOARD = 1,
+  AFT = 2
 };
 
 enum Wall
@@ -112,7 +112,7 @@ public:
    */
   void setPosition(double xPosition, double yPosition, double theta);
 
-  void wallReset(DistanceSensor DistanceSensor);
+  void wallReset(DistanceSensor DistanceSensor, Wall wall);
 };
 
 extern Odometry odometry;
