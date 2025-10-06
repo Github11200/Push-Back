@@ -32,6 +32,14 @@ T clampMin(T value, T min)
 }
 
 template <class T>
+T deadband(T value, T deadbandValue)
+{
+  if (fabs(value) <= deadbandValue)
+    return 0;
+  return value;
+}
+
+template <class T>
 T slew(T current, T target, T maxChange)
 {
   T change = target - current;
@@ -68,6 +76,21 @@ double getSignedTangentArcCurvature(Pose<double> start, Vector2D<double> end)
   const double d = start.position.distanceTo(end);
 
   return side * ((2 * x) / (d * d));
+}
+
+Pair getMotorVelocities(double driveOutput, double turnOutput)
+{
+  double left = driveOutput + turnOutput;
+  double right = driveOutput - turnOutput;
+
+  double sum = (driveOutput + turnOutput) / 12;
+  if (sum > 1)
+  {
+    left /= sum;
+    right /= sum;
+  }
+
+  return Pair(left, right);
 }
 
 double sigmoid(double x, double fractionalCoefficient, double exponentialCoefficient, double constant)
