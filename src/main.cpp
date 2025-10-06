@@ -80,8 +80,8 @@ void usercontrol(void)
                              { stopPlease = true; });
 
   // Testing::runAllTests();
-  Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625, true);
-  chassis->odometry->startPositionTrackThread(true);
+  // Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625, true);
+  // chassis->odometry->startPositionTrackThread(true);
 
   // chassis->trapezoidalMotionProfile(20, {
   //                                           .maximumVelocity = 27.5,
@@ -107,7 +107,7 @@ void usercontrol(void)
                     // prevent wasted resources.
   }
 
-  chassis->odometry->stopPositionTrackThread();
+  // chassis->odometry->stopPositionTrackThread();
 }
 
 //

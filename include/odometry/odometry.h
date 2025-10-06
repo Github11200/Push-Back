@@ -69,12 +69,17 @@ private:
   double forwardTrackerCenterDistance;
   double sidewaysTrackerCenterDistance;
 
-  vector<vex::distance> distanceSensors;
+  vector<std::pair<vex::distance, double>> distanceSensors;
 
   Wall getWallFacing(double distanceSensorReading);
 
 public:
-  Odometry(Chassis *chassis, double forwardTrackerCenterDistance, double sidewaysTrackerCenterDistance);
+  Odometry(Chassis *chassis,
+           double forwardTrackerCenterDistance,
+           double sidewaysTrackerCenterDistance,
+           double frontDistanceSensorDistance,
+           double rightDistanceSensorDistance,
+           double leftDistanceSensorDistance);
   ~Odometry();
 
   TrackerPositions getTrackersPositions();
@@ -92,8 +97,7 @@ public:
   void stopPositionTrackThread();
 
   // Returns the currentPoseVariable
-  Pose<double>
-  getPose();
+  Pose<double> getPose();
 
   /**
    * @brief Does the odometry math to update position

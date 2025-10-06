@@ -44,6 +44,9 @@ public:
           double inchesToDegreesRatio,
           double forwardTrackerDistance,
           double sidewaysTrackerDistance,
+          double frontDistanceSensorDistance,
+          double leftDistanceSensorDistance,
+          double rightDistanceSensorDistance,
           bool enableLogs = false);
   ~Chassis();
 
