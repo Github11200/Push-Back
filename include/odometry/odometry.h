@@ -27,6 +27,27 @@ enum TrackerSetup
   TWO_TRACKER
 };
 
+enum Coordinate
+{
+  X,
+  Y
+};
+
+enum DistanceSensor
+{
+  FORWARD = 0,
+  STARBOARD = 1,
+  AFT = 2
+};
+
+enum Wall
+{
+  FRONT = 0,
+  RIGHT = 1,
+  LEFT = 2,
+  REAR = 3
+};
+
 /**
  * @brief Gets the current position of the robot using a combination of the Pilons
  * arc tracking strategy and Monte Carlo Localization
@@ -47,6 +68,10 @@ private:
 
   double forwardTrackerCenterDistance;
   double sidewaysTrackerCenterDistance;
+
+  vector<vex::distance> distanceSensors;
+
+  Wall getWallFacing(double distanceSensorReading);
 
 public:
   Odometry(Chassis *chassis, double forwardTrackerCenterDistance, double sidewaysTrackerCenterDistance);
@@ -86,6 +111,8 @@ public:
    * @param theta The new orientation (e.g. what orientation the robot would be starting at for the start of the match)
    */
   void setPosition(double xPosition, double yPosition, double theta);
+
+  void wallReset(DistanceSensor DistanceSensor, Wall wall);
 };
 
 extern Odometry odometry;

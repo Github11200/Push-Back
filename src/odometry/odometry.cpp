@@ -10,6 +10,10 @@ Odometry::Odometry(Chassis *chassis, double forwardTrackerCenterDistance, double
   this->trackerSetup = TWO_TRACKER;
   this->forwardTrackerCenterDistance = forwardTrackerCenterDistance;
   this->sidewaysTrackerCenterDistance = sidewaysTrackerDistance;
+
+  this->distanceSensors.push_back(frontDistance);
+  this->distanceSensors.push_back(rightDistance);
+  this->distanceSensors.push_back(leftDistance);
 }
 
 Odometry::~Odometry()
@@ -43,7 +47,7 @@ void Odometry::startPositionTrackThread(bool sendLogs)
   previousHeading = Angle<double>(0);
   previousTrackerPositions = TrackerPositions(0, 0);
   Brain.Screen.setPenWidth(10);
-  
+
   positionTrackThread = new thread([]()
                                    {
                                       while (odometryPointer->isTracking) {
@@ -138,4 +142,39 @@ void Odometry::setPosition(double xPosition, double yPosition, double theta)
   currentPose.position.x = xPosition;
   currentPose.position.y = yPosition;
   currentPose.orientation.angle = theta;
+}
+
+Wall Odometry::getWallFacing()
+{
+  double angle = getPose().orientation.angle;
+  if (angle >= 350 && angle <= 10)
+    return Wall::FRONT;
+  else if (angle >= 80 && angle <= 100)
+    return Wall::RIGHT;
+  else if (angle >= 170 && angle <= 190)
+    return Wall::REAR;
+  else if (angle >= 260 && angle <= 280)
+    return Wall::LEFT;
+}
+
+void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
+{
+  double angle = getPose().orientation.angle;
+  vex::distance sensor = distanceSensors[distanceSensor];
+
+  if (!sensor.isObjectDetected())
+  {
+    Logger::sendMessage("Could not detect wall. Not resetting.");
+    return;
+  }
+
+  double distanceSensorReading = sensor.objectDistance(vex::distanceUnits::in);
+  double angle = this->currentPose.orientation.constrainNegative90To90().toRad().angle;
+  int sign = (wall == Wall::FRONT || wall == Wall::RIGHT) ? 1 : -1;
+  double distance = (72 - (cos(angle) * distanceSensorReading)) * sign;
+
+  if (wall == Wall::FRONT || Wall::REAR)
+    this->currentPose.position.y = distance;
+  else if (wall == Wall::RIGHT || wall == Wall::LEFT)
+    this->currentPose.position.x = distance;
 }
