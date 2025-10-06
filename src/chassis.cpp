@@ -12,6 +12,9 @@ Chassis::Chassis(int inertialPort,
                  double inchesToDegreesRatio,
                  double forwardTrackerDistance,
                  double sidewaysTrackerDistance,
+                 double frontDistanceSensorDistance,
+                 double rightDistanceSensorDistance,
+                 double leftDistanceSensorDistance,
                  bool enableLogs) : Inertial(inertialPort),
                                     forwardTracker(forwardTrackerPort),
                                     sidewaysTracker(sidewaysTrackerPort),
@@ -21,7 +24,12 @@ Chassis::Chassis(int inertialPort,
 {
   calibrateInertial();
   resetEncoders();
-  odometry = new Odometry(this, forwardTrackerDistance, sidewaysTrackerDistance);
+  odometry = new Odometry(this,
+                          forwardTrackerDistance,
+                          sidewaysTrackerDistance,
+                          frontDistanceSensorDistance,
+                          rightDistanceSensorDistance,
+                          leftDistanceSensorDistance);
 }
 
 Chassis::~Chassis()
