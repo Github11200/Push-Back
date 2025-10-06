@@ -9,6 +9,13 @@
 using namespace std;
 using namespace vex;
 
+struct Pair
+{
+    double left;
+    double right;
+    Pair(double left, double right) : left(left), right(right) {}
+};
+
 template <class T>
 int sgn(T number);
 
@@ -17,6 +24,9 @@ T clamp(T value, T min, T max);
 
 template <class T>
 T clampMin(T value, T min);
+
+template <class T>
+T deadband(T value, T deadbandValue);
 
 template <class T>
 T slew(T current, T target, T maxChange);
@@ -29,6 +39,8 @@ Vector2D<T> lerp(Vector2D<T> startPoint, Vector2D<T> endPoint, T t);
 
 // Visualization (still a work in progress): https://www.desmos.com/calculator/znrpd1hpwu
 double getSignedTangentArcCurvature(Pose<double> start, Vector2D<double> end);
+
+Pair getMotorVelocities(double driveOutput, double turnOutput);
 
 double sigmoid(double x, double fractionalCoefficient = 1, double exponentialCoefficient = 1, double constant = 0);
 

@@ -48,21 +48,6 @@ Angle<double> Chassis::getAbsoluteHeading()
   return Angle<double>((Inertial.heading(deg) * 360) / inertialScaling).constrain0To360();
 }
 
-Pair Chassis::getMotorVelocities(double driveOutput, double turnOutput)
-{
-  double left = driveOutput + turnOutput;
-  double right = driveOutput - turnOutput;
-
-  double sum = (driveOutput + turnOutput) / 12;
-  if (sum > 1)
-  {
-    left /= sum;
-    right /= sum;
-  }
-
-  return Pair(left, right);
-}
-
 Pair Chassis::getMotorsPosition()
 {
   return Pair(Left.position(deg) * inchesToDegreesRatio, Right.position(deg) * inchesToDegreesRatio);

@@ -6,19 +6,13 @@
 #include "pursuit.h"
 #include "utils/timer.h"
 #include "utils/logger.h"
+#include "utils/utils.h"
 
 #include <stdlib.h>
 #include <complex>
 
 using namespace vex;
 using namespace std;
-
-struct Pair
-{
-  double left;
-  double right;
-  Pair(double left, double right) : left(left), right(right) {}
-};
 
 class Chassis
 {
@@ -61,7 +55,6 @@ public:
 
   Angle<double>
   getAbsoluteHeading();
-  Pair getMotorVelocities(double driveOutput, double turnOutput);
   Pair getMotorsPosition();
 
   void calibrateInertial();
