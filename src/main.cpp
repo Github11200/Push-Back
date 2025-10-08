@@ -17,6 +17,8 @@
 #include "../include/testing/tests.h"
 #include "../include/utils/logger.h"
 #include "../include/autons.h"
+#include "../include/driver/joysticks.h"
+#include "../include/driver/pneumatic.h"
 
 #include "vex.h"
 
@@ -78,6 +80,7 @@ void usercontrol(void)
   // KILL SWITCH for "safety"
   Controller.ButtonA.pressed([]()
                              { stopPlease = true; });
+
 
   // Testing::runAllTests();
   // Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625, true);

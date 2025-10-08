@@ -2,6 +2,7 @@
 #define AUTONS_H
 
 #include "vex.h"
+#include "driver/pneumatic.h"
 
 enum AutonName
 {

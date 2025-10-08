@@ -19,6 +19,11 @@ extern vex::distance leftDistance;
 extern motor_group Left;
 extern motor_group Right;
 
+extern digital_out willyNilly;
+extern digital_out winger;
+extern digital_out sloper;
+extern digital_out blocker;
+
 extern bool stopPlease;
 
 void vexcodeInit(void);
