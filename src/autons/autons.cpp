@@ -1,7 +1,5 @@
 #include "autons.h"
 
-Pneumatic willyNillyPiston(willyNilly);
-
 void Autons::printMessage(string message)
 {
   Brain.Screen.clearScreen();
