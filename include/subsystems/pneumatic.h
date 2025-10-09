@@ -21,9 +21,13 @@ private:
   vex::digital_out *piston;
 
 public:
-  void toggle() { piston->set(!piston->value()); };
+  inline void toggle() { piston->set(!piston->value()); };
   inline void on() { piston->set(true); };
   inline void off() { piston->set(false); };
+
+  void killThread(vex::thread *currentDelayThread);
+  void delayToggle(int millseconds);
+
   Pneumatic(Port port);
 };
 

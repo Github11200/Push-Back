@@ -34,6 +34,25 @@ Pneumatic::Pneumatic(Port port)
   this->piston = new digital_out(triportValue);
 }
 
+void Pneumatic::killThread(vex::thread *currentDelayThread)
+{
+  while (!currentDelayThread->joinable())
+    wait(5, msec);
+  currentDelayThread->join();
+  delete currentDelayThread;
+}
+
+void Pneumatic::delayToggle(int milleseconds)
+{
+  static Pneumatic *thisPointer = this;
+  static int staticMilleseconds = milleseconds;
+  thread *delayThread = new thread([]()
+                                   {
+    wait(staticMilleseconds, msec);
+    thisPointer->on(); });
+  killThread(delayThread);
+}
+
 Pneumatic willyNilly(Port::A);
 Pneumatic finger(Port::B);
 Pneumatic sloper(Port::C);
