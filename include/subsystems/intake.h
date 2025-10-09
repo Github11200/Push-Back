@@ -8,8 +8,18 @@ class Intake
 {
 private:
 public:
-  void spinFrontStage();
-  void spinTopStage();
+  inline void spinBottomStage(vex::directionType direction) { BottomIntake.spin(direction, 12, vex::voltageUnits::volt); };
+  inline void spinTopStage(vex::directionType direction)
+  {
+    if (direction == vex::directionType::fwd && TopIntake.velocity() > 10)
+      TopIntake.spin(direction, 12, vex::voltageUnits::volt);
+  };
+
+  inline void spinFullIntake(vex::directionType direction)
+  {
+    spinBottomStage(direction);
+    spinTopStage(direction);
+  };
 
   inline void stopBlocks() { sloper.off(); };
   inline void openBlocks() { sloper.on(); };

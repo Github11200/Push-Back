@@ -19,6 +19,7 @@
 #include "../include/autons.h"
 #include "../include/subsystems/joysticks.h"
 #include "../include/subsystems/pneumatic.h"
+#include "../include/subsystems/intake.h"
 
 #include "vex.h"
 

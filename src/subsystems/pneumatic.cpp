@@ -35,6 +35,6 @@ Pneumatic::Pneumatic(Port port)
 }
 
 Pneumatic willyNilly(Port::A);
-Pneumatic winger(Port::B);
+Pneumatic finger(Port::B);
 Pneumatic sloper(Port::C);
 Pneumatic blocker(Port::D);

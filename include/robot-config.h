@@ -17,6 +17,9 @@ extern motor MiddleLeft;
 extern motor BackRight;
 extern motor BackLeft;
 
+extern motor TopIntake;
+extern motor BottomIntake;
+
 extern vex::distance frontDistance;
 extern vex::distance rightDistance;
 extern vex::distance leftDistance;

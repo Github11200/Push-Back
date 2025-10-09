@@ -28,7 +28,7 @@ public:
 };
 
 extern Pneumatic willyNilly;
-extern Pneumatic winger;
+extern Pneumatic finger;
 extern Pneumatic sloper;
 extern Pneumatic blocker;
 
