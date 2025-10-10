@@ -111,6 +111,9 @@ template int clampMin<int>(int value, int min);
 template double clampMin<double>(double value, double min);
 template float clampMin<float>(float value, float min);
 
+template double deadband<double>(double value, double deadbandValue);
+template float deadband<float>(float value, float deadbandValue);
+
 template int slew<int>(int current, int target, int maxChange);
 template double slew<double>(double current, double target, double maxChange);
 template float slew<float>(float current, float target, float maxChange);

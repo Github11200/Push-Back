@@ -17,6 +17,7 @@
 #include "../include/testing/tests.h"
 #include "../include/utils/logger.h"
 #include "../include/autons.h"
+#include "../include/driver.h"
 
 #include "vex.h"
 
@@ -26,7 +27,63 @@ using namespace vex;
 competition Competition;
 
 // define your global instances of motors and other devices here
-Autons autons;
+Driver driver(
+    // Intake button
+    Controller.ButtonR1,
+
+    // Outtake button
+    Controller.ButtonR2,
+
+    // Willy nilly button
+    Controller.ButtonA,
+
+    // Finger button
+    Controller.ButtonB,
+
+    // Sloper button
+    Controller.ButtonX,
+
+    // Blocker button
+    Controller.ButtonY);
+
+Chassis *chassis = new Chassis(
+    // Inertial port
+    PORT19,
+
+    // Forward tracker port
+    PORT14,
+
+    // Sideways tracker port
+    PORT13,
+
+    // Left motor group
+    Left,
+
+    // Right motor group
+    Right,
+
+    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
+    ((M_PI * 1.98298) / 360.0),
+
+    // Forward tracker distance
+    -0.640625,
+
+    // Sideways tracker distance
+    1.625,
+
+    // Front distance sensor distance
+    1,
+
+    // Left distance sensor distance
+    2,
+
+    // Right distance sensor distance
+    3,
+
+    // Enable logs (false by default)
+    true);
+
+Autons autons(chassis);
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -42,6 +99,7 @@ void pre_auton(void)
 {
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
+  Testing::runAllTests();
   autons.prepareAuton(AutonName::TESTING, vex::color::red);
 }
 
@@ -75,21 +133,7 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // KILL SWITCH for "safety"
-  Controller.ButtonA.pressed([]()
-                             { stopPlease = true; });
-
-  // Testing::runAllTests();
-  // Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625, true);
-  // chassis->odometry->startPositionTrackThread(true);
-
-  // chassis->trapezoidalMotionProfile(20, {
-  //                                           .maximumVelocity = 27.5,
-  //                                           .finalVelocity = 0,
-  //                                           .maximumAcceleration = 5,
-  //                                           .kA = 0.5,
-  //                                       },
-  //                                   {.driveKp = 1, .driveKi = 0, .driveKd = 3, .driveMaxVoltage = 12, .driveTimeout = 1000000}, {.turnKp = 0.1, .turnKi = 0, .turnKd = 0.5, .turnTimeout = 100000}, {});
+  driver.startJoysticksThread();
 
   // User control code here, inside the loop
   while (1)
@@ -102,12 +146,11 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
-
-  // chassis->odometry->stopPositionTrackThread();
 }
 
 //

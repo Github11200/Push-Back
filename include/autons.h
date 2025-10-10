@@ -2,6 +2,8 @@
 #define AUTONS_H
 
 #include "vex.h"
+#include "subsystems/pneumatic.h"
+#include "chassis.h"
 
 enum AutonName
 {
@@ -17,8 +19,11 @@ class Autons
 private:
   vex::color allianceColor;
   std::function<void(void)> autonToRun;
+  Chassis *chassisReference;
 
 public:
+  Autons(Chassis *chassis);
+
   void printMessage(std::string message);
   void prepareAuton(AutonName name, vex::color allianceColor);
   void runAuton();

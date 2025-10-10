@@ -1,3 +1,8 @@
+#ifndef ROBOT_CONFIG_H
+#define ROBOT_CONFIG_H
+
+#include "subsystems/pneumatic.h"
+
 using namespace vex;
 
 extern brain Brain;
@@ -12,6 +17,9 @@ extern motor MiddleLeft;
 extern motor BackRight;
 extern motor BackLeft;
 
+extern motor TopIntake;
+extern motor BottomIntake;
+
 extern vex::distance frontDistance;
 extern vex::distance rightDistance;
 extern vex::distance leftDistance;
@@ -22,3 +30,5 @@ extern motor_group Right;
 extern bool stopPlease;
 
 void vexcodeInit(void);
+
+#endif
