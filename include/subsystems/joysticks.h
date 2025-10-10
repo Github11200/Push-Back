@@ -7,11 +7,11 @@
 class Joysticks
 {
 private:
-    void control(double power, double turning);
+  void control(double power, double turning);
 
 public:
-    void arcade();
-    void tank();
+  void arcade();
+  void tank();
 };
 
 #endif

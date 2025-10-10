@@ -1,5 +1,10 @@
 #include "autons.h"
 
+Autons::Autons(Chassis *chassis)
+{
+  this->chassisReference = chassis;
+}
+
 void Autons::printMessage(string message)
 {
   Brain.Screen.clearScreen();
@@ -25,6 +30,10 @@ void Autons::prepareAuton(AutonName name, vex::color allianceColor)
   default:
     break;
   }
+
+  chassisReference->calibrateInertial();
+  chassisReference->resetEncoders();
+  Logger::sendMessage("Done resetting and calibrating. Send it.");
 }
 
 void Autons::runAuton()
