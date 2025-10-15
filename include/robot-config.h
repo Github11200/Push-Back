@@ -27,6 +27,13 @@ extern vex::distance leftDistance;
 extern motor_group Left;
 extern motor_group Right;
 
+extern vex::controller::button IntakeButton;
+extern vex::controller::button OuttakeButton;
+extern vex::controller::button WillyNillyButton;
+extern vex::controller::button FingerButton;
+extern vex::controller::button SloperButton;
+extern vex::controller::button BlockerButton;
+
 extern bool stopPlease;
 
 void vexcodeInit(void);

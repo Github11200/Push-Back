@@ -3,20 +3,6 @@
 using namespace std;
 using namespace vex;
 
-Driver::Driver(vex::controller::button intakeButton,
-               vex::controller::button outtakeButton,
-               vex::controller::button willyNillyButton,
-               vex::controller::button fingerButton,
-               vex::controller::button sloperButton,
-               vex::controller::button blockerButton) : intakeButton(intakeButton),
-                                                        outtakeButton(outtakeButton),
-                                                        willyNillyButton(willyNillyButton),
-                                                        fingerButton(fingerButton),
-                                                        sloperButton(sloperButton),
-                                                        blockerButton(blockerButton)
-{
-}
-
 void Driver::startJoysticksThread()
 {
   static Joysticks staticJoysticks = joysticks;
@@ -35,13 +21,15 @@ void Driver::pistonPressing(Pneumatic &piston, vex::controller::button pistonBut
 
 void Driver::buttonsLoopCallback()
 {
-  if (intakeButton.pressing())
+  if (IntakeButton.pressing())
     intake.spinFullIntake(vex::directionType::fwd);
-  if (outtakeButton.pressing())
+  if (OuttakeButton.pressing())
     intake.spinFullIntake(vex::directionType::rev);
+  if (!IntakeButton.pressing() && !OuttakeButton.pressing())
+    intake.stopFullIntake();
 
-  pistonPressing(willyNilly, willyNillyButton);
-  pistonPressing(finger, fingerButton);
-  pistonPressing(sloper, sloperButton);
-  pistonPressing(blocker, blockerButton);
+  // pistonPressing(willyNilly, WillyNillyButton);
+  // pistonPressing(finger, FingerButton);
+  // pistonPressing(sloper, SloperButton);
+  // pistonPressing(blocker, BlockerButton);
 }

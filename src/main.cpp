@@ -27,63 +27,46 @@ using namespace vex;
 competition Competition;
 
 // define your global instances of motors and other devices here
-Driver driver(
-    // Intake button
-    Controller.ButtonR1,
+Driver driver;
 
-    // Outtake button
-    Controller.ButtonR2,
+// Chassis *chassis = new Chassis(
+//     // Inertial port
+//     PORT19,
 
-    // Willy nilly button
-    Controller.ButtonA,
+//     // Forward tracker port
+//     PORT14,
 
-    // Finger button
-    Controller.ButtonB,
+//     // Sideways tracker port
+//     PORT13,
 
-    // Sloper button
-    Controller.ButtonX,
+//     // Left motor group
+//     Left,
 
-    // Blocker button
-    Controller.ButtonY);
+//     // Right motor group
+//     Right,
 
-Chassis *chassis = new Chassis(
-    // Inertial port
-    PORT19,
+//     // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
+//     ((M_PI * 1.98298) / 360.0),
 
-    // Forward tracker port
-    PORT14,
+//     // Forward tracker distance
+//     -0.640625,
 
-    // Sideways tracker port
-    PORT13,
+//     // Sideways tracker distance
+//     1.625,
 
-    // Left motor group
-    Left,
+//     // Front distance sensor distance
+//     1,
 
-    // Right motor group
-    Right,
+//     // Left distance sensor distance
+//     2,
 
-    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
-    ((M_PI * 1.98298) / 360.0),
+//     // Right distance sensor distance
+//     3,
 
-    // Forward tracker distance
-    -0.640625,
+//     // Enable logs (false by default)
+//     true);
 
-    // Sideways tracker distance
-    1.625,
-
-    // Front distance sensor distance
-    1,
-
-    // Left distance sensor distance
-    2,
-
-    // Right distance sensor distance
-    3,
-
-    // Enable logs (false by default)
-    true);
-
-Autons autons(chassis);
+// Autons autons(chassis);
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -99,8 +82,9 @@ void pre_auton(void)
 {
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
-  Testing::runAllTests();
-  autons.prepareAuton(AutonName::TESTING, vex::color::red);
+
+  // Testing::runAllTests();
+  // autons.prepareAuton(AutonName::TESTING, vex::color::red);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -118,7 +102,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton();
+  // autons.runAuton();
 }
 
 /*---------------------------------------------------------------------------*/

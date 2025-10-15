@@ -11,14 +11,20 @@ public:
   inline void spinBottomStage(vex::directionType direction) { BottomIntake.spin(direction, 12, vex::voltageUnits::volt); };
   inline void spinTopStage(vex::directionType direction)
   {
-    if (direction == vex::directionType::fwd && TopIntake.velocity(pct) > 10)
-      TopIntake.spin(direction, 12, vex::voltageUnits::volt);
+    // TODO: Add in the safety code so it doesn't keep trying to spin
+    TopIntake.spin(direction, 12, vex::voltageUnits::volt);
   };
 
   inline void spinFullIntake(vex::directionType direction)
   {
-    spinBottomStage(direction);
     spinTopStage(direction);
+    spinBottomStage(direction);
+  };
+
+  inline void stopFullIntake()
+  {
+    TopIntake.stop(vex::brakeType::coast);
+    BottomIntake.stop(vex::brakeType::coast);
   };
 
   inline void stopBlocks() { sloper.off(); };
