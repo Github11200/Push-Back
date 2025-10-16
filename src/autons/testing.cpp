@@ -1,5 +1,5 @@
 #include "autons.h"
 
-void testing()
+void Autons::testing()
 {
 }

@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <complex>
+#include <iostream>
 
 using namespace vex;
 using namespace std;
@@ -17,7 +18,6 @@ using namespace std;
 class Chassis
 {
 private:
-  inertial Inertial;
   rotation forwardTracker;
   rotation sidewaysTracker;
 
@@ -29,19 +29,22 @@ public:
   Odometry *odometry;
   Pursuit *pursuit;
   motor_group Left, Right;
+  inertial Inertial;
 
-  Chassis(int inertialPort,
-          int forwardTrackerPort,
-          int sidewaysTrackerPort,
-          motor_group leftMotorGroup,
-          motor_group rightMotorGroup,
-          double inchesToDegreesRatio,
-          double forwardTrackerDistance,
-          double sidewaysTrackerDistance,
-          double frontDistanceSensorDistance,
-          double leftDistanceSensorDistance,
-          double rightDistanceSensorDistance,
-          bool enableLogs = false);
+  Chassis(
+      int inertialPort,
+      TrackerSetup trackerSetup,
+      int forwardTrackerPort,
+      int sidewaysTrackerPort,
+      motor_group leftMotorGroup,
+      motor_group rightMotorGroup,
+      double inchesToDegreesRatio,
+      double forwardTrackerDistance,
+      double sidewaysTrackerDistance,
+      double frontDistanceSensorDistance,
+      double leftDistanceSensorDistance,
+      double rightDistanceSensorDistance,
+      bool enableLogs = false);
   ~Chassis();
 
   void driveDistance(double distance, DriveParams driveParams, TurnParams turnParams, Settings settings);

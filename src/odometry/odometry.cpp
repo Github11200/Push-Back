@@ -9,12 +9,14 @@ Odometry::Odometry(Chassis *chassis,
                    double sidewaysTrackerDistance,
                    double frontDistanceSensorDistance,
                    double rightDistanceSensorDistance,
-                   double leftDistanceSensorDistance)
+                   double leftDistanceSensorDistance,
+                   TrackerSetup trackerSetup)
 {
   this->chassis = chassis;
   this->trackerSetup = TWO_TRACKER;
   this->forwardTrackerCenterDistance = forwardTrackerCenterDistance;
   this->sidewaysTrackerCenterDistance = sidewaysTrackerDistance;
+  this->trackerSetup = trackerSetup;
 
   this->distanceSensors.push_back(pair<vex::distance, double>(frontDistance, frontDistanceSensorDistance));
   this->distanceSensors.push_back(pair<vex::distance, double>(rightDistance, rightDistanceSensorDistance));
@@ -31,7 +33,7 @@ TrackerPositions Odometry::getTrackersPositions()
   switch (this->trackerSetup)
   {
   case ZERO_TRACKER:
-    return TrackerPositions(chassis->getMotorsPosition().right, 0);
+    return TrackerPositions((chassis->getMotorsPosition().right + chassis->getMotorsPosition().left) / 2, 0);
   case FORWARD_TRACKER:
     return TrackerPositions(chassis->getForwardTrackerPosition(), 0);
   case SIDEWAYS_TRACKER:

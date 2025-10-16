@@ -29,15 +29,18 @@ competition Competition;
 // define your global instances of motors and other devices here
 Driver driver;
 
-Chassis chassis(
+Chassis *chassis = new Chassis(
     // Inertial port
-    PORT19,
+    PORT7,
+
+    // Odometry tracker setup
+    TrackerSetup::ZERO_TRACKER,
 
     // Forward tracker port
-    PORT14,
+    PORT21,
 
     // Sideways tracker port
-    PORT13,
+    PORT22,
 
     // Left motor group
     Left,
@@ -66,7 +69,7 @@ Chassis chassis(
     // Enable logs (false by default)
     true);
 
-Autons autons(&chassis);
+Autons autons(chassis);
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -84,7 +87,7 @@ void pre_auton(void)
   // Example: clearing encoders, setting servo positions, ...
 
   Testing::runAllTests();
-  autons.prepareAuton(AutonName::TESTING, vex::color::red);
+  autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -102,7 +105,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton();
+  autons.runAuton(AutonName::TESTING, vex::color::red);
 }
 
 /*---------------------------------------------------------------------------*/

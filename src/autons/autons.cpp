@@ -18,25 +18,24 @@ void Autons::printMessage(string message)
   Controller.Screen.print("%s\n", message.c_str());
 }
 
-void Autons::prepareAuton(AutonName name, vex::color allianceColor)
+void Autons::prepareAuton()
 {
-  this->allianceColor = allianceColor;
-  switch (name)
-  {
-  case AutonName::TESTING:
-    printMessage("Running the TESTING auton.");
-    autonToRun = testing;
-    break;
-  default:
-    break;
-  }
-
   chassisReference->calibrateInertial();
   chassisReference->resetEncoders();
   Logger::sendMessage("Done resetting and calibrating. Send it.");
 }
 
-void Autons::runAuton()
+void Autons::runAuton(AutonName name, vex::color allianceColor)
 {
-  this->autonToRun();
+  chassisReference->odometry->startPositionTrackThread(true);
+  this->allianceColor = allianceColor;
+  switch (name)
+  {
+  case AutonName::TESTING:
+    Logger::sendMessage("Running the TESTING auton.");
+    testing();
+    break;
+  default:
+    break;
+  }
 }

@@ -10,23 +10,22 @@ enum AutonName
   TESTING = 0
 };
 
-void testing();
-void left();
-void right();
-
 class Autons
 {
 private:
   vex::color allianceColor;
-  std::function<void(void)> autonToRun;
   Chassis *chassisReference;
 
 public:
   Autons(Chassis *chassis);
 
+  void testing();
+  void left();
+  void right();
+
   void printMessage(std::string message);
-  void prepareAuton(AutonName name, vex::color allianceColor);
-  void runAuton();
+  void prepareAuton();
+  void runAuton(AutonName name, vex::color allianceColor);
 };
 
 #endif

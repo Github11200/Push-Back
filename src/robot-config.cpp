@@ -10,8 +10,8 @@ controller Controller;
 
 motor FrontRight = motor(PORT18, ratio6_1, false); // Done
 motor FrontLeft = motor(PORT13, ratio6_1, true);   // Done
-motor MiddleRight = motor(PORT20, ratio6_1, true); // Done
-motor MiddleLeft = motor(PORT11, ratio6_1, false); // Done
+motor MiddleRight = motor(PORT17, ratio6_1, true); // Done
+motor MiddleLeft = motor(PORT15, ratio6_1, false); // Done
 motor BackRight = motor(PORT19, ratio6_1, false);  // Done
 motor BackLeft = motor(PORT12, ratio6_1, true);    // Done
 
@@ -25,8 +25,8 @@ vex::distance leftDistance = vex::distance(PORT2);   // Done
 motor_group Left = motor_group(FrontLeft, MiddleLeft, BackLeft);
 motor_group Right = motor_group(FrontRight, MiddleRight, BackRight);
 
-vex::controller::button IntakeButton = Controller.ButtonR1;
-vex::controller::button OuttakeButton = Controller.ButtonR2;
+vex::controller::button IntakeButton = Controller.ButtonL1;
+vex::controller::button OuttakeButton = Controller.ButtonR1;
 vex::controller::button WillyNillyButton = Controller.ButtonA;
 vex::controller::button FingerButton = Controller.ButtonB;
 vex::controller::button SloperButton = Controller.ButtonX;

@@ -5,6 +5,7 @@ using namespace std;
 
 // TODO: Update the ports for all the sensors
 Chassis::Chassis(int inertialPort,
+                 TrackerSetup trackerSetup,
                  int forwardTrackerPort,
                  int sidewaysTrackerPort,
                  motor_group leftMotorGroup,
@@ -15,21 +16,20 @@ Chassis::Chassis(int inertialPort,
                  double frontDistanceSensorDistance,
                  double rightDistanceSensorDistance,
                  double leftDistanceSensorDistance,
-                 bool enableLogs) : Inertial(inertialPort),
+                 bool enableLogs) : Inertial(inertial(inertialPort)),
                                     forwardTracker(forwardTrackerPort),
                                     sidewaysTracker(sidewaysTrackerPort),
                                     Left(leftMotorGroup),
                                     Right(rightMotorGroup),
                                     inchesToDegreesRatio(inchesToDegreesRatio)
 {
-  calibrateInertial();
-  resetEncoders();
   odometry = new Odometry(this,
                           forwardTrackerDistance,
                           sidewaysTrackerDistance,
                           frontDistanceSensorDistance,
                           rightDistanceSensorDistance,
-                          leftDistanceSensorDistance);
+                          leftDistanceSensorDistance,
+                          trackerSetup);
 }
 
 Chassis::~Chassis()
@@ -58,7 +58,7 @@ void Chassis::calibrateInertial()
   Inertial.calibrate();
   while (Inertial.isCalibrating())
     wait(50, msec);
-  // Controller.rumble("..");
+  Controller.rumble("..");
   cout << "Inertial calibrated" << endl;
 }
 

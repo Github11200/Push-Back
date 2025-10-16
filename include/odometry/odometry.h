@@ -79,7 +79,8 @@ public:
            double sidewaysTrackerCenterDistance,
            double frontDistanceSensorDistance,
            double rightDistanceSensorDistance,
-           double leftDistanceSensorDistance);
+           double leftDistanceSensorDistance,
+           TrackerSetup trackerSetup);
   ~Odometry();
 
   TrackerPositions getTrackersPositions();
