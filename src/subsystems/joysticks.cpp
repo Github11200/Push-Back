@@ -1,9 +1,18 @@
 #include "../../include/subsystems/joysticks.h"
 
+void curve(double input, double curveValue)
+{
+  return (std::exp(-(curveValue / 10)) + std::exp((std::fabs(input) - 127) / 10) * (1 - std::exp(-(curveValue / 10)))) * input;
+}
+
 void Joysticks::control(double power, double turning)
 {
-  power = deadband<double>(power, 1.0) / 1.27;
-  turning = deadband<double>(turning, 1.0) / 1.27;
+  // New drive curve :)
+  power = curve(deadband<double>(power, 1.0), 12);
+  turning = curve(deadband<double>(turning, 1.0), 12);
+
+    // power = deadband<double>(power, 1.0) / 1.27;
+  // turning = deadband<double>(turning, 1.0) / 1.27;
 
   power = pow(power, 3) / pow(10, 4);
   turning = pow(turning, 3) / pow(10, 4);

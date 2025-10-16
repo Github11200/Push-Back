@@ -8,6 +8,7 @@ class Joysticks
 {
 private:
   void control(double power, double turning);
+  void curve(double input, double curveValue);
 
 public:
   void arcade();
