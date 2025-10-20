@@ -34,6 +34,11 @@ extern vex::controller::button FingerButton;
 extern vex::controller::button SloperButton;
 extern vex::controller::button BlockerButton;
 
+extern digital_out willyNilly;
+// extern Pneumatic finger;
+// extern Pneumatic sloper;
+// extern Pneumatic blocker;
+
 extern bool stopPlease;
 
 void vexcodeInit(void);

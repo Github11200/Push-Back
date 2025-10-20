@@ -31,9 +31,14 @@ public:
   Pneumatic(Port port);
 };
 
-extern Pneumatic willyNilly;
-extern Pneumatic finger;
-extern Pneumatic sloper;
-extern Pneumatic blocker;
+// extern Pneumatic willyNilly;
+// extern Pneumatic finger;
+// extern Pneumatic sloper;
+// extern Pneumatic blocker;
+
+// Pneumatic willyNilly(Port::D);
+// Pneumatic finger(Port::B);
+// Pneumatic sloper(Port::A);
+// Pneumatic blocker(Port::C);
 
 #endif
