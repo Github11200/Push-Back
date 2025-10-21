@@ -121,6 +121,7 @@ void autonomous(void)
 void usercontrol(void)
 {
   driver.startJoysticksThread();
+  driver.startPistonsThread();
 
   // User control code here, inside the loop
   while (1)

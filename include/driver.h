@@ -12,11 +12,13 @@ private:
   Joysticks joysticks;
   Intake intake;
 
-  void pistonPressing(Pneumatic &piston, vex::controller::button pistonButton);
+  void pistonPressing(Pneumatic &piston, vex::controller::button pistonButton, bool turnOffAfter);
 
 public:
   void startJoysticksThread();
+  void startPistonsThread();
   void buttonsLoopCallback();
+  void pistonsLoopCallback();
 };
 
 #endif

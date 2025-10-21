@@ -33,6 +33,8 @@ extern vex::controller::button WillyNillyButton;
 extern vex::controller::button FingerButton;
 extern vex::controller::button SloperButton;
 extern vex::controller::button BlockerButton;
+extern vex::controller::button HighGoalScoreButton;
+extern vex::controller::button MiddleGoalScoreButton;
 
 extern bool stopPlease;
 

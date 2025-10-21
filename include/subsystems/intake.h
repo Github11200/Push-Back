@@ -27,8 +27,8 @@ public:
     BottomIntake.stop(vex::brakeType::coast);
   };
 
-  // inline void stopBlocks() { sloper.off(); };
-  // inline void openBlocks() { sloper.on(); };
+  inline void stopBlocks() { sloper.off(); };
+  inline void openBlocks() { sloper.on(); };
 };
 
 #endif
