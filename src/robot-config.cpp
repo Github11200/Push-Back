@@ -32,12 +32,6 @@ vex::controller::button FingerButton = Controller.ButtonB;
 vex::controller::button SloperButton = Controller.ButtonX;
 vex::controller::button BlockerButton = Controller.ButtonY;
 
-digital_out willyNilly = digital_out(Brain.ThreeWirePort.A);
-// Pneumatic willyNilly(Port::A);
-// Pneumatic finger(Port::B);
-// Pneumatic sloper(Port::A);
-// Pneumatic blocker(Port::C);
-
 bool stopPlease = false;
 
 void vexcodeInit(void)

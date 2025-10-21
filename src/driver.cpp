@@ -12,14 +12,14 @@ void Driver::startJoysticksThread()
           } });
 }
 
-void Driver::pistonPressing(digital_out &piston, vex::controller::button pistonButton)
+void Driver::pistonPressing(Pneumatic &piston, vex::controller::button pistonButton)
 {
   while (pistonButton.pressing())
   {
-    piston.set(true);
+    piston.on();
     wait(200, msec);
   }
-  piston.set(false);
+  piston.off();
 }
 
 void Driver::buttonsLoopCallback()
@@ -31,9 +31,8 @@ void Driver::buttonsLoopCallback()
   if (!IntakeButton.pressing() && !OuttakeButton.pressing())
     intake.stopFullIntake();
 
-  // finger.on();
   pistonPressing(willyNilly, WillyNillyButton);
-  // pistonPressing(finger, FingerButton);
-  // pistonPressing(sloper, SloperButton);
-  // pistonPressing(blocker, BlockerButton);
+  pistonPressing(finger, FingerButton);
+  pistonPressing(sloper, SloperButton);
+  pistonPressing(blocker, BlockerButton);
 }

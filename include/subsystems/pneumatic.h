@@ -18,12 +18,13 @@ enum Port
 class Pneumatic
 {
 private:
-  vex::digital_out *piston;
+  vex::triport::port *pistonPort;
+  vex::digital_out getPiston();
 
 public:
-  inline void toggle() { piston->set(!piston->value()); };
-  inline void on() { piston->set(true); };
-  inline void off() { piston->set(false); };
+  inline void toggle() { getPiston().set(!getPiston().value()); };
+  inline void on() { getPiston().set(true); };
+  inline void off() { getPiston().set(false); };
 
   void killThread(vex::thread *currentDelayThread);
   void delayToggle(int millseconds);
@@ -31,14 +32,9 @@ public:
   Pneumatic(Port port);
 };
 
-// extern Pneumatic willyNilly;
-// extern Pneumatic finger;
-// extern Pneumatic sloper;
-// extern Pneumatic blocker;
-
-// Pneumatic willyNilly(Port::D);
-// Pneumatic finger(Port::B);
-// Pneumatic sloper(Port::A);
-// Pneumatic blocker(Port::C);
+extern Pneumatic willyNilly;
+extern Pneumatic finger;
+extern Pneumatic sloper;
+extern Pneumatic blocker;
 
 #endif

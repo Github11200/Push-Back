@@ -30,8 +30,12 @@ vex::triport::port enumToTriport(Port port)
 
 Pneumatic::Pneumatic(Port port)
 {
-  vex::triport::port triportValue = enumToTriport(port);
-  this->piston = new digital_out(triportValue);
+  this->pistonPort = new vex::triport::port(enumToTriport(port));
+}
+
+digital_out Pneumatic::getPiston()
+{
+  return digital_out(*(this->pistonPort));
 }
 
 void Pneumatic::killThread(vex::thread *currentDelayThread)
@@ -53,7 +57,7 @@ void Pneumatic::delayToggle(int milleseconds)
   killThread(delayThread);
 }
 
-// Pneumatic willyNilly(Port::D);
-// Pneumatic finger(Port::B);
-// Pneumatic sloper(Port::A);
-// Pneumatic blocker(Port::C);
+Pneumatic willyNilly(Port::D);
+Pneumatic finger(Port::B);
+Pneumatic sloper(Port::A);
+Pneumatic blocker(Port::C);
