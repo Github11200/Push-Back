@@ -36,7 +36,7 @@ void Driver::pistonToggle(Pneumatic &piston, vex::controller::button pistonButto
   if (pistonButton.pressing())
   {
     piston.toggle();
-    wait(100, msec);
+    wait(200, msec);
   }
 }
 
@@ -50,9 +50,9 @@ void Driver::buttonsLoopCallback()
   if (HighGoalScoreButton.pressing())
   {
     blocker.on();
-    wait(50, msec);
+    wait(100, msec);
     sloper.on();
-    wait(50, msec);
+    wait(100, msec);
     intake.spinFullIntake(vex::directionType::fwd);
   }
   else

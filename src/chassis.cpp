@@ -8,8 +8,6 @@ Chassis::Chassis(int inertialPort,
                  TrackerSetup trackerSetup,
                  int forwardTrackerPort,
                  int sidewaysTrackerPort,
-                 motor_group leftMotorGroup,
-                 motor_group rightMotorGroup,
                  double inchesToDegreesRatio,
                  double forwardTrackerDistance,
                  double sidewaysTrackerDistance,
@@ -19,8 +17,6 @@ Chassis::Chassis(int inertialPort,
                  bool enableLogs) : Inertial(inertial(inertialPort)),
                                     forwardTracker(forwardTrackerPort),
                                     sidewaysTracker(sidewaysTrackerPort),
-                                    Left(leftMotorGroup),
-                                    Right(rightMotorGroup),
                                     inchesToDegreesRatio(inchesToDegreesRatio)
 {
   odometry = new Odometry(this,
@@ -50,7 +46,7 @@ Angle<double> Chassis::getAbsoluteHeading()
 
 Pair Chassis::getMotorsPosition()
 {
-  return Pair(Left.position(deg) * inchesToDegreesRatio, Right.position(deg) * inchesToDegreesRatio);
+  return Pair(Left.position(vex::rotationUnits::deg) * inchesToDegreesRatio, Right.position(vex::rotationUnits::deg) * inchesToDegreesRatio);
 }
 
 void Chassis::calibrateInertial()

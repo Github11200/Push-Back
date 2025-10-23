@@ -36,8 +36,8 @@ enum Coordinate
 enum DistanceSensor
 {
   FORWARD = 0,
-  STARBOARD = 1,
-  AFT = 2
+  STARBOARD = 1, // Right
+  AFT = 2        // Left
 };
 
 enum Wall
@@ -69,9 +69,10 @@ private:
   double forwardTrackerCenterDistance;
   double sidewaysTrackerCenterDistance;
 
-  vector<std::pair<vex::distance, double>> distanceSensors;
+  vector<double> distanceSensorDistances;
 
   Wall getWallFacing(double distanceSensorReading);
+  vex::distance getDistanceSensor(DistanceSensor distanceSensor);
 
 public:
   Odometry(Chassis *chassis,

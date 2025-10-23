@@ -29,7 +29,7 @@ competition Competition;
 // define your global instances of motors and other devices here
 Driver driver;
 
-Chassis *chassis = new Chassis(
+Chassis chassis(
     // Inertial port
     PORT7,
 
@@ -42,14 +42,9 @@ Chassis *chassis = new Chassis(
     // Sideways tracker port
     PORT22,
 
-    // Left motor group
-    Left,
-
-    // Right motor group
-    Right,
-
     // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
-    ((M_PI * 1.98298) / 360.0),
+    // (((drive_ratio) * PI * wheel_diameter) / 360)
+    (((48 / 84) * M_PI * 4.125) / 360.0),
 
     // Forward tracker distance
     -0.640625,
@@ -69,7 +64,7 @@ Chassis *chassis = new Chassis(
     // Enable logs (false by default)
     true);
 
-Autons autons(chassis);
+Autons autons(&chassis);
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -86,8 +81,9 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 
-  Testing::runAllTests();
-  autons.prepareAuton();
+  // Testing::runAllTests();
+  // autons.prepareAuton();
+  // chassis.odometry->startPositionTrackThread(false);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -122,6 +118,15 @@ void usercontrol(void)
 {
   driver.startJoysticksThread();
   driver.startPistonsThread();
+
+  // wait(4, sec);
+  // cout << "done waiting" << endl;
+
+  // chassis.odometry->setPosition(0, 0, 180);
+  // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
+  // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
+  // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR);
+  // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
 
   // User control code here, inside the loop
   while (1)

@@ -18,14 +18,33 @@ Odometry::Odometry(Chassis *chassis,
   this->sidewaysTrackerCenterDistance = sidewaysTrackerDistance;
   this->trackerSetup = trackerSetup;
 
-  this->distanceSensors.push_back(pair<vex::distance, double>(frontDistance, frontDistanceSensorDistance));
-  this->distanceSensors.push_back(pair<vex::distance, double>(rightDistance, rightDistanceSensorDistance));
-  this->distanceSensors.push_back(pair<vex::distance, double>(leftDistance, leftDistanceSensorDistance));
+  // this->distanceSensors.push_back(frontDistance);
+  // this->distanceSensors.push_back(rightDistance);
+  // this->distanceSensors.push_back(leftDistance);
+
+  this->distanceSensorDistances.push_back(frontDistanceSensorDistance);
+  this->distanceSensorDistances.push_back(rightDistanceSensorDistance);
+  this->distanceSensorDistances.push_back(leftDistanceSensorDistance);
 }
 
 Odometry::~Odometry()
 {
   delete chassis;
+}
+
+vex::distance Odometry::getDistanceSensor(DistanceSensor distanceSensor)
+{
+  switch (distanceSensor)
+  {
+  case DistanceSensor::FORWARD:
+    return frontDistance;
+  case DistanceSensor::AFT:
+    return leftDistance;
+  case DistanceSensor::STARBOARD:
+    return rightDistance;
+  default:
+    break;
+  }
 }
 
 TrackerPositions Odometry::getTrackersPositions()
@@ -59,7 +78,7 @@ void Odometry::startPositionTrackThread(bool sendLogs)
                                    {
                                       while (odometryPointer->isTracking) {
                                         odometryPointer->updatePosition(staticSendLogs);
-                                        wait(5, msec);
+                                        wait(10, msec);
                                       } });
 }
 
@@ -154,14 +173,14 @@ void Odometry::setPosition(double xPosition, double yPosition, double theta)
 void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
 {
   double angle = this->currentPose.orientation.constrainNegative90To90().toRad().angle;
-  vex::distance sensor = distanceSensors[distanceSensor].first;
-  double distanceToTrackingCenter = distanceSensors[distanceSensor].second;
+  vex::distance sensor = getDistanceSensor(distanceSensor);
+  double distanceToTrackingCenter = distanceSensorDistances[distanceSensor];
 
-  if (!sensor.isObjectDetected())
-  {
-    Logger::sendMessage("Could not detect wall. Not resetting.");
-    return;
-  }
+  // if (!sensor.isObjectDetected())
+  // {
+  //   Logger::sendMessage("Could not detect wall. Not resetting.");
+  //   return;
+  // }
 
   double distanceSensorReading = sensor.objectDistance(vex::distanceUnits::in) + distanceToTrackingCenter;
   int sign = (wall == Wall::FRONT || wall == Wall::RIGHT) ? 1 : -1;

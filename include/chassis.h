@@ -28,7 +28,6 @@ private:
 public:
   Odometry *odometry;
   Pursuit *pursuit;
-  motor_group Left, Right;
   inertial Inertial;
 
   Chassis(
@@ -36,8 +35,6 @@ public:
       TrackerSetup trackerSetup,
       int forwardTrackerPort,
       int sidewaysTrackerPort,
-      motor_group leftMotorGroup,
-      motor_group rightMotorGroup,
       double inchesToDegreesRatio,
       double forwardTrackerDistance,
       double sidewaysTrackerDistance,
