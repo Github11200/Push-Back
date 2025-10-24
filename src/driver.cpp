@@ -49,7 +49,6 @@ void Driver::buttonsLoopCallback()
 
   if (HighGoalScoreButton.pressing())
   {
-    // blocker.on();
     wait(100, msec);
     sloper.on();
     wait(100, msec);
