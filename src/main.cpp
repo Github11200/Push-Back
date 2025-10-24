@@ -82,7 +82,7 @@ void pre_auton(void)
   // Example: clearing encoders, setting servo positions, ...
 
   // Testing::runAllTests();
-  // autons.prepareAuton();
+  autons.prepareAuton();
   // chassis.odometry->startPositionTrackThread(false);
 }
 
@@ -122,11 +122,13 @@ void usercontrol(void)
   // wait(4, sec);
   // cout << "done waiting" << endl;
 
-  // chassis.odometry->setPosition(0, 0, 180);
+  chassis.odometry->setPosition(0, 0, 180);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
   // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR);
   // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
+  // chassis.driveToPoint(Pose<double>(0, 20, 0), {}, {}, {});
+  // chassis.turnTo(Pose(20, 0), {}, {});
 
   // User control code here, inside the loop
   while (1)
@@ -134,7 +136,6 @@ void usercontrol(void)
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
-
     // ........................................................................
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.

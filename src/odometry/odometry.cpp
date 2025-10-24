@@ -18,10 +18,6 @@ Odometry::Odometry(Chassis *chassis,
   this->sidewaysTrackerCenterDistance = sidewaysTrackerDistance;
   this->trackerSetup = trackerSetup;
 
-  // this->distanceSensors.push_back(frontDistance);
-  // this->distanceSensors.push_back(rightDistance);
-  // this->distanceSensors.push_back(leftDistance);
-
   this->distanceSensorDistances.push_back(frontDistanceSensorDistance);
   this->distanceSensorDistances.push_back(rightDistanceSensorDistance);
   this->distanceSensorDistances.push_back(leftDistanceSensorDistance);
