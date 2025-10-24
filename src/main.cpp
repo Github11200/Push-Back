@@ -127,8 +127,9 @@ void usercontrol(void)
   // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR);
   // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
-  // chassis.driveToPoint(Pose<double>(0, 20, 0), {}, {}, {});
-  // chassis.turnTo(Pose(20, 0), {}, {});
+
+  chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
+  chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
 
   // User control code here, inside the loop
   while (1)
