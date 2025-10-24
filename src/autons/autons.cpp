@@ -35,6 +35,18 @@ void Autons::runAuton(AutonName name, vex::color allianceColor)
     Logger::sendMessage("Running the TESTING auton.");
     testing();
     break;
+  case AutonName::HIGH:
+    Logger::sendMessage("Running the HIGH goal auton.");
+    high();
+    break;
+  case AutonName::LOW:
+    Logger::sendMessage("Running the LOW goal auton.");
+    low();
+    break;
+  case AutonName::SOLO:
+    Logger::sendMessage("Running the SOLO awp auton.");
+    solo();
+    break;
   default:
     break;
   }

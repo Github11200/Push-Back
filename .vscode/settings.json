@@ -47,5 +47,5 @@
 	"C_Cpp.errorSquiggles": "disabled",
 	"editor.fontLigatures": true,
 	"editor.fontFamily": "JetBrains Mono",
-	"editor.formatOnSave": true
+	"editor.formatOnSave": false
 }

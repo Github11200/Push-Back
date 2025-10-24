@@ -126,7 +126,7 @@ void usercontrol(void)
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
   // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR);
-  // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
+  chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
   // chassis.driveToPoint(Pose<double>(0, 20, 0), {}, {}, {});
   // chassis.turnTo(Pose(20, 0), {}, {});
 

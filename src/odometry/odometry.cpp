@@ -182,7 +182,7 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
   int sign = (wall == Wall::FRONT || wall == Wall::RIGHT) ? 1 : -1;
   double distance = (72 - (cos(angle) * distanceSensorReading)) * sign;
 
-  if (wall == Wall::FRONT || Wall::REAR)
+  if (wall == Wall::FRONT || wall == Wall::REAR)
     this->currentPose.position.y = distance;
   else if (wall == Wall::RIGHT || wall == Wall::LEFT)
     this->currentPose.position.x = distance;
