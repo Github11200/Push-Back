@@ -48,6 +48,7 @@ TrackerPositions Odometry::getTrackersPositions()
   switch (this->trackerSetup)
   {
   case ZERO_TRACKER:
+    // cout << (chassis->getMotorsPosition().right + chassis->getMotorsPosition().left) / 2 << endl;
     return TrackerPositions((chassis->getMotorsPosition().right + chassis->getMotorsPosition().left) / 2, 0);
   case FORWARD_TRACKER:
     return TrackerPositions(chassis->getForwardTrackerPosition(), 0);

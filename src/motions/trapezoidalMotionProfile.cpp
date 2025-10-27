@@ -97,5 +97,6 @@ void Chassis::trapezoidalMotionProfile(double distance, MotionProfile motionProf
   }
 
   Left.stop(brake);
+  cout << "braking" << endl;
   Right.stop(brake);
 }

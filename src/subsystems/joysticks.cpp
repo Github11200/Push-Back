@@ -17,8 +17,10 @@ void Joysticks::control(double power, double turning)
   Pair outputs = getMotorVelocities(power, turning);
 
   if (outputs.left == 0)
+    cout << "joystick braking" << endl;
     Left.stop(brake);
   if (outputs.right == 0)
+    cout << "joystick braking" << endl;
     Right.stop(brake);
 
   Right.spin(vex::directionType::fwd, outputs.right, vex::voltageUnits::volt);

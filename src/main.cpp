@@ -83,7 +83,7 @@ void pre_auton(void)
 
   // Testing::runAllTests();
   autons.prepareAuton();
-  // chassis.odometry->startPositionTrackThread(false);
+  chassis.odometry->startPositionTrackThread(false);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -116,20 +116,23 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
+  // driver.startJoysticksThread();
+  // driver.startPistonsThread();
 
-  // wait(4, sec);
-  // cout << "done waiting" << endl;
+  wait(4, sec);
+  cout << "done waiting" << endl;
 
-  chassis.odometry->setPosition(0, 0, 180);
+  chassis.odometry->setPosition(0, 0, 0);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
   // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR);
   // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
 
-  chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
-  chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
+  cout << "start moving" << endl;
+  chassis.driveToPoint(Pose<double>(0, 40, 0), {}, {}, {});
+  cout << "done moving" << endl;
+  // chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
+  // chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
 
   // User control code here, inside the loop
   while (1)
@@ -141,7 +144,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

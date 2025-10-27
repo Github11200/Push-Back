@@ -33,9 +33,9 @@ struct DriveParams
   double driveSettleError = 1; // make it like 0.01 for pid tuning
   double driveSettleTime = 200;
   double driveTimeout = 100000; // insanely high value for pid tuning
-  double driveKp = 0.3; // tune first
+  double driveKp = 500; // tune first
   double driveKi = 0; // tune third
-  double driveKd = 0.5; // tune second
+  double driveKd = 0; // tune second
   double driveStopIntegratingLimit = 1;
   double driveSlew = 12; // by default the drive slew will be disabled
 

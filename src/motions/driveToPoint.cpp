@@ -29,12 +29,14 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     currentPose = odometry->getPose();
 
     double distanceToTarget = currentPose.position.distanceTo(target.position);
+    // cout << distanceToTarget << endl;
     // TODO: Make the 7.0 dynamic or a parameter
     if (!isClose && distanceToTarget <= 7.0)
     {
+      cout << "close" << endl;
       isClose = true;
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.7, 1);
+      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.7, 1);  
     }
 
     double driveError = distanceToTarget;
@@ -88,10 +90,14 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     {
       double output = 0;
 
-      output = drivePID.compute(driveError) * headingScaleFactor;
-
+      output = drivePID.compute(driveError) * headingScaleFactor;     
       // CLamp it between min and max values
-      output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
+      if (headingScaleFactor < 0){
+        output = clamp(output, -driveParams.driveMaxVoltage * -headingScaleFactor, driveParams.driveMaxVoltage * -headingScaleFactor);
+      }
+      else {
+        output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
+      }
       output = clampMin(output, driveParams.driveMinVoltage);
 
       if (isClose)

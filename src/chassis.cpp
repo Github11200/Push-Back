@@ -46,6 +46,8 @@ Angle<double> Chassis::getAbsoluteHeading()
 
 Pair Chassis::getMotorsPosition()
 {
+  // cout << Left.position(vex::rotationUnits::deg) << endl;
+  inchesToDegreesRatio = 0.0205699519;
   return Pair(Left.position(vex::rotationUnits::deg) * inchesToDegreesRatio, Right.position(vex::rotationUnits::deg) * inchesToDegreesRatio);
 }
 
