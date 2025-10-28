@@ -67,7 +67,7 @@ void Odometry::startPositionTrackThread(bool sendLogs)
   static bool staticSendLogs = sendLogs;
 
   isTracking = true;
-  previousHeading = Angle<double>(0);
+  previousHeading = Angle<double>(chassis->getAbsoluteHeading().toRad());
   previousTrackerPositions = TrackerPositions(0, 0);
   Brain.Screen.setPenWidth(10);
 
@@ -165,6 +165,7 @@ void Odometry::setPosition(double xPosition, double yPosition, double theta)
   currentPose.position.x = xPosition;
   currentPose.position.y = yPosition;
   currentPose.orientation.angle = theta;
+  chassis->Inertial.setHeading(180, deg);
 }
 
 void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)

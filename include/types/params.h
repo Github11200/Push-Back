@@ -17,9 +17,9 @@ struct TurnParams
   double turnSettleError = 1;
   double turnSettleTime = 200;
   double turnTimeout = 100000;
-  double turnKp = 0.3;
-  double turnKi = 0;
-  double turnKd = 0.5;
+  double turnKp = 0.31;
+  double turnKi = 0.2;
+  double turnKd = 2.1;
   double turnStopIntegratingLimit = 1;
   double turnSlew = 12; // by default the turn slew will be disabled
 

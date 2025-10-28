@@ -4,6 +4,7 @@
 #include "types/pose.h"
 #include "vex.h"
 #include "utils/logger.h"
+#include <string>
 
 using namespace vex;
 using namespace std;

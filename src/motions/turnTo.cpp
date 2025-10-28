@@ -15,7 +15,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
 
   Pose<double> currentPose;
 
-  while (!turnPID.isSettled() && !stopPlease)
+  while (!turnPID.isSettled())
   {
     currentPose = odometry->getPose();
     currentPose.position.x = 0;
@@ -39,7 +39,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
       double output = 0;
       output = turnPID.compute(turnError.angle);
 
-      output = clamp(output, -params.turnMaxVoltage, params.turnMaxVoltage);
+      output = clamp(output, -params.turnMaxVoltage, params.turnMaxVoltage); 
       output = clampMin(output, params.turnMinVoltage);
 
       previousTurnOutput = output;
@@ -51,8 +51,6 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
 
     wait(settings.updateTime, msec);
   }
-
-  cout << "done turn" << endl;
 
   Left.stop(brake);
   Right.stop(brake);
