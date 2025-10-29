@@ -82,8 +82,8 @@ void pre_auton(void)
   // Example: clearing encoders, setting servo positions, ...
 
   // Testing::runAllTests();
-  autons.prepareAuton();
-  chassis.odometry->startPositionTrackThread(true);
+  // autons.prepareAuton();
+  // chassis.odometry->startPositionTrackThread(true);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -101,7 +101,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::TESTING, vex::color::red);
+  // autons.runAuton(AutonName::TESTING, vex::color::red);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -116,11 +116,11 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // driver.startJoysticksThread();
-  // driver.startPistonsThread();
+  driver.startJoysticksThread();
+  driver.startPistonsThread();
 
-  wait(4, sec); 
-  cout << "done waiting" << endl;
+  // wait(4, sec); 
+  // cout << "done waiting" << endl;
 
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
@@ -128,9 +128,9 @@ void usercontrol(void)
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR); 
   // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
        
-  cout << "start moving" << endl;   
-  chassis.turnTo(Pose<double>(0, 0, 90), {}, {}); 
-  cout << "Inertial: " << chassis.odometry->getPose().orientation.angle << endl; 
+  // cout << "start moving" << endl;   
+  // chassis.turnTo(Pose<double>(0, 0, 90), {}, {}); 
+  // cout << "Inertial: " << chassis.odometry->getPose().orientation.angle << endl; 
   // chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
   
@@ -141,10 +141,10 @@ void usercontrol(void)
     // Each time through the loop your program should update motor + servo 
     // values based on feedback from the joysticks.
     // ........................................................................ 
-    // Insert user code here. This is where you use the joystick values to
+    // Insert user code here. This is where you use the joystick values to 
     // update your motors, etc. 
     // ........................................................................ 
-    // driver.buttonsLoopCallback(); 
+    driver.buttonsLoopCallback(); 
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
