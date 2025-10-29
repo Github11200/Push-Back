@@ -37,7 +37,9 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
     turnOutput = [&]() -> double
     {
       double output = 0;
+      cout << "Error: " << turnError.angle << endl;
       output = turnPID.compute(turnError.angle);
+      cout << "Output: " << output;
 
       output = clamp(output, -params.turnMaxVoltage, params.turnMaxVoltage); 
       output = clampMin(output, params.turnMinVoltage);

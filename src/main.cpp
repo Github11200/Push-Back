@@ -47,7 +47,7 @@ Chassis chassis(
     (((48 / 84) * M_PI * 4.125) / 360.0),
 
     // Forward tracker distance
-    -0.640625,
+    5.8,
 
     // Sideways tracker distance
     1.625,
@@ -82,8 +82,8 @@ void pre_auton(void)
   // Example: clearing encoders, setting servo positions, ...
 
   // Testing::runAllTests();
-  // autons.prepareAuton();
-  // chassis.odometry->startPositionTrackThread(true);
+  autons.prepareAuton();
+  chassis.odometry->startPositionTrackThread(true);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -116,21 +116,27 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
+  // driver.startJoysticksThread();
+  // driver.startPistonsThread();
 
-  // wait(4, sec); 
-  // cout << "done waiting" << endl;
+  wait(4, sec);  
+  cout << "done waiting" << endl; 
 
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
-  // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
+  // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;  
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR); 
-  // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
-       
-  // cout << "start moving" << endl;   
-  // chassis.turnTo(Pose<double>(0, 0, 90), {}, {}); 
-  // cout << "Inertial: " << chassis.odometry->getPose().orientation.angle << endl; 
+  // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT); 
+         
+  cout << "start moving" << endl;
+  chassis.driveToPose(Pose<double>(10, 20, 90), {
+    .driveKp = 0.2 
+  }, { 
+    .turnKp = 0.1,
+    .turnKi = 0
+  }, {}, 0.2, 0, 0.5);
+  // chassis.turnTo(Pose<double>(0, 0, -45), {}, {}); 
+  cout << "Y: " << chassis.odometry->getPose().position.y << endl;    
   // chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
   
@@ -138,13 +144,13 @@ void usercontrol(void)
   while (1)
   {              
     // This is the main execution loop for the user control program. 
-    // Each time through the loop your program should update motor + servo 
+    // Each time through the loop your program should update motor + servo  
     // values based on feedback from the joysticks.
     // ........................................................................ 
     // Insert user code here. This is where you use the joystick values to 
     // update your motors, etc. 
     // ........................................................................ 
-    driver.buttonsLoopCallback(); 
+    // driver.buttonsLoopCallback(); 
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

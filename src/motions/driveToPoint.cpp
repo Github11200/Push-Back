@@ -29,13 +29,13 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     currentPose = odometry->getPose();
 
     double distanceToTarget = currentPose.position.distanceTo(target.position);
-
+ 
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && distanceToTarget <= 7.0)
+    if (!isClose && distanceToTarget <= 7.0) 
     {
-      isClose = true;
+      isClose = true; 
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.7, 1);  
+      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.7, 1);
     }
 
     double driveError = distanceToTarget;
@@ -49,7 +49,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       the lateral rather than the angular movement
     */
     headingScaleFactor = cos(turnError.toRad().angle);
-    turnError = turnError.constrainNegative90To90();
+    // turnError = turnError.constrainNegative90To90();
 
     {
       Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
@@ -79,7 +79,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       output = clampMin(output, turnParams.turnMinVoltage);
 
       if (!isClose)
-        output = slew(previousTurnOutput, turnOutput, turnParams.turnSlew);
+        output = slew(previousTurnOutput, output, turnParams.turnSlew);
 
       previousTurnOutput = output;
       return output;
@@ -89,13 +89,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     {
       double output = 0;
       output = drivePID.compute(driveError) * headingScaleFactor;
-      // CLamp it between min and max values
-      // if (headingScaleFactor < 0){
-      //   output = clamp(output, -driveParams.driveMaxVoltage * -headingScaleFactor, driveParams.driveMaxVoltage * -headingScaleFactor);
-      // }
-      // else {
-      //   output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
-      // }
+      // Clamp it between min and max values
       output = clamp(output, -driveParams.driveMaxVoltage * fabs(headingScaleFactor), driveParams.driveMaxVoltage * fabs(headingScaleFactor));
       output = clampMin(output, driveParams.driveMinVoltage);
 

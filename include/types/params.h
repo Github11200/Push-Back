@@ -30,12 +30,12 @@ struct DriveParams
 {
   double driveMinVoltage = 0; // turn up for motion chaining
   double driveMaxVoltage = 12; // preferably don't change, will make bot slower
-  double driveSettleError = 1; // make it like 0.01 for pid tuning
-  double driveSettleTime = 200;
+  double driveSettleError = 0.8; // make it like 0.01 for pid tuning
+  double driveSettleTime = 100;
   double driveTimeout = 100000; // insanely high value for pid tuning
-  double driveKp = 500; // tune first
+  double driveKp = 0.6; // tune first
   double driveKi = 0; // tune third
-  double driveKd = 0; // tune second
+  double driveKd = 2.5; // tune second
   double driveStopIntegratingLimit = 1;
   double driveSlew = 12; // by default the drive slew will be disabled
 
