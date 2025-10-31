@@ -11,7 +11,10 @@ public:
   inline void spinBottomStage(vex::directionType direction) { BottomIntake.spin(direction, 12, vex::voltageUnits::volt); };
   inline void spinTopStage(vex::directionType direction)
   {
-    // TODO: Add in the safety code so it doesn't keep trying to spin
+    if (TopIntake.getVelocity(vex::velocityUnits::pct) < 10 && TopIntake.power(watt) > 11) {
+      TopIntake.stop(coast);
+      return;
+    }
     TopIntake.spin(direction, 12, vex::voltageUnits::volt);
   };
 
