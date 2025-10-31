@@ -38,7 +38,8 @@ enum DistanceSensor
 {
   FORWARD = 0,
   STARBOARD = 1, // Right
-  AFT = 2        // Left
+  PORT = 2,        // Left
+  STERN = 3
 };
 
 enum Wall
@@ -82,6 +83,7 @@ public:
            double frontDistanceSensorDistance,
            double rightDistanceSensorDistance,
            double leftDistanceSensorDistance,
+           double backDistanceSensorDistance,
            TrackerSetup trackerSetup);
   ~Odometry();
 

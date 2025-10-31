@@ -53,13 +53,16 @@ Chassis chassis(
     1.625,
 
     // Front distance sensor distance
-    1,
+    (8.3175 - 5.4),
 
     // Left distance sensor distance
-    2,
+    (6.8845 - 0.3), // 0.4 from side
 
     // Right distance sensor distance
-    3,
+    (6.8845 - 0.2),
+
+    // Back distance sensor distance
+    (8.3175 - 3.4),
 
     // Enable logs (false by default)
     true);
@@ -82,8 +85,8 @@ void pre_auton(void)
   // Example: clearing encoders, setting servo positions, ...
 
   // Testing::runAllTests();
-  autons.prepareAuton();
-  chassis.odometry->startPositionTrackThread(true);
+  // autons.prepareAuton();
+  // chassis.odometry->startPositionTrackThread(false);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -116,11 +119,11 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // driver.startJoysticksThread();
-  // driver.startPistonsThread();
+  driver.startJoysticksThread();
+  driver.startPistonsThread();
 
-  wait(4, sec);  
-  cout << "done waiting" << endl; 
+  // wait(4, sec);  
+  // cout << "done waiting" << endl; 
 
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
@@ -128,17 +131,19 @@ void usercontrol(void)
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR); 
   // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT); 
          
-  cout << "start moving" << endl;
-  chassis.driveToPose(Pose<double>(10, 20, 90), {
-    .driveKp = 0.2 
-  }, { 
-    .turnKp = 0.1,
-    .turnKi = 0
-  }, {}, 0.2, 0, 0.5);
+  // cout << "start moving" << endl;
+  // chassis.driveToPose(Pose<double>(10, 20, 90), {
+  //   .driveKp = 0.2 
+  // }, { 
+  //   .turnKp = 0.1,
+  //   .turnKi = 0
+  // }, {}, 0.2, 0, 0.5);
   // chassis.turnTo(Pose<double>(0, 0, -45), {}, {}); 
-  cout << "Y: " << chassis.odometry->getPose().position.y << endl;    
+  // cout << "Y: " << chassis.odometry->getPose().position.y << endl;    
   // chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
+
+  // autons.high();
   
   // User control code here, inside the loop
   while (1)
@@ -150,7 +155,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to 
     // update your motors, etc. 
     // ........................................................................ 
-    // driver.buttonsLoopCallback(); 
+    driver.buttonsLoopCallback(); 
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

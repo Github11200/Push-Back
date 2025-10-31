@@ -10,6 +10,7 @@ Odometry::Odometry(Chassis *chassis,
                    double frontDistanceSensorDistance,
                    double rightDistanceSensorDistance,
                    double leftDistanceSensorDistance,
+                   double backDistanceSensorDistance,
                    TrackerSetup trackerSetup)
 {
   this->chassis = chassis;
@@ -21,6 +22,7 @@ Odometry::Odometry(Chassis *chassis,
   this->distanceSensorDistances.push_back(frontDistanceSensorDistance);
   this->distanceSensorDistances.push_back(rightDistanceSensorDistance);
   this->distanceSensorDistances.push_back(leftDistanceSensorDistance);
+  this->distanceSensorDistances.push_back(backDistanceSensorDistance);
 }
 
 Odometry::~Odometry()
@@ -34,10 +36,12 @@ vex::distance Odometry::getDistanceSensor(DistanceSensor distanceSensor)
   {
   case DistanceSensor::FORWARD:
     return frontDistance;
-  case DistanceSensor::AFT:
+  case DistanceSensor::PORT:
     return leftDistance;
   case DistanceSensor::STARBOARD:
     return rightDistance;
+  case DistanceSensor::STERN:
+    return backDistance;
   default:
     break;
   }
@@ -165,7 +169,7 @@ void Odometry::setPosition(double xPosition, double yPosition, double theta)
   currentPose.position.x = xPosition;
   currentPose.position.y = yPosition;
   currentPose.orientation.angle = theta;
-  chassis->Inertial.setHeading(180, deg);
+  chassis->Inertial.setHeading(theta, deg);
 }
 
 void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)

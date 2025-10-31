@@ -41,6 +41,7 @@ public:
       double frontDistanceSensorDistance,
       double leftDistanceSensorDistance,
       double rightDistanceSensorDistance,
+      double backDistanceSensorDistance,
       bool enableLogs = false);
   ~Chassis();
 

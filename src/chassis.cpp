@@ -14,6 +14,7 @@ Chassis::Chassis(int inertialPort,
                  double frontDistanceSensorDistance,
                  double rightDistanceSensorDistance,
                  double leftDistanceSensorDistance,
+                 double backDistanceSensorDistance,
                  bool enableLogs) : Inertial(inertial(inertialPort)),
                                     forwardTracker(forwardTrackerPort),
                                     sidewaysTracker(sidewaysTrackerPort),
@@ -25,6 +26,7 @@ Chassis::Chassis(int inertialPort,
                           frontDistanceSensorDistance,
                           rightDistanceSensorDistance,
                           leftDistanceSensorDistance,
+                          backDistanceSensorDistance,
                           trackerSetup);
 }
 
