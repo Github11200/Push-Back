@@ -28,7 +28,9 @@ void Autons::prepareAuton()
 void Autons::runAuton(AutonName name, vex::color allianceColor)
 {
   chassisReference->odometry->startPositionTrackThread(true);
+  chassisReference->odometry->setPosition(0, 0, 0);
   this->allianceColor = allianceColor;
+
   switch (name)
   {
   case AutonName::TESTING:

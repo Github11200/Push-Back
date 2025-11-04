@@ -16,7 +16,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
   Pose<double> currentPose;
 
   while (!turnPID.isSettled())
-  { 
+  {
     currentPose = odometry->getPose();
 
     Angle<double> additionalAngle = Angle<double>(settings.forwards ? 0 : 90);
@@ -25,7 +25,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
     if (target.orientation.angle == -360)
       turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180();
     else // we want to turn to an angle
-      turnError = currentPose.orientation.angleTo(target.orientation) + additionalAngle;
+      turnError = (currentPose.orientation.angleTo(target.orientation) + additionalAngle).constrainNegative180To180();
 
     if (previousTurnError.angle == -360)
       previousTurnError = turnError;
@@ -39,7 +39,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
       double output = 0;
       output = turnPID.compute(turnError.angle);
 
-      output = clamp(output, -params.turnMaxVoltage, params.turnMaxVoltage); 
+      output = clamp(output, -params.turnMaxVoltage, params.turnMaxVoltage);
       output = clampMin(output, params.turnMinVoltage);
 
       previousTurnOutput = output;

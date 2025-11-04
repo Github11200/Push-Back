@@ -3,6 +3,7 @@
 
 #include "vex.h"
 #include "subsystems/pneumatic.h"
+#include "subsystems/intake.h"
 #include "chassis.h"
 
 enum AutonName
@@ -18,6 +19,7 @@ class Autons
 private:
   vex::color allianceColor;
   Chassis *chassisReference;
+  Intake intake;
 
 public:
   Autons(Chassis *chassis);

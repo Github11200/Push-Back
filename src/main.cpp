@@ -122,44 +122,44 @@ void usercontrol(void)
   // driver.startJoysticksThread();
   // driver.startPistonsThread();
 
-  wait(4, sec);  
-  cout << "done waiting" << endl; 
-  
+  wait(4, sec);
+  cout << "done waiting" << endl;
+
   autons.runAuton(AutonName::HIGH, vex::color::red);
 
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
-  // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;  
-  // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR); 
-  // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT); 
-         
+  // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
+  // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR);
+  // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
+
   // cout << "start moving" << endl;
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.driveToPoint(Pose<double>(0, -10, 0), {}, {}, { .forwards = false });
   // chassis.driveToPose(Pose<double>(10, 20, 90), {
-  //   .driveKp = 0.2 
-  // }, { 
+  //   .driveKp = 0.2
+  // }, {
   //   .turnKp = 0.1,
   //   .turnKi = 0
   // }, {}, 0.2, 0, 0.5);
-  // chassis.turnTo(Pose<double>(0, 0, 180), {}, {});    
-  // cout << "theta: " << chassis.odometry->getPose().orientation.angle << endl;     
+  // chassis.turnTo(Pose<double>(0, 0, 180), {}, {});
+  // cout << "theta: " << chassis.odometry->getPose().orientation.angle << endl;
   // chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
 
   // autons.high();
-  
+
   // User control code here, inside the loop
   while (1)
-  {              
-    // This is the main execution loop for the user control program. 
-    // Each time through the loop your program should update motor + servo  
+  {
+    // This is the main execution loop for the user control program.
+    // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
-    // ........................................................................ 
-    // Insert user code here. This is where you use the joystick values to 
-    // update your motors, etc. 
-    // ........................................................................ 
-    driver.buttonsLoopCallback(); 
+    // ........................................................................
+    // Insert user code here. This is where you use the joystick values to
+    // update your motors, etc.
+    // ........................................................................
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
