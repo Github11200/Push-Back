@@ -178,15 +178,16 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
   vex::distance sensor = getDistanceSensor(distanceSensor);
   double distanceToTrackingCenter = distanceSensorDistances[distanceSensor];
 
-  // if (!sensor.isObjectDetected())
-  // {
-  //   Logger::sendMessage("Could not detect wall. Not resetting.");
-  //   return;
-  // }
+  if (!sensor.isObjectDetected())
+  {
+    Logger::sendMessage("Could not detect wall. Not resetting.");
+    return;
+  }
 
   double distanceSensorReading = sensor.objectDistance(vex::distanceUnits::in) + distanceToTrackingCenter;
+  cout << sensor.objectDistance(vex::distanceUnits::in) << endl;
   int sign = (wall == Wall::FRONT || wall == Wall::RIGHT) ? 1 : -1;
-  double distance = (72 - (cos(angle) * distanceSensorReading)) * sign;
+  double distance = (70.31 - (cos(angle) * distanceSensorReading)) * sign;
 
   if (wall == Wall::FRONT || wall == Wall::REAR)
     this->currentPose.position.y = distance;

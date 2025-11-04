@@ -85,8 +85,8 @@ void pre_auton(void)
   // Example: clearing encoders, setting servo positions, ...
 
   // Testing::runAllTests();
-  // autons.prepareAuton();
-  // chassis.odometry->startPositionTrackThread(false);
+  autons.prepareAuton();
+  chassis.odometry->startPositionTrackThread(true);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -104,7 +104,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  // autons.runAuton(AutonName::TESTING, vex::color::red);
+  autons.runAuton(AutonName::HIGH, vex::color::red);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -119,11 +119,13 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
+  // driver.startJoysticksThread();
+  // driver.startPistonsThread();
 
-  // wait(4, sec);  
-  // cout << "done waiting" << endl; 
+  wait(4, sec);  
+  cout << "done waiting" << endl; 
+  
+  autons.runAuton(AutonName::HIGH, vex::color::red);
 
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
@@ -132,14 +134,16 @@ void usercontrol(void)
   // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT); 
          
   // cout << "start moving" << endl;
+  // chassis.odometry->setPosition(0, 0, 0);
+  // chassis.driveToPoint(Pose<double>(0, -10, 0), {}, {}, { .forwards = false });
   // chassis.driveToPose(Pose<double>(10, 20, 90), {
   //   .driveKp = 0.2 
   // }, { 
   //   .turnKp = 0.1,
   //   .turnKi = 0
   // }, {}, 0.2, 0, 0.5);
-  // chassis.turnTo(Pose<double>(0, 0, -45), {}, {}); 
-  // cout << "Y: " << chassis.odometry->getPose().position.y << endl;    
+  // chassis.turnTo(Pose<double>(0, 0, 180), {}, {});    
+  // cout << "theta: " << chassis.odometry->getPose().orientation.angle << endl;     
   // chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
 

@@ -11,7 +11,7 @@ public:
   inline void spinBottomStage(vex::directionType direction) { BottomIntake.spin(direction, 12, vex::voltageUnits::volt); };
   inline void spinTopStage(vex::directionType direction)
   {
-    if (TopIntake.getVelocity(vex::velocityUnits::pct) < 10 && TopIntake.power(watt) > 11) {
+    if (TopIntake.power(watt) > 11) {
       TopIntake.stop(coast);
       return;
     }

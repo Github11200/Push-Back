@@ -14,12 +14,12 @@ struct TurnParams
 {
   double turnMinVoltage = 0;
   double turnMaxVoltage = 12;
-  double turnSettleError = 1;
+  double turnSettleError = 3;
   double turnSettleTime = 200;
   double turnTimeout = 100000;
-  double turnKp = 0.31;
-  double turnKi = 0.2;
-  double turnKd = 2.1;
+  double turnKp = 0.15;
+  double turnKi = 0;
+  double turnKd = 0.8;
   double turnStopIntegratingLimit = 1;
   double turnSlew = 12; // by default the turn slew will be disabled
 

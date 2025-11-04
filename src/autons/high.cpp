@@ -1,55 +1,65 @@
 #include "autons.h"
+#include "subsystems/intake.h"
 #include "vex.h"
 
 void Autons::high()
 {
+    Intake intake;
+
     // Convert pseudocode into chassis motions. Hardware-specific actions (scoring, scraper) are intentionally omitted.
     // Set starting coordinates
-    chassisReference->odometry->setPosition(-17.742, -47.297, 350);
-    chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
+    chassisReference->odometry->setPosition(0, 0, 0);
+    chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR); 
     chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
-    while (true) {
-        cout << "X: " << chassisReference->odometry->getPose().position.x << "Y: " << chassisReference->odometry->getPose().position.y << "R: " << chassisReference->odometry->getPose().orientation.angle << endl;
-        chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
-        chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
-        wait(500, msec);
-    }
-    return;
-    chassisReference->odometry->setPosition(-17.742, -47.297, 350);
+    // while (true) {
+    //     cout << "X: " << chassisReference->odometry->getPose().position.x << "Y: " << chassisReference->odometry->getPose().position.y << "R: " << chassisReference->odometry->getPose().orientation.angle << endl;
+    //     chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
+    //     chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
+    //     wait(500, msec);
+    // }
+    // return;
 
-    // Use fast drive/turn params and default settings for autonomous motions 
-    DriveParams dparams = fastDriveParams();
-    TurnParams tparams = fastTurnParams();
-    Settings settings;
+    intake.spinFullIntake(vex::directionType::fwd);
 
-    // Drive to the middle blocks (absolute field coordinate)
-    chassisReference->driveToPose(Pose<double>(-22.111, -22.111, 350), dparams, tparams, settings, 1.0, 0.0, 0.0);
-
-    // Turn to face the center goal location (turn to point (14, -14))
-    chassisReference->turnTo(Pose<double>(Vector2D<double>(-14, -14), -360), tparams, settings);
+    // Drive to the middle blocks (absolute field coordinate) 
+    chassisReference->turnTo(Pose<double>(-22.111, -22.111, -360), {.turnKp = 0.3}, {});  
+    chassisReference->driveToPoint(Pose<double>(-22.111, -22.111, 0), {}, {}, {});
+    chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR); 
+    chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
+ 
+    // Turn to face the center goal location (turn to point (14, -14)) 
+    chassisReference->turnTo(Pose<double>(-14, -14, -360), {}, { .forwards = false });
 
     // Drive to center goal
-    chassisReference->driveToPose(Pose<double>(-14, -14, 225), dparams, tparams, settings, 1.0, 0.0, 0.0);
+    cout << "X: " << chassisReference->odometry->getPose().position.x << endl;  
+    cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
+    // chassisReference->driveToPoint(Pose<double>(-14, -14, 0), {}, {}, { .forwards = false });
+    // chassisReference->odometry->wallReset(DistanceSensor::STARBOARD, Wall::LEFT);  
+    // chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::REAR);  
 
-    // (score_high_center_goal omitted)
-    wait(400, msec);
+    cout << "HAHAHAHAHHAHAHAHAHAH" << endl;
 
-    // Drive in front of the loader
-    chassisReference->driveToPose(Pose<double>(-46.67, -46.67, 225), dparams, tparams, settings, 1.0, 0.0, 0.0);
+    // // (score_high_center_goal omitted)
+    // wait(400, msec);
 
-    // Turn toward loader entrance point
-    chassisReference->turnTo(Pose<double>(Vector2D<double>(-46.67, -58.748), -360), tparams, settings);
+    // // Drive in front of the loader
+    // chassisReference->driveToPose(Pose<double>(-46.67, -46.67, 225), dparams, tparams, settings, 1.0, 0.0, 0.0);
 
-    // (scraper_down omitted)
+    // // Turn toward loader entrance point
+    // chassisReference->turnTo(Pose<double>(Vector2D<double>(-46.67, -58.748), -360), tparams, settings);
 
-    // Ram into loader
-    chassisReference->driveToPose(Pose<double>(-46.67, -58.748, 180), dparams, tparams, settings, 1.0, 0.0, 0.0);
-    wait(1000, msec);
+    // // Slap down the willy nilly
+    // willyNilly.on();
 
-    // (scraper_up omitted)
+    // // Ram into loader
+    // chassisReference->driveToPose(Pose<double>(-46.67, -58.748, 180), dparams, tparams, settings, 1.0, 0.0, 0.0);
+    // wait(1000, msec);
 
-    // Line up to long goal
-    chassisReference->driveToPose(Pose<double>(-46.67, -30.566, 180), dparams, tparams, settings, 1.0, 0.0, 0.0);
+    // // Pull this thingy up
+    // willyNilly.off();
+
+    // // Line up to long goal
+    // chassisReference->driveToPose(Pose<double>(-46.67, -30.566, 180), dparams, tparams, settings, 1.0, 0.0, 0.0);
 
     // (score_long_goal omitted)
 }
