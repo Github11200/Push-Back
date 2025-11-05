@@ -38,7 +38,7 @@ enum DistanceSensor
 {
   FORWARD = 0,
   STARBOARD = 1, // Right
-  PORT = 2,        // Left
+  PORT = 2,      // Left
   STERN = 3
 };
 
@@ -65,7 +65,6 @@ private:
   Pose<double> currentPose;
 
   thread *positionTrackThread;
-  bool isTracking = false;
   TrackerSetup trackerSetup;
 
   double forwardTrackerCenterDistance;
@@ -77,6 +76,9 @@ private:
   vex::distance getDistanceSensor(DistanceSensor distanceSensor);
 
 public:
+  bool isTracking = false;
+  bool pauseOdom = false;
+
   Odometry(Chassis *chassis,
            double forwardTrackerCenterDistance,
            double sidewaysTrackerCenterDistance,
@@ -100,6 +102,9 @@ public:
    *
    */
   void stopPositionTrackThread();
+
+  void pausePositionTrackThread();
+  void resumePositionTrackThread();
 
   // Returns the currentPoseVariable
   Pose<double> getPose();

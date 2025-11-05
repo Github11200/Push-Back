@@ -23,12 +23,9 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
 
     // If the angle is -360 that means we want to turn to a point
     if (target.orientation.angle == -360)
-    {
-      turnError = ((currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180());
-      cout << "error: " << turnError << endl;
-    }
+      turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180();
     else // we want to turn to an angle
-      turnError = currentPose.orientation.angleTo(target.orientation).constrainNegative180To180() - additionalAngle;
+      turnError = currentPose.orientation.angleTo(target.orientation).constrainNegative180To180();
 
     if (previousTurnError.angle == -360)
       previousTurnError = turnError;

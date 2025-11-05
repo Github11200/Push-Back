@@ -50,7 +50,7 @@ Chassis chassis(
     5.8,
 
     // Sideways tracker distance
-    1.625,
+    0,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -122,9 +122,8 @@ void usercontrol(void)
   // driver.startJoysticksThread();
   // driver.startPistonsThread();
 
-  wait(4, sec);
-  cout << "done waiting" << endl;
-
+  while (!chassis.odometry->isTracking)
+    wait(1, msec);
   autons.runAuton(AutonName::HIGH, vex::color::red);
 
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
@@ -159,7 +158,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

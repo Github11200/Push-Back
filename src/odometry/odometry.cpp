@@ -52,7 +52,6 @@ TrackerPositions Odometry::getTrackersPositions()
   switch (this->trackerSetup)
   {
   case ZERO_TRACKER:
-    // cout << (chassis->getMotorsPosition().right + chassis->getMotorsPosition().left) / 2 << endl;
     return TrackerPositions((chassis->getMotorsPosition().right + chassis->getMotorsPosition().left) / 2, 0);
   case FORWARD_TRACKER:
     return TrackerPositions(chassis->getForwardTrackerPosition(), 0);
@@ -90,6 +89,9 @@ void Odometry::stopPositionTrackThread()
   delete positionTrackThread;
 }
 
+void Odometry::pausePositionTrackThread() { this->pauseOdom = true; }
+void Odometry::resumePositionTrackThread() { this->pauseOdom = false; }
+
 Pose<double> Odometry::getPose() { return currentPose; }
 
 void Odometry::updatePosition(bool sendLogs)
@@ -114,7 +116,8 @@ void Odometry::updatePosition(bool sendLogs)
   {
     double length = 2 * sin(deltaTheta.angle / 2);
 
-    localTranslation.x = length * ((sidewaysTrackerDelta / deltaTheta.angle) + sidewaysTrackerCenterDistance);
+    // localTranslation.x = length * ((sidewaysTrackerDelta / deltaTheta.angle) + sidewaysTrackerCenterDistance);
+    localTranslation.x = 0;
     localTranslation.y = length * ((forwardTrackerDelta / deltaTheta.angle) + forwardTrackerCenterDistance);
   }
 
@@ -139,8 +142,11 @@ void Odometry::updatePosition(bool sendLogs)
   globalTranslation.x = polarLength * cos(globalPolarAngle);
   globalTranslation.y = polarLength * sin(globalPolarAngle);
 
-  currentPose.position.x += globalTranslation.x;
-  currentPose.position.y += globalTranslation.y;
+  if (!pauseOdom)
+  {
+    currentPose.position.x += globalTranslation.x;
+    currentPose.position.y += globalTranslation.y;
+  }
   currentPose.orientation = absoluteHeading.toDeg();
 
   Brain.Screen.clearScreen();
