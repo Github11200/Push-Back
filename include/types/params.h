@@ -16,7 +16,7 @@ struct TurnParams
   double turnMaxVoltage = 12;
   double turnSettleError = 3;
   double turnSettleTime = 200;
-  double turnTimeout = 100000;
+  double turnTimeout = 1000;
   double turnKp = 0.15;
   double turnKi = 0;
   double turnKd = 0.8;
@@ -28,14 +28,14 @@ struct TurnParams
 
 struct DriveParams
 {
-  double driveMinVoltage = 0; // turn up for motion chaining
-  double driveMaxVoltage = 12; // preferably don't change, will make bot slower
+  double driveMinVoltage = 0;    // turn up for motion chaining
+  double driveMaxVoltage = 12;   // preferably don't change, will make bot slower
   double driveSettleError = 0.8; // make it like 0.01 for pid tuning
   double driveSettleTime = 100;
-  double driveTimeout = 100000; // insanely high value for pid tuning
-  double driveKp = 0.6; // tune first
-  double driveKi = 0; // tune third
-  double driveKd = 2.5; // tune second
+  double driveTimeout = 2000; // insanely high value for pid tuning
+  double driveKp = 0.6;       // tune first
+  double driveKi = 0;         // tune third
+  double driveKd = 2.5;       // tune second
   double driveStopIntegratingLimit = 1;
   double driveSlew = 12; // by default the drive slew will be disabled
 

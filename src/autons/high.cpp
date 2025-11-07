@@ -12,46 +12,52 @@ void Autons::high()
 
   // Drive to the middle blocks (absolute field coordinate)
   chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(-22.111, -22.111, -360), {.turnKp = 0.36}, {});
+  chassisReference->turnTo(Pose<double>(-22.111, -21.111, -360), {.turnKp = 0.36}, {});
   chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(-22.111, -22.111, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-22.111, -21.111, 0), {.driveMaxVoltage = 5}, {}, {});
 
   // Turn to face the center goal location (turn to point (14, -14))
-  // Vector2D<double> previousPosition = chassisReference->odometry->getPose();
   chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, -135), {}, {});
+  chassisReference->turnTo(Pose<double>(0, 0, -125), {.turnKp = 0.3}, {});
   chassisReference->odometry->resumePositionTrackThread();
+  intake.stopFullIntake();
 
-  chassisReference->driveToPoint(Pose<double>(-14, -14, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-11, -12, 0), {.driveTimeout = 1000}, {}, {.forwards = false});
 
-  blocker.off();
-  wait(400, msec);
-  blocker.on();
+  sloper.on();
+  wait(500, msec);
+  intake.spinFullIntake(vex::directionType::fwd);
+  wait(200, msec);
+  intake.stopFullIntake();
+  sloper.off();
+  wait(300, msec);
 
   // Drive in front of the loader
-  chassisReference->driveToPoint(Pose<double>(-46.67, -46.67, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-47.67, -46.67, 0), {.driveTimeout = 1800}, {}, {});
 
   // Turn toward loader entrance point
-  chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
+  chassisReference->odometry->pausePositionTrackThread();
+  chassisReference->turnTo(Pose<double>(0, 0, 180), {.turnKp = 0.32}, {});
+  chassisReference->odometry->resumePositionTrackThread();
 
   // Slap down the willy nilly
   willyNilly.on();
 
-  return;
-
   // Ram into loader
-  chassisReference->driveToPoint(Pose<double>(-46.67, -58.748, 180), {}, {}, {});
-  wait(1000, msec); // Eat it all up
-
-  // Pull this thingy up
-  willyNilly.off();
+  intake.spinFullIntake(vex::directionType::fwd);
+  chassisReference->driveToPoint(Pose<double>(-47.67, -62.748, 180), {.driveTimeout = 1000}, {.turnMaxVoltage = 0}, {});
+  wait(2000, msec); // Eat it all up
 
   // Line up to long goal
-  chassisReference->turnTo(Pose<double>(-46.67, -30.566, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-46.67, -30.566, 0), {}, {}, {.forwards = false});
+  chassisReference->odometry->pausePositionTrackThread();
+  chassisReference->turnTo(Pose<double>(0, 0, 180), {.turnKp = 0.3}, {});
+  chassisReference->odometry->resumePositionTrackThread();
+  chassisReference->driveToPoint(Pose<double>(-45.67, -20.566, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+
+  // Pull this thingy us
+  willyNilly.off();
 
   // (score_long_goal omitted)
   sloper.on();
-  wait(100, msec);
-  blocker.off();
+  wait(10000, msec);
 }
