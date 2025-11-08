@@ -25,11 +25,11 @@ void Autons::prepareAuton()
   Logger::sendMessage("Done resetting and calibrating. Send it.");
 }
 
-void Autons::runAuton(AutonName name, vex::color allianceColor)
+void Autons::runAuton(AutonName name, Side side)
 {
   chassisReference->odometry->startPositionTrackThread(true);
   chassisReference->odometry->setPosition(0, 0, 0);
-  this->allianceColor = allianceColor;
+  this->side = side;
 
   switch (name)
   {

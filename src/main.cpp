@@ -127,16 +127,6 @@ void usercontrol(void)
   // wait(4, sec);
   // autons.runAuton(AutonName::HIGH, vex::color::red);
 
-  // while (!chassis.odometry->isTracking)
-  //   wait(1, msec);
-  // autons.runAuton(AutonName::HIGH, vex::color::red);
-
-  // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
-  // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
-  // cout << "Right distance: " << rightDistance.objectDistance(inches) << endl;
-  // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::REAR);
-  // chassis.odometry->wallReset(DistanceSensor::STARBOARD, Wall::RIGHT);
-
   // cout << "start moving" << endl;
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.driveToPoint(Pose<double>(0, -10, 0), {}, {}, { .forwards = false });

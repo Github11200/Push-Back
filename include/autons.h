@@ -14,10 +14,17 @@ enum AutonName
   SOLO = 3
 };
 
+enum Side
+{
+  LEFT = 0,
+  RIGHT = 1
+};
+
 class Autons
 {
 private:
   vex::color allianceColor;
+  Side side;
   Chassis *chassisReference;
   Intake intake;
 
@@ -31,7 +38,7 @@ public:
 
   void printMessage(std::string message);
   void prepareAuton();
-  void runAuton(AutonName name, vex::color allianceColor);
+  void runAuton(AutonName name, Side side);
 };
 
 #endif
