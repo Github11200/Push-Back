@@ -8,17 +8,24 @@ class Intake
 {
 private:
 public:
-  inline void spinBottomStage(vex::directionType direction) { BottomIntake.spin(direction, 12, vex::voltageUnits::volt); };
-  inline void spinTopStage(vex::directionType direction)
+  int highPowerTime = 0;
+
+  void spinBottomStage(vex::directionType direction) { BottomIntake.spin(direction, 12, vex::voltageUnits::volt); };
+  void spinTopStage(vex::directionType direction)
   {
-    if (TopIntake.power(watt) > 11) {
+    std::cout << "hptdd: " << highPowerTime << std::endl;
+    if (TopIntake.power(watt) > 4.5)
+      ++highPowerTime;
+    else if (highPowerTime > 0 && highPowerTime <= 20)
+      --highPowerTime;
+
+    if (highPowerTime >= 20)
       TopIntake.stop(coast);
-      return;
-    }
-    TopIntake.spin(direction, 12, vex::voltageUnits::volt);
+    else if (highPowerTime < 20)
+      TopIntake.spin(direction, 12, vex::voltageUnits::volt);
   };
 
-  inline void spinFullIntake(vex::directionType direction)
+  void spinFullIntake(vex::directionType direction)
   {
     spinTopStage(direction);
     spinBottomStage(direction);

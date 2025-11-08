@@ -3,41 +3,56 @@
 
 void Autons::low()
 {
-    // Convert pseudocode into chassis motions. Hardware-specific actions are omitted.
-    chassisReference->odometry->setPosition(-14.26, -46.871, 340);
+  // Set starting coordinates
+  chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
+  chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
 
-    DriveParams dparams = fastDriveParams();
-    TurnParams tparams = fastTurnParams();
-    Settings settings;
+  intake.spinFullIntake(vex::directionType::fwd);
 
-    // Eat the blocks in the middle
-    chassisReference->driveToPose(Pose<double>(-22.111, -22.111, 340), dparams, tparams, settings, 1.0, 0.0, 0.0);
+  // Drive to the middle blocks (absolute field coordinate)
+  chassisReference->odometry->pausePositionTrackThread();
+  chassisReference->turnTo(Pose<double>(-22.111, -21.111, -360), {.turnKp = 0.36}, {});
+  chassisReference->odometry->resumePositionTrackThread();
+  chassisReference->driveToPoint(Pose<double>(-22.111, -21.111, 0), {.driveMaxVoltage = 5}, {}, {});
 
-    // Turn toward center goal
-    chassisReference->turnTo(Pose<double>(Vector2D<double>(-14, -14), -360), tparams, settings);
+  // Turn to face the center goal location (turn to point (14, -14))
+  chassisReference->odometry->pausePositionTrackThread();
+  chassisReference->turnTo(Pose<double>(0, 0, 35), {.turnKp = 0.3}, {}); // Angle was -125 in high.cpp
+  chassisReference->odometry->resumePositionTrackThread();
+  intake.stopFullIntake();
 
-    // Drive to center goal
-    chassisReference->driveToPose(Pose<double>(-14, -14, 45), dparams, tparams, settings, 1.0, 0.0, 0.0);
+  chassisReference->driveToPoint(Pose<double>(-11, -12, 0), {.driveTimeout = 1000}, {}, {});
 
-    // (score_low_center_goal omitted)
-    wait(400, msec);
+  intake.spinFullIntake(vex::directionType::rev);
+  wait(700, msec);
+  intake.stopFullIntake();
 
-    // Drive in front of loader
-    chassisReference->driveToPose(Pose<double>(-46.67, -46.67, 45), dparams, tparams, settings, 1.0, 0.0, 0.0);
+  // Drive backwards in front of the loader since we're facing the middle goal rn
+  chassisReference->driveToPoint(Pose<double>(-47.67, -46.67, 0), {.driveTimeout = 1800}, {}, {.forwards = false});
 
-    // Turn toward loader
-    chassisReference->turnTo(Pose<double>(Vector2D<double>(-46.67, -58.748), -360), tparams, settings);
+  // Turn toward loader entrance point
+  chassisReference->odometry->pausePositionTrackThread();
+  chassisReference->turnTo(Pose<double>(0, 0, 180), {.turnKp = 0.32}, {});
+  chassisReference->odometry->resumePositionTrackThread();
 
-    // (scraper_down omitted)
+  // Slap down the willy nilly
+  willyNilly.on();
 
-    // Ram into loader
-    chassisReference->driveToPose(Pose<double>(-46.67, -58.748, 180), dparams, tparams, settings, 1.0, 0.0, 0.0);
-    wait(1000, msec);
+  // Ram into loader
+  intake.spinFullIntake(vex::directionType::fwd);
+  chassisReference->driveToPoint(Pose<double>(-47.67, -62.748, 180), {.driveTimeout = 1000}, {.turnMaxVoltage = 0}, {});
+  wait(2000, msec); // Eat it all up
 
-    // (scraper_up omitted)
+  // Line up to long goal
+  chassisReference->odometry->pausePositionTrackThread();
+  chassisReference->turnTo(Pose<double>(0, 0, 180), {.turnKp = 0.3}, {});
+  chassisReference->odometry->resumePositionTrackThread();
+  chassisReference->driveToPoint(Pose<double>(-45.67, -20.566, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
 
-    // Line up to long goal
-    chassisReference->driveToPose(Pose<double>(-46.67, -30.566, 180), dparams, tparams, settings, 1.0, 0.0, 0.0);
+  // Pull this thingy us
+  willyNilly.off();
 
-    // (score_long_goal omitted)
+  // Score and chill :)
+  sloper.on();
+  wait(10000, msec);
 }

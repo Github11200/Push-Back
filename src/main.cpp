@@ -119,12 +119,17 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // driver.startJoysticksThread();
-  // driver.startPistonsThread();
+  if (chassis.odometry->isTracking)
+    chassis.odometry->stopPositionTrackThread();
+  driver.startJoysticksThread();
+  driver.startPistonsThread();
 
-  while (!chassis.odometry->isTracking)
-    wait(1, msec);
-  autons.runAuton(AutonName::HIGH, vex::color::red);
+  // wait(4, sec);
+  // autons.runAuton(AutonName::HIGH, vex::color::red);
+
+  // while (!chassis.odometry->isTracking)
+  //   wait(1, msec);
+  // autons.runAuton(AutonName::HIGH, vex::color::red);
 
   // chassis.odometry->wallReset(DistanceSensor::FORWARD, Wall::FRONT);
   // cout << "Front distance: " << frontDistance.objectDistance(vex::distanceUnits::in) << endl;
@@ -158,7 +163,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

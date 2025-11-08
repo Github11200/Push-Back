@@ -44,6 +44,9 @@ void Driver::buttonsLoopCallback()
 {
   if (IntakeButton.pressing())
     intake.spinFullIntake(vex::directionType::fwd);
+  else
+    intake.highPowerTime = 0;
+
   if (OuttakeButton.pressing())
     intake.spinFullIntake(vex::directionType::rev);
 
