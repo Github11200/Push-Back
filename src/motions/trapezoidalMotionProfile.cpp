@@ -36,17 +36,6 @@ void Chassis::trapezoidalMotionProfile(double distance, MotionProfile motionProf
 
   double setpoint, setpointVelocity, setpointAcceleration, feedforward, driveError, turnError, driveOutput, turnOutput = 0;
 
-  // cout << "Cruise distance: " << cruiseDistance << endl;
-  cout << "max reachable velocity (not light speed): " << maximumReachableVelocity << endl;
-  cout << "acceleration distance: " << accelerationDistance << endl;
-  cout << "deceleration distance: " << decelerationDistance << endl;
-  // cout << "max acceleration: " << motionProfileSettings.maximumAcceleration << endl;
-  cout << "acceleration time: " << accelerationTime << endl;
-  cout << "deceleration time: " << decelerationTime << endl;
-  cout << "max velocity: " << maximumReachableVelocity << endl;
-  cout << "kv: " << kV << endl;
-  cout << "total time: " << totalTime << endl;
-
   while (elapsedTime < totalTime)
   {
     currentPose = odometry->getPose();

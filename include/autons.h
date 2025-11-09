@@ -16,8 +16,8 @@ enum AutonName
 
 enum Side
 {
-  LEFT = 0,
-  RIGHT = 1
+  LEFT_SIDE = 0,
+  RIGHT_SIDE = 1
 };
 
 class Autons
@@ -38,7 +38,7 @@ public:
 
   void printMessage(std::string message);
   void prepareAuton();
-  void runAuton(AutonName name, Side side);
+  void runAuton(AutonName name);
 };
 
 #endif

@@ -87,6 +87,7 @@ void pre_auton(void)
   // Testing::runAllTests();
   autons.prepareAuton();
   chassis.odometry->startPositionTrackThread(true);
+  Controller.rumble("..");
 }
 
 /*---------------------------------------------------------------------------*/
@@ -104,7 +105,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::HIGH, vex::color::red);
+  autons.runAuton(AutonName::HIGH);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -125,23 +126,7 @@ void usercontrol(void)
   driver.startPistonsThread();
 
   // wait(4, sec);
-  // autons.runAuton(AutonName::HIGH, vex::color::red);
-
-  // cout << "start moving" << endl;
-  // chassis.odometry->setPosition(0, 0, 0);
-  // chassis.driveToPoint(Pose<double>(0, -10, 0), {}, {}, { .forwards = false });
-  // chassis.driveToPose(Pose<double>(10, 20, 90), {
-  //   .driveKp = 0.2
-  // }, {
-  //   .turnKp = 0.1,
-  //   .turnKi = 0
-  // }, {}, 0.2, 0, 0.5);
-  // chassis.turnTo(Pose<double>(0, 0, 180), {}, {});
-  // cout << "theta: " << chassis.odometry->getPose().orientation.angle << endl;
-  // chassis.turnTo(Pose<double>(0, 0, 84), {}, {});   // Turns to angle (doesn't matter what you put in the x and y coordinates)
-  // chassis.turnTo(Pose<double>(5, 5, -360), {}, {}); // Turns to point (you need the -360 for this)
-
-  // autons.high();
+  // autons.runAuton(AutonName::HIGH, Side::LEFT_SIDE);
 
   // User control code here, inside the loop
   while (1)

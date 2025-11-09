@@ -36,7 +36,7 @@ void Driver::pistonToggle(Pneumatic &piston, vex::controller::button pistonButto
   if (pistonButton.pressing())
   {
     piston.toggle();
-    wait(200, msec);
+    wait(400, msec);
   }
 }
 

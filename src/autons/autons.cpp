@@ -25,7 +25,7 @@ void Autons::prepareAuton()
   Logger::sendMessage("Done resetting and calibrating. Send it.");
 }
 
-void Autons::runAuton(AutonName name, Side side)
+void Autons::runAuton(AutonName name)
 {
   chassisReference->odometry->startPositionTrackThread(true);
   chassisReference->odometry->setPosition(0, 0, 0);
