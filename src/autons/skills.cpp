@@ -9,7 +9,7 @@ void Autons::skills()
     chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
     chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
 
-    chassisReference->driveToPoint(Pose<double>(-47, 46.5, 0), {.driveMaxVoltage = 8}, {}, {});
+    chassisReference->driveToPoint(Pose<double>(-47, 46.5, 0), {}, {}, {});
 
     // 1st dispenser
     chassisReference->odometry->pausePositionTrackThread();
@@ -188,7 +188,7 @@ void Autons::skills()
     chassisReference->odometry->pausePositionTrackThread();
     chassisReference->turnTo(Pose<double>(0, 0, 90), {}, {});
     chassisReference->odometry->resumePositionTrackThread();
-    chassisReference->driveToPoint(Pose<double>(23, 61, 0), {}, {}, {});
+    chassisReference->driveToPoint(Pose<double>(0, 61, 0), {}, {}, {});
 
     // Chill
     wait(10000, msec);
