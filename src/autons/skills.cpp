@@ -159,7 +159,7 @@ void Autons::skills()
     chassisReference->odometry->resumePositionTrackThread();
     chassisReference->driveToPoint(Pose<double>(23, 23, 0), {}, {}, {});
 
-    // Align to middle goal
+    // Align to middle high goal
     chassisReference->odometry->pausePositionTrackThread();
     chassisReference->turnTo(Pose<double>(0, 0, -135), {}, {});
     chassisReference->odometry->resumePositionTrackThread();
@@ -167,12 +167,11 @@ void Autons::skills()
     chassisReference->driveToPoint(Pose<double>(14, 14, 0), {}, {}, {.forwards = false});
 
     // Score
-    sloper.on();
-    wait(600, msec);
+    blocker.on();
     intake.spinFullIntake(vex::directionType::fwd);
     wait(3000, msec);
+    blocker.off();
     intake.stopFullIntake();
-    sloper.off();
 
     // Back away from low goal
     chassisReference->driveToPoint(Pose<double>(23, 23, 0), {}, {}, {});
@@ -192,4 +191,5 @@ void Autons::skills()
 
     // Chill
     wait(10000, msec);
+    intake.stopFullIntake();
 }
