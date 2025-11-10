@@ -5,6 +5,7 @@
 void Autons::high()
 {
   // Set starting coordinates
+  chassisReference->odometry->setPosition(0, 0, 0);
   chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
   chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
 

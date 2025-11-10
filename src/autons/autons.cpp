@@ -49,6 +49,10 @@ void Autons::runAuton(AutonName name)
     Logger::sendMessage("Running the SOLO awp auton.");
     solo();
     break;
+  case AutonName::SKILLS:
+    Logger::sendMessage("Running the SKILLS auton.");
+    skills();
+    break;
   default:
     break;
   }
