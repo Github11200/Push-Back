@@ -29,21 +29,21 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     currentPose = odometry->getPose();
 
     double distanceToTarget = currentPose.position.distanceTo(target.position);
- 
+
     // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && distanceToTarget <= 7.0) 
+    if (!isClose && distanceToTarget <= 7.0)
     {
-      isClose = true;  
+      isClose = true;
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
       turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.7, 1);
-    } 
+    }
 
     double driveError = distanceToTarget;
     Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + (!settings.forwards ? Angle<double>(180) : Angle<double>(0))).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
-      What it's meant to do is that when the robot is facing perpendicular to the target (90 degrees) then 
+      What it's meant to do is that when the robot is facing perpendicular to the target (90 degrees) then
       cos(90) = 0 so there is no lateral movement, it focuses just on turning, but as it gets closer to the
       target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
       the lateral rather than the angular movement
@@ -94,18 +94,16 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       if (!isClose)
         output = slew(previousDriveOutput, output, driveParams.driveSlew);
 
-      if (!settings.forwards) {
+      if (!settings.forwards)
         output = clamp(output, -driveParams.driveMaxVoltage, -driveParams.driveMinVoltage);
-      } else {
+      else
         output = clamp(output, driveParams.driveMinVoltage, driveParams.driveMaxVoltage);
-      }
-      // output = clampMin(output, driveParams.driveMinVoltage);
 
       return output;
     }();
 
     Pair motorOutputs = getMotorVelocities(driveOutput, turnOutput);
-    Left.spin(fwd, motorOutputs.left, volt); 
+    Left.spin(fwd, motorOutputs.left, volt);
     Right.spin(fwd, motorOutputs.right, volt);
 
     wait(settings.updateTime, msec);
