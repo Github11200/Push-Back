@@ -43,6 +43,7 @@ namespace Logger
   void sendMotionEnd(double elapsedTime);
 
   void sendMessage(std::string message);
+  void sendMessage(std::string message, const std::vector<double> substitutedValues = {});
 
 };
 
