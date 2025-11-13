@@ -200,3 +200,21 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
   else if (wall == Wall::RIGHT || wall == Wall::LEFT)
     this->currentPose.position.x = distance;
 }
+
+void Odometry::getWheelDistances()
+{
+  chassis->resetEncoders();
+  Logger::sendMessage("Starting wheel distances test...");
+  Logger::sendMessage("Turn the robot around 10 times.");
+
+  double forwardTrackerDelta = getTrackersPositions().forward;
+  double sidewaysTrackerDelta = getTrackersPositions().sideways;
+
+  double forwardTrackerDistanceFromCenter = -(forwardTrackerDelta / 3600);
+  double sidewaysTrackerDistanceFromCenter = -(sidewaysTrackerDelta / 3600);
+
+  Logger::sendMessage("Forward tracker delta: {}", vector<double>({forwardTrackerDelta}));
+  Logger::sendMessage("Sideways tracker delta: {}", vector<double>({sidewaysTrackerDelta}));
+  Logger::sendMessage("Forward tracker distance from center: {}", vector<double>({forwardTrackerCenterDistance}));
+  Logger::sendMessage("Sideways tracker distance from center: {}", vector<double>({sidewaysTrackerDistanceFromCenter}));
+}

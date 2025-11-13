@@ -82,8 +82,20 @@ namespace Logger
 
   void sendMotionEnd(double elapsedTime) { cout << "motionEnd," << elapsedTime << "%" << endl; }
 
-  void sendMessage(string message)
+  void sendMessage(string message, vector<double> substitutedValues)
   {
-    cout << "message," << message << "%" << endl;
+    stringstream ss;
+    int substitutedValuesIndex = 0;
+    for (int i = 0; i < message.size(); ++i)
+    {
+      if (message[i] == '{' && message[i + 1] == '}')
+      {
+        ss << substitutedValues[substitutedValuesIndex++];
+        ++i;
+      }
+      else
+        ss << message[i];
+    }
+    cout << "message," << ss.str() << "%" << endl;
   }
 };
