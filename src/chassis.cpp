@@ -5,10 +5,12 @@ using namespace std;
 
 // TODO: Update the ports for all the sensors
 Chassis::Chassis(int inertialPort,
+                 double inertialScaling,
                  TrackerSetup trackerSetup,
                  int forwardTrackerPort,
                  int sidewaysTrackerPort,
-                 double inchesToDegreesRatio,
+                 double forwardTrackerInchesToDegreesRatio,
+                 double sidewaysTrackerInchesToDegreesRatio,
                  double forwardTrackerDistance,
                  double sidewaysTrackerDistance,
                  double frontDistanceSensorDistance,
@@ -16,9 +18,11 @@ Chassis::Chassis(int inertialPort,
                  double leftDistanceSensorDistance,
                  double backDistanceSensorDistance,
                  bool enableLogs) : Inertial(inertial(inertialPort)),
+                                    inertialScaling(inertialScaling),
                                     forwardTracker(forwardTrackerPort),
                                     sidewaysTracker(sidewaysTrackerPort),
-                                    inchesToDegreesRatio(inchesToDegreesRatio)
+                                    forwardTrackerInchesToDegreesRatio(forwardTrackerInchesToDegreesRatio),
+                                    sidewaysTrackerInchesToDegreesRatio(sidewaysTrackerInchesToDegreesRatio)
 {
   odometry = new Odometry(this,
                           forwardTrackerDistance,
@@ -43,14 +47,13 @@ void Chassis::followPath(vector<Pose<double>> path, PursuitParams params)
 
 Angle<double> Chassis::getAbsoluteHeading()
 {
-  return Angle<double>((Inertial.heading(deg) * 360) / inertialScaling).constrain0To360();
+  return Angle<double>(Inertial.rotation(deg) * (360 / inertialScaling)).constrain0To360();
 }
 
 Pair Chassis::getMotorsPosition()
 {
-  // cout << Left.position(vex::rotationUnits::deg) << endl;
-  inchesToDegreesRatio = 0.0205699519;
-  return Pair(Left.position(vex::rotationUnits::deg) * inchesToDegreesRatio, Right.position(vex::rotationUnits::deg) * inchesToDegreesRatio);
+  // TODO: Create a seperate inches to degrees ratio for motor positions
+  return Pair(Left.position(vex::rotationUnits::deg) * 0, Right.position(vex::rotationUnits::deg) * 0);
 }
 
 void Chassis::calibrateInertial()
@@ -72,10 +75,10 @@ void Chassis::resetEncoders()
 
 double Chassis::getForwardTrackerPosition()
 {
-  return forwardTracker.position(deg) * inchesToDegreesRatio;
+  return forwardTracker.position(deg) * forwardTrackerInchesToDegreesRatio;
 }
 
 double Chassis::getSidewaysTrackerPosition()
 {
-  return sidewaysTracker.position(deg) * inchesToDegreesRatio;
+  return sidewaysTracker.position(deg) * sidewaysTrackerInchesToDegreesRatio;
 }

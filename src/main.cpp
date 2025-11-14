@@ -33,24 +33,30 @@ Chassis chassis(
     // Inertial port
     PORT7,
 
+    // Inertial scaling
+    357.5,
+
     // Odometry tracker setup
-    TrackerSetup::ZERO_TRACKER,
+    TrackerSetup::TWO_TRACKER,
 
     // Forward tracker port
-    PORT21,
+    PORT3,
 
     // Sideways tracker port
-    PORT22,
+    PORT6,
 
-    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
+    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders FORWARD
     // (((drive_ratio) * PI * wheel_diameter) / 360)
-    (((48 / 84) * M_PI * 4.125) / 360.0),
+    ((M_PI * 2.03) / 360.0),
+
+    // SIDEWAYS
+    ((M_PI * 1.980) / 360.0),
 
     // Forward tracker distance
-    5.8,
+    0,
 
     // Sideways tracker distance
-    0,
+    -4,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -86,8 +92,7 @@ void pre_auton(void)
 
   // Testing::runAllTests();
   autons.prepareAuton();
-  chassis.odometry->startPositionTrackThread(true);
-  Controller.rumble("..");
+  // chassis.odometry->startPositionTrackThread(false);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -120,12 +125,13 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  if (chassis.odometry->isTracking)
-    chassis.odometry->stopPositionTrackThread();
+  // if (chassis.odometry->isTracking)
+  //   chassis.odometry->stopPositionTrackThread();
   driver.startJoysticksThread();
   driver.startPistonsThread();
 
   // wait(4, sec);
+  // chassis.odometry->getWheelDistances();
   // autons.runAuton(AutonName::HIGH, Side::LEFT_SIDE);
 
   // User control code here, inside the loop
