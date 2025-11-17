@@ -116,12 +116,11 @@ void Odometry::updatePosition(bool sendLogs)
   {
     double length = 2 * sin(deltaTheta.angle / 2);
 
-    // localTranslation.x = length * ((sidewaysTrackerDelta / deltaTheta.angle) + sidewaysTrackerCenterDistance);
-    localTranslation.x = 0;
+    localTranslation.x = length * ((sidewaysTrackerDelta / deltaTheta.angle) + sidewaysTrackerCenterDistance);
     localTranslation.y = length * ((forwardTrackerDelta / deltaTheta.angle) + forwardTrackerCenterDistance);
   }
 
-  // Polar coorinates
+  // Polar coordinates
   double polarLength = 0;
   double polarAngle = 0;
 

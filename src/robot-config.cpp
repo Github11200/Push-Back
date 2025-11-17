@@ -19,8 +19,8 @@ motor TopIntake = motor(PORT10, ratio6_1, false);  // Done
 motor BottomIntake = motor(PORT1, ratio6_1, true); // Done
 
 vex::distance frontDistance = vex::distance(PORT4); // Done
-vex::distance rightDistance = vex::distance(PORT8);  // Done
-vex::distance leftDistance = vex::distance(PORT2);   // Done
+vex::distance rightDistance = vex::distance(PORT8); // Done
+vex::distance leftDistance = vex::distance(PORT2);  // Done
 vex::distance backDistance = vex::distance(PORT14); // Done
 
 motor_group Left = motor_group(FrontLeft, MiddleLeft, BackLeft);
