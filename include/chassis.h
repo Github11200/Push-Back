@@ -23,7 +23,8 @@ private:
 
   double inertialScaling = 360;
   double trackWidth;
-  double inchesToDegreesRatio;
+  double forwardTrackerInchesToDegreesRatio;
+  double sidewaysTrackerInchesToDegreesRatio;
 
 public:
   Odometry *odometry;
@@ -32,10 +33,12 @@ public:
 
   Chassis(
       int inertialPort,
+      double inertialScaling,
       TrackerSetup trackerSetup,
       int forwardTrackerPort,
       int sidewaysTrackerPort,
-      double inchesToDegreesRatio,
+      double forwardTrackerInchesToDegreesRatio,
+      double sidewaysTrackerInchesToDegreesRatio,
       double forwardTrackerDistance,
       double sidewaysTrackerDistance,
       double frontDistanceSensorDistance,

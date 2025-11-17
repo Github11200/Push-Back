@@ -13,16 +13,16 @@ public:
   void spinBottomStage(vex::directionType direction) { BottomIntake.spin(direction, 12, vex::voltageUnits::volt); };
   void spinTopStage(vex::directionType direction)
   {
-    std::cout << "hptdd: " << highPowerTime << std::endl;
-    if (TopIntake.power(watt) > 4.5)
-      ++highPowerTime;
-    else if (highPowerTime > 0 && highPowerTime <= 20)
-      --highPowerTime;
+    // std::cout << "hptdd: " << highPowerTime << std::endl;
+    // if (TopIntake.power(watt) > 4.5)
+    //   ++highPowerTime;
+    // else if (highPowerTime > 0 && highPowerTime <= 20)
+    //   --highPowerTime;
 
-    if (highPowerTime >= 20)
-      TopIntake.stop(coast);
-    else if (highPowerTime < 20)
-      TopIntake.spin(direction, 12, vex::voltageUnits::volt);
+    // if (highPowerTime >= 20)
+    //   TopIntake.stop(coast);
+    // else if (highPowerTime < 20)
+    TopIntake.spin(direction, 12, vex::voltageUnits::volt);
   };
 
   void spinFullIntake(vex::directionType direction)

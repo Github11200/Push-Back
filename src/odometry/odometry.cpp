@@ -107,13 +107,16 @@ void Odometry::updatePosition(bool sendLogs)
   Vector2D<double> localTranslation;
   Vector2D<double> globalTranslation;
 
-  if (deltaTheta.angle == 0)
+  cout << deltaTheta.angle << endl;
+  if (deltaTheta.angle == 0.0)
   {
+    cout << "equals zero" << endl;
     localTranslation.x = sidewaysTrackerDelta;
     localTranslation.y = forwardTrackerDelta;
   }
   else
   {
+    cout << "is not zero" << endl;
     double length = 2 * sin(deltaTheta.angle / 2);
 
     localTranslation.x = length * ((sidewaysTrackerDelta / deltaTheta.angle) + sidewaysTrackerCenterDistance);
@@ -141,11 +144,8 @@ void Odometry::updatePosition(bool sendLogs)
   globalTranslation.x = polarLength * cos(globalPolarAngle);
   globalTranslation.y = polarLength * sin(globalPolarAngle);
 
-  if (!pauseOdom)
-  {
-    currentPose.position.x += globalTranslation.x;
-    currentPose.position.y += globalTranslation.y;
-  }
+  currentPose.position.x += globalTranslation.x;
+  currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
   Brain.Screen.clearScreen();
@@ -198,4 +198,25 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
     this->currentPose.position.y = distance;
   else if (wall == Wall::RIGHT || wall == Wall::LEFT)
     this->currentPose.position.x = distance;
+}
+
+void Odometry::getWheelDistances()
+{
+  chassis->resetEncoders();
+  Logger::sendMessage("Starting wheel distances test...");
+  Logger::sendMessage("Turn the robot around 10 times.");
+
+  while (!Controller.ButtonA.pressing())
+    wait(20, msec);
+
+  double forwardTrackerDelta = getTrackersPositions().forward;
+  double sidewaysTrackerDelta = getTrackersPositions().sideways;
+
+  double forwardTrackerDistanceFromCenter = -(forwardTrackerDelta / 1800);
+  double sidewaysTrackerDistanceFromCenter = -(sidewaysTrackerDelta / 1800);
+
+  cout << "Forward tracker delta: " << forwardTrackerDelta << "\n"
+       << "Sideways tracker delt: " << sidewaysTrackerDelta << "\n"
+       << "Forward tracker distance from center: " << forwardTrackerDistanceFromCenter << "\n"
+       << "Sideways tracker distance from center: " << sidewaysTrackerDistanceFromCenter << endl;
 }

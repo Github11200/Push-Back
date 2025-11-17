@@ -5,6 +5,7 @@
 #include "vex.h"
 #include "utils/logger.h"
 #include <string>
+#include <sstream>
 
 using namespace vex;
 using namespace std;
@@ -127,6 +128,8 @@ public:
   void setPosition(double xPosition, double yPosition, double theta);
 
   void wallReset(DistanceSensor DistanceSensor, Wall wall);
+
+  void getWheelDistances();
 };
 
 extern Odometry odometry;
