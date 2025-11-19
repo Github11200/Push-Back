@@ -30,6 +30,7 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
     if (previousTurnError.angle == -360)
       previousTurnError = turnError;
 
+    cout << turnError.angle << endl;
     // If the min voltage isn't 0 and the robot is tweaking out then just exit
     if (params.turnMinVoltage != 0 && sgn(previousTurnError.angle) != sgn(turnError.angle))
       break;
