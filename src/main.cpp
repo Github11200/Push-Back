@@ -34,7 +34,7 @@ Chassis chassis(
     PORT7,
 
     // Inertial scaling
-    357.5,
+    357.5, // 357.5
 
     // Odometry tracker setup
     TrackerSetup::TWO_TRACKER,
@@ -56,7 +56,7 @@ Chassis chassis(
     0,
 
     // Sideways tracker distance
-    -4,
+    4.47538,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -92,7 +92,7 @@ void pre_auton(void)
 
   // Testing::runAllTests();
   autons.prepareAuton();
-  // chassis.odometry->startPositionTrackThread(false);
+  chassis.odometry->startPositionTrackThread(false);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -130,8 +130,12 @@ void usercontrol(void)
   // driver.startJoysticksThread();
   // driver.startPistonsThread();
 
-  wait(6, sec);
-  autons.runAuton(AutonName::SKILLS);
+  wait(4, sec);
+  chassis.driveToPoint(Pose<double>(0, 40, 0), {}, {}, {});
+  cout << "Theta: " << chassis.getAbsoluteHeading().angle << endl;
+  cout << "X: " << chassis.odometry->getPose().position.x << endl;
+  cout << "Y: " << chassis.odometry->getPose().position.y << endl;
+  // autons.runAuton(AutonName::HIGH, Side::LEFT_SIDE);
 
   // User control code here, inside the loop
   while (1)
