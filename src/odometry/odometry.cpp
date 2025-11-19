@@ -107,16 +107,13 @@ void Odometry::updatePosition(bool sendLogs)
   Vector2D<double> localTranslation;
   Vector2D<double> globalTranslation;
 
-  cout << deltaTheta.angle << endl;
   if (deltaTheta.angle == 0.0)
   {
-    cout << "equals zero" << endl;
     localTranslation.x = sidewaysTrackerDelta;
     localTranslation.y = forwardTrackerDelta;
   }
   else
   {
-    cout << "is not zero" << endl;
     double length = 2 * sin(deltaTheta.angle / 2);
 
     localTranslation.x = length * ((sidewaysTrackerDelta / deltaTheta.angle) + sidewaysTrackerCenterDistance);
@@ -173,8 +170,8 @@ void Odometry::setPosition(double xPosition, double yPosition, double theta)
 {
   currentPose.position.x = xPosition;
   currentPose.position.y = yPosition;
+  chassis->Inertial.setRotation(theta, deg);
   currentPose.orientation.angle = theta;
-  chassis->Inertial.setHeading(theta, deg);
 }
 
 void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)

@@ -19,7 +19,7 @@ void Joysticks::control(double power, double turning)
   if (outputs.left == 0)
     Left.stop(brake);
   if (outputs.right == 0)
-    Right.stop(brake); 
+    Right.stop(brake);
 
   Right.spin(vex::directionType::fwd, outputs.right, vex::voltageUnits::volt);
   Left.spin(vex::directionType::fwd, outputs.left, vex::voltageUnits::volt);
