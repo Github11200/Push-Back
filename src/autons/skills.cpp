@@ -2,55 +2,47 @@
 #include "subsystems/intake.h"
 #include "vex.h"
 
+// TODO: Move the coordinates when it's at the third goal and scoring to be further down (increase the absolute value of y)
+
 void Autons::skills()
 {
   // Set starting coordinates
-  chassisReference->odometry->setPosition(17.5, -46.5, 90);
+  chassisReference->odometry->setPosition(-46.5, -16.5, 180);
   chassisReference->odometry->startPositionTrackThread(true);
 
-  // chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
-  // chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
+  // Drive in front of the dispenser
+  chassisReference->driveToPoint(Pose<double>(-46.5, -46, 0), {}, {}, {});
 
-  chassisReference->driveToPoint(Pose<double>(47, -46.5, 90), {}, {}, {});
-
-  return;
   // 1st dispenser
-  chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
+  chassisReference->turnTo(Pose<double>(0, 0, 270), {}, {});
   willyNilly.on();
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-47, 70, 0), {.driveTimeout = 3000}, {}, {}); // Drive into the dispenser for 3 seconds
+  chassisReference->driveToPoint(Pose<double>(-70, -47, 0), {.driveTimeout = 3000, .driveMaxVoltage = 5}, {}, {}); // Drive into the dispenser for 3 seconds
 
-  // 1st long goal
-  chassisReference->driveToPoint(Pose<double>(-47, 31, 0), {}, {}, {.forwards = false});
+  // Drive back
+  chassisReference->driveToPoint(Pose<double>(-39, -47, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
+
+  // Drive across field to 2nd goal first
+  chassisReference->turnTo(Pose<double>(0, 0, 0), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 47, 0), {}, {}, {});
+
+  // 2nd long goal
+  chassisReference->turnTo(Pose<double>(0, 0, 270), {}, {});
+  intake.spinFullIntake(vex::directionType::fwd);
+  chassisReference->driveToPoint(Pose<double>(-20, 48.5, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->odometry->setPosition(-28.5, 47, chassisReference->getAbsoluteHeading().angle);
 
   // Score
   sloper.on();
   wait(3000, msec);
-  intake.stopFullIntake();
   sloper.off();
   wait(300, msec);
 
-  return;
-
-  // Back away from 1st long goal
-  chassisReference->driveToPoint(Pose<double>(-47, 39, 0), {}, {}, {});
-
-  // Drive across field to 2nd dispenser
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, -90), {}, {});
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(47, 39, 0), {}, {}, {});
-
-  // 2nd dispenser
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
-  willyNilly.on();
-  intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(47, 70, 0), {.driveTimeout = 3000}, {}, {});
+  // Drive into the dispenser
+  chassisReference->driveToPoint(Pose<double>(-70, 47, 0), {.driveTimeout = 3000, .driveMaxVoltage = 5}, {}, {});
 
   // 2nd long goal
-  chassisReference->driveToPoint(Pose<double>(47, 31, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 47, 0), {.driveTimeout = 2000}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -60,36 +52,39 @@ void Autons::skills()
   wait(300, msec);
 
   // Back away from 2nd long goal
-  chassisReference->driveToPoint(Pose<double>(47, 39, 0), {}, {}, {});
+  willyNilly.off();
+  chassisReference->driveToPoint(Pose<double>(-39, 47, 0), {}, {}, {});
 
   // Position to the alleyway
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, -90), {}, {});
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(60, 39, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(0, 0, 0), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 58, 0), {}, {}, {});
+  finger.on();
 
   // Drive to 3rd dispenser
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, 0), {}, {});
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(60, -38, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(0, 0, 90), {}, {});
+  chassisReference->driveToPoint(Pose<double>(39, 58, 0), {}, {}, {});
 
   // Align to 3rd dispenser
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, 45), {}, {});
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(47, -51, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
+  chassisReference->driveToPoint(Pose<double>(39, 43, 0), {}, {}, {});
 
   // 3rd dispenser
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, 0), {}, {});
   willyNilly.on();
+  chassisReference->turnTo(Pose<double>(0, 0, 90), {}, {});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(47, -70, 0), {.driveTimeout = 3000}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(70, 43, 0), {.driveTimeout = 3000, .driveMaxVoltage = 5}, {}, {});
 
-  // 2nd long goal other half
-  chassisReference->driveToPoint(Pose<double>(47, -31, 0), {}, {}, {.forwards = false});
+  // Drive back from it
+  chassisReference->driveToPoint(Pose<double>(39, 43, 0), {}, {}, {.forwards = false});
+
+  // Go to the other side of the field
+  chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
+  chassisReference->driveToPoint(Pose<double>(39, -47, 0), {}, {}, {});
+
+  // Score on the long goal
+  chassisReference->turnTo(Pose<double>(0, 0, 90), {}, {});
+  chassisReference->driveToPoint(Pose<double>(20, -47, 0), {}, {}, {.forwards = false});
+  chassisReference->odometry->setPosition(28.5, -47, chassisReference->getAbsoluteHeading().angle);
 
   // Score
   sloper.on();
@@ -98,22 +93,11 @@ void Autons::skills()
   sloper.off();
   wait(300, msec);
 
-  // Back away from 2nd long goal other half
-  chassisReference->driveToPoint(Pose<double>(47, -39, 0), {}, {}, {});
-
-  // Drive across field to 4th dispenser
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, 90), {}, {});
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(-47, -39, 0), {}, {}, {.forwards = false});
-
   // 4th dispenser
-  chassisReference->odometry->pausePositionTrackThread();
-  chassisReference->turnTo(Pose<double>(0, 0, 0), {}, {});
-  willyNilly.on();
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->odometry->resumePositionTrackThread();
-  chassisReference->driveToPoint(Pose<double>(-47, -70, 0), {.driveTimeout = 3000}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(70, -47, 0), {.driveTimeout = 3000}, {}, {});
+
+  return;
 
   // 1st long goal other half
   chassisReference->driveToPoint(Pose<double>(-47, -31, 0), {}, {}, {.forwards = false});

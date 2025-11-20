@@ -92,7 +92,6 @@ void pre_auton(void)
 
   // Testing::runAllTests();
   autons.prepareAuton();
-  chassis.odometry->startPositionTrackThread(false);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -110,7 +109,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::HIGH);
+  autons.runAuton(AutonName::SKILLS);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -131,11 +130,9 @@ void usercontrol(void)
   // driver.startPistonsThread();
 
   wait(4, sec);
-  chassis.driveToPoint(Pose<double>(0, 40, 0), {}, {}, {});
-  cout << "Theta: " << chassis.getAbsoluteHeading().angle << endl;
-  cout << "X: " << chassis.odometry->getPose().position.x << endl;
-  cout << "Y: " << chassis.odometry->getPose().position.y << endl;
-  // autons.runAuton(AutonName::HIGH, Side::LEFT_SIDE);
+  autons.runAuton(AutonName::SKILLS);
+  // chassis.driveToPoint(Pose<double>(0, 20, 0), {}, {}, {});
+  // cout << "Y: " << chassis.odometry->getPose().position.y << endl;
 
   // User control code here, inside the loop
   while (1)
