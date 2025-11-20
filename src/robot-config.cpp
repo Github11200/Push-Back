@@ -28,6 +28,7 @@ motor_group Right = motor_group(FrontRight, MiddleRight, BackRight);
 
 vex::controller::button IntakeButton = Controller.ButtonL1;
 vex::controller::button OuttakeButton = Controller.ButtonR1;
+vex::controller::button OuttakeWithHoodUpButton = Controller.ButtonR2;
 vex::controller::button WillyNillyButton = Controller.ButtonB;
 vex::controller::button FingerButton = Controller.ButtonDown;
 vex::controller::button SloperButton = Controller.ButtonX;

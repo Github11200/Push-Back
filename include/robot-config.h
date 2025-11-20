@@ -30,6 +30,7 @@ extern motor_group Right;
 
 extern vex::controller::button IntakeButton;
 extern vex::controller::button OuttakeButton;
+extern vex::controller::button OuttakeWithHoodUpButton;
 extern vex::controller::button WillyNillyButton;
 extern vex::controller::button FingerButton;
 extern vex::controller::button SloperButton;

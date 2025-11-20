@@ -50,6 +50,14 @@ void Driver::buttonsLoopCallback()
   if (OuttakeButton.pressing())
     intake.spinFullIntake(vex::directionType::rev);
 
+  if (OuttakeWithHoodUpButton.pressing())
+  {
+    wait(100, msec);
+    sloper.on();
+    wait(100, msec);
+    intake.spinFullIntake(vex::directionType::rev);
+  }
+
   if (HighGoalScoreButton.pressing())
   {
     wait(100, msec);
