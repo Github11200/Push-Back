@@ -19,18 +19,17 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
   {
     currentPose = odometry->getPose();
 
-    Angle<double> additionalAngle = Angle<double>(settings.forwards ? 0 : 180);
+    Angle<double> additionalAngle = Angle<double>(settings.forwards ? 0 : -180);
 
     // If the angle is -360 that means we want to turn to a point
     if (target.orientation.angle == -360)
       turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180();
     else // we want to turn to an angle
-      turnError = currentPose.orientation.angleTo(target.orientation).constrainNegative180To180();
+      turnError = currentPose.orientation.angleTo(target.orientation);
 
     if (previousTurnError.angle == -360)
       previousTurnError = turnError;
 
-    cout << turnError.angle << endl;
     // If the min voltage isn't 0 and the robot is tweaking out then just exit
     if (params.turnMinVoltage != 0 && sgn(previousTurnError.angle) != sgn(turnError.angle))
       break;

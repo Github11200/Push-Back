@@ -27,8 +27,6 @@ void Autons::prepareAuton()
 
 void Autons::runAuton(AutonName name)
 {
-  chassisReference->odometry->startPositionTrackThread(true);
-  chassisReference->odometry->setPosition(0, 0, 0);
   this->side = side;
 
   switch (name)

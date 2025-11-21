@@ -66,8 +66,10 @@ TrackerPositions Odometry::getTrackersPositions()
 
 void Odometry::startPositionTrackThread(bool sendLogs)
 {
+  cout << sendLogs << endl;
   static Odometry *odometryPointer = this;
   static bool staticSendLogs = sendLogs;
+  cout << staticSendLogs << endl;
 
   isTracking = true;
   previousHeading = Angle<double>(chassis->getAbsoluteHeading().toRad());
@@ -158,7 +160,9 @@ void Odometry::updatePosition(bool sendLogs)
   {
     i = 0;
     if (sendLogs)
+    {
       Logger::sendPositionData(currentPose);
+    }
   }
   ++i;
 

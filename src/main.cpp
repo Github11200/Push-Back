@@ -130,7 +130,13 @@ void usercontrol(void)
   // driver.startPistonsThread();
 
   wait(4, sec);
+  // chassis.odometry->setPosition(-46.5, -16.5, 180);
+  // chassis.odometry->startPositionTrackThread(false);
+  // chassis.turnTo(Pose<double>(0, 0, 270), {}, {});
   autons.runAuton(AutonName::SKILLS);
+  // chassis.odometry->startPositionTrackThread(false);
+  // chassis.odometry->setPosition(0, 0, 0);
+  // chassis.turnTo(Pose<double>(5, 0, -360), {}, {.forwards = false});
   // chassis.driveToPoint(Pose<double>(0, 20, 0), {}, {}, {});
   // cout << "Y: " << chassis.odometry->getPose().position.y << endl;
 

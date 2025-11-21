@@ -35,7 +35,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     {
       isClose = true;
       driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 24, -0.5, 12);
+      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.5, 1);
     }
 
     double driveError = distanceToTarget;
