@@ -25,7 +25,7 @@ struct Vector2D
   constexpr T magnitude() const { return sqrt(this->x * this->x + this->y * this->y); }
 
   constexpr T distanceTo(const Vector2D<T> &other) const { return sqrt(pow(this->x - other.x, 2) + pow(this->y - other.y, 2)); }
-  constexpr Angle<T> angleTo(const Vector2D<T> &other) const { return Angle<T>(atan2(other.x - this->x, other.y - this->y)).toDeg(); }
+  constexpr Angle<T> angleTo(const Vector2D<T> &other) const { return Angle<T>(atan2(other.x - this->x, other.y - this->y)).toDeg() }
 
   constexpr T dot(const Vector2D<T> &other) const { return this->x * other.x + this->y * other.y; }
   constexpr T crossProduct(const Vector2D<T> &other) const { return this->x * other.y - other.x * this->y; }

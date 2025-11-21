@@ -122,6 +122,9 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+// TODO: If the code tweaks out it is because of the change in the angleTo function inn vector.h
+// TODO: I also changed the drive to point sigmoid again :)
+
 void usercontrol(void)
 {
   // if (chassis.odometry->isTracking)
