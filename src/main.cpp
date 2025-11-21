@@ -122,7 +122,7 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-// TODO: If the code tweaks out it is because of the change in the angleTo function inn vector.h
+// TODO: If the code tweaks out it is because of the change in the angleTo function in vector.h
 // TODO: I also changed the drive to point sigmoid again :)
 
 void usercontrol(void)
@@ -140,7 +140,7 @@ void usercontrol(void)
   // chassis.odometry->startPositionTrackThread(false);
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.turnTo(Pose<double>(5, 0, -360), {}, {.forwards = false});
-  // chassis.driveToPoint(Pose<double>(0, 20, 0), {}, {}, {});
+  // chassis.driveToPoint(Pose<double>(0, 20, 0), {.driveTimeout = 10000000}, {.turnMaxVoltage = 0}, {});
   // cout << "Y: " << chassis.odometry->getPose().position.y << endl;
 
   // User control code here, inside the loop

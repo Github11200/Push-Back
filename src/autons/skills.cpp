@@ -6,7 +6,7 @@ void Autons::skills()
 {
   // Set starting coordinates
   chassisReference->odometry->setPosition(-46.5, -16.5, 180);
-  chassisReference->odometry->startPositionTrackThread(true);
+  chassisReference->odometry->startPositionTrackThread(false);
 
   // Drive in front of the dispenser
   chassisReference->turnTo(Pose<double>(-46.5, -47, 180), {}, {});
@@ -29,7 +29,7 @@ void Autons::skills()
   // 2nd long goal
   chassisReference->turnTo(Pose<double>(-28.5, 4, 270), {}, {});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-20, 45, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 45, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
   chassisReference->odometry->setPosition(-28.5, 47, chassisReference->getAbsoluteHeading().angle);
 
   // Score
@@ -44,7 +44,7 @@ void Autons::skills()
 
   // Score on the 2nd long goal again
   chassisReference->turnTo(Pose<double>(-20, 47, 270), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-20, 47, 0), {.driveTimeout = 2000}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 47, 0), {.driveTimeout = 2000, .driveMaxVoltage = 5}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -85,7 +85,7 @@ void Autons::skills()
 
   // Score on the long goal
   chassisReference->turnTo(Pose<double>(20, -51, 90), {}, {});
-  chassisReference->driveToPoint(Pose<double>(20, -51, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(20, -51, 0), {.driveMaxVoltage = 5}, {}, {.forwards = false});
   chassisReference->odometry->setPosition(28.5, -47, chassisReference->getAbsoluteHeading().angle);
 
   // Score
@@ -102,7 +102,7 @@ void Autons::skills()
   // Score the blocks from the dispenser again in the 2nd dispenser
   willyNilly.off();
   chassisReference->turnTo(Pose<double>(20, -45, 90), {}, {});
-  chassisReference->driveToPoint(Pose<double>(20, -45, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(20, -45, 0), {.driveMaxVoltage = 5}, {}, {.forwards = false});
 
   // Score
   sloper.on();
