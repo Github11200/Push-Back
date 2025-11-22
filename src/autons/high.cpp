@@ -42,7 +42,7 @@ void Autons::high()
 
   // Ram into loader
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-70, 45.5, 180), {.driveMaxVoltage = 7, .driveTimeout = 1100}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-70, 45.5, 180), {.driveMaxVoltage = 5, .driveTimeout = 1100}, {}, {});
   wait(1100, msec); // Eat it all up
 
   // Line up to long goal

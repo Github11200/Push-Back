@@ -44,17 +44,14 @@ void Driver::buttonsLoopCallback()
 {
   if (IntakeButton.pressing() || HighGoalScoreButton.pressing() || MiddleGoalScoreButton.pressing())
   {
-    cout << "intake forward" << endl;
     intake.spinFullIntake(vex::directionType::fwd);
   }
   else if (OuttakeButton.pressing() || OuttakeWithHoodUpButton.pressing())
   {
-    cout << "intake reversing" << endl;
     intake.spinFullIntake(vex::directionType::rev);
   }
   else
   {
-    cout << "intake stopping" << endl;
     intake.stopFullIntake();
   }
 
