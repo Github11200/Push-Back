@@ -42,43 +42,31 @@ void Driver::pistonToggle(Pneumatic &piston, vex::controller::button pistonButto
 
 void Driver::buttonsLoopCallback()
 {
-  if (IntakeButton.pressing())
+  if (IntakeButton.pressing() || HighGoalScoreButton.pressing() || MiddleGoalScoreButton.pressing())
+  {
+    cout << "intake forward" << endl;
     intake.spinFullIntake(vex::directionType::fwd);
+  }
+  else if (OuttakeButton.pressing() || OuttakeWithHoodUpButton.pressing())
+  {
+    cout << "intake reversing" << endl;
+    intake.spinFullIntake(vex::directionType::rev);
+  }
   else
-    intake.highPowerTime = 0;
-
-  if (OuttakeButton.pressing())
-    intake.spinFullIntake(vex::directionType::rev);
-
-  if (OuttakeWithHoodUpButton.pressing())
   {
-    wait(100, msec);
-    sloper.on();
-    wait(100, msec);
-    intake.spinFullIntake(vex::directionType::rev);
+    cout << "intake stopping" << endl;
+    intake.stopFullIntake();
   }
 
-  if (HighGoalScoreButton.pressing())
-  {
-    wait(100, msec);
+  if (HighGoalScoreButton.pressing() || OuttakeWithHoodUpButton.pressing())
     sloper.on();
-    wait(100, msec);
-    intake.spinFullIntake(vex::directionType::fwd);
-  }
   else
     sloper.off();
 
   if (MiddleGoalScoreButton.pressing())
-  {
     blocker.on();
-    wait(100, msec);
-    intake.spinFullIntake(vex::directionType::fwd);
-  }
   else
     blocker.off();
-
-  if (!IntakeButton.pressing() && !HighGoalScoreButton.pressing() && !MiddleGoalScoreButton.pressing() && !OuttakeButton.pressing())
-    intake.stopFullIntake();
 }
 
 void Driver::pistonsLoopCallback()

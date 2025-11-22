@@ -109,7 +109,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::SKILLS);
+  autons.runAuton(AutonName::HIGH);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -129,14 +129,14 @@ void usercontrol(void)
 {
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
-  // driver.startJoysticksThread();
-  // driver.startPistonsThread();
+  driver.startJoysticksThread();
+  driver.startPistonsThread();
 
-  wait(4, sec);
+  // wait(4, sec);
+  // autons.runAuton(AutonName::HIGH);
   // chassis.odometry->setPosition(-46.5, -16.5, 180);
   // chassis.odometry->startPositionTrackThread(false);
   // chassis.turnTo(Pose<double>(0, 0, 270), {}, {});
-  autons.runAuton(AutonName::SKILLS);
   // chassis.odometry->startPositionTrackThread(false);
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.turnTo(Pose<double>(5, 0, -360), {}, {.forwards = false});
@@ -153,7 +153,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
