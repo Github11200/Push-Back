@@ -9,12 +9,12 @@ void Autons::skills()
   chassisReference->odometry->startPositionTrackThread(false);
 
   // Drive in front of the dispenser
+  willyNilly.on();
   chassisReference->turnTo(Pose<double>(-46.5, -47, 180), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-46.5, -47, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-46.5, -47, 0), {.driveTimeout = 1200}, {}, {});
 
   // 1st dispenser
   chassisReference->turnTo(Pose<double>(-70, -47, 270), {}, {});
-  willyNilly.on();
   intake.spinFullIntake(vex::directionType::fwd);
   chassisReference->driveToPoint(Pose<double>(-70, -47, 0), {.driveTimeout = 3000, .driveMaxVoltage = 4}, {}, {}); // Drive into the dispenser for 3 seconds
 
@@ -24,12 +24,12 @@ void Autons::skills()
 
   // Drive across field to 2nd goal first
   chassisReference->turnTo(Pose<double>(-39, 45, 0), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 45, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 47.2, 0), {}, {}, {});
 
   // 2nd long goal
   chassisReference->turnTo(Pose<double>(-28.5, 4, 270), {}, {});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-20, 45, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 47.2, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
   chassisReference->odometry->setPosition(-28.5, 47, chassisReference->getAbsoluteHeading().angle);
 
   // Score
@@ -55,11 +55,11 @@ void Autons::skills()
   // Back away from 2nd long goal
   willyNilly.off();
   chassisReference->turnTo(Pose<double>(-39, 47, 270), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 47, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 47, 0), {.driveTimeout = 1000}, {}, {});
 
   // Position to the alleyway
   chassisReference->turnTo(Pose<double>(-39, 58, 0), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 58, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 58, 0), {.driveTimeout = 1000}, {}, {});
 
   // Drive to 3rd dispenser
   chassisReference->turnTo(Pose<double>(39, 58, 90), {}, {});
@@ -77,7 +77,7 @@ void Autons::skills()
 
   // Drive back from it
   chassisReference->turnTo(Pose<double>(39, 43, 90), {}, {});
-  chassisReference->driveToPoint(Pose<double>(39, 43, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(39, 43, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
 
   // Go to the other side of the field
   chassisReference->turnTo(Pose<double>(39, -51, 180), {}, {});

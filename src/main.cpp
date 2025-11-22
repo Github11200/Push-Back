@@ -109,7 +109,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::HIGH);
+  autons.runAuton(AutonName::SOLO);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -133,7 +133,7 @@ void usercontrol(void)
   driver.startPistonsThread();
 
   // wait(4, sec);
-  // autons.runAuton(AutonName::HIGH);
+  // autons.runAuton(AutonName::SOLO);
   // chassis.odometry->setPosition(-46.5, -16.5, 180);
   // chassis.odometry->startPositionTrackThread(false);
   // chassis.turnTo(Pose<double>(0, 0, 270), {}, {});
