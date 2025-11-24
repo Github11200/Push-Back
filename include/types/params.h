@@ -37,7 +37,7 @@ struct DriveParams
   double driveKi = 0;         // tune third
   double driveKd = 2.5;       // tune second
   double driveStopIntegratingLimit = 1;
-  double driveSlew = 1; // by default the drive slew will be disabled
+  double driveSlew = 2.5; // TODO: CHANGE THIS FLIPPING THING BACK TO 1 OR IT'LL TWEAK OUT - Alex
 
   DriveParams() = default;
 };
