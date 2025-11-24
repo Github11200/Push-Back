@@ -30,17 +30,20 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
 
     double distanceToTarget = currentPose.position.distanceTo(target.position);
 
-    // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && distanceToTarget <= 7.0)
+    // If the distance is less than 7.5 then limit the max drive voltage and the max turn voltage can follow a sigmoid function
+    if (distanceToTarget <= 7.5)
     {
-      isClose = true;
-      driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
+      if (!isClose)
+      {
+        isClose = true;
+        driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.7);
+      }
       turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.5, 1);
-      turnParams.turnMaxVoltage = 0;
     }
 
     double driveError = distanceToTarget;
-    Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + (!settings.forwards ? Angle<double>(180) : Angle<double>(0))).constrainNegative180To180();
+    Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
+    Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
@@ -49,7 +52,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
       the lateral rather than the angular movement
     */
-    headingScaleFactor = cos((currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180().toRad().angle);
+    headingScaleFactor = cos(turnError.toRad().angle); // Changed it to just the turn error
 
     {
       Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
@@ -60,11 +63,11 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       const bool side = lineFromCurrentPositionToTarget.crossProduct(projectedPerpendicularLine) <= driveParams.driveSettleError;
       if (previousSide == -1)
         previousSide = side;
-      const bool sameSide = previousSide == side ? true : false;
+      const bool sameSide = previousSide == side;
 
       // If the robot crossed over this perpendicular line and the min drive voltage is not 0 then it'll
       // keep oscillating and not settle so instead just have it stop the motion
-      if (!sameSide && driveParams.driveMinVoltage > 0)
+      if (!sameSide)
         break;
       previousSide = side;
     }

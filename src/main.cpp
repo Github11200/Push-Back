@@ -27,8 +27,6 @@ using namespace vex;
 competition Competition;
 
 // define your global instances of motors and other devices here
-Driver driver;
-
 Chassis chassis(
     // Inertial port
     PORT7,
@@ -89,8 +87,7 @@ void pre_auton(void)
 {
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
-
-  // Testing::runAllTests();
+  Testing::runAllTests();
   autons.prepareAuton();
 }
 
@@ -124,21 +121,12 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // if (chassis.odometry->isTracking)
-  //   chassis.odometry->stopPositionTrackThread();
+  if (chassis.odometry->isTracking)
+    chassis.odometry->stopPositionTrackThread();
+
+  Driver driver;
   driver.startJoysticksThread();
   driver.startPistonsThread();
-
-  // wait(4, sec);
-  // autons.runAuton(AutonName::SOLO);
-  // chassis.odometry->setPosition(-46.5, -16.5, 180);
-  // chassis.odometry->startPositionTrackThread(false);
-  // chassis.turnTo(Pose<double>(0, 0, 270), {}, {});
-  // chassis.odometry->startPositionTrackThread(false);
-  // chassis.odometry->setPosition(0, 0, 0);
-  // chassis.turnTo(Pose<double>(5, 0, -360), {}, {.forwards = false});
-  // chassis.driveToPoint(Pose<double>(0, 20, 0), {.driveTimeout = 10000000}, {.turnMaxVoltage = 0}, {});
-  // cout << "Y: " << chassis.odometry->getPose().position.y << endl;
 
   // User control code here, inside the loop
   while (1)

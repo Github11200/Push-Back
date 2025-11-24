@@ -24,8 +24,6 @@ enum Side
 class Autons
 {
 private:
-  vex::color allianceColor;
-  Side side;
   Chassis *chassisReference;
   Intake intake;
 

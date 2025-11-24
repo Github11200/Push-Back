@@ -61,8 +61,8 @@ void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnPara
       const bool sameSide = robotSide == carrotSide;
 
       // If the bot is close to being settled, previously it was the same side and now it's not then it means the carrot point is behind
-      // the perpendicular line and the robot is ahead of it, and since drive min voltage isn't 0 it'll start tweaking out so just exit
-      if (isClose && previousSameSide && !sameSide && driveParams.driveMinVoltage != 0)
+      // the perpendicular line and the robot is ahead of it
+      if (previousSameSide && !sameSide)
         break;
       previousSameSide = sameSide;
     }

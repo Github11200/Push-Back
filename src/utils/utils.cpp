@@ -24,10 +24,8 @@ T clamp(T value, T min, T max)
 template <class T>
 T clampMin(T value, T min)
 {
-  if (value < 0 && value > -min)
-    return -min;
-  else if (value > 0 && value < min)
-    return min;
+  if (fabs(value) < min)
+    return min * sgn(value);
   return value;
 }
 

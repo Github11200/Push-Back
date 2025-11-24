@@ -27,8 +27,6 @@ void Autons::prepareAuton()
 
 void Autons::runAuton(AutonName name)
 {
-  this->side = side;
-
   switch (name)
   {
   case AutonName::TESTING:
