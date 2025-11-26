@@ -8,7 +8,7 @@ Autons::Autons(Chassis *chassis)
 void Autons::printMessage(string message)
 {
   Brain.Screen.clearScreen();
-  Brain.Screen.setFillColor(allianceColor);
+  // Brain.Screen.setFillColor(allianceColor);
   Brain.Screen.drawRectangle(0, 0, 479, 239);
   Brain.Screen.setPenWidth(10);
   Brain.Screen.print("%s\n", message.c_str());

@@ -11,7 +11,7 @@ void Autons::skills()
   // Drive in front of the dispenser
   willyNilly.on();
   chassisReference->turnTo(Pose<double>(-46.5, -47, 180), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-46.5, -47, 0), {.driveTimeout = 1200}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-46.5, -47, 0), {.driveTimeout = 1500}, {}, {});
 
   // 1st dispenser
   chassisReference->turnTo(Pose<double>(-70, -47, 270), {}, {});
@@ -20,23 +20,22 @@ void Autons::skills()
 
   // Drive back
   chassisReference->turnTo(Pose<double>(-39, -47, 270), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, -47, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-39, -46.5, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
 
   // Drive across field to 2nd goal first
   chassisReference->turnTo(Pose<double>(-39, 45, 0), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 47.2, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 47, 0), {}, {}, {});
 
   // 2nd long goal
   chassisReference->turnTo(Pose<double>(-28.5, 4, 270), {}, {});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-20, 47.2, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 47, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
   chassisReference->odometry->setPosition(-28.5, 47, chassisReference->getAbsoluteHeading().angle);
 
   // Score
   sloper.on();
-  wait(3000, msec);
+  wait(1500, msec);
   sloper.off();
-  wait(300, msec);
 
   // Drive into the dispenser
   chassisReference->turnTo(Pose<double>(-70, 47, 270), {}, {});
@@ -44,13 +43,12 @@ void Autons::skills()
 
   // Score on the 2nd long goal again
   chassisReference->turnTo(Pose<double>(-20, 47, 270), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-20, 47, 0), {.driveTimeout = 2000, .driveMaxVoltage = 5}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 47, 0), {.driveTimeout = 2000}, {}, {.forwards = false});
 
   // Score
   sloper.on();
-  wait(3000, msec);
+  wait(1500, msec);
   sloper.off();
-  wait(300, msec);
 
   // Back away from 2nd long goal
   willyNilly.off();
@@ -63,11 +61,11 @@ void Autons::skills()
 
   // Drive to 3rd dispenser
   chassisReference->turnTo(Pose<double>(39, 58, 90), {}, {});
-  chassisReference->driveToPoint(Pose<double>(39, 58, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(39, 58, 0), {.driveTimeout = 2000}, {}, {});
 
   // Align to 3rd dispenser
   chassisReference->turnTo(Pose<double>(39, 43, 180), {}, {});
-  chassisReference->driveToPoint(Pose<double>(39, 43, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(39, 43, 0), {.driveTimeout = 1000}, {}, {});
 
   // 3rd dispenser
   willyNilly.on();
@@ -106,9 +104,8 @@ void Autons::skills()
 
   // Score
   sloper.on();
-  wait(3000, msec);
+  wait(1500, msec);
   sloper.off();
-  wait(300, msec);
 
   chassisReference->turnTo(Pose<double>(30, -45, 90), {}, {});
   chassisReference->driveToPoint(Pose<double>(30, -45, 0), {}, {}, {});

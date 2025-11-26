@@ -52,7 +52,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
       the lateral rather than the angular movement
     */
-    headingScaleFactor = cos(turnError.toRad().angle); // Changed it to just the turn error
+    headingScaleFactor = cos((currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180().toRad().angle);
 
     {
       Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
@@ -67,7 +67,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
 
       // If the robot crossed over this perpendicular line and the min drive voltage is not 0 then it'll
       // keep oscillating and not settle so instead just have it stop the motion
-      if (!sameSide)
+      if (!sameSide && driveParams.driveMinVoltage > 0)
         break;
       previousSide = side;
     }
