@@ -54,6 +54,6 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
     wait(settings.updateTime, msec);
   }
 
-  Left.stop(brake);
-  Right.stop(brake);
+  Left.stop(hold);
+  Right.stop(hold);
 }

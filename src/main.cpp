@@ -54,7 +54,7 @@ Chassis chassis(
     0,
 
     // Sideways tracker distance
-    4.47538,
+    5.85725,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -87,8 +87,9 @@ void pre_auton(void)
 {
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
-  Testing::runAllTests();
+  // Testing::runAllTests();
   autons.prepareAuton();
+  chassis.odometry->startPositionTrackThread(false);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -121,12 +122,16 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  if (chassis.odometry->isTracking)
-    chassis.odometry->stopPositionTrackThread();
+  // if (chassis.odometry->isTracking)
+  //   chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
+  // Driver driver;
+  // driver.startJoysticksThread();
+  // driver.startPistonsThread();
+
+  wait(4, sec);
+  // chassis.turnTo(Pose<double>(0, 0, 90), {}, {});
+  autons.runAuton(AutonName::SKILLS);
 
   // User control code here, inside the loop
   while (1)
@@ -138,7 +143,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

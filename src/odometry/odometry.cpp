@@ -203,21 +203,53 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
 
 void Odometry::getWheelDistances()
 {
-  chassis->resetEncoders();
-  Logger::sendMessage("Starting wheel distances test...");
-  Logger::sendMessage("Turn the robot around 10 times.");
+  // THIS SUCKS :)
+  // chassis->resetEncoders();
+  // Logger::sendMessage("Starting wheel distances test...");
+  // Logger::sendMessage("Turn the robot around 10 times.");
 
-  while (!Controller.ButtonA.pressing())
-    wait(20, msec);
+  // while (!Controller.ButtonA.pressing())
+  //   wait(20, msec);
 
-  double forwardTrackerDelta = getTrackersPositions().forward;
-  double sidewaysTrackerDelta = getTrackersPositions().sideways;
+  // double forwardTrackerDelta = getTrackersPositions().forward;
+  // double sidewaysTrackerDelta = getTrackersPositions().sideways;
 
-  double forwardTrackerDistanceFromCenter = -(forwardTrackerDelta / 1800);
-  double sidewaysTrackerDistanceFromCenter = -(sidewaysTrackerDelta / 1800);
+  // double forwardTrackerDistanceFromCenter = -(forwardTrackerDelta / 1800);
+  // double sidewaysTrackerDistanceFromCenter = -(sidewaysTrackerDelta / 1800);
 
-  cout << "Forward tracker delta: " << forwardTrackerDelta << "\n"
-       << "Sideways tracker delt: " << sidewaysTrackerDelta << "\n"
-       << "Forward tracker distance from center: " << forwardTrackerDistanceFromCenter << "\n"
-       << "Sideways tracker distance from center: " << sidewaysTrackerDistanceFromCenter << endl;
+  // cout << "Forward tracker delta: " << forwardTrackerDelta << "\n"
+  //      << "Sideways tracker delt: " << sidewaysTrackerDelta << "\n"
+  //      << "Forward tracker distance from center: " << forwardTrackerDistanceFromCenter << "\n"
+  //      << "Sideways tracker distance from center: " << sidewaysTrackerDistanceFromCenter << endl;
+
+  int iterations = 50;
+  double forwardOffset = 0;
+  double sidewaysOffset = 0;
+
+  for (int i = 1; i <= iterations; ++i)
+  {
+    chassis->resetEncoders();
+    setPosition(0, 0, 0);
+    Angle<double> initialTheta = chassis->getAbsoluteHeading();
+
+    double target = i % 2 == 0 ? 90 : 270;
+    chassis->turnTo(Pose<double>(0, 0, target), {.turnMaxVoltage = 6}, {});
+    wait(250, msec);
+
+    Angle<double> deltaTheta = Angle<double>(fabs((chassis->getAbsoluteHeading() - initialTheta).constrainNegative180To180().angle)).toRad();
+    // cout << deltaTheta.toDeg().angle << endl;
+
+    double forwardDelta = -chassis->getForwardTrackerPosition();
+    double sidewaysDelta = chassis->getSidewaysTrackerPosition();
+    cout << "sidewaysDelta: " << fabs(sidewaysDelta) / deltaTheta.angle << endl;
+
+    forwardOffset += fabs(forwardDelta) / deltaTheta.angle;
+    sidewaysOffset += fabs(sidewaysDelta) / deltaTheta.angle;
+    // cout << "Forward offset: " << (forwardOffset) << endl;
+    cout << "total: " << (sidewaysOffset) << endl;
+    cout << "offset: " << (sidewaysOffset / i) << endl;
+  }
+
+  // cout << "Forward offset: " << (forwardOffset / iterations) << endl;
+  cout << "Sideways offset: " << (sidewaysOffset / iterations) << endl;
 }

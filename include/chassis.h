@@ -18,15 +18,14 @@ using namespace std;
 class Chassis
 {
 private:
-  rotation forwardTracker;
-  rotation sidewaysTracker;
-
   double inertialScaling = 360;
   double trackWidth;
   double forwardTrackerInchesToDegreesRatio;
   double sidewaysTrackerInchesToDegreesRatio;
 
 public:
+  rotation forwardTracker;
+  rotation sidewaysTracker;
   Odometry *odometry;
   Pursuit *pursuit;
   inertial Inertial;
