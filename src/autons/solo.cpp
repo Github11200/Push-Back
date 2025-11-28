@@ -13,7 +13,7 @@ void Autons::solo()
   intake.spinFullIntake(vex::directionType::fwd);
 
   // Drive to the middle blocks (absolute field coordinate)
-  chassisReference->turnTo(Pose<double>(-20.111, 23, -360), {.turnTimeout = 200}, {});
+  chassisReference->turnTo(Pose<double>(-20.111, 23, -360), {.turnTimeout = 100}, {});
   chassisReference->driveToPoint(Pose<double>(-20.111, 23, 0), {.driveMaxVoltage = 10, .driveTimeout = 1300}, {}, {});
 
   // Turn to face the center goal location (turn to point (14, -14))
