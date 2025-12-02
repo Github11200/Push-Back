@@ -125,13 +125,13 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
+  // Driver driver;
+  // driver.startJoysticksThread();
+  // driver.startPistonsThread();
 
-  // wait(4, sec);
+  wait(4, sec);
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {});
-  // autons.runAuton(AutonName::SKILLS);
+  autons.runAuton(AutonName::HIGH);
 
   // User control code here, inside the loop
   while (1)
@@ -143,7 +143,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
