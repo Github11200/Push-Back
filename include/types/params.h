@@ -14,7 +14,7 @@ struct TurnParams
 {
   double turnMinVoltage = 0;
   double turnMaxVoltage = 12;
-  double turnSettleError = 5;
+  double turnSettleError = 10;
   double turnSettleTime = 200;
   double turnTimeout = 1000;
   double turnKp = 0.35;

@@ -23,7 +23,7 @@ void Autons::high()
   chassisReference->driveToPoint(Pose<double>(-20.111, 23, 0), {.driveMaxVoltage = 6}, {}, {});
 
   // Turn to face the center goal location (turn to point (14, -14))
-  chassisReference->turnTo(Pose<double>(0, 0, -33), {}, {});
+  chassisReference->turnTo(Pose<double>(-11.9, 12, -360), {}, {.forwards = false});
   intake.stopFullIntake();
 
   chassisReference->driveToPoint(Pose<double>(-11.9, 12, 0), {.driveTimeout = 600}, {}, {.forwards = false});
@@ -73,9 +73,9 @@ void Autons::high()
   chassisReference->odometry->setPosition(-37, 33.5, chassisReference->getAbsoluteHeading().angle);
 
   // Push blocks in goal
-  chassisReference->turnTo(Pose<double>(0, 0, 90), {}, {});
+  chassisReference->turnTo(Pose<double>(-8, 35, -360), {}, {});
   // chassisReference->driveDistance(30, 90, {}, {}, {});
-  chassisReference->driveToPoint(Pose<double>(-8, 33.5, 0), {.driveTimeout = 4000}, {.turnKp = 0, .turnKd = 0, .turnKi = 0}, {});
+  chassisReference->driveToPoint(Pose<double>(-8, 35, 0), {.driveTimeout = 4000}, {.turnKp = 0, .turnKd = 0, .turnKi = 0}, {});
 
   wait(2000, msec);
 }
