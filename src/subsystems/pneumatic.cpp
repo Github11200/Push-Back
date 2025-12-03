@@ -38,23 +38,21 @@ digital_out Pneumatic::getPiston()
   return digital_out(*(this->pistonPort));
 }
 
-void Pneumatic::killThread(vex::thread *currentDelayThread)
+void Pneumatic::killThread()
 {
-  while (!currentDelayThread->joinable())
-    wait(5, msec);
   currentDelayThread->join();
   delete currentDelayThread;
 }
 
-void Pneumatic::delayToggle(int milleseconds)
+void Pneumatic::delayToggle(int milliseconds)
 {
   static Pneumatic *thisPointer = this;
-  static int staticMilleseconds = milleseconds;
-  thread *delayThread = new thread([]()
-                                   {
-    wait(staticMilleseconds, msec);
-    thisPointer->on(); });
-  killThread(delayThread);
+  static int staticMilliseconds = milliseconds;
+  currentDelayThread = new thread([]()
+                                  {
+    wait(staticMilliseconds, msec);
+    thisPointer->on();
+    thisPointer->killThread(); });
 }
 
 Pneumatic willyNilly(Port::D);

@@ -20,14 +20,15 @@ class Pneumatic
 private:
   vex::triport::port *pistonPort;
   vex::digital_out getPiston();
+  vex::thread *currentDelayThread;
 
 public:
   inline void toggle() { getPiston().set(!getPiston().value()); };
   inline void on() { getPiston().set(true); };
   inline void off() { getPiston().set(false); };
 
-  void killThread(vex::thread *currentDelayThread);
-  void delayToggle(int millseconds);
+  void killThread();
+  void delayToggle(int milliseconds);
 
   Pneumatic(Port port);
 };

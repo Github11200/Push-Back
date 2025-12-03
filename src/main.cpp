@@ -131,7 +131,7 @@ void usercontrol(void)
 
   wait(4, sec);
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {});
-  autons.runAuton(AutonName::HIGH);
+  autons.runAuton(AutonName::LOW);
 
   // User control code here, inside the loop
   while (1)
