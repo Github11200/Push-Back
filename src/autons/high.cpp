@@ -23,14 +23,14 @@ void Autons::high()
   chassisReference->driveToPoint(Pose<double>(-20.111, 23, 0), {.driveMaxVoltage = 6}, {}, {});
 
   // Turn to face the center goal location (turn to point (14, -14))
-  chassisReference->turnTo(Pose<double>(-11.9, 12, -360), {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-13.5, 13, -360), {.turnTimeout = 700, .turnSettleError = 3}, {.forwards = false});
   intake.stopFullIntake();
 
-  chassisReference->driveToPoint(Pose<double>(-11.9, 12, 0), {.driveTimeout = 600}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-13.5, 13, 0), {.driveTimeout = 800}, {.turnMaxVoltage = 0}, {.forwards = false});
 
   sloper.on();
   intake.spinFullIntake(vex::directionType::fwd);
-  wait(200, msec);
+  wait(300, msec);
   intake.stopFullIntake();
   wait(400, msec);
   sloper.off();
@@ -47,11 +47,11 @@ void Autons::high()
 
   // Ram into loader
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-70, 47, 180), {.driveMaxVoltage = 5, .driveTimeout = 1500}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-70, 47, 180), {.driveMaxVoltage = 4, .driveTimeout = 1500}, {}, {});
 
   // Line up to long goal
   chassisReference->turnTo(Pose<double>(0, 0, -90), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-25, 47.2, 0), {.driveTimeout = 1100}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-25, 47.6, 0), {.driveTimeout = 1100}, {}, {.forwards = false});
 
   // Pull this thingy up
   willyNilly.off();
@@ -64,13 +64,11 @@ void Autons::high()
 
   // Back away from goal
   chassisReference->driveToPoint(Pose<double>(-37, 47, 0), {.driveTimeout = 1000}, {}, {});
-  chassisReference->odometry->setPosition(-37, 47, chassisReference->getAbsoluteHeading().angle);
 
   // Reposition to align wing
   chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
   // chassisReference->driveDistance(11, 180, {}, {}, {});
   chassisReference->driveToPoint(Pose<double>(-37, 33.5, 0), {.driveTimeout = 1100}, {.turnKp = 0, .turnKd = 0, .turnKi = 0}, {});
-  chassisReference->odometry->setPosition(-37, 33.5, chassisReference->getAbsoluteHeading().angle);
 
   // Push blocks in goal
   chassisReference->turnTo(Pose<double>(-8, 35, -360), {}, {});
