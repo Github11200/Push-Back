@@ -24,11 +24,6 @@ public:
 
   void spinFullIntake(vex::directionType direction, double speed = 12)
   {
-    // if (direction == vex::directionType::fwd)
-    // {
-    //   spinFullIntake(vex::directionType::rev);
-    //   wait(200, msec);
-    // }
     spinTopStage(direction, speed);
     spinBottomStage(direction, speed);
   };

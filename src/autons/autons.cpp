@@ -53,3 +53,8 @@ void Autons::runAuton(AutonName name)
     break;
   }
 }
+
+Autons::~Autons()
+{
+  delete chassisReference;
+}

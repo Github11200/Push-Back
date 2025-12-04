@@ -122,6 +122,10 @@ void autonomous(void)
 
 void usercontrol(void)
 {
+  // COMMENT THESE BACK IN TO NOT WHITE SCREEN :)
+  // autons.~Autons();
+  // chassis.~Chassis();
+
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
@@ -151,6 +155,11 @@ void usercontrol(void)
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
+
+  willyNilly.~Pneumatic();
+  finger.~Pneumatic();
+  sloper.~Pneumatic();
+  blocker.~Pneumatic();
 }
 
 //

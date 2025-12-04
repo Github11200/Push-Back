@@ -31,6 +31,7 @@ public:
   void delayToggle(int milliseconds);
 
   Pneumatic(Port port);
+  ~Pneumatic();
 };
 
 extern Pneumatic willyNilly;

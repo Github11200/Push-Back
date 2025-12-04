@@ -33,6 +33,11 @@ Pneumatic::Pneumatic(Port port)
   this->pistonPort = new vex::triport::port(enumToTriport(port));
 }
 
+Pneumatic::~Pneumatic()
+{
+  delete pistonPort;
+}
+
 digital_out Pneumatic::getPiston()
 {
   return digital_out(*(this->pistonPort));
