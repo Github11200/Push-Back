@@ -46,7 +46,11 @@ void Driver::buttonsLoopCallback()
   {
     intake.spinFullIntake(vex::directionType::fwd);
   }
-  else if (OuttakeButton.pressing() || OuttakeWithHoodUpButton.pressing())
+  else if (MiddleGoalSlowScoreButton.pressing())
+  {
+    intake.spinFullIntake(vex::directionType::fwd, 5);
+  }
+  else if (OuttakeButton.pressing())
   {
     intake.spinFullIntake(vex::directionType::rev);
   }
@@ -55,12 +59,12 @@ void Driver::buttonsLoopCallback()
     intake.stopFullIntake();
   }
 
-  if (HighGoalScoreButton.pressing() || OuttakeWithHoodUpButton.pressing())
+  if (HighGoalScoreButton.pressing())
     sloper.on();
   else
     sloper.off();
 
-  if (MiddleGoalScoreButton.pressing())
+  if (MiddleGoalScoreButton.pressing() || MiddleGoalSlowScoreButton.pressing())
     blocker.on();
   else
     blocker.off();

@@ -18,22 +18,19 @@ public:
     sloper.off();
   }
 
-  void spinBottomStage(vex::directionType direction)
-  {
-    BottomIntake.spin(direction, 12, vex::voltageUnits::volt);
-  };
+  void spinBottomStage(vex::directionType direction, double speed = 12) { BottomIntake.spin(direction, speed, vex::voltageUnits::volt); };
 
-  void spinTopStage(vex::directionType direction) { TopIntake.spin(direction, 12, vex::voltageUnits::volt); };
+  void spinTopStage(vex::directionType direction, double speed = 12) { TopIntake.spin(direction, speed, vex::voltageUnits::volt); };
 
-  void spinFullIntake(vex::directionType direction)
+  void spinFullIntake(vex::directionType direction, double speed = 12)
   {
     // if (direction == vex::directionType::fwd)
     // {
     //   spinFullIntake(vex::directionType::rev);
     //   wait(200, msec);
     // }
-    spinTopStage(direction);
-    spinBottomStage(direction);
+    spinTopStage(direction, speed);
+    spinBottomStage(direction, speed);
   };
 
   inline void stopFullIntake()

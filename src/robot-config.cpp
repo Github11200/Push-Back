@@ -28,12 +28,11 @@ motor_group Right = motor_group(FrontRight, MiddleRight, BackRight);
 
 vex::controller::button IntakeButton = Controller.ButtonL1;
 vex::controller::button OuttakeButton = Controller.ButtonR1;
-vex::controller::button OuttakeWithHoodUpButton = Controller.ButtonY;
 vex::controller::button WillyNillyButton = Controller.ButtonB;
 vex::controller::button FingerButton = Controller.ButtonDown;
-vex::controller::button SloperButton = Controller.ButtonX;
 vex::controller::button HighGoalScoreButton = Controller.ButtonR2;
 vex::controller::button MiddleGoalScoreButton = Controller.ButtonL2;
+vex::controller::button MiddleGoalSlowScoreButton = Controller.ButtonY;
 
 bool stopPlease = false;
 

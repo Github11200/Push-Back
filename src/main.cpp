@@ -130,8 +130,11 @@ void usercontrol(void)
   // driver.startPistonsThread();
 
   wait(4, sec);
+  // chassis.odometry->startPositionTrackThread(true);
+  // chassis.driveToPoint(Pose<double>(0, 45, 0), {.driveTimeout = 1000000}, {}, {});
+  // wait(5, sec);
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {});
-  autons.runAuton(AutonName::LOW);
+  autons.runAuton(AutonName::SKILLS);
 
   // User control code here, inside the loop
   while (1)
