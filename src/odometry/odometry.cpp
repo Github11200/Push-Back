@@ -156,7 +156,7 @@ void Odometry::updatePosition(bool sendLogs)
   Brain.Screen.newLine();
   Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
 
-  if (i == 25)
+  if (i == 50)
   {
     i = 0;
     if (sendLogs)
