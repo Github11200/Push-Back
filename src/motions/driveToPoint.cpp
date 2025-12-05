@@ -114,6 +114,6 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
     wait(settings.updateTime, msec);
   }
 
-  Left.stop(hold);
-  Right.stop(hold);
+  Left.stop(brake);
+  Right.stop(brake);
 }

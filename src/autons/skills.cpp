@@ -4,14 +4,15 @@
 
 void Autons::skills()
 {
+
   // Set starting coordinates
   chassisReference->odometry->setPosition(-46.5, -16.5, 180);
-  chassisReference->odometry->startPositionTrackThread(true);
+  chassisReference->odometry->startPositionTrackThread(false);
 
   // Drive in front of the dispenser
   willyNilly.on();
   // chassisReference->turnTo(Pose<double>(-46.5, -47, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-46.5, -46, 0), {.driveTimeout = 1200}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-46.5, -46, 0), {.driveTimeout = 1200, .driveKd = 3}, {}, {});
 
   // 1st dispenser
   chassisReference->turnTo(Pose<double>(-70, -46, -360), {}, {});
@@ -23,13 +24,13 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(-39, -46, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
 
   // Drive across field to 2nd goal first
-  chassisReference->turnTo(Pose<double>(-39, 46, 0), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 46, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(-39, 47.5, 0), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 47.5, 0), {.driveKd = 3.75}, {}, {});
 
   // 2nd long goal
-  chassisReference->turnTo(Pose<double>(-20, 46, -360), {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-20, 47.5, -360), {}, {.forwards = false});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-20, 46, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 47.5, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -61,30 +62,30 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(-39, 59, 0), {.driveTimeout = 1000}, {}, {});
 
   // Drive to 3rd dispenser
-  chassisReference->turnTo(Pose<double>(39, 55, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(39, 56, -360), {}, {});
   chassisReference->driveToPoint(Pose<double>(39, 56, 0), {.driveTimeout = 2000}, {}, {});
 
   // Align to 3rd dispenser
-  chassisReference->turnTo(Pose<double>(39, 38, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(39, 38, 0), {.driveTimeout = 1000}, {}, {});
+  chassisReference->turnTo(Pose<double>(39, 37.8, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(39, 37.8, 0), {.driveTimeout = 1000}, {}, {});
 
   // 3rd dispenser
   willyNilly.on();
-  chassisReference->turnTo(Pose<double>(70, 38, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(70, 37.8, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(70, 38, 0), {.driveTimeout = 3000, .driveMaxVoltage = 4.5}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(70, 37.8, 0), {.driveTimeout = 3000, .driveMaxVoltage = 4.5}, {}, {});
 
   // Drive back from it
-  chassisReference->turnTo(Pose<double>(42, 38, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(42, 38, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(42, 37.8, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(42, 37.8, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
 
   // Go to the other side of the field
-  chassisReference->turnTo(Pose<double>(40, -53.4, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(40, -53.4, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(40, -57, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(40, -57, 0), {.driveKd = 3.75}, {}, {});
 
   // Score on the long goal
-  chassisReference->turnTo(Pose<double>(15, -53.4, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(15, -53.4, 0), {.driveMaxVoltage = 6, .driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(15, -57, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(15, -57, 0), {.driveMaxVoltage = 6, .driveTimeout = 1500}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -94,13 +95,13 @@ void Autons::skills()
 
   // 4th dispenser
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->turnTo(Pose<double>(70, -49, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(70, -49, 0), {.driveTimeout = 3300, .driveMaxVoltage = 4.5}, {}, {});
+  chassisReference->turnTo(Pose<double>(70, -47, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(70, -47, 0), {.driveTimeout = 3300, .driveMaxVoltage = 4.5}, {}, {});
 
   // Score the blocks from the dispenser again in the 2nd dispenser
   willyNilly.off();
-  chassisReference->turnTo(Pose<double>(20, -45.5, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(20, -45.5, 0), {.driveMaxVoltage = 5}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(20, -47, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(20, -47, 0), {.driveMaxVoltage = 5}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -109,18 +110,18 @@ void Autons::skills()
 
   // drive calmly :)
   chassisReference->turnTo(Pose<double>(50, -26, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(50, -26, 0), {}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(50, -26, 0), {.driveTimeout = 1000}, {}, {});
 
   // drive calmly x2 :)
-  chassisReference->turnTo(Pose<double>(-62.049, -26, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-62.049, -26, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(-62.049, -25, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-62.049, -25, 0), {}, {}, {});
 
   // Ram full speed into the parking zone
   chassisReference->turnTo(Pose<double>(0, 0, -4), {}, {});
   sloper.on();
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
-  wait(1.4, sec);
+  wait(1.5, sec);
   Left.stop(coast);
   Right.stop(coast);
   // chassisReference->turnTo(Pose<double>(64, 60, 0), {}, {});

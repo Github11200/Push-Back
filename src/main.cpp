@@ -45,7 +45,7 @@ Chassis chassis(
 
     // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders FORWARD
     // (((drive_ratio) * PI * wheel_diameter) / 360)
-    ((M_PI * 2.03) / 360.0),
+    ((M_PI * 2.125) / 360.0),
 
     // SIDEWAYS
     ((M_PI * 1.980) / 360.0),
