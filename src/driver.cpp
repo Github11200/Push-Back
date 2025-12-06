@@ -9,6 +9,7 @@ void Driver::startJoysticksThread()
   thread([]()
          { while (true) {
             staticJoysticks.arcade();
+            wait(50, msec);
           } });
 }
 
@@ -18,6 +19,7 @@ void Driver::startPistonsThread()
   thread([]()
          { while (true) {
             staticDriver.pistonsLoopCallback();
+            wait(50, msec);
           } });
 }
 
@@ -48,7 +50,7 @@ void Driver::buttonsLoopCallback()
   }
   else if (MiddleGoalSlowScoreButton.pressing())
   {
-    intake.spinFullIntake(vex::directionType::fwd, 5);
+    intake.spinFullIntake(vex::directionType::fwd, 7);
   }
   else if (OuttakeButton.pressing())
   {

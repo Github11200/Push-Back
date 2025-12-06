@@ -107,7 +107,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::HIGH);
+  autons.runAuton(AutonName::SKILLS);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -123,22 +123,20 @@ void autonomous(void)
 void usercontrol(void)
 {
   // COMMENT THESE BACK IN TO NOT WHITE SCREEN :)
-  // autons.~Autons();
-  // chassis.~Chassis();
 
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  // Driver driver;
-  // driver.startJoysticksThread();
-  // driver.startPistonsThread();
+  Driver driver;
+  driver.startJoysticksThread();
+  driver.startPistonsThread();
 
-  wait(4, sec);
+  // wait(4, sec);
   // chassis.odometry->startPositionTrackThread(true);
   // chassis.driveToPoint(Pose<double>(0, 45, 0), {.driveTimeout = 1000000}, {}, {});
   // wait(5, sec);
   // chassis.turnTo(Pose<double>(5, 5, -360), {}, {});
-  autons.runAuton(AutonName::SKILLS);
+  // autons.runAuton(AutonName::SKILLS);
 
   // User control code here, inside the loop
   while (1)
@@ -150,12 +148,14 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
 
+  autons.~Autons();
+  chassis.~Chassis();
   willyNilly.~Pneumatic();
   finger.~Pneumatic();
   sloper.~Pneumatic();

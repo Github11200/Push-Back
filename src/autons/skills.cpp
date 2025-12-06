@@ -124,6 +124,7 @@ void Autons::skills()
 
   // Ram full speed into the parking zone
   chassisReference->turnTo(Pose<double>(0, 0, -5), {}, {});
+  willyNilly.on();
   sloper.on();
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
