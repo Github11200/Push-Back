@@ -50,7 +50,7 @@ void Driver::buttonsLoopCallback()
   }
   else if (MiddleGoalSlowScoreButton.pressing())
   {
-    intake.spinFullIntake(vex::directionType::fwd, 7);
+    intake.spinFullIntake(vex::directionType::fwd, 8);
   }
   else if (OuttakeButton.pressing())
   {

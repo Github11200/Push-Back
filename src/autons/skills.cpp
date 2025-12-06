@@ -4,7 +4,6 @@
 
 void Autons::skills()
 {
-
   // Set starting coordinates
   chassisReference->odometry->setPosition(-46.5, -16.5, 180);
   chassisReference->odometry->startPositionTrackThread(false);
@@ -26,7 +25,7 @@ void Autons::skills()
   // Drive across field to 2nd goal first
   chassisReference->turnTo(Pose<double>(-39, 52.15, 0), {}, {});
   // chassisReference->driveToPoint(Pose<double>(-39, 51, 0), {.driveTimeout = 1600, .driveMaxVoltage = 10, .driveSettleError = 5}, {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 52.15, 0), {.driveSettleError = 0.1, .driveSettleTime = 500, .driveTimeout = 2500, .driveMaxVoltage = 7}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 52.15, 0), {.driveSettleError = 0.1, .driveSettleTime = 900, .driveTimeout = 3000, .driveMaxVoltage = 6.5}, {}, {});
   cout << "X: " << chassisReference->odometry->getPose().position.x << endl;
   cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
 
@@ -69,18 +68,18 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(42, 56, 0), {.driveTimeout = 2000}, {}, {});
 
   // Align to 3rd dispenser
-  chassisReference->turnTo(Pose<double>(42, 37.8, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(42, 37.8, 0), {.driveTimeout = 1000}, {}, {});
+  chassisReference->turnTo(Pose<double>(42, 37.5, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(42, 37.5, 0), {.driveTimeout = 1000}, {}, {});
 
   // 3rd dispenser
   willyNilly.on();
-  chassisReference->turnTo(Pose<double>(70, 37.8, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(70, 37.5, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(70, 37.8, 0), {.driveTimeout = 3000, .driveMaxVoltage = 4.5}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(70, 37.5, 0), {.driveTimeout = 3000, .driveMaxVoltage = 4.5}, {}, {});
 
   // Drive back from it
-  chassisReference->turnTo(Pose<double>(42, 37.8, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(42, 37.8, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(42, 37.5, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(42, 37.5, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
 
   // Go to the other side of the field
   chassisReference->turnTo(Pose<double>(42, -60, -360), {}, {});
@@ -119,12 +118,12 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(50, -26, 0), {.driveTimeout = 1000}, {}, {});
 
   // drive calmly x2 :)
-  chassisReference->turnTo(Pose<double>(-62.5, -25, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-62.5, -25, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(-65, -25, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-65, -25, 0), {}, {}, {});
 
   // Ram full speed into the parking zone
   chassisReference->turnTo(Pose<double>(0, 0, -5), {}, {});
-  willyNilly.on();
+  // willyNilly.on();
   sloper.on();
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);

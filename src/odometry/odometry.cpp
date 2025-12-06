@@ -201,25 +201,6 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
 
 void Odometry::getWheelDistances()
 {
-  // THIS SUCKS :)
-  // chassis->resetEncoders();
-  // Logger::sendMessage("Starting wheel distances test...");
-  // Logger::sendMessage("Turn the robot around 10 times.");
-
-  // while (!Controller.ButtonA.pressing())
-  //   wait(20, msec);
-
-  // double forwardTrackerDelta = getTrackersPositions().forward;
-  // double sidewaysTrackerDelta = getTrackersPositions().sideways;
-
-  // double forwardTrackerDistanceFromCenter = -(forwardTrackerDelta / 1800);
-  // double sidewaysTrackerDistanceFromCenter = -(sidewaysTrackerDelta / 1800);
-
-  // cout << "Forward tracker delta: " << forwardTrackerDelta << "\n"
-  //      << "Sideways tracker delt: " << sidewaysTrackerDelta << "\n"
-  //      << "Forward tracker distance from center: " << forwardTrackerDistanceFromCenter << "\n"
-  //      << "Sideways tracker distance from center: " << sidewaysTrackerDistanceFromCenter << endl;
-
   int iterations = 50;
   double forwardOffset = 0;
   double sidewaysOffset = 0;
