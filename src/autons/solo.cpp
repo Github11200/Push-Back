@@ -3,6 +3,8 @@
 
 void Autons::solo()
 {
+  chassisReference->forwardTrackerInchesToDegreesRatio = ((M_PI * 2.03) / 360.0);
+
   // Set starting coordinates
   chassisReference->odometry->setPosition(-46, 15, 90);
   chassisReference->odometry->startPositionTrackThread(false);
@@ -63,21 +65,21 @@ void Autons::solo()
   chassisReference->turnTo(Pose<double>(0, 0, 233), {.turnTimeout = 100}, {});
 
   // Drive in front of the loader
-  chassisReference->driveToPoint(Pose<double>(-46.67, -47.67, 0), {.driveTimeout = 1400, .driveSettleError = 4, .driveSlew = 12}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-46.67, -50.67, 0), {.driveTimeout = 1400, .driveSettleError = 4, .driveSlew = 12}, {}, {});
 
   // Turn toward loader entrance point
-  chassisReference->turnTo(Pose<double>(-80, -47.67, -360), {.turnTimeout = 150}, {});
+  chassisReference->turnTo(Pose<double>(-80, -50.67, -360), {.turnTimeout = 150}, {});
 
   // Slap down the willy nilly
   willyNilly.on();
 
   // Ram into loader
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-80, -47.67, 0), {.driveMaxVoltage = 6, .driveTimeout = 1100, .driveSlew = 12}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-80, -50.67, 0), {.driveMaxVoltage = 6, .driveTimeout = 1100, .driveSlew = 12}, {}, {});
 
   // Line up to long goal
-  chassisReference->turnTo(Pose<double>(-25, -48.5, -360), {.turnTimeout = 300}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-25, -48.5, 0), {.driveTimeout = 1000, .driveSlew = 12}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-25, -52.5, -360), {.turnTimeout = 300}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-25, -52.5, 0), {.driveTimeout = 1000, .driveSlew = 12}, {}, {.forwards = false});
 
   // Pull this thingy up
   willyNilly.off();

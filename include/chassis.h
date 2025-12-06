@@ -20,10 +20,10 @@ class Chassis
 private:
   double inertialScaling = 360;
   double trackWidth;
-  double forwardTrackerInchesToDegreesRatio;
-  double sidewaysTrackerInchesToDegreesRatio;
 
 public:
+  double forwardTrackerInchesToDegreesRatio;
+  double sidewaysTrackerInchesToDegreesRatio;
   rotation forwardTracker;
   rotation sidewaysTracker;
   Odometry *odometry;
