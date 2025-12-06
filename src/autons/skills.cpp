@@ -24,16 +24,16 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(-39, -46, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
 
   // Drive across field to 2nd goal first
-  chassisReference->turnTo(Pose<double>(-39, 49.8, 0), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 49.8, 0), {.driveTimeout = 1600, .driveMaxVoltage = 10, .driveSettleError = 5}, {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 49.8, 0), {.driveSettleError = 0.1, .driveSettleTime = 1000, .driveTimeout = 2000, .driveMaxVoltage = 6}, {}, {});
+  chassisReference->turnTo(Pose<double>(-39, 52.15, 0), {}, {});
+  // chassisReference->driveToPoint(Pose<double>(-39, 51, 0), {.driveTimeout = 1600, .driveMaxVoltage = 10, .driveSettleError = 5}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 52.15, 0), {.driveSettleError = 0.1, .driveSettleTime = 500, .driveTimeout = 2500, .driveMaxVoltage = 7}, {}, {});
   cout << "X: " << chassisReference->odometry->getPose().position.x << endl;
   cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
 
   // 2nd long goal
-  chassisReference->turnTo(Pose<double>(-20, 49.8, -360), {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-20, 52.15, -360), {}, {.forwards = false});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-20, 49.8, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 52.15, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -83,15 +83,15 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(42, 37.8, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
 
   // Go to the other side of the field
-  chassisReference->turnTo(Pose<double>(42, -62, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(42, -62, 0), {.driveTimeout = 1600, .driveMaxVoltage = 10}, {}, {});
-  chassisReference->driveToPoint(Pose<double>(42, -62, 0), {.driveSettleError = 0.1, .driveSettleTime = 1000, .driveTimeout = 3000, .driveMaxVoltage = 5}, {}, {});
+  chassisReference->turnTo(Pose<double>(42, -60, -360), {}, {});
+  // chassisReference->driveToPoint(Pose<double>(42, -61.1, 0), {.driveTimeout = 1600, .driveMaxVoltage = 10}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(42, -60, 0), {.driveSettleError = 0.1, .driveSettleTime = 500, .driveTimeout = 3000, .driveMaxVoltage = 7}, {}, {});
   cout << "X: " << chassisReference->odometry->getPose().position.x << endl;
   cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
 
   // Score on the long goal
-  chassisReference->turnTo(Pose<double>(15, -61.8, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(15, -61.8, 0), {.driveMaxVoltage = 6, .driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(15, -60, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(15, -60, 0), {.driveMaxVoltage = 6, .driveTimeout = 1500}, {}, {.forwards = false});
 
   // Score
   sloper.on();
