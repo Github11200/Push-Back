@@ -66,10 +66,8 @@ TrackerPositions Odometry::getTrackersPositions()
 
 void Odometry::startPositionTrackThread(bool sendLogs)
 {
-  cout << sendLogs << endl;
   static Odometry *odometryPointer = this;
   static bool staticSendLogs = sendLogs;
-  cout << staticSendLogs << endl;
 
   isTracking = true;
   previousHeading = Angle<double>(chassis->getAbsoluteHeading().toRad());
@@ -80,7 +78,7 @@ void Odometry::startPositionTrackThread(bool sendLogs)
                                    {
                                       while (odometryPointer->isTracking) {
                                         odometryPointer->updatePosition(staticSendLogs);
-                                        wait(10, msec);
+                                        wait(5, msec);
                                       } });
 }
 
@@ -147,16 +145,16 @@ void Odometry::updatePosition(bool sendLogs)
   currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
-  Brain.Screen.clearScreen();
-  Brain.Screen.setCursor(0, 0);
-  Brain.Screen.newLine();
-  Brain.Screen.print("X: %.3f", currentPose.position.x);
-  Brain.Screen.newLine();
-  Brain.Screen.print("Y: %.3f", currentPose.position.y);
-  Brain.Screen.newLine();
-  Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
+  // Brain.Screen.clearScreen();
+  // Brain.Screen.setCursor(0, 0);
+  // Brain.Screen.newLine();
+  // Brain.Screen.print("X: %.3f", currentPose.position.x);
+  // Brain.Screen.newLine();
+  // Brain.Screen.print("Y: %.3f", currentPose.position.y);
+  // Brain.Screen.newLine();
+  // Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
 
-  if (i == 50)
+  if (sendLogs && i == 50)
   {
     i = 0;
     if (sendLogs)

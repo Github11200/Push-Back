@@ -24,16 +24,16 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(-39, -46, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
 
   // Drive across field to 2nd goal first
-  chassisReference->turnTo(Pose<double>(-39, 48, 0), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 48, 0), {.driveTimeout = 1300}, {}, {});
-  chassisReference->driveToPoint(Pose<double>(-39, 48, 0), {.driveSettleError = 0.1, .driveSettleTime = 1000, .driveTimeout = 3000, .driveMaxVoltage = 5}, {}, {});
+  chassisReference->turnTo(Pose<double>(-39, 49.8, 0), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 49.8, 0), {.driveTimeout = 1600, .driveMaxVoltage = 10, .driveSettleError = 5}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-39, 49.8, 0), {.driveSettleError = 0.1, .driveSettleTime = 1000, .driveTimeout = 2000, .driveMaxVoltage = 6}, {}, {});
   cout << "X: " << chassisReference->odometry->getPose().position.x << endl;
   cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
 
   // 2nd long goal
-  chassisReference->turnTo(Pose<double>(-20, 47.7, -360), {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-20, 49.8, -360), {}, {.forwards = false});
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->driveToPoint(Pose<double>(-20, 47.7, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 49.8, 0), {.driveTimeout = 1500, .driveMaxVoltage = 5}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -83,15 +83,15 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(42, 37.8, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
 
   // Go to the other side of the field
-  chassisReference->turnTo(Pose<double>(42, -57, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(42, -57, 0), {.driveTimeout = 1300}, {}, {});
-  chassisReference->driveToPoint(Pose<double>(42, -57, 0), {.driveSettleError = 0.1, .driveSettleTime = 1000, .driveTimeout = 3000, .driveMaxVoltage = 5}, {}, {});
+  chassisReference->turnTo(Pose<double>(42, -62, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(42, -62, 0), {.driveTimeout = 1600, .driveMaxVoltage = 10}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(42, -62, 0), {.driveSettleError = 0.1, .driveSettleTime = 1000, .driveTimeout = 3000, .driveMaxVoltage = 5}, {}, {});
   cout << "X: " << chassisReference->odometry->getPose().position.x << endl;
   cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
 
   // Score on the long goal
-  chassisReference->turnTo(Pose<double>(15, -57, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(15, -57, 0), {.driveMaxVoltage = 6, .driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(15, -61.8, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(15, -61.8, 0), {.driveMaxVoltage = 6, .driveTimeout = 1500}, {}, {.forwards = false});
 
   // Score
   sloper.on();
@@ -101,8 +101,8 @@ void Autons::skills()
 
   // 4th dispenser
   intake.spinFullIntake(vex::directionType::fwd);
-  chassisReference->turnTo(Pose<double>(70, -47, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(70, -47, 0), {.driveTimeout = 3300, .driveMaxVoltage = 4.5}, {}, {});
+  chassisReference->turnTo(Pose<double>(70, -49, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(70, -49, 0), {.driveTimeout = 3300, .driveMaxVoltage = 4.5}, {}, {});
 
   // Score the blocks from the dispenser again in the 2nd dispenser
   willyNilly.off();
@@ -119,11 +119,11 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(50, -26, 0), {.driveTimeout = 1000}, {}, {});
 
   // drive calmly x2 :)
-  chassisReference->turnTo(Pose<double>(-62.049, -25, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-62.049, -25, 0), {}, {}, {});
+  chassisReference->turnTo(Pose<double>(-62.5, -25, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-62.5, -25, 0), {}, {}, {});
 
   // Ram full speed into the parking zone
-  chassisReference->turnTo(Pose<double>(0, 0, -4), {}, {});
+  chassisReference->turnTo(Pose<double>(0, 0, -5), {}, {});
   sloper.on();
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
