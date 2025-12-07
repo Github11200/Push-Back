@@ -27,7 +27,7 @@ void Autons::high()
   // Turn to face the center goal location (turn to point (14, -14))
   chassisReference->turnTo(Pose<double>(-13.5, 12.8, -360), {.turnTimeout = 1100, .turnSettleError = 1, .turnSettleTime = 700}, {.forwards = false});
   intake.stopFullIntake();
-
+  chassisReference->driveToPoint(Pose<double>(-10, 10, 0), {}, {}, {});
   chassisReference->driveToPoint(Pose<double>(-13.5, 12.8, 0), {.driveTimeout = 1100}, {.turnMaxVoltage = 0, .turnKp = 0, .turnKd = 0, .turnKi = 0}, {.forwards = false});
 
   sloper.on();
