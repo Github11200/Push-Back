@@ -51,6 +51,7 @@ public:
   void driveToPoint(Pose<double> target, DriveParams driveParams = DriveParams(), TurnParams turnParams = TurnParams(), Settings settings = Settings());
   void driveToPose(Pose<double> target, DriveParams driveParams = DriveParams(), TurnParams turnParams = TurnParams(), Settings settings = Settings(), double lead = 0, double setback = 0, double driveCompensation = 0.1);
   void turnTo(Pose<double> target, TurnParams params = TurnParams(), Settings settings = Settings());
+  void driveWithDistanceSensor(double finalDistance, double heading, DriveParams driveParams = DriveParams(), TurnParams turnParams = TurnParams(), Settings settings = Settings());
 
   // void followPath(vector<Pose<double>> path, PursuitParams params);
 

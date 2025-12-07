@@ -34,6 +34,6 @@ void Chassis::driveDistance(double distance, double heading, DriveParams drivePa
     wait(settings.updateTime, msec);
   }
 
-  Left.stop(hold);
-  Right.stop(hold);
+  Left.stop(brake);
+  Right.stop(brake);
 }
