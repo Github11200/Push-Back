@@ -30,37 +30,37 @@ vex::triport::port enumToTriport(Port port)
 
 Pneumatic::Pneumatic(Port port)
 {
-  this->pistonPort = new vex::triport::port(enumToTriport(port));
+  this->pistonPort = std::make_unique<vex::triport::port>(vex::triport::port(enumToTriport(port)));
 }
 
-Pneumatic::~Pneumatic()
-{
-  delete pistonPort;
-}
+// Pneumatic::~Pneumatic()
+// {
+//   delete pistonPort;
+// }
 
 digital_out Pneumatic::getPiston()
 {
   return digital_out(*(this->pistonPort));
 }
 
-void Pneumatic::killThread()
-{
-  currentDelayThread->join();
-  delete currentDelayThread;
-}
+// void Pneumatic::killThread()
+// {
+//   currentDelayThread->join();
+//   delete currentDelayThread;
+// }
 
-void Pneumatic::delayToggle(int milliseconds)
-{
-  static Pneumatic *thisPointer = this;
-  static int staticMilliseconds = milliseconds;
-  currentDelayThread = new thread([]()
-                                  {
-    wait(staticMilliseconds, msec);
-    thisPointer->on();
-    thisPointer->killThread(); });
-}
+// void Pneumatic::delayToggle(int milliseconds)
+// {
+//   static Pneumatic *thisPointer = this;
+//   static int staticMilliseconds = milliseconds;
+//   currentDelayThread = new thread([]()
+//                                   {
+//     wait(staticMilliseconds, msec);
+//     thisPointer->on();
+//     thisPointer->killThread(); });
+// }
 
-Pneumatic willyNilly(Port::D);
+Pneumatic willyNilly(Port::A);
 Pneumatic finger(Port::B);
-Pneumatic sloper(Port::A);
-Pneumatic blocker(Port::C);
+Pneumatic sloper(Port::C);
+Pneumatic blocker(Port::D);

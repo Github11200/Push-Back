@@ -14,6 +14,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <utility>
+#include <memory>
 
 #include "v5.h"
 #include "v5_vcs.h"

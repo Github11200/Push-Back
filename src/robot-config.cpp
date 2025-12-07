@@ -8,20 +8,20 @@ brain Brain;
 // VEXcode device constructors
 controller Controller;
 
-motor FrontRight = motor(PORT18, ratio6_1, false); // Done
-motor FrontLeft = motor(PORT13, ratio6_1, true);   // Done
-motor MiddleRight = motor(PORT17, ratio6_1, true); // Done
-motor MiddleLeft = motor(PORT15, ratio6_1, false); // Done
-motor BackRight = motor(PORT19, ratio6_1, false);  // Done
-motor BackLeft = motor(PORT12, ratio6_1, true);    // Done
+motor FrontRight = motor(PORT15, ratio6_1, false); // Done
+motor FrontLeft = motor(PORT18, ratio6_1, true);   // Done
+motor MiddleRight = motor(PORT20, ratio6_1, true); // Done
+motor MiddleLeft = motor(PORT16, ratio6_1, false); // Done
+motor BackRight = motor(PORT17, ratio6_1, false);  // Done
+motor BackLeft = motor(PORT13, ratio6_1, true);    // Done
 
 motor TopIntake = motor(PORT10, ratio6_1, false);  // Done
-motor BottomIntake = motor(PORT1, ratio6_1, true); // Done
+motor BottomIntake = motor(PORT2, ratio6_1, true); // Done
 
-vex::distance frontDistance = vex::distance(PORT4); // Done
-vex::distance rightDistance = vex::distance(PORT8); // Done
-vex::distance leftDistance = vex::distance(PORT2);  // Done
-vex::distance backDistance = vex::distance(PORT14); // Done
+vex::distance frontDistance = vex::distance(PORT1); // Done
+vex::distance rightDistance = vex::distance(PORT6); // Done
+vex::distance leftDistance = vex::distance(PORT5);  // Done
+// vex::distance backDistance = vex::distance(PORT14); //
 
 motor_group Left = motor_group(FrontLeft, MiddleLeft, BackLeft);
 motor_group Right = motor_group(FrontRight, MiddleRight, BackRight);

@@ -27,7 +27,7 @@ public:
   rotation forwardTracker;
   rotation sidewaysTracker;
   Odometry *odometry;
-  Pursuit *pursuit;
+  // Pursuit *pursuit;
   inertial Inertial;
 
   Chassis(
@@ -52,12 +52,11 @@ public:
   void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
   void turnTo(Pose<double> target, TurnParams params, Settings settings);
 
-  void followPath(vector<Pose<double>> path, PursuitParams params);
+  // void followPath(vector<Pose<double>> path, PursuitParams params);
 
   void trapezoidalMotionProfile(double distance, MotionProfile motionProfileSettings, DriveParams driveParams, TurnParams turnParams, Settings settings);
 
-  Angle<double>
-  getAbsoluteHeading();
+  Angle<double> getAbsoluteHeading();
   Pair getMotorsPosition();
 
   void calibrateInertial();

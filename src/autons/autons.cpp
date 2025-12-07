@@ -1,8 +1,8 @@
 #include "autons.h"
 
-Autons::Autons(Chassis *chassis)
+Autons::Autons(std::unique_ptr<Chassis> chassis)
 {
-  this->chassisReference = chassis;
+  this->chassisReference = std::move(chassis);
 }
 
 void Autons::printMessage(string message)
@@ -54,7 +54,7 @@ void Autons::runAuton(AutonName name)
   }
 }
 
-Autons::~Autons()
-{
-  delete chassisReference;
-}
+// Autons::~Autons()
+// {
+//   delete chassisReference;
+// }

@@ -22,7 +22,7 @@ Odometry::Odometry(Chassis *chassis,
   this->distanceSensorDistances.push_back(frontDistanceSensorDistance);
   this->distanceSensorDistances.push_back(rightDistanceSensorDistance);
   this->distanceSensorDistances.push_back(leftDistanceSensorDistance);
-  this->distanceSensorDistances.push_back(backDistanceSensorDistance);
+  // this->distanceSensorDistances.push_back(backDistanceSensorDistance);
 }
 
 Odometry::~Odometry()
@@ -40,10 +40,10 @@ vex::distance Odometry::getDistanceSensor(DistanceSensor distanceSensor)
     return leftDistance;
   case DistanceSensor::STARBOARD:
     return rightDistance;
-  case DistanceSensor::STERN:
-    return backDistance;
+  // case DistanceSensor::STERN:
+  //   return backDistance;
   default:
-    break;
+    return rightDistance;
   }
 }
 

@@ -24,11 +24,11 @@ enum Side
 class Autons
 {
 private:
-  Chassis *chassisReference;
+  std::unique_ptr<Chassis> chassisReference;
   Intake intake;
 
 public:
-  Autons(Chassis *chassis);
+  Autons(std::unique_ptr<Chassis> chassis);
 
   void testing();
   void high();
@@ -40,7 +40,7 @@ public:
   void prepareAuton();
   void runAuton(AutonName name);
 
-  ~Autons();
+  // ~Autons();
 };
 
 #endif

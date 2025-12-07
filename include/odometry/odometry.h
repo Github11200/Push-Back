@@ -80,6 +80,7 @@ public:
   bool isTracking = false;
   bool pauseOdom = false;
 
+  Odometry();
   Odometry(Chassis *chassis,
            double forwardTrackerCenterDistance,
            double sidewaysTrackerCenterDistance,

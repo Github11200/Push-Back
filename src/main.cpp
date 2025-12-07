@@ -38,10 +38,10 @@ Chassis chassis(
     TrackerSetup::TWO_TRACKER,
 
     // Forward tracker port
-    PORT3,
+    PORT4,
 
     // Sideways tracker port
-    PORT6,
+    PORT8,
 
     // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders FORWARD
     // (((drive_ratio) * PI * wheel_diameter) / 360)
@@ -71,7 +71,7 @@ Chassis chassis(
     // Enable logs (false by default)
     true);
 
-Autons autons(&chassis);
+Autons autons(std::make_unique<Chassis>(chassis));
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -107,7 +107,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::SOLO);
+  autons.runAuton(AutonName::HIGH);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -154,12 +154,12 @@ void usercontrol(void)
                     // prevent wasted resources.
   }
 
-  autons.~Autons();
+  // autons.~Autons();
   chassis.~Chassis();
-  willyNilly.~Pneumatic();
-  finger.~Pneumatic();
-  sloper.~Pneumatic();
-  blocker.~Pneumatic();
+  // willyNilly.~Pneumatic();
+  // finger.~Pneumatic();
+  // sloper.~Pneumatic();
+  // blocker.~Pneumatic();
 }
 
 //
