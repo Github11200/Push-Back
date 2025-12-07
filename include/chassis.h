@@ -47,11 +47,10 @@ public:
       bool enableLogs = false);
   ~Chassis();
 
-  void driveDistance(double distance, double heading, DriveParams driveParams = DriveParams(), TurnParams turnParams = TurnParams(), Settings settings = Settings());
-  void driveToPoint(Pose<double> target, DriveParams driveParams = DriveParams(), TurnParams turnParams = TurnParams(), Settings settings = Settings());
-  void driveToPose(Pose<double> target, DriveParams driveParams = DriveParams(), TurnParams turnParams = TurnParams(), Settings settings = Settings(), double lead = 0, double setback = 0, double driveCompensation = 0.1);
-  void turnTo(Pose<double> target, TurnParams params = TurnParams(), Settings settings = Settings());
-  void driveWithDistanceSensor(double finalDistance, double heading, DriveParams driveParams = DriveParams(), TurnParams turnParams = TurnParams(), Settings settings = Settings());
+  void driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings);
+  void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
+  void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
+  void turnTo(Pose<double> target, TurnParams params, Settings settings);
 
   // void followPath(vector<Pose<double>> path, PursuitParams params);
 

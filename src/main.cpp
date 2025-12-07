@@ -107,7 +107,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::HIGH);
+  autons.runAuton(AutonName::SKILLS);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -122,8 +122,6 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // COMMENT THESE BACK IN TO NOT WHITE SCREEN :)
-
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
