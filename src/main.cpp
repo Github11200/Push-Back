@@ -129,13 +129,6 @@ void usercontrol(void)
   driver.startJoysticksThread();
   driver.startPistonsThread();
 
-  // wait(4, sec);
-  // chassis.odometry->startPositionTrackThread(true);
-  // chassis.driveToPoint(Pose<double>(0, 45, 0), {.driveTimeout = 1000000}, {}, {});
-  // wait(5, sec);
-  // chassis.turnTo(Pose<double>(5, 5, -360), {}, {});
-  // autons.runAuton(AutonName::SKILLS);
-
   // User control code here, inside the loop
   while (1)
   {
@@ -152,12 +145,7 @@ void usercontrol(void)
                     // prevent wasted resources.
   }
 
-  // autons.~Autons();
   chassis.~Chassis();
-  // willyNilly.~Pneumatic();
-  // finger.~Pneumatic();
-  // sloper.~Pneumatic();
-  // blocker.~Pneumatic();
 }
 
 //

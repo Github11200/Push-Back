@@ -39,8 +39,6 @@ public:
   void printMessage(std::string message);
   void prepareAuton();
   void runAuton(AutonName name);
-
-  // ~Autons();
 };
 
 #endif
