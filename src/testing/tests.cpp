@@ -803,8 +803,8 @@ TEST(testBezierEndpoints)
   Vector2D<double> pts[4] = {p0, p1, p2, p3};
   CubicBezier bez(pts);
 
-  Vector2D<double> start = bez.point(0.0);
-  Vector2D<double> end = bez.point(1.0);
+  Vector2D<double> start = bez.getPosition(0.0);
+  Vector2D<double> end = bez.getPosition(1.0);
 
   ASSERT_EQUAL(start.x, p0.x);
   ASSERT_EQUAL(start.y, p0.y);
@@ -824,7 +824,7 @@ TEST(testBezierMidpoint)
   Vector2D<double> pts[4] = {p0, p1, p2, p3};
   CubicBezier bez(pts);
 
-  Vector2D<double> mid = bez.point(0.5);
+  Vector2D<double> mid = bez.getPosition(0.5);
 
   ASSERT_EQUAL(mid.x, 0.5);
   ASSERT_EQUAL(mid.y, 0.75);
@@ -842,8 +842,8 @@ TEST(testBezierFirstDerivativeEndpoints)
   Vector2D<double> pts[4] = {p0, p1, p2, p3};
   CubicBezier bez(pts);
 
-  Vector2D<double> d0 = bez.firstDerivative(0.0);
-  Vector2D<double> d1 = bez.firstDerivative(1.0);
+  Vector2D<double> d0 = bez.getFirstDerivative(0.0);
+  Vector2D<double> d1 = bez.getFirstDerivative(1.0);
 
   // P'(0) = 3*(P1 - P0)
   ASSERT_EQUAL(d0.x, (p1.x - p0.x) * 3.0);
@@ -866,7 +866,7 @@ TEST(testBezierSecondDerivativeAtZero)
   Vector2D<double> pts[4] = {p0, p1, p2, p3};
   CubicBezier bez(pts);
 
-  Vector2D<double> s0 = bez.secondDerivative(0.0);
+  Vector2D<double> s0 = bez.getSecondDerivative(0.0);
 
   // P''(0) = 6 * (P2 - 2*P1 + P0)
   ASSERT_EQUAL(s0.x, (p2.x - 2.0 * p1.x + p0.x) * 6.0);

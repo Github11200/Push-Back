@@ -12,9 +12,10 @@ private:
 public:
   CubicBezier(Vector2D<double> points[4]);
 
-  Vector2D<double> point(double t);
-  Vector2D<double> firstDerivative(double t);
-  Vector2D<double> secondDerivative(double t);
+  Vector2D<double> getPosition(double t);
+  Vector2D<double> getFirstDerivative(double t);
+  Vector2D<double> getSecondDerivative(double t);
+  double getCurvature(double t);
 };
 
 #endif

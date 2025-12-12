@@ -1,6 +1,8 @@
 #ifndef PARAMS_H
 #define PARAMS_H
 
+#include "utils/bezier.h"
+
 struct Settings
 {
   int updateTime = 10;
@@ -72,6 +74,12 @@ struct MotionProfile
   double finalVelocity = 0;
   double maximumAcceleration = 0;
   double kA = 0.1;
+};
+
+struct CurvedMotionProfile : MotionProfile
+{
+  CubicBezier curve;
+  double pointsDisplacement;
 };
 
 inline DriveParams fastDriveParams()

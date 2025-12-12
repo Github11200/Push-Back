@@ -7,6 +7,7 @@
 #include "utils/timer.h"
 #include "utils/logger.h"
 #include "utils/utils.h"
+#include "utils/bezier.h"
 
 #include <stdlib.h>
 #include <complex>
@@ -51,6 +52,7 @@ public:
   void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
   void turnTo(Pose<double> target, TurnParams params, Settings settings);
+  void curvedMotionProfile(CurvedMotionProfile profile);
 
   // void followPath(vector<Pose<double>> path, PursuitParams params);
 
