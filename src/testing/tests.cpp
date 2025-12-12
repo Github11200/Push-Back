@@ -1,12 +1,12 @@
-#include "../../include/testing/tests.h"
-#include "../../include/utils/utils.h"
-#include "../../include/types/vector.h"
-#include "../../include/types/angle.h"
-#include "../../include/types/pose.h"
-#include "../../include/types/params.h"
-#include "../../include/utils/bezier.h"
+#include "testing/tests.h"
+#include "utils/utils.h"
+#include "types/vector.h"
+#include "types/angle.h"
+#include "types/pose.h"
+#include "types/params.h"
+#include "utils/bezier.h"
 
-#include "../../include/pid/pid.h"
+#include "pid/pid.h"
 
 using namespace vex;
 using namespace std;

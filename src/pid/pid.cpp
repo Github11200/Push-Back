@@ -1,4 +1,4 @@
-#include "../../include/pid/pid.h"
+#include "pid/pid.h"
 
 double PID::compute(double error)
 {

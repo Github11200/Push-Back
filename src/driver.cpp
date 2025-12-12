@@ -1,4 +1,4 @@
-#include "../include/driver.h"
+#include "driver.h"
 
 using namespace std;
 using namespace vex;

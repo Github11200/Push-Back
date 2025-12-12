@@ -1,5 +1,5 @@
-#include "../../include/odometry/odometry.h"
-#include "../../include/chassis.h"
+#include "odometry/odometry.h"
+#include "chassis.h"
 
 using namespace vex;
 using namespace std;

@@ -1,4 +1,4 @@
-#include "../../include/subsystems/joysticks.h"
+#include "subsystems/joysticks.h"
 
 double Joysticks::curve(double input, double curveValue)
 {

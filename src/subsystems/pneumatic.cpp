@@ -1,4 +1,4 @@
-#include "../../include/subsystems/pneumatic.h"
+#include "subsystems/pneumatic.h"
 
 using namespace std;
 using namespace vex;

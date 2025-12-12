@@ -12,12 +12,16 @@
 // TODO: Check that before constraining angles they have been converted to degrees
 // TODO: Make sure that when any angles are returned from vector.h or something that they have been constrained from 0 to 360
 
-#include "../include/chassis.h"
-#include "../include/pursuit.h"
-#include "../include/testing/tests.h"
-#include "../include/utils/logger.h"
-#include "../include/autons.h"
-#include "../include/driver.h"
+// #undef __ARM_NEON__
+// #undef __ARM_NEON
+// #include "Eigen/Dense"
+
+#include "chassis.h"
+#include "pursuit.h"
+#include "testing/tests.h"
+#include "utils/logger.h"
+#include "autons.h"
+#include "driver.h"
 
 #include "vex.h"
 

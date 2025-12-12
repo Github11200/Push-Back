@@ -1,4 +1,4 @@
-#include "../../include/utils/bezier.h"
+#include "utils/bezier.h"
 
 using namespace std;
 using namespace vex;
