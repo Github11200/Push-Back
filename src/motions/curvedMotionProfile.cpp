@@ -3,6 +3,11 @@
 using namespace std;
 using namespace vex;
 
+double getMaxSpeed()
+{
+  return 0;
+}
+
 vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profile, double trackWidth)
 {
   double t = 0;
@@ -19,11 +24,41 @@ vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profil
     Vector2D<double> acceleration = curve.getSecondDerivative(t);
 
     double curvature = curve.getCurvature(t);
-    double maxVelocityDueToCurvature = (2 * profile.maximumVelocity) / (2 + trackWidth * curvature);
+    double maxVelocityDueToCurvature = (2 * profile.maximumVelocity) / (2 + trackWidth * fabs(curvature));
+    double maxVelocityDueToPrevious = sqrt(previousPose.velocity * previousPose.velocity + 2 * profile.maximumAcceleration * profile.pointsDisplacement);
 
+    double maxVelocity = min(min(maxVelocityDueToCurvature, maxVelocityDueToPrevious), profile.maximumVelocity);
+
+    MotionProfilePose<double> currentPose(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature);
+    trajectory.push_back(currentPose);
+    previousPose = currentPose;
     double dt = d / hypot(velocity.x, velocity.y);
 
     t += dt;
+  }
+
+  t = 1;
+  previousPose = MotionProfilePose<double>(curve.getPosition(1).x, curve.getPosition(1).y, 0, 0, 0);
+  int i = trajectory.size() - 1;
+  while (t > 0)
+  {
+    trajectory[i] = trajectory[i].velocity > previousPose.velocity ? previousPose.velocity : trajectory[i];
+
+    Vector2D<double> position = curve.getPosition(t);
+    Vector2D<double> velocity = curve.getFirstDerivative(t);
+    Vector2D<double> acceleration = curve.getSecondDerivative(t);
+
+    double curvature = curve.getCurvature(t);
+    double maxVelocityDueToCurvature = (2 * profile.maximumVelocity) / (2 + trackWidth * fabs(curvature));
+    double maxVelocityDueToPrevious = sqrt(previousPose.velocity * previousPose.velocity + 2 * profile.maximumAcceleration * profile.pointsDisplacement);
+
+    double maxVelocity = min(min(maxVelocityDueToCurvature, maxVelocityDueToPrevious), profile.maximumVelocity);
+
+    previousPose = MotionProfilePose<double>(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature);
+
+    double dt = d / hypot(velocity.x, velocity.y);
+    t -= dt;
+    --i;
   }
 
   return trajectory;
