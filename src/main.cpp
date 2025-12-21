@@ -37,10 +37,10 @@ Chassis chassis(
     TrackerSetup::TWO_TRACKER,
 
     // Forward tracker port
-    PORT4,
+    forwardTracker,
 
     // Sideways tracker port
-    PORT8,
+    sidewaysTracker,
 
     // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders FORWARD
     // (((drive_ratio) * PI * wheel_diameter) / 360)

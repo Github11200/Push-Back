@@ -34,8 +34,8 @@ public:
       int inertialPort,
       double inertialScaling,
       TrackerSetup trackerSetup,
-      int forwardTrackerPort,
-      int sidewaysTrackerPort,
+      vex::rotation forwardTracker,
+      vex::rotation sidewaysTracker,
       double forwardTrackerInchesToDegreesRatio,
       double sidewaysTrackerInchesToDegreesRatio,
       double forwardTrackerDistance,
@@ -49,7 +49,7 @@ public:
 
   void driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings);
-  void driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
+  void driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead = 0, double setback = 0, double driveCompensation = 0);
   void turnTo(const Pose<double> &target, TurnParams params, Settings settings);
   void curvedMotionProfile(CurvedMotionProfile profile);
 

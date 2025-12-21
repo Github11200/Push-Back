@@ -23,7 +23,9 @@ extern motor BottomIntake;
 extern vex::distance frontDistance;
 extern vex::distance rightDistance;
 extern vex::distance leftDistance;
-// extern vex::distance backDistance;
+
+extern vex::rotation forwardTracker;
+extern vex::rotation sidewaysTracker;
 
 extern motor_group Left;
 extern motor_group Right;
