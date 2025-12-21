@@ -34,18 +34,14 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     if (sgn(previousTurnError.angle) != sgn(turnError.angle))
       break;
 
-    turnOutput = [&]() -> double
-    {
-      double output = 0;
-      output = turnPID.compute(turnError.angle);
+    turnOutput = turnPID.compute(turnError.angle);
 
-      output = clamp(output, -params.turnMaxVoltage, params.turnMaxVoltage);
-      output = clampMin(output, params.turnMinVoltage);
+    turnOutput = clamp(turnOutput, -params.turnMaxVoltage, params.turnMaxVoltage);
+    turnOutput = clampMin(turnOutput, params.turnMinVoltage);
 
-      previousTurnOutput = output;
-      return output;
-    }();
+    previousTurnOutput = turnOutput;
 
+    // Make the motors move
     Left.spin(fwd, turnOutput, volt);
     Right.spin(fwd, -turnOutput, volt);
 

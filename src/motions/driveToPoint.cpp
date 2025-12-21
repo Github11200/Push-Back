@@ -24,6 +24,8 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
 
   Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, {.driveParams = driveParams, .turnParams = turnParams});
 
+  Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
+
   while (!drivePID.isSettled())
   {
     currentPose = odometry->getPose();
@@ -44,7 +46,9 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
 
     double driveError = distanceToTarget;
     Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
-    Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180();
+
+    Angle<double> rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
+    Angle<double> turnError = (rawTurnError + additionalAngle).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
@@ -53,10 +57,9 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
       target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
       the lateral rather than the angular movement
     */
-    headingScaleFactor = cos((currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180().toRad().angle);
+    headingScaleFactor = cos(rawTurnError.constrainNegative180To180().toRad().angle);
 
     {
-      Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
       Vector2D<double> lineFromCurrentPositionToTarget(currentPose.position.x - target.position.x, currentPose.position.y - target.position.y);
 
       // If the cross product is negative then it is before the line and if it is positive then it is after the line
@@ -73,41 +76,39 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
       previousSide = side;
     }
 
-    turnOutput = [&]() -> double
-    {
-      double output = 0;
-      output = turnPID.compute(turnError.angle);
+    /*=============================
+                Turning
+    =============================*/
 
-      // Clamp the values
-      output = clamp(output, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
-      output = clampMin(output, turnParams.turnMinVoltage);
+    turnOutput = turnPID.compute(turnError.angle);
 
-      if (!isClose)
-        output = slew(previousTurnOutput, output, turnParams.turnSlew);
+    // Clamp the values
+    turnOutput = clamp(turnOutput, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
+    turnOutput = clampMin(turnOutput, turnParams.turnMinVoltage);
 
-      previousTurnOutput = output;
-      return output;
-    }();
+    if (!isClose)
+      turnOutput = slew(previousTurnOutput, turnOutput, turnParams.turnSlew);
 
-    driveOutput = [&]() -> double
-    {
-      double output = 0;
-      output = drivePID.compute(driveError) * headingScaleFactor;
+    previousTurnOutput = turnOutput;
 
-      output = clamp(output, -driveParams.driveMaxVoltage * fabs(headingScaleFactor), driveParams.driveMaxVoltage * fabs(headingScaleFactor));
+    /*=============================
+                Driving
+    =============================*/
 
-      if (!isClose)
-        output = slew(previousDriveOutput, output, driveParams.driveSlew);
+    driveOutput = drivePID.compute(driveError) * headingScaleFactor;
+    driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * fabs(headingScaleFactor), driveParams.driveMaxVoltage * fabs(headingScaleFactor));
 
-      if (!settings.forwards)
-        output = clamp(output, -driveParams.driveMaxVoltage, -driveParams.driveMinVoltage);
-      else
-        output = clamp(output, driveParams.driveMinVoltage, driveParams.driveMaxVoltage);
+    if (!isClose)
+      driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
-      previousDriveOutput = driveOutput;
-      return output;
-    }();
+    if (!settings.forwards)
+      driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage, -driveParams.driveMinVoltage);
+    else
+      driveOutput = clamp(driveOutput, driveParams.driveMinVoltage, driveParams.driveMaxVoltage);
 
+    previousDriveOutput = driveOutput;
+
+    // Make it move
     Pair motorOutputs = getMotorVelocities(driveOutput, turnOutput);
     Left.spin(fwd, motorOutputs.left, volt);
     Right.spin(fwd, motorOutputs.right, volt);

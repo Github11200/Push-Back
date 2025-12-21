@@ -4,7 +4,6 @@
 #include "odometry/odometry.h"
 #include "pid/pid.h"
 #include "pursuit.h"
-#include "utils/timer.h"
 #include "utils/logger.h"
 #include "utils/utils.h"
 #include "utils/bezier.h"

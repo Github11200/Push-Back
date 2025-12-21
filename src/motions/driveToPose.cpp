@@ -26,6 +26,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   double carrotX = 0;
   double carrotY = 0;
 
+  Vector2D<double> projectedPerpendicularLine(-sin(target.orientation.toRad().angle), cos(target.orientation.toRad().angle));
   while (!drivePID.isSettled() && !turnPID.isSettled())
   {
     currentPose = odometry->getPose();
@@ -48,7 +49,6 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
 
     {
       // This is a visualization of what's happening here, https://www.desmos.com/calculator/apijy0bvki?lang=en
-      Vector2D<double> projectedPerpendicularLine(-sin(target.orientation.toRad().angle), cos(target.orientation.toRad().angle));
       Vector2D<double> lineFromCurrentPositionToTarget(currentPose.position.x - target.position.x, currentPose.position.y - target.position.y);
       Vector2D<double> lineFromCarrotToTarget(carrotPoint.x - target.position.x, carrotPoint.y - target.position.y);
 
@@ -67,54 +67,51 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
       previousSameSide = sameSide;
     }
 
-    turnOutput = [&]() -> double
+    /*=============================
+                Turning
+    =============================*/
+
+    turnOutput = turnPID.compute(turnError.angle);
+
+    // Clamp the values
+    turnOutput = clamp(turnOutput, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
+    turnOutput = clampMin(turnOutput, turnParams.turnMinVoltage);
+
+    previousTurnOutput = turnOutput;
+
+    /*=============================
+                Driving
+    =============================*/
+
+    driveOutput = drivePID.compute(driveError) * headingScaleFactor;
+    driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
+
+    // Limit accleration
+    if (!isClose)
+      driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
+
+    const double radius = 1 / abs(getSignedTangentArcCurvature(currentPose, carrotPoint));
+
+    // // If the drift compensation is 0 that means it should be disabled
+    if (driftCompensation != 0)
     {
-      double output = 0;
-      output = turnPID.compute(turnError.angle);
+      // The equation used here is the one for lateral acceleration in a turn, so a = v^2 / r. Here a is the drift compensation
+      // so what the maximum lateral acceleration is and radius is the radius of the turn to get to the carrot point
+      const double maxSlipSpeed = sqrt(driftCompensation * radius);
+      driveOutput = clamp(driveOutput, -maxSlipSpeed, maxSlipSpeed);
+    }
 
-      // Clamp the values
-      output = clamp(output, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
-      output = clampMin(output, turnParams.turnMinVoltage);
+    // If this variable is positive then that means there's more of an emphasis on turning
+    const double overTurnVoltage = abs(driveOutput) + abs(turnOutput) - driveParams.driveMaxVoltage;
+    // Move the drive output closer to 0 so that there is more of an emphasis on turning
+    if (overTurnVoltage > 0)
+      driveOutput -= driveOutput > 0 ? overTurnVoltage : -overTurnVoltage;
 
-      previousTurnOutput = output;
-      return output;
-    }();
+    // Constrain to the minimum voltage
+    driveOutput = clampMin(driveOutput, driveParams.driveMinVoltage);
+    previousDriveOutput = driveOutput;
 
-    driveOutput = [&]() -> double
-    {
-      double output = 0;
-
-      output = drivePID.compute(driveError) * headingScaleFactor;
-      output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
-
-      // Limit accleration
-      if (!isClose)
-        output = slew(previousDriveOutput, output, driveParams.driveSlew);
-
-      const double radius = 1 / abs(getSignedTangentArcCurvature(currentPose, carrotPoint));
-
-      // // If the drift compensation is 0 that means it should be disabled
-      if (driftCompensation != 0)
-      {
-        // The equation used here is the one for lateral acceleration in a turn, so a = v^2 / r. Here a is the drift compensation
-        // so what the maximum lateral acceleration is and radius is the radius of the turn to get to the carrot point
-        const double maxSlipSpeed = sqrt(driftCompensation * radius);
-        output = clamp(output, -maxSlipSpeed, maxSlipSpeed);
-      }
-
-      // If this variable is positive then that means there's more of an emphasis on turning
-      const double overTurnVoltage = abs(output) + abs(turnOutput) - driveParams.driveMaxVoltage;
-      // Move the drive output closer to 0 so that there is more of an emphasis on turning
-      if (overTurnVoltage > 0)
-        output -= output > 0 ? overTurnVoltage : -overTurnVoltage;
-
-      // Constrain to the minimum voltage
-      output = clampMin(output, driveParams.driveMinVoltage);
-
-      previousDriveOutput = output;
-      return output;
-    }();
-
+    // Make the motors move
     Pair outputs = getMotorVelocities(driveOutput, turnOutput);
     Left.spin(fwd, outputs.left, volt);
     Right.spin(fwd, outputs.right, volt);
