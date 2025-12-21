@@ -7,7 +7,7 @@
 DriveParams driveParams5_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0;
+  driveParams.driveKp = 1;
   driveParams.driveKd = 0;
   driveParams.driveKi = 0;
   driveParams.driveTimeout = 0;
@@ -17,7 +17,7 @@ DriveParams driveParams5_in()
 DriveParams driveParams10_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0;
+  driveParams.driveKp = 1;
   driveParams.driveKd = 0;
   driveParams.driveKi = 0;
   driveParams.driveTimeout = 0;
@@ -27,7 +27,7 @@ DriveParams driveParams10_in()
 DriveParams driveParams20_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0;
+  driveParams.driveKp = 1;
   driveParams.driveKd = 0;
   driveParams.driveKi = 0;
   driveParams.driveTimeout = 0;
@@ -37,7 +37,7 @@ DriveParams driveParams20_in()
 DriveParams driveParams30_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0;
+  driveParams.driveKp = 1;
   driveParams.driveKd = 0;
   driveParams.driveKi = 0;
   driveParams.driveTimeout = 0;
@@ -47,7 +47,7 @@ DriveParams driveParams30_in()
 DriveParams driveParams50_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0;
+  driveParams.driveKp = 1;
   driveParams.driveKd = 0;
   driveParams.driveKi = 0;
   driveParams.driveTimeout = 0;
@@ -62,7 +62,7 @@ DriveParams driveParams50_in()
 TurnParams turnParams10_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0;
+  turnParams.turnKp = 1;
   turnParams.turnKd = 0;
   turnParams.turnKi = 0;
   turnParams.turnTimeout = 0;
@@ -72,7 +72,7 @@ TurnParams turnParams10_deg()
 TurnParams turnParams30_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0;
+  turnParams.turnKp = 1;
   turnParams.turnKd = 0;
   turnParams.turnKi = 0;
   turnParams.turnTimeout = 0;
@@ -82,7 +82,7 @@ TurnParams turnParams30_deg()
 TurnParams turnParams45_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0;
+  turnParams.turnKp = 1;
   turnParams.turnKd = 0;
   turnParams.turnKi = 0;
   turnParams.turnTimeout = 0;
@@ -92,7 +92,7 @@ TurnParams turnParams45_deg()
 TurnParams turnParams60_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0;
+  turnParams.turnKp = 1;
   turnParams.turnKd = 0;
   turnParams.turnKi = 0;
   turnParams.turnTimeout = 0;
@@ -102,7 +102,7 @@ TurnParams turnParams60_deg()
 TurnParams turnParams90_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0;
+  turnParams.turnKp = 1;
   turnParams.turnKd = 0;
   turnParams.turnKi = 0;
   turnParams.turnTimeout = 0;
@@ -112,7 +112,7 @@ TurnParams turnParams90_deg()
 TurnParams turnParams180_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0;
+  turnParams.turnKp = 1;
   turnParams.turnKd = 0;
   turnParams.turnKi = 0;
   turnParams.turnTimeout = 0;

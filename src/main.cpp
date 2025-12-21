@@ -7,14 +7,8 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-// TODO: Make sure all the cos, sin and tan functions take parameters in as radians
-// TODO: Make sure the Angle struct is always returning in degrees
-// TODO: Check that before constraining angles they have been converted to degrees
-// TODO: Make sure that when any angles are returned from vector.h or something that they have been constrained from 0 to 360
-
-// #undef __ARM_NEON__
-// #undef __ARM_NEON
-// #include "Eigen/Dense"
+// TODO: Code for tuning wheel diameters
+// TODO: Code for tuning wheel offsets
 
 #include "chassis.h"
 #include "pursuit.h"
