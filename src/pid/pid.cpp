@@ -2,6 +2,16 @@
 
 double PID::compute(double error)
 {
+  // If the previous time is -1 then this is the very first iteration (woah)
+  double currentTime = vex::timer::system();
+  double dt = previousTime == -1 ? 0 : currentTime - previousTime;
+  previousTime = currentTime;
+
+  double derivative = dt != 0 ? (error - previousError) / dt : 0;
+  previousError = error;
+
+  accumulatedError += error * dt;
+
   if (fabs(error) < settleError)
     timeSpentSettled += updateTime;
   else
@@ -10,25 +20,18 @@ double PID::compute(double error)
   // If the robot is tweaking out and oscilating then get rid of the integral
   if (sgn(error) != sgn(previousError))
     accumulatedError = 0;
-
-  if (error < stopIntegratingLimit)
-    accumulatedError += error;
-  else
+  if (error >= stopIntegratingLimit)
     accumulatedError = 0;
 
-  output = error * kP + accumulatedError * kI + (error - previousError) * kD;
-
   timeSpentRunning += updateTime;
-  previousError = error;
 
-  return output;
+  return error * kP + accumulatedError * kI + derivative * kD;
 }
 
 void PID::resetPID()
 {
   error = 0;
   previousError = 0;
-  output = 0;
   stopIntegratingLimit = 0;
   timeSpentRunning = 0;
   timeSpentSettled = 0;

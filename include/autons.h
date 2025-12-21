@@ -12,7 +12,8 @@ enum AutonName
   HIGH = 1,
   LOW = 2,
   SOLO = 3,
-  SKILLS = 4
+  SKILLS = 4,
+  TUNING = 5
 };
 
 enum Side
@@ -35,6 +36,7 @@ public:
   void low();
   void solo();
   void skills();
+  void tuning();
 
   void printMessage(std::string message);
   void prepareAuton();

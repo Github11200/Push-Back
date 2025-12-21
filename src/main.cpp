@@ -22,6 +22,7 @@
 #include "utils/logger.h"
 #include "autons.h"
 #include "driver.h"
+#include "types/params.h"
 
 #include "vex.h"
 
@@ -126,8 +127,8 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // if (chassis.odometry->isTracking)
-  //   chassis.odometry->stopPositionTrackThread();
+  if (chassis.odometry->isTracking)
+    chassis.odometry->stopPositionTrackThread();
 
   Driver driver;
   driver.startJoysticksThread();

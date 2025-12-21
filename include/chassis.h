@@ -49,9 +49,9 @@ public:
   ~Chassis();
 
   void driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings);
-  void driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings);
-  void driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
-  void turnTo(Pose<double> target, TurnParams params, Settings settings);
+  void driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings);
+  void driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driveCompensation);
+  void turnTo(const Pose<double> &target, TurnParams params, Settings settings);
   void curvedMotionProfile(CurvedMotionProfile profile);
 
   // void followPath(vector<Pose<double>> path, PursuitParams params);

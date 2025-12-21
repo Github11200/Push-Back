@@ -1,9 +1,10 @@
 #ifndef PID_H
 #define PID_H
 
-#include "../types/params.h"
-#include "../utils/utils.h"
-#include "../vex.h"
+#include "types/params.h"
+#include "types/time.h"
+#include "utils/utils.h"
+#include "vex.h"
 
 using namespace vex;
 using namespace std;
@@ -18,7 +19,6 @@ protected:
   double error = 0;
   double accumulatedError = 0;
   double previousError = 0;
-  double output = 0;
 
   double kP = 0;
   double kI = 0;
@@ -32,6 +32,8 @@ protected:
 
   double settleError = 0;
   double settleTime = 0;
+
+  double previousTime = -1;
 
   double updateTime = 0;
 

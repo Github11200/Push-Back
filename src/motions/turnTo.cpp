@@ -3,7 +3,7 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
+void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings settings)
 {
   PID turnPID(settings.updateTime, params);
 

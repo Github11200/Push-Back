@@ -49,6 +49,10 @@ void Autons::runAuton(AutonName name)
     Logger::sendMessage("Running the SKILLS auton.");
     skills();
     break;
+  case AutonName::TUNING:
+    Logger::sendMessage("Running the TUNING auton.");
+    tuning();
+    break;
   default:
     break;
   }

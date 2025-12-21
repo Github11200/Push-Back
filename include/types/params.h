@@ -23,23 +23,23 @@ struct TurnParams
   double turnKi = 0;
   double turnKd = 2.2;
   double turnStopIntegratingLimit = 1;
-  double turnSlew = 12; // by default the turn slew will be disabled
+  double turnSlew = 12;
 
   TurnParams() = default;
 };
 
 struct DriveParams
 {
-  double driveMinVoltage = 0;    // turn up for motion chaining
-  double driveMaxVoltage = 12;   // preferably don't change, will make bot slower
-  double driveSettleError = 0.8; // make it like 0.01 for pid tuning
+  double driveMinVoltage = 0;
+  double driveMaxVoltage = 12;
+  double driveSettleError = 0.8;
   double driveSettleTime = 100;
-  double driveTimeout = 3000; // insanely high value for pid tuning
-  double driveKp = 0.6;       // tune first
-  double driveKi = 0;         // tune third
-  double driveKd = 2.5;       // tune second
+  double driveTimeout = 3000;
+  double driveKp = 0.6;
+  double driveKi = 0;
+  double driveKd = 2.5;
   double driveStopIntegratingLimit = 1;
-  double driveSlew = 1; // TODO: CHANGE THIS FLIPPING THING BACK TO 1 OR IT'LL TWEAK OUT - Alex
+  double driveSlew = 1;
 
   DriveParams() = default;
 };
@@ -82,96 +82,17 @@ struct CurvedMotionProfile : MotionProfile
   double pointsDisplacement;
 };
 
-inline DriveParams fastDriveParams()
-{
-  DriveParams driveParams;
-  driveParams.driveMinVoltage = 0.3;
-  driveParams.driveMaxVoltage = 10;
-  driveParams.driveSettleError = 0.5;
-  driveParams.driveSettleTime = 150;
-  driveParams.driveTimeout = 80000;
-  driveParams.driveKp = 0.5;
-  driveParams.driveKi = 0.1;
-  driveParams.driveKd = 5;
-  driveParams.driveStopIntegratingLimit = 0.8;
-  driveParams.driveSlew = 15;
-  return driveParams;
-}
+DriveParams driveParams5_in();
+DriveParams driveParams10_in();
+DriveParams driveParams20_in();
+DriveParams driveParams30_in();
+DriveParams driveParams50_in();
 
-inline DriveParams slowDriveParams()
-{
-  DriveParams driveParams;
-  driveParams.driveMinVoltage = 0.2;
-  driveParams.driveMaxVoltage = 8;
-  driveParams.driveSettleError = 2;
-  driveParams.driveSettleTime = 300;
-  driveParams.driveTimeout = 120000;
-  driveParams.driveKp = 0.2;
-  driveParams.driveKi = 0.05;
-  driveParams.driveKd = 0.3;
-  driveParams.driveStopIntegratingLimit = 1.2;
-  driveParams.driveSlew = 8;
-  return driveParams;
-}
-
-inline TurnParams fastTurnParams()
-{
-  TurnParams turnParams;
-  turnParams.turnMinVoltage = 0.2;
-  turnParams.turnMaxVoltage = 10;
-  turnParams.turnSettleError = 0.8;
-  turnParams.turnSettleTime = 180;
-  turnParams.turnTimeout = 90000;
-  turnParams.turnKp = 0.4;
-  turnParams.turnKi = 0.02;
-  turnParams.turnKd = 0.7;
-  turnParams.turnStopIntegratingLimit = 0.9;
-  turnParams.turnSlew = 14;
-  return turnParams;
-}
-
-inline TurnParams slowTurnParams()
-{
-  TurnParams turnParams;
-  turnParams.turnMinVoltage = 0.1;
-  turnParams.turnMaxVoltage = 6;
-  turnParams.turnSettleError = 1.5;
-  turnParams.turnSettleTime = 250;
-  turnParams.turnTimeout = 110000;
-  turnParams.turnKp = 0.25;
-  turnParams.turnKi = 0.01;
-  turnParams.turnKd = 0.4;
-  turnParams.turnStopIntegratingLimit = 1.3;
-  turnParams.turnSlew = 9;
-  return turnParams;
-}
-
-inline SwingParams fastSwingParams()
-{
-  SwingParams swingParams;
-  swingParams.swingMaxVoltage = 8;
-  swingParams.swingSettleError = 0.6;
-  swingParams.swingSettleTime = 0.8;
-  swingParams.swingTimeout = 0.7;
-  swingParams.swingKp = 1.2;
-  swingParams.swingKi = 1.1;
-  swingParams.swingKd = 1.3;
-  swingParams.swingStartI = 0.9;
-  return swingParams;
-}
-
-inline SwingParams slowSwingParams()
-{
-  SwingParams swingParams;
-  swingParams.swingMaxVoltage = 4;
-  swingParams.swingSettleError = 1.2;
-  swingParams.swingSettleTime = 1.5;
-  swingParams.swingTimeout = 1.8;
-  swingParams.swingKp = 0.8;
-  swingParams.swingKi = 0.7;
-  swingParams.swingKd = 0.9;
-  swingParams.swingStartI = 1.2;
-  return swingParams;
-}
+TurnParams turnParams10_deg();
+TurnParams turnParams30_deg();
+TurnParams turnParams45_deg();
+TurnParams turnParams60_deg();
+TurnParams turnParams90_deg();
+TurnParams turnParams180_deg();
 
 #endif

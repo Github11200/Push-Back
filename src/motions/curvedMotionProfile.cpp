@@ -42,7 +42,7 @@ vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profil
   int i = trajectory.size() - 1;
   while (t > 0)
   {
-    trajectory[i] = trajectory[i].velocity > previousPose.velocity ? previousPose.velocity : trajectory[i];
+    trajectory[i] = trajectory[i].velocity > previousPose.velocity ? previousPose : trajectory[i];
 
     Vector2D<double> position = curve.getPosition(t);
     Vector2D<double> velocity = curve.getFirstDerivative(t);

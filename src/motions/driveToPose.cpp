@@ -3,7 +3,7 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::driveToPose(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driftCompensation)
+void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driftCompensation)
 {
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
