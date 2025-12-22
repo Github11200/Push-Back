@@ -25,6 +25,8 @@ vex::distance leftDistance = vex::distance(PORT5);  // Done
 vex::rotation forwardTracker = vex::rotation(PORT2);
 vex::rotation sidewaysTracker = vex::rotation(PORT3);
 
+vex::inertial Inertial = vex::inertial(PORT1);
+
 motor_group Left = motor_group(FrontLeft, MiddleLeft, BackLeft);
 motor_group Right = motor_group(FrontRight, MiddleRight, BackRight);
 

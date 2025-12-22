@@ -199,36 +199,93 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
     this->currentPose.position.x = distance;
 }
 
-void Odometry::getWheelDistances()
+void Odometry::getWheelOffsets()
 {
-  int iterations = 50;
-  double forwardOffset = 0;
-  double sidewaysOffset = 0;
+  // int iterations = 50;
+  // double forwardOffset = 0;
+  // double sidewaysOffset = 0;
 
-  for (int i = 1; i <= iterations; ++i)
+  // for (int i = 1; i <= iterations; ++i)
+  // {
+  //   chassis->resetEncoders();
+  //   setPosition(0, 0, 0);
+  //   Angle<double> initialTheta = chassis->getAbsoluteHeading();
+
+  //   double target = i % 2 == 0 ? 90 : 270;
+  //   chassis->turnTo(Pose<double>(0, 0, target), {.turnMaxVoltage = 6}, {});
+  //   wait(250, msec);
+
+  //   Angle<double> deltaTheta = Angle<double>(fabs((chassis->getAbsoluteHeading() - initialTheta).constrainNegative180To180().angle)).toRad();
+  //   // cout << deltaTheta.toDeg().angle << endl;
+
+  //   double forwardDelta = -chassis->getForwardTrackerPosition();
+  //   double sidewaysDelta = chassis->getSidewaysTrackerPosition();
+  //   cout << "sidewaysDelta: " << fabs(sidewaysDelta) / deltaTheta.angle << endl;
+
+  //   forwardOffset += fabs(forwardDelta) / deltaTheta.angle;
+  //   sidewaysOffset += fabs(sidewaysDelta) / deltaTheta.angle;
+  //   // cout << "Forward offset: " << (forwardOffset) << endl;
+  //   cout << "total: " << (sidewaysOffset) << endl;
+  //   cout << "offset: " << (sidewaysOffset / i) << endl;
+  // }
+
+  // // cout << "Forward offset: " << (forwardOffset / iterations) << endl;
+  // cout << "Sideways offset: " << (sidewaysOffset / iterations) << endl;
+
+  int iterations = 10;
+  double forwardTrackerOffsets = 0;
+  double sidewaysTrackerOffsets = 0;
+
+  for (int i = 0; i < iterations; ++i)
   {
     chassis->resetEncoders();
-    setPosition(0, 0, 0);
-    Angle<double> initialTheta = chassis->getAbsoluteHeading();
+    Logger::sendMessage("Spin the robot 360 degrees slowly. Press A when you are done.");
 
-    double target = i % 2 == 0 ? 90 : 270;
-    chassis->turnTo(Pose<double>(0, 0, target), {.turnMaxVoltage = 6}, {});
-    wait(250, msec);
+    while (!Controller.ButtonA.pressing())
+      wait(50, msec);
 
-    Angle<double> deltaTheta = Angle<double>(fabs((chassis->getAbsoluteHeading() - initialTheta).constrainNegative180To180().angle)).toRad();
-    // cout << deltaTheta.toDeg().angle << endl;
+    TrackerPositions trackerPositions = getTrackersPositions();
+    forwardTrackerOffsets += (trackerPositions.forward * chassis->forwardTrackerInchesToDegreesRatio) / M_PI;
+    sidewaysTrackerOffsets += (trackerPositions.sideways * chassis->sidewaysTrackerInchesToDegreesRatio) / M_PI;
 
-    double forwardDelta = -chassis->getForwardTrackerPosition();
-    double sidewaysDelta = chassis->getSidewaysTrackerPosition();
-    cout << "sidewaysDelta: " << fabs(sidewaysDelta) / deltaTheta.angle << endl;
-
-    forwardOffset += fabs(forwardDelta) / deltaTheta.angle;
-    sidewaysOffset += fabs(sidewaysDelta) / deltaTheta.angle;
-    // cout << "Forward offset: " << (forwardOffset) << endl;
-    cout << "total: " << (sidewaysOffset) << endl;
-    cout << "offset: " << (sidewaysOffset / i) << endl;
+    Logger::sendMessage("Distances have been recorded, reset the bot, and press A when you are ready.");
+    while (!Controller.ButtonA.pressing())
+      wait(50, msec);
   }
 
-  // cout << "Forward offset: " << (forwardOffset / iterations) << endl;
-  cout << "Sideways offset: " << (sidewaysOffset / iterations) << endl;
+  ostringstream stringStream;
+  stringStream << "Forward tracker offsets: " << (forwardTrackerOffsets / iterations) << endl;
+  stringstream << "Sideways tracker offsets: " << (sidewaysTrackerOffsets / iterations) << endl;
+  Logger::sendMessage(stringStream.str());
+}
+
+// Forward tracker - 0, sideways - 1
+void Odometry::getWheelDiameters(int forwardOrSidewaysTracker, double currentWheelDiameter)
+{
+  Logger::sendMessage("Forward encoders...");
+
+  int iterations = 5;
+  double totalDistanceTravelled = 0;
+
+  for (int i = 0; i < iterations; ++i)
+  {
+    chassis->resetEncoders();
+    Logger::sendMessage("Move the robot 50 inches.");
+    while (!Controller.ButtonA.pressing())
+      wait(50, msec);
+
+    double trackerPosition = (forwardOrSidewaysTracker == 0 ? forwardTracker : sidewaysTracker).position(vex::rotationUnits::deg);
+    totalDistanceTravelled += ((M_PI * currentWheelDiameter) / 360) * trackerPosition;
+
+    Logger::sendMessage("Distance recorded, reset the position, and press A to continue.");
+    while (!Controller.ButtonA.pressing())
+      wait(50, msec);
+  }
+
+  double averagedDistance = totalDistanceTravelled / iterations;
+  double newWheelDiameter = (50 / averagedDistance) * currentWheelDiameter;
+
+  ostringstream stringStream;
+  stringStream << "New wheel diameter: " << newWheelDiameter;
+  Logger::sendMessage(stringStream.str());
 }

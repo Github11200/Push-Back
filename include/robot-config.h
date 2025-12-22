@@ -27,8 +27,10 @@ extern vex::distance leftDistance;
 extern vex::rotation forwardTracker;
 extern vex::rotation sidewaysTracker;
 
-extern motor_group Left;
-extern motor_group Right;
+extern vex::inertial Inertial;
+
+extern vex::motor_group Left;
+extern vex::motor_group Right;
 
 extern vex::controller::button IntakeButton;
 extern vex::controller::button OuttakeButton;

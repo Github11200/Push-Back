@@ -80,7 +80,7 @@ public:
   bool isTracking = false;
   bool pauseOdom = false;
 
-  Odometry();
+  Odometry() = default;
   Odometry(Chassis *chassis,
            double forwardTrackerCenterDistance,
            double sidewaysTrackerCenterDistance,
@@ -130,7 +130,9 @@ public:
 
   void wallReset(DistanceSensor DistanceSensor, Wall wall);
 
-  void getWheelDistances();
+  void getWheelOffsets();
+
+  void getWheelDiameters(int forwardOrSidewaysTracker, double currentWheelDiameter);
 };
 
 extern Odometry odometry;

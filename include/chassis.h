@@ -31,7 +31,7 @@ public:
   inertial Inertial;
 
   Chassis(
-      int inertialPort,
+      vex::inertial Inertial,
       double inertialScaling,
       TrackerSetup trackerSetup,
       vex::rotation forwardTracker,

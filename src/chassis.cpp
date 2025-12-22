@@ -4,7 +4,7 @@ using namespace vex;
 using namespace std;
 
 // TODO: Update the ports for all the sensors
-Chassis::Chassis(int inertialPort,
+Chassis::Chassis(inertial Inertial,
                  double inertialScaling,
                  TrackerSetup trackerSetup,
                  vex::rotation forwardTracker,
@@ -17,7 +17,7 @@ Chassis::Chassis(int inertialPort,
                  double rightDistanceSensorDistance,
                  double leftDistanceSensorDistance,
                  double backDistanceSensorDistance,
-                 bool enableLogs) : Inertial(inertial(inertialPort)),
+                 bool enableLogs) : Inertial(Inertial),
                                     inertialScaling(inertialScaling),
                                     forwardTracker(forwardTracker),
                                     sidewaysTracker(sidewaysTracker),

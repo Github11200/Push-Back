@@ -27,8 +27,8 @@ competition Competition;
 
 // define your global instances of motors and other devices here
 Chassis chassis(
-    // Inertial port
-    PORT7,
+    // Inertial sensor
+    Inertial,
 
     // Inertial scaling
     357.5, // 357.5
@@ -42,18 +42,20 @@ Chassis chassis(
     // Sideways tracker port
     sidewaysTracker,
 
-    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders FORWARD
+    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
     // (((drive_ratio) * PI * wheel_diameter) / 360)
-    ((M_PI * 2.125) / 360.0),
+
+    // FORWARDS
+    ((M_PI * 2.75) / 360.0),
 
     // SIDEWAYS
-    ((M_PI * 1.980) / 360.0),
+    ((M_PI * 2.0) / 360.0),
 
     // Forward tracker distance
     0,
 
     // Sideways tracker distance
-    5.85725,
+    0,
 
     // Front distance sensor distance
     (8.3175 - 5.4),

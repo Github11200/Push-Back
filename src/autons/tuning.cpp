@@ -7,36 +7,47 @@ using namespace std;
 
 void Autons::tuning()
 {
+  /*=============================================================
+  |                   Part 1 - Wheel Diameters                  |
+  |                                                             |
+  | Call the getWheelDiameters functions for both the           |
+  | forward and sideways trackers. Get the updated diameters    |
+  | and plug those back into the function around 3 times. Once  |
+  | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
+  | INSIDE main.cpp otherwise the next stop won't work.         |
+  =============================================================*/
+  chassisReference->odometry->getWheelDiameters(0, 2.75); // Forward tracker
+  chassisReference->odometry->getWheelDiameters(1, 2);    // Sideways tracker
+
+  /*=============================================================
+  |                   Part 2 - Wheel Offsets                    |
+  | Tune the wheel offsets next by simply calling the function. |
+  | You have to rotate the bot around using the joysticks and   |
+  | it will record how far the encoders travelled. It will use  |
+  | the wheel diameters from before so make sure thoser are     |
+  | accurate and tuned well.                                    |
+  =============================================================*/
+  // chassisReference->odometry->getWheelOffsets();
+
+  /*=============================================================
+  |                   Part 3 - Test odometry                    |
+  | Simply make sure the odom is accurate now by moving the bot |
+  | around, curving it, etc. Use the joysticks for this. Use    |
+  | the visualizer to see where the bot thinks it is.           |
+  =============================================================*/
+  // chassisReference->odometry->startPositionTrackThread(true);
+
+  /*=============================================================
+  |                   Part 4 - Tune the PIDs                     |
+  | Tune the PIDs in the order given below. Up the P until it    |
+  | oscillates, then dampen it with the D, and, if necessary,    |
+  | add the I.                                                   |
+  =============================================================*/
+
   // Prepare chassis
-  chassisReference->calibrateInertial();
-  chassisReference->resetEncoders();
-  Logger::sendMessage("Starting tuning auton. All motions are commented out by default.");
-
-  // Get current pose to build relative targets
-  Pose<double> currentPose = chassisReference->odometry->getPose();
-
-  // Settings (use defaults; change if you want different update time or forward/backwards)
-  Settings settings;
-
-  // -----------------------------
-  // Drive distance tuning (small -> large)
-  // Uncomment one line at a time to test each distance with the corresponding DriveParams
-  // -----------------------------
-
-  // Drive 5 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 5, 0), driveParams5_in(), turnParams10_deg(), settings);
-
-  // Drive 10 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 10, 0), driveParams10_in(), turnParams10_deg(), settings);
-
-  // Drive 20 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 20, 0), driveParams20_in(), turnParams30_deg(), settings);
-
-  // Drive 30 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 30, 0), driveParams30_in(), turnParams30_deg(), settings);
-
-  // Drive 50 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams45_deg(), settings);
+  // chassisReference->calibrateInertial();
+  // chassisReference->resetEncoders();
+  // chassisReference->odometry->setPosition(0, 0, 0);
 
   // -----------------------------
   // Turn tuning (small -> large)
@@ -45,22 +56,40 @@ void Autons::tuning()
   // -----------------------------
 
   // Turn 10 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 10), turnParams10_deg(), settings);
+  // chassisReference->turnTo(Pose<double>(0, 0, 10), turnParams10_deg(), {});
 
   // Turn 30 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 30), turnParams30_deg(), settings);
+  // chassisReference->turnTo(Pose<double>(0, 0, 30), turnParams30_deg(), {});
 
   // Turn 45 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 45), turnParams45_deg(), settings);
+  // chassisReference->turnTo(Pose<double>(0, 0, 45), turnParams45_deg(), {});
 
   // Turn 60 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 60), turnParams60_deg(), settings);
+  // chassisReference->turnTo(Pose<double>(0, 0, 60), turnParams60_deg(), {});
 
   // Turn 90 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 90), turnParams90_deg(), settings);
+  // chassisReference->turnTo(Pose<double>(0, 0, 90), turnParams90_deg(), {});
 
   // Turn 180 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 180), turnParams180_deg(), settings);
+  // chassisReference->turnTo(Pose<double>(0, 0, 180), turnParams180_deg(), {});
 
-  Logger::sendMessage("Tuning auton finished (motions were commented out). Uncomment desired lines to run tests.");
+  // -----------------------------
+  // Drive distance tuning (small -> large)
+  // Uncomment one line at a time to test each distance with the corresponding DriveParams
+  // -----------------------------
+
+  // Drive 5 inches forward
+  // chassisReference->driveToPoint(Pose<double>(0, 5, 0), driveParams5_in(), turnParams10_deg(), {});
+
+  // Drive 10 inches forward
+  // chassisReference->driveToPoint(Pose<double>(0, 10, 0), driveParams10_in(), turnParams10_deg(), {});
+
+  // Drive 20 inches forward
+  // chassisReference->driveToPoint(Pose<double>(0, 20, 0), driveParams20_in(), turnParams30_deg(), {});
+
+  // Drive 30 inches forward
+  // chassisReference->driveToPoint(Pose<double>(0, 30, 0), driveParams30_in(), turnParams30_deg(), {});
+
+  // Drive 50 inches forward
+  // chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams45_deg(), {});
 }
