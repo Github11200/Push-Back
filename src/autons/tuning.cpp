@@ -30,7 +30,18 @@ void Autons::tuning()
   // chassisReference->odometry->getWheelOffsets();
 
   /*=============================================================
-  |                   Part 3 - Test odometry                    |
+  |                    Part 3 - Gyro Scaling                    |
+  | Rotate the bot around 10 times, get the degrees from the    |
+  | inertial and divide that by 3600 to get the gyro scale.     |
+  =============================================================*/
+  chassisReference->calibrateInertial();
+  Logger::sendMessage("Rotate the bot 10 times. Then press A.");
+  while (!Controller.ButtonA.pressing())
+    wait(50, msec);
+  cout << "Gyro scale: " << (3600 / Inertial.rotation(deg)) << endl;
+
+  /*=============================================================
+  |                   Part 4 - Test odometry                    |
   | Simply make sure the odom is accurate now by moving the bot |
   | around, curving it, etc. Use the joysticks for this. Use    |
   | the visualizer to see where the bot thinks it is.           |
@@ -38,7 +49,7 @@ void Autons::tuning()
   // chassisReference->odometry->startPositionTrackThread(true);
 
   /*=============================================================
-  |                   Part 4 - Tune the PIDs                     |
+  |                   Part 5 - Tune the PIDs                     |
   | Tune the PIDs in the order given below. Up the P until it    |
   | oscillates, then dampen it with the D, and, if necessary,    |
   | add the I.                                                   |

@@ -58,7 +58,7 @@ TrackerPositions Odometry::getTrackersPositions()
   case SIDEWAYS_TRACKER:
     return TrackerPositions(chassis->getMotorsPosition().right, chassis->getSidewaysTrackerPosition());
   case TWO_TRACKER:
-    return TrackerPositions(-chassis->getForwardTrackerPosition(), chassis->getSidewaysTrackerPosition());
+    return TrackerPositions(chassis->getForwardTrackerPosition(), chassis->getSidewaysTrackerPosition());
   default:
     return TrackerPositions(-1, -1);
   }
@@ -145,14 +145,14 @@ void Odometry::updatePosition(bool sendLogs)
   currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
-  // Brain.Screen.clearScreen();
-  // Brain.Screen.setCursor(0, 0);
-  // Brain.Screen.newLine();
-  // Brain.Screen.print("X: %.3f", currentPose.position.x);
-  // Brain.Screen.newLine();
-  // Brain.Screen.print("Y: %.3f", currentPose.position.y);
-  // Brain.Screen.newLine();
-  // Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
+  Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(0, 0);
+  Brain.Screen.newLine();
+  Brain.Screen.print("X: %.3f", currentPose.position.x);
+  Brain.Screen.newLine();
+  Brain.Screen.print("Y: %.3f", currentPose.position.y);
+  Brain.Screen.newLine();
+  Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
 
   if (sendLogs && i == 50)
   {
@@ -172,7 +172,7 @@ void Odometry::setPosition(double xPosition, double yPosition, double theta)
 {
   currentPose.position.x = xPosition;
   currentPose.position.y = yPosition;
-  chassis->Inertial.setRotation(theta, deg);
+  Inertial.setRotation(theta, deg);
   currentPose.orientation.angle = theta;
 }
 
@@ -255,7 +255,7 @@ void Odometry::getWheelOffsets()
 
   ostringstream stringStream;
   stringStream << "Forward tracker offsets: " << (forwardTrackerOffsets / iterations) << endl;
-  stringstream << "Sideways tracker offsets: " << (sidewaysTrackerOffsets / iterations) << endl;
+  stringStream << "Sideways tracker offsets: " << (sidewaysTrackerOffsets / iterations) << endl;
   Logger::sendMessage(stringStream.str());
 }
 
@@ -274,7 +274,7 @@ void Odometry::getWheelDiameters(int forwardOrSidewaysTracker, double currentWhe
     while (!Controller.ButtonA.pressing())
       wait(50, msec);
 
-    double trackerPosition = (forwardOrSidewaysTracker == 0 ? forwardTracker : sidewaysTracker).position(vex::rotationUnits::deg);
+    double trackerPosition = (forwardOrSidewaysTracker == 0 ? ForwardTracker : SidewaysTracker).position(vex::rotationUnits::deg);
     totalDistanceTravelled += ((M_PI * currentWheelDiameter) / 360) * trackerPosition;
 
     Logger::sendMessage("Distance recorded, reset the position, and press A to continue.");

@@ -3,19 +3,18 @@
 using namespace std;
 using namespace vex;
 
-double getMaxSpeed()
+Pair getVelocities(MotionProfilePose<double> currentPoint, double trackWidth)
 {
-  return 0;
+  return Pair(0, 0);
 }
 
 vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profile, double trackWidth)
 {
   double t = 0;
-  double d = 0;
 
   CubicBezier curve = profile.curve;
   vector<MotionProfilePose<double>> trajectory;
-  MotionProfilePose<double> previousPose(curve.getPosition(0).x, curve.getPosition(0).y, atan2(curve.getFirstDerivative(0).y, curve.getFirstDerivative(0).x), 0, 0);
+  MotionProfilePose<double> previousPose(curve.getPosition(0).x, curve.getPosition(0).y, atan2(curve.getFirstDerivative(0).y, curve.getFirstDerivative(0).x), 0, 0, 0);
 
   while (t < 1)
   {
@@ -29,10 +28,10 @@ vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profil
 
     double maxVelocity = min(min(maxVelocityDueToCurvature, maxVelocityDueToPrevious), profile.maximumVelocity);
 
-    MotionProfilePose<double> currentPose(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature);
+    MotionProfilePose<double> currentPose(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature, curvature);
     trajectory.push_back(currentPose);
     previousPose = currentPose;
-    double dt = d / hypot(velocity.x, velocity.y);
+    double dt = profile.pointsDisplacement / hypot(velocity.x, velocity.y);
 
     t += dt;
   }
@@ -54,9 +53,9 @@ vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profil
 
     double maxVelocity = min(min(maxVelocityDueToCurvature, maxVelocityDueToPrevious), profile.maximumVelocity);
 
-    previousPose = MotionProfilePose<double>(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature);
+    previousPose = MotionProfilePose<double>(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature, curvature);
 
-    double dt = d / hypot(velocity.x, velocity.y);
+    double dt = profile.pointsDisplacement / hypot(velocity.x, velocity.y);
     t -= dt;
     --i;
   }

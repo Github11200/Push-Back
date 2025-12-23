@@ -8,22 +8,22 @@ brain Brain;
 // VEXcode device constructors
 controller Controller;
 
-motor FrontRight = motor(PORT15, ratio6_1, false); // Done
-motor FrontLeft = motor(PORT18, ratio6_1, true);   // Done
-motor MiddleRight = motor(PORT20, ratio6_1, true); // Done
-motor MiddleLeft = motor(PORT16, ratio6_1, false); // Done
-motor BackRight = motor(PORT17, ratio6_1, false);  // Done
-motor BackLeft = motor(PORT13, ratio6_1, true);    // Done
+motor FrontRight = motor(PORT19, ratio6_1, false); // Done
+motor FrontLeft = motor(PORT12, ratio6_1, true);   // Done
+motor MiddleRight = motor(PORT18, ratio6_1, true); // Done
+motor MiddleLeft = motor(PORT13, ratio6_1, false); // Done
+motor BackRight = motor(PORT20, ratio6_1, false);  // Done
+motor BackLeft = motor(PORT11, ratio6_1, true);    // Done
 
-motor TopIntake = motor(PORT10, ratio6_1, false);  // Done
-motor BottomIntake = motor(PORT2, ratio6_1, true); // Done
+motor IntakeLeft = motor(PORT10, ratio6_1, false); // Done
+motor IntakeRight = motor(PORT3, ratio6_1, false); // Done
 
 vex::distance frontDistance = vex::distance(PORT1); // Done
-vex::distance rightDistance = vex::distance(PORT6); // Done
-vex::distance leftDistance = vex::distance(PORT5);  // Done
+vex::distance rightDistance = vex::distance(PORT9); // Done
+vex::distance leftDistance = vex::distance(PORT2);  // Done
 
-vex::rotation forwardTracker = vex::rotation(PORT2);
-vex::rotation sidewaysTracker = vex::rotation(PORT3);
+vex::rotation ForwardTracker = vex::rotation(PORT6);
+vex::rotation SidewaysTracker = vex::rotation(PORT5, true);
 
 vex::inertial Inertial = vex::inertial(PORT1);
 

@@ -24,27 +24,20 @@ private:
 public:
   double forwardTrackerInchesToDegreesRatio;
   double sidewaysTrackerInchesToDegreesRatio;
-  rotation forwardTracker;
-  rotation sidewaysTracker;
   Odometry *odometry;
   // Pursuit *pursuit;
-  inertial Inertial;
 
-  Chassis(
-      vex::inertial Inertial,
-      double inertialScaling,
-      TrackerSetup trackerSetup,
-      vex::rotation forwardTracker,
-      vex::rotation sidewaysTracker,
-      double forwardTrackerInchesToDegreesRatio,
-      double sidewaysTrackerInchesToDegreesRatio,
-      double forwardTrackerDistance,
-      double sidewaysTrackerDistance,
-      double frontDistanceSensorDistance,
-      double leftDistanceSensorDistance,
-      double rightDistanceSensorDistance,
-      double backDistanceSensorDistance,
-      bool enableLogs = false);
+  Chassis(double inertialScaling,
+          TrackerSetup trackerSetup,
+          double forwardTrackerInchesToDegreesRatio,
+          double sidewaysTrackerInchesToDegreesRatio,
+          double forwardTrackerDistance,
+          double sidewaysTrackerDistance,
+          double frontDistanceSensorDistance,
+          double leftDistanceSensorDistance,
+          double rightDistanceSensorDistance,
+          double backDistanceSensorDistance,
+          bool enableLogs = false);
   ~Chassis();
 
   void driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings);

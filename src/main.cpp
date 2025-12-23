@@ -7,9 +7,6 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-// TODO: Code for tuning wheel diameters
-// TODO: Code for tuning wheel offsets
-
 #include "chassis.h"
 #include "pursuit.h"
 #include "testing/tests.h"
@@ -27,20 +24,11 @@ competition Competition;
 
 // define your global instances of motors and other devices here
 Chassis chassis(
-    // Inertial sensor
-    Inertial,
-
     // Inertial scaling
     357.5, // 357.5
 
     // Odometry tracker setup
     TrackerSetup::TWO_TRACKER,
-
-    // Forward tracker port
-    forwardTracker,
-
-    // Sideways tracker port
-    sidewaysTracker,
 
     // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
     // (((drive_ratio) * PI * wheel_diameter) / 360)
@@ -89,7 +77,7 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   // Testing::runAllTests();
-  autons.prepareAuton();
+  // autons.prepareAuton();
   // chassis.odometry->startPositionTrackThread(false);
 }
 
@@ -123,12 +111,17 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  if (chassis.odometry->isTracking)
-    chassis.odometry->stopPositionTrackThread();
+  // if (chassis.odometry->isTracking)
+  //   chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
+  autons.prepareAuton();
+  chassis.odometry->startPositionTrackThread(false);
+  wait(1, sec);
+  chassis.odometry->setPosition(5, 5, 90);
+
+  // Driver driver;
+  // driver.startJoysticksThread();
+  // driver.startPistonsThread();
 
   // User control code here, inside the loop
   while (1)
@@ -140,7 +133,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

@@ -7,7 +7,7 @@ void Autons::solo()
 
   // Set starting coordinates
   chassisReference->odometry->setPosition(-46, 15, 90);
-  chassisReference->Inertial.setRotation(90, deg);
+  Inertial.setRotation(90, deg);
   chassisReference->odometry->startPositionTrackThread(false);
 
   intake.spinFullIntake(vex::directionType::fwd);

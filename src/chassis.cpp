@@ -4,11 +4,8 @@ using namespace vex;
 using namespace std;
 
 // TODO: Update the ports for all the sensors
-Chassis::Chassis(inertial Inertial,
-                 double inertialScaling,
+Chassis::Chassis(double inertialScaling,
                  TrackerSetup trackerSetup,
-                 vex::rotation forwardTracker,
-                 vex::rotation sidewaysTracker,
                  double forwardTrackerInchesToDegreesRatio,
                  double sidewaysTrackerInchesToDegreesRatio,
                  double forwardTrackerDistance,
@@ -17,10 +14,7 @@ Chassis::Chassis(inertial Inertial,
                  double rightDistanceSensorDistance,
                  double leftDistanceSensorDistance,
                  double backDistanceSensorDistance,
-                 bool enableLogs) : Inertial(Inertial),
-                                    inertialScaling(inertialScaling),
-                                    forwardTracker(forwardTracker),
-                                    sidewaysTracker(sidewaysTracker),
+                 bool enableLogs) : inertialScaling(inertialScaling),
                                     forwardTrackerInchesToDegreesRatio(forwardTrackerInchesToDegreesRatio),
                                     sidewaysTrackerInchesToDegreesRatio(sidewaysTrackerInchesToDegreesRatio)
 {
@@ -69,16 +63,16 @@ void Chassis::resetEncoders()
 {
   Left.resetPosition();
   Right.resetPosition();
-  forwardTracker.resetPosition();
-  sidewaysTracker.resetPosition();
+  ForwardTracker.resetPosition();
+  SidewaysTracker.resetPosition();
 }
 
 double Chassis::getForwardTrackerPosition()
 {
-  return forwardTracker.position(deg) * forwardTrackerInchesToDegreesRatio;
+  return ForwardTracker.position(deg) * forwardTrackerInchesToDegreesRatio;
 }
 
 double Chassis::getSidewaysTrackerPosition()
 {
-  return sidewaysTracker.position(deg) * sidewaysTrackerInchesToDegreesRatio;
+  return SidewaysTracker.position(deg) * sidewaysTrackerInchesToDegreesRatio;
 }

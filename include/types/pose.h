@@ -26,12 +26,13 @@ struct MotionProfilePose : Pose<T>
 {
   double velocity;
   double angularVelocity;
+  double curvature;
 
   constexpr MotionProfilePose() : Pose<T>(), velocity(0), angularVelocity(0) {}
 
   constexpr MotionProfilePose(double x, double y, double speed, double acceleration) : Pose<T>(x, y), velocity(speed), angularVelocity(acceleration) {}
   constexpr MotionProfilePose(double x, double y, double orientation, double speed, double acceleration) : Pose<T>(x, y, orientation), velocity(speed), angularVelocity(acceleration) {}
-  constexpr MotionProfilePose(double x, double y, Angle<T> angle, double speed, double acceleration) : Pose<T>(x, y, angle), velocity(speed), angularVelocity(acceleration) {}
+  constexpr MotionProfilePose(double x, double y, Angle<T> angle, double speed, double acceleration, double curvature) : Pose<T>(x, y, angle), velocity(speed), angularVelocity(acceleration), curvature(curvature) {}
 };
 
 #endif

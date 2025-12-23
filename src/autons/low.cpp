@@ -6,7 +6,7 @@ void Autons::low()
 {
   // Set starting coordinates
   chassisReference->odometry->setPosition(-46, -15, 90);
-  chassisReference->Inertial.setRotation(90, deg);
+  Inertial.setRotation(90, deg);
   chassisReference->odometry->startPositionTrackThread(false);
 
   // chassisReference->odometry->wallReset(DistanceSensor::STERN, Wall::REAR);
@@ -58,7 +58,7 @@ void Autons::low()
   sloper.on();
   wait(1200, msec);
   chassisReference->odometry->setPosition(-28.5, -47, chassisReference->getAbsoluteHeading().angle);
-  chassisReference->Inertial.setRotation(chassisReference->getAbsoluteHeading().angle, deg);
+  Inertial.setRotation(chassisReference->getAbsoluteHeading().angle, deg);
   sloper.off();
 
   // Back away from goal
