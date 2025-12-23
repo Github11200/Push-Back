@@ -93,6 +93,7 @@ TurnParams turnParams30_deg();
 TurnParams turnParams45_deg();
 TurnParams turnParams60_deg();
 TurnParams turnParams90_deg();
+TurnParams turnParams135_deg();
 TurnParams turnParams180_deg();
 
 #endif

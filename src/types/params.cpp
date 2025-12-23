@@ -109,6 +109,16 @@ TurnParams turnParams90_deg()
   turnParams.turnStopIntegratingLimit = 0;
   return turnParams;
 }
+TurnParams turnParams135_deg()
+{
+  TurnParams turnParams;
+  turnParams.turnKp = 1;
+  turnParams.turnKd = 0;
+  turnParams.turnKi = 0;
+  turnParams.turnTimeout = 0;
+  turnParams.turnStopIntegratingLimit = 0;
+  return turnParams;
+}
 TurnParams turnParams180_deg()
 {
   TurnParams turnParams;
