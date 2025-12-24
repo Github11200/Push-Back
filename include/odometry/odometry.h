@@ -60,8 +60,8 @@ class Odometry
 private:
   Chassis *chassis;
 
-  TrackerPositions previousTrackerPositions;
-  Angle<double> previousHeading;
+  TrackerPositions previousTrackerPositions = TrackerPositions(0, 0);
+  Angle<double> previousHeading = Angle<double>(0);
 
   Pose<double> currentPose;
 

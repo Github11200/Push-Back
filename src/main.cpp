@@ -25,7 +25,7 @@ competition Competition;
 // define your global instances of motors and other devices here
 Chassis chassis(
     // Inertial scaling
-    357.5, // 357.5
+    355.813,
 
     // Odometry tracker setup
     TrackerSetup::TWO_TRACKER,
@@ -34,16 +34,16 @@ Chassis chassis(
     // (((drive_ratio) * PI * wheel_diameter) / 360)
 
     // FORWARDS
-    ((M_PI * 2.75) / 360.0),
+    ((M_PI * 2.71498) / 360.0),
 
     // SIDEWAYS
-    ((M_PI * 2.0) / 360.0),
+    ((M_PI * 2.00472) / 360.0),
 
     // Forward tracker distance
-    0,
+    0.15492178,
 
     // Sideways tracker distance
-    0,
+    4.90531,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -114,13 +114,15 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  autons.prepareAuton();
-  chassis.odometry->startPositionTrackThread(false);
-  wait(1, sec);
-  chassis.odometry->setPosition(5, 5, 90);
+  Driver driver;
+  driver.startJoysticksThread();
 
-  // Driver driver;
-  // driver.startJoysticksThread();
+  autons.prepareAuton();
+  autons.runAuton(AutonName::TUNING);
+  // chassis.odometry->startPositionTrackThread(false);
+  // wait(1, sec);
+  // chassis.odometry->setPosition(5, 5, 90);
+
   // driver.startPistonsThread();
 
   // User control code here, inside the loop

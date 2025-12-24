@@ -16,8 +16,8 @@ void Autons::tuning()
   | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
   | INSIDE main.cpp otherwise the next stop won't work.         |
   =============================================================*/
-  chassisReference->odometry->getWheelDiameters(0, 2.75); // Forward tracker
-  chassisReference->odometry->getWheelDiameters(1, 2);    // Sideways tracker
+  // chassisReference->odometry->getWheelDiameters(0, 2.7175); // Forward tracker
+  // chassisReference->odometry->getWheelDiameters(1, 2.00273); // Sideways tracker
 
   /*=============================================================
   |                   Part 2 - Wheel Offsets                    |
@@ -34,11 +34,19 @@ void Autons::tuning()
   | Rotate the bot around 10 times, get the degrees from the    |
   | inertial and divide that by 3600 to get the gyro scale.     |
   =============================================================*/
-  chassisReference->calibrateInertial();
-  Logger::sendMessage("Rotate the bot 10 times. Then press A.");
-  while (!Controller.ButtonA.pressing())
-    wait(50, msec);
-  cout << "Gyro scale: " << (3600 / Inertial.rotation(deg)) << endl;
+  // int iterations = 5;
+  // double differences = 0;
+  // for (int i = 0; i < iterations; ++i)
+  // {
+  //   chassisReference->calibrateInertial();
+  //   Logger::sendMessage("Rotate the bot 5 times. Then press A.");
+  //   while (!Controller.ButtonA.pressing())
+  //     wait(50, msec);
+  //   wait(500, msec);
+  //   differences += 360 - Inertial.heading(deg);
+  //   cout << (360 - Inertial.heading(deg)) << endl;
+  // }
+  // cout << "Gryo scale: " << (360 * iterations - (differences / iterations)) / iterations << endl;
 
   /*=============================================================
   |                   Part 4 - Test odometry                    |
@@ -46,7 +54,7 @@ void Autons::tuning()
   | around, curving it, etc. Use the joysticks for this. Use    |
   | the visualizer to see where the bot thinks it is.           |
   =============================================================*/
-  // chassisReference->odometry->startPositionTrackThread(true);
+  chassisReference->odometry->startPositionTrackThread(true);
 
   /*=============================================================
   |                   Part 5 - Tune the PIDs                     |
@@ -107,3 +115,8 @@ void Autons::tuning()
   // Drive 50 inches forward
   // chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams45_deg(), {});
 }
+
+// 5 Iterations turning the bot 5 times each time
+// Gyro scale - 355.726
+// Gyro scale - 355.879
+// Gyro scale - 355.834

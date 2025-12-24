@@ -145,22 +145,23 @@ void Odometry::updatePosition(bool sendLogs)
   currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
-  Brain.Screen.clearScreen();
-  Brain.Screen.setCursor(0, 0);
-  Brain.Screen.newLine();
-  Brain.Screen.print("X: %.3f", currentPose.position.x);
-  Brain.Screen.newLine();
-  Brain.Screen.print("Y: %.3f", currentPose.position.y);
-  Brain.Screen.newLine();
-  Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
+  if (!sendLogs)
+  {
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(0, 0);
+    Brain.Screen.newLine();
+    Brain.Screen.print("X: %.3f", currentPose.position.x);
+    Brain.Screen.newLine();
+    Brain.Screen.print("Y: %.3f", currentPose.position.y);
+    Brain.Screen.newLine();
+    Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
+  }
 
   if (sendLogs && i == 50)
   {
     i = 0;
     if (sendLogs)
-    {
       Logger::sendPositionData(currentPose);
-    }
   }
   ++i;
 
@@ -201,7 +202,7 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
 
 void Odometry::getWheelOffsets()
 {
-  // int iterations = 50;
+  // int iterations = 5;
   // double forwardOffset = 0;
   // double sidewaysOffset = 0;
 
@@ -212,15 +213,15 @@ void Odometry::getWheelOffsets()
   //   Angle<double> initialTheta = chassis->getAbsoluteHeading();
 
   //   double target = i % 2 == 0 ? 90 : 270;
-  //   chassis->turnTo(Pose<double>(0, 0, target), {.turnMaxVoltage = 6}, {});
+  //   chassis->turnTo(Pose<double>(0, 0, target), {.turnMaxVoltage = 6, .turnSettleError = 1}, {});
   //   wait(250, msec);
 
   //   Angle<double> deltaTheta = Angle<double>(fabs((chassis->getAbsoluteHeading() - initialTheta).constrainNegative180To180().angle)).toRad();
   //   // cout << deltaTheta.toDeg().angle << endl;
 
-  //   double forwardDelta = -chassis->getForwardTrackerPosition();
+  //   double forwardDelta = chassis->getForwardTrackerPosition();
   //   double sidewaysDelta = chassis->getSidewaysTrackerPosition();
-  //   cout << "sidewaysDelta: " << fabs(sidewaysDelta) / deltaTheta.angle << endl;
+  //   // cout << "sidewaysDelta: " << fabs(sidewaysDelta) / deltaTheta.angle << endl;
 
   //   forwardOffset += fabs(forwardDelta) / deltaTheta.angle;
   //   sidewaysOffset += fabs(sidewaysDelta) / deltaTheta.angle;
@@ -229,10 +230,10 @@ void Odometry::getWheelOffsets()
   //   cout << "offset: " << (sidewaysOffset / i) << endl;
   // }
 
-  // // cout << "Forward offset: " << (forwardOffset / iterations) << endl;
+  // cout << "Forward offset: " << (forwardOffset / iterations) << endl;
   // cout << "Sideways offset: " << (sidewaysOffset / iterations) << endl;
 
-  int iterations = 10;
+  int iterations = 5;
   double forwardTrackerOffsets = 0;
   double sidewaysTrackerOffsets = 0;
 
@@ -242,15 +243,28 @@ void Odometry::getWheelOffsets()
     Logger::sendMessage("Spin the robot 360 degrees slowly. Press A when you are done.");
 
     while (!Controller.ButtonA.pressing())
+    {
+      Brain.Screen.clearScreen();
+      Brain.Screen.setCursor(0, 0);
+      Brain.Screen.newLine();
+      Brain.Screen.print("Theta: %.3f", chassis->getAbsoluteHeading().angle);
       wait(50, msec);
+    }
+    wait(500, msec);
 
     TrackerPositions trackerPositions = getTrackersPositions();
-    forwardTrackerOffsets += (trackerPositions.forward * chassis->forwardTrackerInchesToDegreesRatio) / M_PI;
-    sidewaysTrackerOffsets += (trackerPositions.sideways * chassis->sidewaysTrackerInchesToDegreesRatio) / M_PI;
+    cout << "Forward: " << trackerPositions.forward << endl;
+    cout << "Sideways: " << trackerPositions.sideways << endl;
+    forwardTrackerOffsets += (trackerPositions.forward) / (2 * M_PI);
+    sidewaysTrackerOffsets += (trackerPositions.sideways) / (2 * M_PI);
+
+    if (i + 1 == iterations)
+      break;
 
     Logger::sendMessage("Distances have been recorded, reset the bot, and press A when you are ready.");
     while (!Controller.ButtonA.pressing())
       wait(50, msec);
+    wait(500, msec);
   }
 
   ostringstream stringStream;
@@ -262,30 +276,61 @@ void Odometry::getWheelOffsets()
 // Forward tracker - 0, sideways - 1
 void Odometry::getWheelDiameters(int forwardOrSidewaysTracker, double currentWheelDiameter)
 {
-  Logger::sendMessage("Forward encoders...");
-
   int iterations = 5;
   double totalDistanceTravelled = 0;
 
   for (int i = 0; i < iterations; ++i)
   {
     chassis->resetEncoders();
-    Logger::sendMessage("Move the robot 50 inches.");
+    Logger::sendMessage("Move the robot 20 inches.");
     while (!Controller.ButtonA.pressing())
       wait(50, msec);
+    wait(500, msec);
 
     double trackerPosition = (forwardOrSidewaysTracker == 0 ? ForwardTracker : SidewaysTracker).position(vex::rotationUnits::deg);
     totalDistanceTravelled += ((M_PI * currentWheelDiameter) / 360) * trackerPosition;
 
+    if (i + 1 == iterations)
+      break;
+
     Logger::sendMessage("Distance recorded, reset the position, and press A to continue.");
     while (!Controller.ButtonA.pressing())
       wait(50, msec);
+    wait(500, msec);
   }
 
   double averagedDistance = totalDistanceTravelled / iterations;
-  double newWheelDiameter = (50 / averagedDistance) * currentWheelDiameter;
+  double newWheelDiameter = (20 / averagedDistance) * currentWheelDiameter;
 
   ostringstream stringStream;
   stringStream << "New wheel diameter: " << newWheelDiameter;
   Logger::sendMessage(stringStream.str());
 }
+
+// 2.72419 - Wheel diameter with 2 iterations
+// 2.71598 - Wheel diameter with 5 iterations
+// 2.7175 - Wheel diameter with 5 iterations using the value from above
+// 2.71146 - Wheel diameter with 5 iterations using the value from above
+
+// 2.00273 - Wheel diameter with 5 iterations
+// 2.00671 - Wheel diameter with 5 iterations
+
+// First run - 3 iterations
+// Forward offsets --> 0.195881
+// Sideways offsets --> -4.91426
+
+// Second run - 5 iterations
+// Forward offsets --> 0.185003
+// Sideways offsets --> -4.90956
+
+// Third run - 5 iterations
+// Forward offsets --> 0.0939232
+// Sideways offsets --> -4.90447
+
+// Fourth run - 5 iterations
+// Forward offsets --> 0.0389147
+// Sideways offsets --> -4.90045
+
+// Fifth run - 5 iterations
+// Forward offsets --> 0.260887
+// Sideways offsets --> -4.89781
