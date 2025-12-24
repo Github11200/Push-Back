@@ -54,7 +54,7 @@ void Autons::tuning()
   | around, curving it, etc. Use the joysticks for this. Use    |
   | the visualizer to see where the bot thinks it is.           |
   =============================================================*/
-  chassisReference->odometry->startPositionTrackThread(true);
+  // chassisReference->odometry->startPositionTrackThread(true);
 
   /*=============================================================
   |                   Part 5 - Tune the PIDs                     |

@@ -10,20 +10,21 @@ double PID::compute(double error)
   double derivative = dt != 0 ? (error - previousError) / dt : 0;
   previousError = error;
 
-  accumulatedError += error * dt;
+  if (fabs(error) < startIntegratingLimit)
+    accumulatedError += error * dt;
 
   if (fabs(error) < settleError)
-    timeSpentSettled += updateTime;
+    timeSpentSettled += dt;
   else
     timeSpentSettled = 0;
 
   // If the robot is tweaking out and oscilating then get rid of the integral
   if (sgn(error) != sgn(previousError))
     accumulatedError = 0;
-  if (error >= stopIntegratingLimit)
-    accumulatedError = 0;
+  // if (error <= startIntegratingLimit)
+  //   accumulatedError = 0;
 
-  timeSpentRunning += updateTime;
+  timeSpentRunning += dt;
 
   return error * kP + accumulatedError * kI + derivative * kD;
 }
@@ -32,7 +33,7 @@ void PID::resetPID()
 {
   error = 0;
   previousError = 0;
-  stopIntegratingLimit = 0;
+  startIntegratingLimit = 0;
   timeSpentRunning = 0;
   timeSpentSettled = 0;
 }

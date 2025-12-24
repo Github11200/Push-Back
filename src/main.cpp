@@ -114,12 +114,13 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
-  driver.startJoysticksThread();
+  // Driver driver;
+  // driver.startJoysticksThread();
 
   autons.prepareAuton();
+  chassis.odometry->startPositionTrackThread(false);
   autons.runAuton(AutonName::TUNING);
-  // chassis.odometry->startPositionTrackThread(false);
+  // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
 

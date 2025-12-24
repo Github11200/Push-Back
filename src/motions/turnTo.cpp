@@ -15,6 +15,7 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
 
   Pose<double> currentPose;
 
+  double elapsedTime = 0;
   while (!turnPID.isSettled())
   {
     currentPose = odometry->getPose();
@@ -31,7 +32,7 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
       previousTurnError = turnError;
 
     // If the min voltage isn't 0 and the robot is tweaking out then just exit
-    if (sgn(previousTurnError.angle) != sgn(turnError.angle))
+    if (sgn(previousTurnError.angle) != sgn(turnError.angle) && params.turnMinVoltage != 0)
       break;
 
     turnOutput = turnPID.compute(turnError.angle);
@@ -45,9 +46,14 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     Left.spin(fwd, turnOutput, volt);
     Right.spin(fwd, -turnOutput, volt);
 
+    if ((int)elapsedTime % 30 == 0)
+      Logger::sendMotionData(Logger::MotionType::TURN_TO_ANGLE, elapsedTime, currentPose.orientation.angle);
+
     wait(settings.updateTime, msec);
+    elapsedTime += settings.updateTime;
   }
 
+  Logger::sendMotionEnd(elapsedTime);
   Left.stop(hold);
   Right.stop(hold);
 }

@@ -19,8 +19,8 @@ Vector2D<double> CubicBezier::getPosition(double t)
 
 Vector2D<double> CubicBezier::getFirstDerivative(double t)
 {
-  // -3 * (1 - t)^2 * (P_0 - P_1) - 6 * t * (1 - t) * (P_1 - P_2) - 3 * t^2 * (P_2 - P_3)
-  return (points[0] - points[1]) * -3.0 * pow((1 - t), 2) - (points[1] - points[2]) * 6.0 * t - (points[2] - points[3]) * 3.0 * pow(t, 2);
+  // 3*(1 - t)^2*(P1 - P0) + 6*(1 - t)*t*(P2 - P1) + 3*t^2*(P3 - P2)
+  return (points[1] - points[0]) * 3.0 * pow((1 - t), 2) + (points[2] - points[1]) * 6.0 * (1 - t) * t + (points[3] - points[2]) * 3.0 * pow(t, 2);
 }
 
 Vector2D<double> CubicBezier::getSecondDerivative(double t)

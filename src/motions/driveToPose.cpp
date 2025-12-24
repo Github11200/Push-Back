@@ -43,7 +43,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     carrotPoint = Vector2D<double>(carrotX, carrotY);
 
     double driveError = currentPose.position.distanceTo(carrotPoint);
-    Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - getAbsoluteHeading()).constrainNegative180To180();
+    Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation).constrainNegative180To180();
 
     headingScaleFactor = cos(turnError.toRad().angle);
 

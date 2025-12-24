@@ -30,6 +30,12 @@ namespace Logger
     Pose<double> target;
     DriveParams driveParams;
     TurnParams turnParams;
+
+    MotionData(Pose<double> target,
+               DriveParams driveParams,
+               TurnParams turnParams) : target(target),
+                                        driveParams(driveParams),
+                                        turnParams(turnParams) {}
   };
 
   std::string messageTypeEnumToString(MessageType messageType);
