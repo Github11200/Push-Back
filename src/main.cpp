@@ -40,7 +40,7 @@ Chassis chassis(
     ((M_PI * 2.00472) / 360.0),
 
     // Forward tracker distance
-    0.15492178,
+    -0.15492178,
 
     // Sideways tracker distance
     4.90531,
@@ -119,7 +119,7 @@ void usercontrol(void)
 
   autons.prepareAuton();
   chassis.odometry->startPositionTrackThread(false);
-  autons.runAuton(AutonName::TUNING);
+  // autons.runAuton(AutonName::TUNING);
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
@@ -137,6 +137,16 @@ void usercontrol(void)
     // update your motors, etc.
     // ........................................................................
     // driver.buttonsLoopCallback();
+
+    // if (Controller.ButtonA.pressing())
+    // {
+    //   Pose<double> currentPose = chassis.odometry->getPose();
+    //   cout << "X: " << currentPose.position.x << endl;
+    //   cout << "Y: " << currentPose.position.y << endl;
+    //   cout << "Theta: " << currentPose.orientation.angle << endl;
+    //   // cout << "Forward tracker: " << (ForwardTracker.position(deg) * chassis.forwardTrackerInchesToDegreesRatio) << endl;
+    //   wait(500, msec);
+    // }
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

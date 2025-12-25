@@ -104,7 +104,7 @@ void Autons::tuning()
   // chassisReference->driveToPoint(Pose<double>(0, 5, 0), driveParams5_in(), turnParams10_deg(), {});
 
   // Drive 10 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 10, 0), driveParams10_in(), turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(0, 10, 0), driveParams10_in(), turnParams10_deg(), {});
 
   // Drive 20 inches forward
   // chassisReference->driveToPoint(Pose<double>(0, 20, 0), driveParams20_in(), turnParams30_deg(), {});

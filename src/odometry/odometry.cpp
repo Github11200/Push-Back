@@ -96,7 +96,7 @@ Pose<double> Odometry::getPose() { return currentPose; }
 
 void Odometry::updatePosition(bool sendLogs)
 {
-  static int i = 0;
+  static int cycleCounter = 0;
   TrackerPositions trackerPosition = getTrackersPositions();
   Angle<double> absoluteHeading = chassis->getAbsoluteHeading().toRad();
 
@@ -107,14 +107,16 @@ void Odometry::updatePosition(bool sendLogs)
   Vector2D<double> localTranslation;
   Vector2D<double> globalTranslation;
 
-  if (deltaTheta.angle == 0.0)
+  double halfDeltaTheta = deltaTheta.angle / 2;
+
+  if (fabs(deltaTheta.angle) < 1e-6)
   {
     localTranslation.x = sidewaysTrackerDelta;
     localTranslation.y = forwardTrackerDelta;
   }
   else
   {
-    double length = 2 * sin(deltaTheta.angle / 2);
+    double length = 2 * sin(halfDeltaTheta);
 
     localTranslation.x = length * ((sidewaysTrackerDelta / deltaTheta.angle) + sidewaysTrackerCenterDistance);
     localTranslation.y = length * ((forwardTrackerDelta / deltaTheta.angle) + forwardTrackerCenterDistance);
@@ -135,7 +137,7 @@ void Odometry::updatePosition(bool sendLogs)
     polarAngle = atan2(localTranslation.y, localTranslation.x);
   }
 
-  double globalPolarAngle = polarAngle - previousHeading.angle - (deltaTheta.angle / 2);
+  double globalPolarAngle = polarAngle - previousHeading.angle - (halfDeltaTheta);
 
   // Global translation
   globalTranslation.x = polarLength * cos(globalPolarAngle);
@@ -145,7 +147,7 @@ void Odometry::updatePosition(bool sendLogs)
   currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
-  if (!sendLogs)
+  if (!sendLogs && cycleCounter % 20 == 0)
   {
     Brain.Screen.clearScreen();
     Brain.Screen.setCursor(0, 0);
@@ -157,13 +159,13 @@ void Odometry::updatePosition(bool sendLogs)
     Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
   }
 
-  if (sendLogs && i == 50)
-  {
-    i = 0;
-    if (sendLogs)
-      Logger::sendPositionData(currentPose);
-  }
-  ++i;
+  // if (sendLogs && cycleCounter % 50 == 0)
+  // {
+  //   cycleCounter = 0;
+  //   if (sendLogs)
+  //     Logger::sendPositionData(currentPose);
+  // }
+  // ++cycleCounter;
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;

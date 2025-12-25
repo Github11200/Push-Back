@@ -76,7 +76,7 @@ namespace Logger
 
     // If the drive error is a __DBL_MAX__ then it means it's a turn to point or turn to angle which doesn't have drive error
     if (driveError != __DBL_MAX__)
-      motionDataString << driveError;
+      motionDataString << "," << driveError;
     cout << "motionData," << motionDataString.str() << "%" << endl;
   }
 

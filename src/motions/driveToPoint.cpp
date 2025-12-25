@@ -22,10 +22,12 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
   int previousSide = -1; // -1 is null
   Angle<double> initialHeading = currentPose.position.angleTo(target.position);
 
-  Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, {.driveParams = driveParams, .turnParams = turnParams});
+  Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, Logger::MotionData(target, driveParams, turnParams));
 
   Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
+  Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
 
+  double elapsedTime = 0;
   while (!drivePID.isSettled())
   {
     currentPose = odometry->getPose();
@@ -40,12 +42,10 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
         isClose = true;
         driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.7);
       }
-
       turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
     }
 
     double driveError = distanceToTarget;
-    Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
 
     Angle<double> rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
     Angle<double> turnError = (rawTurnError + additionalAngle).constrainNegative180To180();
@@ -97,14 +97,13 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
 
     driveOutput = drivePID.compute(driveError) * headingScaleFactor;
     driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * fabs(headingScaleFactor), driveParams.driveMaxVoltage * fabs(headingScaleFactor));
+    driveOutput = clampMin<double>(driveOutput, driveParams.driveMinVoltage);
 
     if (!isClose)
       driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
-    if (!settings.forwards)
-      driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage, -driveParams.driveMinVoltage);
-    else
-      driveOutput = clamp(driveOutput, driveParams.driveMinVoltage, driveParams.driveMaxVoltage);
+    if ((int)elapsedTime % 50 == 0)
+      Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
 
     previousDriveOutput = driveOutput;
 
@@ -114,7 +113,15 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     Right.spin(fwd, motorOutputs.right, volt);
 
     wait(settings.updateTime, msec);
+    elapsedTime += settings.updateTime;
+
+    if (Controller.ButtonA.pressing())
+    {
+      cout << odometry->getPose().position.y << endl;
+    }
   }
+
+  cout << "done" << endl;
 
   Left.stop(coast);
   Right.stop(coast);
