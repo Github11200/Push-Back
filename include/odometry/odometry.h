@@ -76,6 +76,8 @@ private:
   Wall getWallFacing(double distanceSensorReading);
   vex::distance getDistanceSensor(DistanceSensor distanceSensor);
 
+  int cycleCounter = 0;
+
 public:
   bool isTracking = false;
   bool pauseOdom = false;

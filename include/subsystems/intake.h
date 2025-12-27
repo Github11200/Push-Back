@@ -18,14 +18,10 @@ public:
     sloper.off();
   }
 
-  void spinBottomStage(vex::directionType direction, double speed = 12) { IntakeRight.spin(direction, speed, vex::voltageUnits::volt); };
-
-  void spinTopStage(vex::directionType direction, double speed = 12) { IntakeLeft.spin(direction, speed, vex::voltageUnits::volt); };
-
   void spinFullIntake(vex::directionType direction, double speed = 12)
   {
-    spinTopStage(direction, speed);
-    spinBottomStage(direction, speed);
+    IntakeLeft.spin(direction, speed, vex::voltageUnits::volt);
+    IntakeRight.spin(direction, speed, vex::voltageUnits::volt);
   };
 
   inline void stopFullIntake()

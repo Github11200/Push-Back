@@ -96,7 +96,6 @@ Pose<double> Odometry::getPose() { return currentPose; }
 
 void Odometry::updatePosition(bool sendLogs)
 {
-  static int cycleCounter = 0;
   TrackerPositions trackerPosition = getTrackersPositions();
   Angle<double> absoluteHeading = chassis->getAbsoluteHeading().toRad();
 
@@ -147,17 +146,17 @@ void Odometry::updatePosition(bool sendLogs)
   currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
-  if (!sendLogs && cycleCounter % 20 == 0)
-  {
-    Brain.Screen.clearScreen();
-    Brain.Screen.setCursor(0, 0);
-    Brain.Screen.newLine();
-    Brain.Screen.print("X: %.3f", currentPose.position.x);
-    Brain.Screen.newLine();
-    Brain.Screen.print("Y: %.3f", currentPose.position.y);
-    Brain.Screen.newLine();
-    Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
-  }
+  // if (!sendLogs && cycleCounter % 50 == 0)
+  // {
+  //   Brain.Screen.clearScreen();
+  //   Brain.Screen.setCursor(0, 0);
+  //   Brain.Screen.newLine();
+  //   Brain.Screen.print("X: %.3f", currentPose.position.x);
+  //   Brain.Screen.newLine();
+  //   Brain.Screen.print("Y: %.3f", currentPose.position.y);
+  //   Brain.Screen.newLine();
+  //   Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
+  // }
 
   // if (sendLogs && cycleCounter % 50 == 0)
   // {
@@ -204,37 +203,6 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
 
 void Odometry::getWheelOffsets()
 {
-  // int iterations = 5;
-  // double forwardOffset = 0;
-  // double sidewaysOffset = 0;
-
-  // for (int i = 1; i <= iterations; ++i)
-  // {
-  //   chassis->resetEncoders();
-  //   setPosition(0, 0, 0);
-  //   Angle<double> initialTheta = chassis->getAbsoluteHeading();
-
-  //   double target = i % 2 == 0 ? 90 : 270;
-  //   chassis->turnTo(Pose<double>(0, 0, target), {.turnMaxVoltage = 6, .turnSettleError = 1}, {});
-  //   wait(250, msec);
-
-  //   Angle<double> deltaTheta = Angle<double>(fabs((chassis->getAbsoluteHeading() - initialTheta).constrainNegative180To180().angle)).toRad();
-  //   // cout << deltaTheta.toDeg().angle << endl;
-
-  //   double forwardDelta = chassis->getForwardTrackerPosition();
-  //   double sidewaysDelta = chassis->getSidewaysTrackerPosition();
-  //   // cout << "sidewaysDelta: " << fabs(sidewaysDelta) / deltaTheta.angle << endl;
-
-  //   forwardOffset += fabs(forwardDelta) / deltaTheta.angle;
-  //   sidewaysOffset += fabs(sidewaysDelta) / deltaTheta.angle;
-  //   // cout << "Forward offset: " << (forwardOffset) << endl;
-  //   cout << "total: " << (sidewaysOffset) << endl;
-  //   cout << "offset: " << (sidewaysOffset / i) << endl;
-  // }
-
-  // cout << "Forward offset: " << (forwardOffset / iterations) << endl;
-  // cout << "Sideways offset: " << (sidewaysOffset / iterations) << endl;
-
   int iterations = 5;
   double forwardTrackerOffsets = 0;
   double sidewaysTrackerOffsets = 0;

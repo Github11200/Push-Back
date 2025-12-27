@@ -16,7 +16,7 @@ void Autons::tuning()
   | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
   | INSIDE main.cpp otherwise the next stop won't work.         |
   =============================================================*/
-  // chassisReference->odometry->getWheelDiameters(0, 2.7175); // Forward tracker
+  // chassisReference->odometry->getWheelDiameters(0, 2.70587); // Forward tracker  2.7175
   // chassisReference->odometry->getWheelDiameters(1, 2.00273); // Sideways tracker
 
   /*=============================================================
@@ -62,11 +62,6 @@ void Autons::tuning()
   | oscillates, then dampen it with the D, and, if necessary,    |
   | add the I.                                                   |
   =============================================================*/
-
-  // Prepare chassis
-  // chassisReference->calibrateInertial();
-  // chassisReference->resetEncoders();
-  // chassisReference->odometry->setPosition(0, 0, 0);
 
   // -----------------------------
   // Turn tuning (small -> large)
@@ -120,3 +115,13 @@ void Autons::tuning()
 // Gyro scale - 355.726
 // Gyro scale - 355.879
 // Gyro scale - 355.834
+
+// 5 iterations for the wheel diameter
+// Diameter - 2.71363
+// Diameter - 2.7381
+// Diameter - 2.72831
+
+// 5 iterations for the wheel diameter
+// Diameter - 2.71026
+// Diameter - 2.70587
+// Diameter - 2.7154

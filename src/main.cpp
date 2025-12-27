@@ -34,13 +34,13 @@ Chassis chassis(
     // (((drive_ratio) * PI * wheel_diameter) / 360)
 
     // FORWARDS
-    ((M_PI * 2.71498) / 360.0),
+    ((M_PI * 2.71051) / 360.0),
 
     // SIDEWAYS
     ((M_PI * 2.00472) / 360.0),
 
     // Forward tracker distance
-    -0.15492178,
+    0.15492178,
 
     // Sideways tracker distance
     4.90531,
@@ -114,17 +114,17 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  // Driver driver;
-  // driver.startJoysticksThread();
+  Driver driver;
+  driver.startJoysticksThread();
 
-  autons.prepareAuton();
-  chassis.odometry->startPositionTrackThread(false);
+  // autons.prepareAuton();
+  // chassis.odometry->startPositionTrackThread(false);
   // autons.runAuton(AutonName::TUNING);
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
 
-  // driver.startPistonsThread();
+  driver.startPistonsThread();
 
   // User control code here, inside the loop
   while (1)
@@ -136,7 +136,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
 
     // if (Controller.ButtonA.pressing())
     // {
@@ -144,7 +144,7 @@ void usercontrol(void)
     //   cout << "X: " << currentPose.position.x << endl;
     //   cout << "Y: " << currentPose.position.y << endl;
     //   cout << "Theta: " << currentPose.orientation.angle << endl;
-    //   // cout << "Forward tracker: " << (ForwardTracker.position(deg) * chassis.forwardTrackerInchesToDegreesRatio) << endl;
+    //   cout << "Forward tracker: " << (ForwardTracker.position(deg) * chassis.forwardTrackerInchesToDegreesRatio) << endl;
     //   wait(500, msec);
     // }
 
@@ -160,7 +160,7 @@ void usercontrol(void)
 //
 int main()
 {
-  // Set up callbacks for autonomous and driver control periods.
+  // Set up callbacks for autonom`ous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 

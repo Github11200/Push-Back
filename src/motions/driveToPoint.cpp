@@ -102,8 +102,8 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     if (!isClose)
       driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
-    if ((int)elapsedTime % 50 == 0)
-      Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
+    // if ((int)elapsedTime % 60 == 0)
+    //   Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
 
     previousDriveOutput = driveOutput;
 
@@ -114,11 +114,6 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
 
     wait(settings.updateTime, msec);
     elapsedTime += settings.updateTime;
-
-    if (Controller.ButtonA.pressing())
-    {
-      cout << odometry->getPose().position.y << endl;
-    }
   }
 
   cout << "done" << endl;
