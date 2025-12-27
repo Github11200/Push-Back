@@ -114,6 +114,9 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
 
     wait(settings.updateTime, msec);
     elapsedTime += settings.updateTime;
+
+    if (Controller.ButtonA.pressing())
+      cout << currentPose.position.y << endl;
   }
 
   cout << "done" << endl;

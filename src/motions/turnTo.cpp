@@ -47,7 +47,7 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     Right.spin(fwd, -turnOutput, volt);
 
     if ((int)elapsedTime % 30 == 0)
-      Logger::sendMotionData(Logger::MotionType::TURN_TO_ANGLE, elapsedTime, currentPose.orientation.angle);
+      Logger::sendMotionData(Logger::MotionType::TURN_TO_ANGLE, elapsedTime, currentPose.orientation.constrainNegative180To180().angle);
 
     wait(settings.updateTime, msec);
     elapsedTime += settings.updateTime;
