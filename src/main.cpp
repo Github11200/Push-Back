@@ -40,10 +40,10 @@ Chassis chassis(
     ((M_PI * 2.00472) / 360.0),
 
     // Forward tracker distance
-    0.15492178,
+    0.02018577,
 
     // Sideways tracker distance
-    4.90531,
+    4.96364,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -114,13 +114,15 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  // Driver driver;
-  // driver.startJoysticksThread();
+  Driver driver;
+  driver.startJoysticksThread();
 
   autons.prepareAuton();
   chassis.odometry->startPositionTrackThread(false);
   autons.runAuton(AutonName::TUNING);
+  // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
+  // cout << chassis.odometry->getPose().position.y << endl;
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
 
@@ -140,10 +142,10 @@ void usercontrol(void)
 
     // if (Controller.ButtonA.pressing())
     // {
-    //   Pose<double> currentPose = chassis.odometry->getPose();
-    //   cout << "X: " << currentPose.position.x << endl;
-    //   cout << "Y: " << currentPose.position.y << endl;
-    //   cout << "Theta: " << currentPose.orientation.angle << endl;
+    //   // Pose<double> currentPose = chassis.odometry->getPose();
+    //   // cout << "X: " << currentPose.position.x << endl;
+    //   // cout << "Y: " << currentPose.position.y << endl;
+    //   // cout << "Theta: " << currentPose.orientation.angle << endl;
     //   cout << "Forward tracker: " << (ForwardTracker.position(deg) * chassis.forwardTrackerInchesToDegreesRatio) << endl;
     //   wait(500, msec);
     // }
@@ -173,3 +175,12 @@ int main()
     wait(100, msec);
   }
 }
+
+// Forward: 0.0634636
+// Sideways: 4.97877
+
+// Forward: 0.00324508
+// Sideways: 4.95606
+
+// Forward: -0.00615135
+// Sideways: 4.9561

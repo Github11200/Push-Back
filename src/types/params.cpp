@@ -7,8 +7,8 @@
 DriveParams driveParams5_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.8;
-  driveParams.driveKd = 45;
+  driveParams.driveKp = 0.9;
+  driveParams.driveKd = 2.5;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -16,17 +16,16 @@ DriveParams driveParams5_in()
 DriveParams driveParams10_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.6;
-  driveParams.driveKd = 0;
+  driveParams.driveKp = 0.8;
+  driveParams.driveKd = 3.9;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
-  driveParams.driveSlew = 0.05;
   return driveParams;
 }
 DriveParams driveParams20_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.7;
+  driveParams.driveKp = 0.5;
   driveParams.driveKd = 0;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
@@ -35,8 +34,8 @@ DriveParams driveParams20_in()
 DriveParams driveParams30_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 1;
-  driveParams.driveKd = 0;
+  driveParams.driveKp = 0.8;
+  driveParams.driveKd = 4.9;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -44,8 +43,8 @@ DriveParams driveParams30_in()
 DriveParams driveParams50_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 1;
-  driveParams.driveKd = 0;
+  driveParams.driveKp = 0.8;
+  driveParams.driveKd = 4.9;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;

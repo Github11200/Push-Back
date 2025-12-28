@@ -71,7 +71,7 @@ void Odometry::startPositionTrackThread(bool sendLogs)
 
   isTracking = true;
   previousHeading = Angle<double>(chassis->getAbsoluteHeading().toRad());
-  previousTrackerPositions = TrackerPositions(0, 0);
+  previousTrackerPositions = getTrackersPositions();
   Brain.Screen.setPenWidth(10);
 
   positionTrackThread = new thread([]()
@@ -108,7 +108,7 @@ void Odometry::updatePosition(bool sendLogs)
 
   double halfDeltaTheta = deltaTheta.angle / 2;
 
-  if (fabs(deltaTheta.angle) < 1e-6)
+  if (deltaTheta.angle == 0.0)
   {
     localTranslation.x = sidewaysTrackerDelta;
     localTranslation.y = forwardTrackerDelta;
@@ -158,13 +158,13 @@ void Odometry::updatePosition(bool sendLogs)
   //   Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
   // }
 
-  // if (sendLogs && cycleCounter % 50 == 0)
-  // {
-  //   cycleCounter = 0;
-  //   if (sendLogs)
-  //     Logger::sendPositionData(currentPose);
-  // }
-  // ++cycleCounter;
+  if (sendLogs && cycleCounter % 50 == 0)
+  {
+    cycleCounter = 0;
+    if (sendLogs)
+      Logger::sendPositionData(currentPose);
+  }
+  ++cycleCounter;
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;
@@ -214,10 +214,10 @@ void Odometry::getWheelOffsets()
 
     while (!Controller.ButtonA.pressing())
     {
-      Brain.Screen.clearScreen();
-      Brain.Screen.setCursor(0, 0);
-      Brain.Screen.newLine();
-      Brain.Screen.print("Theta: %.3f", chassis->getAbsoluteHeading().angle);
+      // Brain.Screen.clearScreen();
+      // Brain.Screen.setCursor(0, 0);
+      // Brain.Screen.newLine();
+      // Brain.Screen.print("Theta: %.3f", chassis->getAbsoluteHeading().angle);
       wait(50, msec);
     }
     wait(500, msec);

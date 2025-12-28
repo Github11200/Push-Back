@@ -41,8 +41,9 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
       {
         isClose = true;
         driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.7);
+        turnParams.turnMaxVoltage = 0;
       }
-      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
+      // turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
     }
 
     double driveError = distanceToTarget;
@@ -102,8 +103,8 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     if (!isClose)
       driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
-    // if ((int)elapsedTime % 60 == 0)
-    //   Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
+    if ((int)elapsedTime % 60 == 0)
+      Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
 
     previousDriveOutput = driveOutput;
 
@@ -116,7 +117,12 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     elapsedTime += settings.updateTime;
 
     if (Controller.ButtonA.pressing())
-      cout << currentPose.position.y << endl;
+    {
+      cout << "forward tracker position: " << ForwardTracker.position(deg) << endl;
+      cout << "forward tracker position (inches): " << (ForwardTracker.position(deg) * forwardTrackerInchesToDegreesRatio) << endl;
+      cout << "y position: " << currentPose.position.y << endl;
+      wait(200, msec);
+    }
   }
 
   cout << "done" << endl;
@@ -124,3 +130,6 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
   Left.stop(coast);
   Right.stop(coast);
 }
+
+// Forward tracker position (fast): 418.97
+// Forward tracker position (slow): 408.25

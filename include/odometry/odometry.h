@@ -2,6 +2,7 @@
 #define ODOMETRY_H
 
 #include "types/pose.h"
+#include "types/time.h"
 #include "vex.h"
 #include "utils/logger.h"
 #include <string>
@@ -52,8 +53,8 @@ enum Wall
 };
 
 /**
- * @brief Gets the current position of the robot using a combination of the Pilons
- * arc tracking strategy and Monte Carlo Localization
+ * @brief Gets the current position of the robot using the Pilons
+ * arc tracking strategy
  */
 class Odometry
 {
