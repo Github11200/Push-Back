@@ -46,13 +46,14 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     Left.spin(fwd, turnOutput, volt);
     Right.spin(fwd, -turnOutput, volt);
 
-    if ((int)elapsedTime % 30 == 0)
+    if ((int)elapsedTime % 30 == 0 && settings.sendPositionData)
       Logger::sendMotionData(Logger::MotionType::TURN_TO_ANGLE, elapsedTime, currentPose.orientation.constrainNegative180To180().angle);
 
     wait(settings.updateTime, msec);
     elapsedTime += settings.updateTime;
   }
 
+  cout << "Turn done" << endl;
   Logger::sendMotionEnd(elapsedTime);
   Left.stop(hold);
   Right.stop(hold);

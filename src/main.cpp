@@ -77,8 +77,7 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   // Testing::runAllTests();
-  // autons.prepareAuton();
-  // chassis.odometry->startPositionTrackThread(false);
+  autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -96,7 +95,7 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::HIGH);
+  autons.runAuton(AutonName::SKILLS);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -114,12 +113,9 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
-  driver.startJoysticksThread();
+  // Driver driver;
+  // driver.startJoysticksThread();
 
-  autons.prepareAuton();
-  chassis.odometry->startPositionTrackThread(false);
-  autons.runAuton(AutonName::TUNING);
   // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
   // cout << chassis.odometry->getPose().position.y << endl;

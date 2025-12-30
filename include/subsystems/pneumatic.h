@@ -26,8 +26,7 @@ public:
   inline void on() { getPiston().set(true); };
   inline void off() { getPiston().set(false); };
 
-  // void killThread();
-  // void delayToggle(int milliseconds);
+  void delayToggle(int milliseconds);
 
   Pneumatic(Port port);
   // ~Pneumatic();

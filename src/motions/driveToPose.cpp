@@ -27,6 +27,8 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   double carrotY = 0;
 
   Vector2D<double> projectedPerpendicularLine(-sin(target.orientation.toRad().angle), cos(target.orientation.toRad().angle));
+  Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
+
   while (!drivePID.isSettled() && !turnPID.isSettled())
   {
     currentPose = odometry->getPose();
@@ -35,6 +37,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     if (!isClose && currentPose.position.distanceTo(target.position) <= 7.0)
     {
       isClose = true;
+      driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 0.47);
     }
 
     targetDistance = currentPose.position.distanceTo(target.position);
@@ -43,7 +46,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     carrotPoint = Vector2D<double>(carrotX, carrotY);
 
     double driveError = currentPose.position.distanceTo(carrotPoint);
-    Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation).constrainNegative180To180();
+    Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
 
     headingScaleFactor = cos(turnError.toRad().angle);
 
@@ -111,6 +114,9 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     driveOutput = clampMin(driveOutput, driveParams.driveMinVoltage);
     previousDriveOutput = driveOutput;
 
+    if (!settings.forwards)
+      driveOutput *= -1;
+
     // Make the motors move
     Pair outputs = getMotorVelocities(driveOutput, turnOutput);
     Left.spin(fwd, outputs.left, volt);
@@ -119,7 +125,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     wait(settings.updateTime, msec);
   }
 
-  cout << "GET THE HELL OUT, plase :)" << endl;
+  cout << "drive to pose done" << endl;
 
   Left.stop(hold);
   Right.stop(hold);

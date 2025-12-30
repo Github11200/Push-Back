@@ -43,22 +43,13 @@ digital_out Pneumatic::getPiston()
   return digital_out(*(this->pistonPort));
 }
 
-// void Pneumatic::killThread()
-// {
-//   currentDelayThread->join();
-//   delete currentDelayThread;
-// }
-
-// void Pneumatic::delayToggle(int milliseconds)
-// {
-//   static Pneumatic *thisPointer = this;
-//   static int staticMilliseconds = milliseconds;
-//   currentDelayThread = new thread([]()
-//                                   {
-//     wait(staticMilliseconds, msec);
-//     thisPointer->on();
-//     thisPointer->killThread(); });
-// }
+void Pneumatic::delayToggle(int milliseconds)
+{
+  static Pneumatic *thisPointer = this;
+  Brain.Timer.event([]()
+                    { thisPointer->on(); },
+                    milliseconds);
+}
 
 Pneumatic willyNilly(Port::A);
 Pneumatic finger(Port::B);

@@ -100,10 +100,10 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * fabs(headingScaleFactor), driveParams.driveMaxVoltage * fabs(headingScaleFactor));
     driveOutput = clampMin<double>(driveOutput, driveParams.driveMinVoltage);
 
-    if (!isClose)
-      driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
+    // if (!isClose)
+    //   driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
-    if ((int)elapsedTime % 60 == 0)
+    if ((int)elapsedTime % 60 == 0 && settings.sendPositionData)
       Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
 
     previousDriveOutput = driveOutput;
@@ -115,20 +115,12 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
 
     wait(settings.updateTime, msec);
     elapsedTime += settings.updateTime;
-
-    if (Controller.ButtonA.pressing())
-    {
-      cout << "forward tracker position: " << ForwardTracker.position(deg) << endl;
-      cout << "forward tracker position (inches): " << (ForwardTracker.position(deg) * forwardTrackerInchesToDegreesRatio) << endl;
-      cout << "y position: " << currentPose.position.y << endl;
-      wait(200, msec);
-    }
   }
 
-  cout << "done" << endl;
+  cout << "drive done" << endl;
 
-  Left.stop(coast);
-  Right.stop(coast);
+  Left.stop(brake);
+  Right.stop(brake);
 }
 
 // Forward tracker position (fast): 418.97

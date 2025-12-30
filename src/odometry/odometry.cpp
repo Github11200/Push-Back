@@ -146,24 +146,24 @@ void Odometry::updatePosition(bool sendLogs)
   currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
-  // if (!sendLogs && cycleCounter % 50 == 0)
-  // {
-  //   Brain.Screen.clearScreen();
-  //   Brain.Screen.setCursor(0, 0);
-  //   Brain.Screen.newLine();
-  //   Brain.Screen.print("X: %.3f", currentPose.position.x);
-  //   Brain.Screen.newLine();
-  //   Brain.Screen.print("Y: %.3f", currentPose.position.y);
-  //   Brain.Screen.newLine();
-  //   Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
-  // }
-
-  if (sendLogs && cycleCounter % 50 == 0)
+  if (!sendLogs && cycleCounter % 50 == 0)
   {
-    cycleCounter = 0;
-    if (sendLogs)
-      Logger::sendPositionData(currentPose);
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(0, 0);
+    Brain.Screen.newLine();
+    Brain.Screen.print("X: %.3f", currentPose.position.x);
+    Brain.Screen.newLine();
+    Brain.Screen.print("Y: %.3f", currentPose.position.y);
+    Brain.Screen.newLine();
+    Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
   }
+
+  // if (sendLogs && cycleCounter % 50 == 0)
+  // {
+  //   cycleCounter = 0;
+  //   if (sendLogs)
+  //     Logger::sendPositionData(currentPose);
+  // }
   ++cycleCounter;
 
   previousTrackerPositions = trackerPosition;
