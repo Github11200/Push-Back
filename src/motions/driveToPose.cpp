@@ -66,7 +66,10 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
       // If the bot is close to being settled, previously it was the same side and now it's not then it means the carrot point is behind
       // the perpendicular line and the robot is ahead of it
       if (previousSameSide && !sameSide)
+      {
+        cout << "QUICK EXIT" << endl;
         break;
+      }
       previousSameSide = sameSide;
     }
 

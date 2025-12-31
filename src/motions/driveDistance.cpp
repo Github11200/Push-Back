@@ -12,6 +12,10 @@ void Chassis::driveDistance(double distance, double heading, DriveParams drivePa
   double position = startingPosition;
 
   double elapsedTime = 0;
+
+  if (!settings.forwards)
+    distance = -distance;
+
   while (!drivePID.isSettled())
   {
     position = getForwardTrackerPosition();
@@ -29,8 +33,8 @@ void Chassis::driveDistance(double distance, double heading, DriveParams drivePa
     turnOutput = clamp<double>(turnOutput, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
     turnOutput = clampMin<double>(turnOutput, turnParams.turnMinVoltage);
 
-    if ((int)elapsedTime % 60 == 0)
-      Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, odometry->getPose().orientation.constrainNegative180To180().angle, position);
+    // if ((int)elapsedTime % 60 == 0)
+    //   Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, odometry->getPose().orientation.constrainNegative180To180().angle, position);
 
     Pair motorOutputs = getMotorVelocities(driveOutput, turnOutput);
     Left.spin(fwd, motorOutputs.left, volt);

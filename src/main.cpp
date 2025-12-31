@@ -95,7 +95,12 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autons.runAuton(AutonName::SKILLS);
+  if (!ForwardTracker.installed())
+  {
+    cout << "Forward tracker not installed!" << endl;
+    return;
+  }
+  autons.runAuton(AutonName::TESTING);
 }
 
 /*---------------------------------------------------------------------------*/
