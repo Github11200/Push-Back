@@ -29,6 +29,8 @@ extern vex::rotation SidewaysTracker;
 
 extern vex::inertial Inertial;
 
+extern vex::optical IntakeOptical;
+
 extern vex::motor_group Left;
 extern vex::motor_group Right;
 

@@ -27,6 +27,8 @@ vex::rotation SidewaysTracker = vex::rotation(PORT5, true);
 
 vex::inertial Inertial = vex::inertial(PORT1);
 
+vex::optical IntakeOptical = vex::optical(PORT2);
+
 motor_group Left = motor_group(FrontLeft, MiddleLeft, BackLeft);
 motor_group Right = motor_group(FrontRight, MiddleRight, BackRight);
 

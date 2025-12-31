@@ -102,6 +102,7 @@ void Autons::skills()
   willyNilly.on();
 
   // 1st Score
+  intake.scoreLongGoal();
   // sloper.on();
   // wait(1500, msec);
   // chassisReference->odometry->setPosition(28.5, 47, chassisReference->getAbsoluteHeading().angle);

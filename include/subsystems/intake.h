@@ -10,25 +10,12 @@ private:
 public:
   int highPowerTime = 0;
 
-  void scoreLongGoal()
-  {
-    spinFullIntake(vex::directionType::fwd);
-    sloper.on();
-    wait(3000, msec);
-    sloper.off();
-  }
+  void intakeDispenserUntilColor(vex::color allianceColor);
+  void scoreLongGoal();
 
-  void spinFullIntake(vex::directionType direction, double speed = 12)
-  {
-    IntakeLeft.spin(direction, speed, vex::voltageUnits::volt);
-    IntakeRight.spin(direction, speed, vex::voltageUnits::volt);
-  };
+  void spinFullIntake(vex::directionType direction, double speed = 12);
 
-  inline void stopFullIntake()
-  {
-    IntakeLeft.stop(vex::brakeType::coast);
-    IntakeRight.stop(vex::brakeType::coast);
-  };
+  void stopFullIntake();
 
   inline void stopBlocks() { sloper.off(); };
   inline void openBlocks() { sloper.on(); };
