@@ -69,7 +69,7 @@ void Autons::skills()
   turnParams.turnSettleError = 2;
 
   // Curve through alleyway
-  chassisReference->driveToPose(Pose<double>(-23, 61.5, 90), driveParams, turnParams, {.forwards = false}, 0.5);
+  chassisReference->driveToPose(Pose<double>(-23, 61.5, 60), driveParams, turnParams, {.forwards = false}, 0.5);
   willyNilly.off();
 
   turnParams = turnParams10_deg();
@@ -79,25 +79,27 @@ void Autons::skills()
   driveParams.driveMaxVoltage = 9;
   driveParams.driveSlew = 0.4;
 
-  chassisReference->turnTo(Pose<double>(26, 61.5, -360), turnParams, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(26, 61.5, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(42, 61.5, -360), turnParams, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(42, 61.5, 0), driveParams, turnParams10_deg(), {.forwards = false});
 
   driveParams = driveParams30_in();
   driveParams.driveMaxVoltage = 6;
 
-  chassisReference->driveToPose(Pose<double>(51, 51.25, 90), driveParams, turnParams30_deg(), {.forwards = false}, 0.5);
+  chassisReference->driveToPoint(Pose<double>(42, 47, 90), driveParams, turnParams30_deg(), {.forwards = false}, 0.5);
 
   // Align to long goal
   driveParams = driveParams30_in();
   driveParams.driveTimeout = 1500;
-  driveParams.driveMaxVoltage = 4;
+  driveParams.driveMaxVoltage = 12;
 
   turnParams = turnParams180_deg();
   turnParams.turnSettleTime = 500;
   turnParams.turnMaxVoltage = 8;
 
-  chassisReference->turnTo(Pose<double>(27, 50, -360), turnParams, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(27, 50, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(27, 47, -360), turnParams, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(33, 47, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  driveParams.driveMaxVoltage = 4;
+  chassisReference->driveToPoint(Pose<double>(27, 47, 0), driveParams, turnParams10_deg(), {.forwards = false});
   willyNilly.on();
 
   // 1st Score
@@ -157,14 +159,15 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(68, 47, 0), {.driveMaxVoltage = 5, .driveTimeout = 2500}, {}, {});
 
   // Curve through alleyway
-  chassisReference->driveToPose(Pose<double>(23, -61, 270), {}, {}, {.forwards = false});
+  chassisReference->driveToPose(Pose<double>(23, -61, 240), {}, {}, {.forwards = false});
   willyNilly.off();
-  chassisReference->driveToPoint(Pose<double>(-23, -61, 0), {}, {}, {.forwards = false});
-  chassisReference->driveToPose(Pose<double>(-51, -47, 270), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-42, -61, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-42, -47, 0), {}, {}, {.forwards = false});
 
   // Align to long goal
   chassisReference->turnTo(Pose<double>(-27, -47, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-27, -47, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-33, -47, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-27, -47, 0), {.driveTimeout = 300, .driveMaxVoltage = 5}, {}, {.forwards = false});
   willyNilly.on();
 
   // 3rd Score
