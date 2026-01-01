@@ -164,7 +164,7 @@ void Odometry::updatePosition(bool sendLogs)
   //   if (sendLogs)
   //     Logger::sendPositionData(currentPose);
   // }
-  ++cycleCounter;
+  // ++cycleCounter;
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;

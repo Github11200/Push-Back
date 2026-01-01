@@ -37,7 +37,10 @@ void PID::resetPID()
 bool PID::isSettled()
 {
   if (timeSpentRunning > timeout)
+  {
+    cout << "Timed out" << endl;
     return true;
+  }
   if (timeSpentSettled > settleTime)
     return true;
   return false;
