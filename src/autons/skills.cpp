@@ -122,35 +122,41 @@ void Autons::skills()
   // sloper.off();
 
   return;
-  chassisReference->turnTo(Pose<double>(63, 17, -360), turnParams45_deg(), {});
+  // chassisReference->turnTo(Pose<double>(63, 17, -360), turnParams45_deg(), {});
 
-  driveParams = driveParams30_in();
-  driveParams.driveMaxVoltage = 8;
-  chassisReference->driveToPoint(Pose<double>(63, 19, 0), driveParams, turnParams10_deg(), {});
+  // driveParams = driveParams30_in();
+  // driveParams.driveMaxVoltage = 8;
+  // chassisReference->driveToPoint(Pose<double>(63, 19, 0), driveParams, turnParams10_deg(), {});
 
-  chassisReference->turnTo(Pose<double>(63, -30, -360), turnParams45_deg(), {});
+  // chassisReference->turnTo(Pose<double>(63, -30, -360), turnParams45_deg(), {});
 
-  // Drive through blue parking zone, going further to make sure to intake all blocks
-  chassisReference->driveToPoint(Pose<double>(63, -30, 0), {}, {}, {});
+  // // Drive through blue parking zone, going further to make sure to intake all blocks
+  // chassisReference->driveToPoint(Pose<double>(63, -30, 0), {}, {}, {});
 
-  // Back up against blue parking zone - maybe position reset against barrier?
-  chassisReference->driveToPoint(Pose<double>(63, -17, 0), {}, {}, {.forwards = false});
+  // // Back up against blue parking zone - maybe position reset against barrier?
+  // chassisReference->driveToPoint(Pose<double>(63, -17, 0), {}, {}, {.forwards = false});
 
-  // Curve to eat the center blocks
-  chassisReference->driveToPoint(Pose<double>(23, -23, 0), {}, {}, {});
+  // // Curve to eat the center blocks
+  // chassisReference->driveToPoint(Pose<double>(23, -23, 0), {}, {}, {});
 
-  // Line up to middle goal
-  chassisReference->turnTo(Pose<double>(13, -13, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(13, -13, 0), {}, {}, {.forwards = false});
+  // // Line up to middle goal
+  // chassisReference->turnTo(Pose<double>(13, -13, -360), {}, {.forwards = false});
+  // chassisReference->driveToPoint(Pose<double>(13, -13, 0), {}, {}, {.forwards = false});
 
-  // Score in middle goal
-  blocker.on();
-  wait(1500, msec);
-  blocker.off();
+  // // Score in middle goal
+  // blocker.on();
+  // wait(1500, msec);
+  // blocker.off();
 
-  // Go towards 3rd dispenser
+  // Back away from 1st goal
+  driveParams = driveParams10_in();
+  chassisReference->driveToPoint(Pose<double>(39, 47, 0), driveParams, turnParams10_deg(), {});
+
+  // Drive across the field towards 3rd dispenser
   willyNilly.on();
-  chassisReference->driveToPoint(Pose<double>(47, -47, 0), {}, {}, {});
+  driveParams = driveParams50_in();
+  chassisReference->turnTo(Pose<double>(39, -47, -360), turnParams90_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(39, -47, 0), driveParams, turnParams10_deg(), {});
 
   // Ram into 3rd dispenser
   chassisReference->turnTo(Pose<double>(68, 47, -360), {}, {});
