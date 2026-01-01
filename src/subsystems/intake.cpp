@@ -6,9 +6,9 @@ using namespace vex;
 void Intake::intakeDispenserUntilColor(vex::color allianceColor)
 {
   vex::color oppositeAllianceColor = allianceColor == vex::color::red ? vex::color::blue : vex::color::red;
-  double startTime = vex::timer::system();
+  uint32_t startTime = vex::timer::system();
 
-  while (vex::timer::system - startTime < 2000 && IntakeOptical.color() != oppositeAllianceColor)
+  while (vex::timer::system() - startTime < 2000 && IntakeOptical.color() != oppositeAllianceColor)
     spinFullIntake(vex::directionType::fwd);
   stopFullIntake();
 }

@@ -39,7 +39,7 @@ struct DriveParams
   double driveKi = 0;
   double driveKd = 0;
   double driveStartIntegratingLimit = 2;
-  double driveSlew = 0.7;
+  double driveSlew = 0.3;
 
   DriveParams() = default;
 };

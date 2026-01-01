@@ -100,7 +100,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::TESTING);
+  autons.runAuton(AutonName::SKILLS);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -118,8 +118,8 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  // Driver driver;
-  // driver.startJoysticksThread();
+  Driver driver;
+  driver.startJoysticksThread();
 
   // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
@@ -127,7 +127,7 @@ void usercontrol(void)
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
 
-  // driver.startPistonsThread();
+  driver.startPistonsThread();
 
   // User control code here, inside the loop
   while (1)
@@ -139,17 +139,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
-
-    // if (Controller.ButtonA.pressing())
-    // {
-    //   // Pose<double> currentPose = chassis.odometry->getPose();
-    //   // cout << "X: " << currentPose.position.x << endl;
-    //   // cout << "Y: " << currentPose.position.y << endl;
-    //   // cout << "Theta: " << currentPose.orientation.angle << endl;
-    //   cout << "Forward tracker: " << (ForwardTracker.position(deg) * chassis.forwardTrackerInchesToDegreesRatio) << endl;
-    //   wait(500, msec);
-    // }
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

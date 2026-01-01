@@ -100,8 +100,8 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * fabs(headingScaleFactor), driveParams.driveMaxVoltage * fabs(headingScaleFactor));
     driveOutput = clampMin<double>(driveOutput, driveParams.driveMinVoltage);
 
-    // if (!isClose)
-    //   driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
+    if (!isClose)
+      driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
     if ((int)elapsedTime % 60 == 0 && settings.sendPositionData)
       Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
