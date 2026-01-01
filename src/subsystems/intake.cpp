@@ -17,6 +17,7 @@ void Intake::scoreLongGoal()
 {
   spinFullIntake(vex::directionType::fwd);
   sloper.on();
+  blocker.on();
   wait(1500, msec);
   sloper.off();
 }

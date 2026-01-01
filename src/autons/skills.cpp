@@ -12,13 +12,14 @@ void Autons::skills()
   chassisReference->odometry->startPositionTrackThread(false);
 
   // Intake the middle 4 blocks
-  // intake.spinFullIntake(vex::directionType::fwd);
+  intake.spinFullIntake(vex::directionType::fwd);
 
   driveParams = driveParams20_in();
   driveParams.driveMaxVoltage = 6;
   driveParams.driveSettleError = 1;
 
   chassisReference->driveToPose(Pose<double>(-15, 31, 45), driveParams, turnParams30_deg(), {}, 0.6);
+  willyNilly.on();
 
   // Go back to align to middle goal
   chassisReference->driveToPoint(Pose<double>(-20.293, 24.674, 0), driveParams5_in(), turnParams10_deg(), {.forwards = false});
@@ -34,14 +35,11 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(-13.3, 15.287, -360), driveParams, turnParams10_deg(), {.forwards = false});
 
   // Score in middle goal
-  // Could try to color sort the blue blocks out
-  // blocker.on();
-  // wait(1500, msec);
-  // blocker.off();
+  blocker.on();
+  wait(1000, msec);
+  blocker.off();
 
   // Drive to 1st dispenser
-  // willyNilly.on();
-
   turnParams = turnParams10_deg();
   turnParams.turnTimeout = 500;
 
@@ -95,7 +93,7 @@ void Autons::skills()
   // willyNilly.on();
 
   // 1st Score
-  // intake.scoreLongGoal();
+  intake.scoreLongGoal();
   // sloper.on();
   // wait(1500, msec);
   // chassisReference->odometry->setPosition(28.5, 47, chassisReference->getAbsoluteHeading().angle);
