@@ -34,16 +34,16 @@ Chassis chassis(
     // (((drive_ratio) * PI * wheel_diameter) / 360)
 
     // FORWARDS
-    ((M_PI * 2.71051) / 360.0),
+    ((M_PI * 2.74167) / 360.0),
 
     // SIDEWAYS
     ((M_PI * 2.00472) / 360.0),
 
     // Forward tracker distance
-    0.02018577,
+    0.0317272,
 
     // Sideways tracker distance
-    4.96364,
+    5.03637,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -118,8 +118,8 @@ void usercontrol(void)
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
-  driver.startJoysticksThread();
+  // Driver driver;
+  // driver.startJoysticksThread();
 
   // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
@@ -127,7 +127,7 @@ void usercontrol(void)
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
 
-  driver.startPistonsThread();
+  // driver.startPistonsThread();
 
   // User control code here, inside the loop
   while (1)
@@ -139,7 +139,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

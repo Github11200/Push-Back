@@ -31,10 +31,10 @@ struct TurnParams
 struct DriveParams
 {
   double driveMinVoltage = 0;
-  double driveMaxVoltage = 10;
+  double driveMaxVoltage = 12;
   double driveSettleError = 1;
   double driveSettleTime = 500;
-  double driveTimeout = 300;
+  double driveTimeout = 4000;
   double driveKp = 1;
   double driveKi = 0;
   double driveKd = 0;

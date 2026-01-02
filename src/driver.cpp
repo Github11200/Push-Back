@@ -66,7 +66,7 @@ void Driver::buttonsLoopCallback()
   else
     sloper.off();
 
-  if (MiddleGoalScoreButton.pressing() || MiddleGoalSlowScoreButton.pressing() || HighGoalScoreButton.pressing() || IntakeButton.pressing())
+  if (MiddleGoalScoreButton.pressing() || MiddleGoalSlowScoreButton.pressing() || HighGoalScoreButton.pressing())
     blocker.on();
   else
     blocker.off();
