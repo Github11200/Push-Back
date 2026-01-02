@@ -57,7 +57,7 @@ void Autons::skills()
 
   chassisReference->driveToPoint(Pose<double>(-47, 49, 0), driveParams, turnParams10_deg(), {});
 
-  // Ram into 1st dispenser
+  // Ram into 1st loader
   turnParams = turnParams30_deg();
   turnParams.turnTimeout = 800;
 
