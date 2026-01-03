@@ -61,6 +61,7 @@ void Autons::skills()
   turnParams = turnParams30_deg();
   turnParams.turnTimeout = 800;
 
+  intake.spinFullIntake(vex::directionType::fwd);
   chassisReference->turnTo(Pose<double>(-68, 49, -360), turnParams, {});
 
   driveParams = driveParams20_in();
@@ -78,6 +79,7 @@ void Autons::skills()
   // Curve through alleyway
   chassisReference->driveToPose(Pose<double>(-23, 63, 60), driveParams, turnParams, {.forwards = false}, 0.1);
   willyNilly.off();
+  intake.stopFullIntake();
 
   turnParams = turnParams10_deg();
   turnParams.turnTimeout = 1000;
