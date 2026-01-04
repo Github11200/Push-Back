@@ -1,0 +1,40 @@
+#ifndef PNEUMATICS_H
+#define PNEUMATICS_H
+
+#include "vex.h"
+
+enum Port
+{
+  A,
+  B,
+  C,
+  D,
+  E,
+  F,
+  G,
+  H
+};
+
+class Pneumatic
+{
+private:
+  std::unique_ptr<vex::triport::port> pistonPort;
+  vex::digital_out getPiston();
+
+public:
+  inline void toggle() { getPiston().set(!getPiston().value()); };
+  inline void on() { getPiston().set(true); };
+  inline void off() { getPiston().set(false); };
+
+  void delayToggle(int milliseconds);
+
+  Pneumatic(Port port);
+  // ~Pneumatic();
+};
+
+extern Pneumatic willyNilly;
+extern Pneumatic finger;
+extern Pneumatic sloper;
+extern Pneumatic blocker;
+
+#endif

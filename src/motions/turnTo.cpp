@@ -1,9 +1,9 @@
-#include "../../include/chassis.h"
+#include "chassis.h"
 
 using namespace vex;
 using namespace std;
 
-void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
+void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings settings)
 {
   PID turnPID(settings.updateTime, params);
 
@@ -15,15 +15,16 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
 
   Pose<double> currentPose;
 
-  while (!turnPID.isSettled() && !stopPlease)
+  double elapsedTime = 0;
+  while (!turnPID.isSettled())
   {
     currentPose = odometry->getPose();
-    currentPose.position.x = 0;
-    currentPose.position.y = 0;
+
+    Angle<double> additionalAngle = Angle<double>(settings.forwards ? 0 : -180);
 
     // If the angle is -360 that means we want to turn to a point
     if (target.orientation.angle == -360)
-      turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180();
+      turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180();
     else // we want to turn to an angle
       turnError = currentPose.orientation.angleTo(target.orientation);
 
@@ -31,29 +32,29 @@ void Chassis::turnTo(Pose<double> target, TurnParams params, Settings settings)
       previousTurnError = turnError;
 
     // If the min voltage isn't 0 and the robot is tweaking out then just exit
-    if (params.turnMinVoltage != 0 && sgn(previousTurnError.angle) != sgn(turnError.angle))
+    if (sgn(previousTurnError.angle) != sgn(turnError.angle) && params.turnMinVoltage != 0)
       break;
 
-    turnOutput = [&]() -> double
-    {
-      double output = 0;
-      output = turnPID.compute(turnError.angle);
+    turnOutput = turnPID.compute(turnError.angle);
 
-      output = clamp(output, -params.turnMaxVoltage, params.turnMaxVoltage);
-      output = clampMin(output, params.turnMinVoltage);
+    turnOutput = clamp(turnOutput, -params.turnMaxVoltage, params.turnMaxVoltage);
+    turnOutput = clampMin(turnOutput, params.turnMinVoltage);
 
-      previousTurnOutput = output;
-      return output;
-    }();
+    previousTurnOutput = turnOutput;
 
+    // Make the motors move
     Left.spin(fwd, turnOutput, volt);
     Right.spin(fwd, -turnOutput, volt);
 
+    if ((int)elapsedTime % 30 == 0 && settings.sendPositionData)
+      Logger::sendMotionData(Logger::MotionType::TURN_TO_ANGLE, elapsedTime, currentPose.orientation.constrainNegative180To180().angle);
+
     wait(settings.updateTime, msec);
+    elapsedTime += settings.updateTime;
   }
 
-  cout << "done turn" << endl;
-
-  Left.stop(brake);
-  Right.stop(brake);
+  cout << "Turn done" << endl;
+  Logger::sendMotionEnd(elapsedTime);
+  Left.stop(hold);
+  Right.stop(hold);
 }

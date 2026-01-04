@@ -1,11 +1,12 @@
-#include "../../include/testing/tests.h"
-#include "../../include/utils/utils.h"
-#include "../../include/types/vector.h"
-#include "../../include/types/angle.h"
-#include "../../include/types/pose.h"
-#include "../../include/types/params.h"
+#include "testing/tests.h"
+#include "utils/utils.h"
+#include "types/vector.h"
+#include "types/angle.h"
+#include "types/pose.h"
+#include "types/params.h"
+#include "utils/bezier.h"
 
-#include "../../include/pid/pid.h"
+#include "pid/pid.h"
 
 using namespace vex;
 using namespace std;
@@ -725,6 +726,151 @@ TEST(testLerpFloatPrecision)
 
   ASSERT_EQUAL(result.x, 2.5);
   ASSERT_EQUAL(result.y, 4.5);
+
+  return Testing::Result::PASS;
+}
+
+// ====================
+// SIGMOID TESTS
+// ====================
+
+TEST(testSigmoidDefaultAtZero)
+{
+  // With default coefficients, sigmoid(0) should be exactly 0.5
+  ASSERT_EQUAL(sigmoid(0.0), 0.5);
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidDefaultMonotonicLimits)
+{
+  // With definition 1/(1+exp(x)), large x -> 0, large -x -> 1
+  ASSERT_TRUE(sigmoid(10.0) < 0.001);
+  ASSERT_TRUE(sigmoid(-10.0) > 0.999);
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithFractionalCoefficient)
+{
+  // fractionalCoefficient scales output linearly
+  ASSERT_EQUAL(sigmoid(0.0, 2.0), 1.0); // 2 * 0.5
+  ASSERT_EQUAL(sigmoid(0.0, 4.0), 2.0); // 4 * 0.5
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithConstantOffset)
+{
+  // constant shifts output downward
+  ASSERT_EQUAL(sigmoid(0.0, 1.0, 1.0, 0.5), 0.0); // 0.5 - 0.5
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithZeroExponentialCoefficient)
+{
+  // exponentialCoefficient = 0 forces exp(0) -> 1, so output is 0.5 (then scaled/offset)
+  ASSERT_EQUAL(sigmoid(3.14, 1.0, 0.0, 0.0), 0.5);
+  ASSERT_EQUAL(sigmoid(-7.0, 2.0, 0.0, 0.5), 0.5); // 2*0.5 - 0.5 = 0.5
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidWithNegativeExponentialCoefficient)
+{
+  // Negative exponentialCoefficient flips the curve to increasing; check a plausible range
+  double v = sigmoid(1.0, 1.0, -2.0, 0.0); // ~ 1/(1+exp(-2)) ≈ 0.8808
+  ASSERT_TRUE(v > 0.85);
+  ASSERT_TRUE(v < 0.90);
+  return Testing::Result::PASS;
+}
+
+TEST(testSigmoidLargeMagnitudeEdges)
+{
+  // Very large magnitudes should saturate due to exp overflow/underflow
+  ASSERT_EQUAL(sigmoid(1e6), 0.0);
+  ASSERT_EQUAL(sigmoid(-1e6), 1.0);
+  return Testing::Result::PASS;
+}
+
+// ====================
+// BEZIER TESTS
+// ====================
+
+TEST(testBezierEndpoints)
+{
+  Vector2D<double> p0(0, 0);
+  Vector2D<double> p1(0, 1);
+  Vector2D<double> p2(1, 1);
+  Vector2D<double> p3(1, 0);
+
+  Vector2D<double> pts[4] = {p0, p1, p2, p3};
+  CubicBezier bez(pts);
+
+  Vector2D<double> start = bez.getPosition(0.0);
+  Vector2D<double> end = bez.getPosition(1.0);
+
+  ASSERT_EQUAL(start.x, p0.x);
+  ASSERT_EQUAL(start.y, p0.y);
+  ASSERT_EQUAL(end.x, p3.x);
+  ASSERT_EQUAL(end.y, p3.y);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testBezierMidpoint)
+{
+  Vector2D<double> p0(0, 0);
+  Vector2D<double> p1(0, 1);
+  Vector2D<double> p2(1, 1);
+  Vector2D<double> p3(1, 0);
+
+  Vector2D<double> pts[4] = {p0, p1, p2, p3};
+  CubicBezier bez(pts);
+
+  Vector2D<double> mid = bez.getPosition(0.5);
+
+  ASSERT_EQUAL(mid.x, 0.5);
+  ASSERT_EQUAL(mid.y, 0.75);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testBezierFirstDerivativeEndpoints)
+{
+  Vector2D<double> p0(0, 0);
+  Vector2D<double> p1(0, 1);
+  Vector2D<double> p2(1, 1);
+  Vector2D<double> p3(1, 0);
+
+  Vector2D<double> pts[4] = {p0, p1, p2, p3};
+  CubicBezier bez(pts);
+
+  Vector2D<double> d0 = bez.getFirstDerivative(0.0);
+  Vector2D<double> d1 = bez.getFirstDerivative(1.0);
+
+  // P'(0) = 3*(P1 - P0)
+  ASSERT_EQUAL(d0.x, (p1.x - p0.x) * 3.0);
+  ASSERT_EQUAL(d0.y, (p1.y - p0.y) * 3.0);
+
+  // P'(1) = 3*(P3 - P2)
+  ASSERT_EQUAL(d1.x, (p3.x - p2.x) * 3.0);
+  ASSERT_EQUAL(d1.y, (p3.y - p2.y) * 3.0);
+
+  return Testing::Result::PASS;
+}
+
+TEST(testBezierSecondDerivativeAtZero)
+{
+  Vector2D<double> p0(0, 0);
+  Vector2D<double> p1(0, 1);
+  Vector2D<double> p2(1, 1);
+  Vector2D<double> p3(1, 0);
+
+  Vector2D<double> pts[4] = {p0, p1, p2, p3};
+  CubicBezier bez(pts);
+
+  Vector2D<double> s0 = bez.getSecondDerivative(0.0);
+
+  // P''(0) = 6 * (P2 - 2*P1 + P0)
+  ASSERT_EQUAL(s0.x, (p2.x - 2.0 * p1.x + p0.x) * 6.0);
+  ASSERT_EQUAL(s0.y, (p2.y - 2.0 * p1.y + p0.y) * 6.0);
 
   return Testing::Result::PASS;
 }

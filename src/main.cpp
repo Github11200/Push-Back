@@ -7,15 +7,13 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-// TODO: Make sure all the cos, sin and tan functions take parameters in as radians
-// TODO: Make sure the Angle struct is always returning in degrees
-// TODO: Check that before constraining angles they have been converted to degrees
-// TODO: Make sure that when any angles are returned from vector.h or something that they have been constrained from 0 to 360
-
-#include "../include/chassis.h"
-#include "../include/pursuit.h"
-#include "../include/testing/tests.h"
-#include "../include/utils/logger.h"
+#include "chassis.h"
+#include "pursuit.h"
+#include "testing/tests.h"
+#include "utils/logger.h"
+#include "autons.h"
+#include "driver.h"
+#include "types/params.h"
 
 #include "vex.h"
 
@@ -25,6 +23,44 @@ using namespace vex;
 competition Competition;
 
 // define your global instances of motors and other devices here
+Chassis chassis(
+    // Inertial scaling
+    355.813,
+
+    // Odometry tracker setup
+    TrackerSetup::TWO_TRACKER,
+
+    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
+    // (((drive_ratio) * PI * wheel_diameter) / 360)
+
+    // FORWARDS
+    ((M_PI * 2.74167) / 360.0),
+
+    // SIDEWAYS
+    ((M_PI * 2.00472) / 360.0),
+
+    // Forward tracker distance
+    0.0317272,
+
+    // Sideways tracker distance
+    5.03637,
+
+    // Front distance sensor distance
+    (8.3175 - 5.4),
+
+    // Left distance sensor distance
+    (6.8845 - 0.3), // 0.4 from side
+
+    // Right distance sensor distance
+    (6.8845 - 0.2),
+
+    // Back distance sensor distance
+    (8.3175 - 3.4),
+
+    // Enable logs (false by default)
+    true);
+
+Autons autons(std::make_unique<Chassis>(chassis));
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -40,6 +76,8 @@ void pre_auton(void)
 {
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
+  // Testing::runAllTests();
+  autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -57,6 +95,12 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+  if (!ForwardTracker.installed())
+  {
+    cout << "Forward tracker not installed!" << endl;
+    return;
+  }
+  autons.runAuton(AutonName::SOLO);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -69,45 +113,39 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void coolCallback() {
-
-}
-
 void usercontrol(void)
 {
-  // KILL SWITCH for "safety"
-  Controller.ButtonA.pressed([]()
-                             { stopPlease = true; });
+  // if (chassis.odometry->isTracking)
+  //   chassis.odometry->stopPositionTrackThread();
 
-  // Testing::runAllTests();
-  Chassis *chassis = new Chassis(PORT19, PORT14, PORT13, Left, Right, ((M_PI * 1.98298) / 360.0), -0.640625, 1.625, true);
-  chassis->odometry->startPositionTrackThread(true);
+  Driver driver;
+  driver.startJoysticksThread();
 
-  // chassis->trapezoidalMotionProfile(20, {
-  //                                           .maximumVelocity = 27.5,
-  //                                           .finalVelocity = 0,
-  //                                           .maximumAcceleration = 5,
-  //                                           .kA = 0.5,
-  //                                       },
-  //                                   {.driveKp = 1, .driveKi = 0, .driveKd = 3, .driveMaxVoltage = 12, .driveTimeout = 1000000}, {.turnKp = 0.1, .turnKi = 0, .turnKd = 0.5, .turnTimeout = 100000}, {});
+  // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
+  // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
+  // cout << chassis.odometry->getPose().position.y << endl;
+  // wait(1, sec);
+  // chassis.odometry->setPosition(5, 5, 90);
 
-  // User control code here, inside the loop 
+  driver.startPistonsThread();
+
+  // User control code here, inside the loop
   while (1)
   {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
-
     // ........................................................................
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
 
-  chassis->odometry->stopPositionTrackThread();
+  chassis.~Chassis();
 }
 
 //
@@ -115,7 +153,7 @@ void usercontrol(void)
 //
 int main()
 {
-  // Set up callbacks for autonomous and driver control periods.
+  // Set up callbacks for autonom`ous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
@@ -128,3 +166,12 @@ int main()
     wait(100, msec);
   }
 }
+
+// Forward: 0.0634636
+// Sideways: 4.97877
+
+// Forward: 0.00324508
+// Sideways: 4.95606
+
+// Forward: -0.00615135
+// Sideways: 4.9561

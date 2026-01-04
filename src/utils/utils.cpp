@@ -1,4 +1,4 @@
-#include "../../include/utils/utils.h"
+#include "utils/utils.h"
 #include <iostream>
 
 template <class T>
@@ -24,10 +24,16 @@ T clamp(T value, T min, T max)
 template <class T>
 T clampMin(T value, T min)
 {
-  if (value < 0 && value > -min)
-    return -min;
-  else if (value > 0 && value < min)
-    return min;
+  if (fabs(value) < min)
+    return min * sgn(value);
+  return value;
+}
+
+template <class T>
+T deadband(T value, T deadbandValue)
+{
+  if (fabs(value) <= deadbandValue)
+    return 0;
   return value;
 }
 
@@ -70,6 +76,26 @@ double getSignedTangentArcCurvature(Pose<double> start, Vector2D<double> end)
   return side * ((2 * x) / (d * d));
 }
 
+Pair getMotorVelocities(double driveOutput, double turnOutput)
+{
+  double left = driveOutput + turnOutput;
+  double right = driveOutput - turnOutput;
+
+  double sum = (driveOutput + turnOutput) / 12;
+  if (sum > 1)
+  {
+    left /= sum;
+    right /= sum;
+  }
+
+  return Pair(left, right);
+}
+
+double sigmoid(double x, double fractionalCoefficient, double exponentialCoefficient, double constant)
+{
+  return fractionalCoefficient * (1 / (1 + exp(x * exponentialCoefficient))) - constant;
+}
+
 // Explicit template instantiations for commonly used types
 template int sgn<int>(int number);
 template int sgn<double>(double number);
@@ -82,6 +108,9 @@ template float clamp<float>(float value, float min, float max);
 template int clampMin<int>(int value, int min);
 template double clampMin<double>(double value, double min);
 template float clampMin<float>(float value, float min);
+
+template double deadband<double>(double value, double deadbandValue);
+template float deadband<float>(float value, float deadbandValue);
 
 template int slew<int>(int current, int target, int maxChange);
 template double slew<double>(double current, double target, double maxChange);

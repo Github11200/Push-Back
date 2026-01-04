@@ -1,9 +1,9 @@
-#include "../../include/chassis.h"
+#include "chassis.h"
 
 using namespace vex;
 using namespace std;
 
-void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings)
+void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings)
 {
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
@@ -22,23 +22,34 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
   int previousSide = -1; // -1 is null
   Angle<double> initialHeading = currentPose.position.angleTo(target.position);
 
-  Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, {.driveParams = driveParams, .turnParams = turnParams});
+  Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, Logger::MotionData(target, driveParams, turnParams));
 
+  Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
+  Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
+
+  double elapsedTime = 0;
   while (!drivePID.isSettled())
   {
     currentPose = odometry->getPose();
 
-    // TODO: Make the 7.0 dynamic or a parameter
-    if (!isClose && currentPose.position.distanceTo(target.position) <= 7.0)
+    double distanceToTarget = currentPose.position.distanceTo(target.position);
+
+    // If the distance is less than 7.5 then limit the max drive voltage and the max turn voltage can follow a sigmoid function
+    if (distanceToTarget <= 7.5)
     {
-      isClose = true;
-      // TODO: Change the 4.5 to be a parameter or dynamic
-      driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.5);
-      turnParams.turnMaxVoltage = 0;
+      if (!isClose)
+      {
+        isClose = true;
+        driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.7);
+        turnParams.turnMaxVoltage = 0;
+      }
+      // turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
     }
 
-    double driveError = currentPose.position.distanceTo(target.position);
-    Angle<double> turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation).constrainNegative180To180();
+    double driveError = distanceToTarget;
+
+    Angle<double> rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
+    Angle<double> turnError = (rawTurnError + additionalAngle).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
@@ -47,11 +58,9 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       target, like 32 degrees, cos(the angle) will approach 1 meaning that there is more of an emphasis on
       the lateral rather than the angular movement
     */
-    headingScaleFactor = cos(turnError.toRad().angle);
-    turnError = turnError.constrainNegative90To90();
+    headingScaleFactor = cos(rawTurnError.constrainNegative180To180().toRad().angle);
 
     {
-      Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
       Vector2D<double> lineFromCurrentPositionToTarget(currentPose.position.x - target.position.x, currentPose.position.y - target.position.y);
 
       // If the cross product is negative then it is before the line and if it is positive then it is after the line
@@ -59,7 +68,7 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       const bool side = lineFromCurrentPositionToTarget.crossProduct(projectedPerpendicularLine) <= driveParams.driveSettleError;
       if (previousSide == -1)
         previousSide = side;
-      const bool sameSide = previousSide == side ? true : false;
+      const bool sameSide = previousSide == side;
 
       // If the robot crossed over this perpendicular line and the min drive voltage is not 0 then it'll
       // keep oscillating and not settle so instead just have it stop the motion
@@ -68,45 +77,51 @@ void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnPar
       previousSide = side;
     }
 
-    turnOutput = [&]() -> double
-    {
-      double output = 0;
-      output = turnPID.compute(turnError.angle);
+    /*=============================
+                Turning
+    =============================*/
 
-      // Clamp the values
-      output = clamp(output, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
-      output = clampMin(output, turnParams.turnMinVoltage);
+    turnOutput = turnPID.compute(turnError.angle);
 
-      if (!isClose)
-        output = slew(previousTurnOutput, turnOutput, turnParams.turnSlew);
+    // Clamp the values
+    turnOutput = clamp(turnOutput, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
+    turnOutput = clampMin(turnOutput, turnParams.turnMinVoltage);
 
-      previousTurnOutput = output;
-      return output;
-    }();
+    if (!isClose)
+      turnOutput = slew(previousTurnOutput, turnOutput, turnParams.turnSlew);
 
-    driveOutput = [&]() -> double
-    {
-      double output = 0;
+    previousTurnOutput = turnOutput;
 
-      output = drivePID.compute(driveError) * headingScaleFactor;
+    /*=============================
+                Driving
+    =============================*/
 
-      // CLamp it between min and max values
-      output = clamp(output, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
-      output = clampMin(output, driveParams.driveMinVoltage);
+    driveOutput = drivePID.compute(driveError) * headingScaleFactor;
+    driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * fabs(headingScaleFactor), driveParams.driveMaxVoltage * fabs(headingScaleFactor));
+    driveOutput = clampMin<double>(driveOutput, driveParams.driveMinVoltage);
 
-      if (isClose)
-        output = slew(previousDriveOutput, output, driveParams.driveSlew);
+    if (!isClose)
+      driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
-      return output;
-    }();
+    if ((int)elapsedTime % 60 == 0 && settings.sendPositionData)
+      Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
 
+    previousDriveOutput = driveOutput;
+
+    // Make it move
     Pair motorOutputs = getMotorVelocities(driveOutput, turnOutput);
     Left.spin(fwd, motorOutputs.left, volt);
     Right.spin(fwd, motorOutputs.right, volt);
 
     wait(settings.updateTime, msec);
+    elapsedTime += settings.updateTime;
   }
 
-  Left.stop(hold);
-  Right.stop(hold);
+  cout << "drive done" << endl;
+
+  Left.stop(brake);
+  Right.stop(brake);
 }
+
+// Forward tracker position (fast): 418.97
+// Forward tracker position (slow): 408.25

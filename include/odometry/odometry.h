@@ -2,8 +2,11 @@
 #define ODOMETRY_H
 
 #include "types/pose.h"
+#include "types/time.h"
 #include "vex.h"
 #include "utils/logger.h"
+#include <string>
+#include <sstream>
 
 using namespace vex;
 using namespace std;
@@ -27,29 +30,68 @@ enum TrackerSetup
   TWO_TRACKER
 };
 
+enum Coordinate
+{
+  X,
+  Y
+};
+
+enum DistanceSensor
+{
+  FORWARD = 0,
+  STARBOARD = 1, // Right
+  PORT = 2,      // Left
+  STERN = 3
+};
+
+enum Wall
+{
+  FRONT = 0,
+  RIGHT = 1,
+  LEFT = 2,
+  REAR = 3
+};
+
 /**
- * @brief Gets the current position of the robot using a combination of the Pilons
- * arc tracking strategy and Monte Carlo Localization
+ * @brief Gets the current position of the robot using the Pilons
+ * arc tracking strategy
  */
 class Odometry
 {
 private:
   Chassis *chassis;
 
-  TrackerPositions previousTrackerPositions;
-  Angle<double> previousHeading;
+  TrackerPositions previousTrackerPositions = TrackerPositions(0, 0);
+  Angle<double> previousHeading = Angle<double>(0);
 
   Pose<double> currentPose;
 
   thread *positionTrackThread;
-  bool isTracking = false;
   TrackerSetup trackerSetup;
 
   double forwardTrackerCenterDistance;
   double sidewaysTrackerCenterDistance;
 
+  vector<double> distanceSensorDistances;
+
+  Wall getWallFacing(double distanceSensorReading);
+  vex::distance getDistanceSensor(DistanceSensor distanceSensor);
+
+  int cycleCounter = 0;
+
 public:
-  Odometry(Chassis *chassis, double forwardTrackerCenterDistance, double sidewaysTrackerCenterDistance);
+  bool isTracking = false;
+  bool pauseOdom = false;
+
+  Odometry() = default;
+  Odometry(Chassis *chassis,
+           double forwardTrackerCenterDistance,
+           double sidewaysTrackerCenterDistance,
+           double frontDistanceSensorDistance,
+           double rightDistanceSensorDistance,
+           double leftDistanceSensorDistance,
+           double backDistanceSensorDistance,
+           TrackerSetup trackerSetup);
   ~Odometry();
 
   TrackerPositions getTrackersPositions();
@@ -66,9 +108,11 @@ public:
    */
   void stopPositionTrackThread();
 
+  void pausePositionTrackThread();
+  void resumePositionTrackThread();
+
   // Returns the currentPoseVariable
-  Pose<double>
-  getPose();
+  Pose<double> getPose();
 
   /**
    * @brief Does the odometry math to update position
@@ -86,6 +130,12 @@ public:
    * @param theta The new orientation (e.g. what orientation the robot would be starting at for the start of the match)
    */
   void setPosition(double xPosition, double yPosition, double theta);
+
+  void wallReset(DistanceSensor DistanceSensor, Wall wall);
+
+  void getWheelOffsets();
+
+  void getWheelDiameters(int forwardOrSidewaysTracker, double currentWheelDiameter);
 };
 
 extern Odometry odometry;

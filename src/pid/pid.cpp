@@ -1,4 +1,4 @@
-#include "../../include/pid/pid.h"
+#include "pid/pid.h"
 
 double PID::compute(double error)
 {
@@ -11,7 +11,7 @@ double PID::compute(double error)
   if (sgn(error) != sgn(previousError))
     accumulatedError = 0;
 
-  if (error < stopIntegratingLimit)
+  if (error < startIntegratingLimit)
     accumulatedError += error;
   else
     accumulatedError = 0;
@@ -29,7 +29,7 @@ void PID::resetPID()
   error = 0;
   previousError = 0;
   output = 0;
-  stopIntegratingLimit = 0;
+  startIntegratingLimit = 0;
   timeSpentRunning = 0;
   timeSpentSettled = 0;
 }
@@ -37,7 +37,10 @@ void PID::resetPID()
 bool PID::isSettled()
 {
   if (timeSpentRunning > timeout)
+  {
+    cout << "Timed out" << endl;
     return true;
+  }
   if (timeSpentSettled > settleTime)
     return true;
   return false;

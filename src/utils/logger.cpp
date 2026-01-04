@@ -1,4 +1,4 @@
-#include "../../include/utils/logger.h"
+#include "utils/logger.h"
 
 using namespace std;
 
@@ -71,12 +71,12 @@ namespace Logger
   {
     stringstream motionDataString;
     motionDataString << motionTypeEnumToString(motionType)
-                     << elapsedTime
+                     << elapsedTime << ","
                      << turnError;
 
     // If the drive error is a __DBL_MAX__ then it means it's a turn to point or turn to angle which doesn't have drive error
     if (driveError != __DBL_MAX__)
-      motionDataString << driveError;
+      motionDataString << "," << driveError;
     cout << "motionData," << motionDataString.str() << "%" << endl;
   }
 

@@ -1,27 +1,31 @@
-#include "../include/chassis.h"
+#include "chassis.h"
 
 using namespace vex;
 using namespace std;
 
 // TODO: Update the ports for all the sensors
-Chassis::Chassis(int inertialPort,
-                 int forwardTrackerPort,
-                 int sidewaysTrackerPort,
-                 motor_group leftMotorGroup,
-                 motor_group rightMotorGroup,
-                 double inchesToDegreesRatio,
+Chassis::Chassis(double inertialScaling,
+                 TrackerSetup trackerSetup,
+                 double forwardTrackerInchesToDegreesRatio,
+                 double sidewaysTrackerInchesToDegreesRatio,
                  double forwardTrackerDistance,
                  double sidewaysTrackerDistance,
-                 bool enableLogs) : Inertial(inertialPort),
-                                    forwardTracker(forwardTrackerPort),
-                                    sidewaysTracker(sidewaysTrackerPort),
-                                    Left(leftMotorGroup),
-                                    Right(rightMotorGroup),
-                                    inchesToDegreesRatio(inchesToDegreesRatio)
+                 double frontDistanceSensorDistance,
+                 double rightDistanceSensorDistance,
+                 double leftDistanceSensorDistance,
+                 double backDistanceSensorDistance,
+                 bool enableLogs) : inertialScaling(inertialScaling),
+                                    forwardTrackerInchesToDegreesRatio(forwardTrackerInchesToDegreesRatio),
+                                    sidewaysTrackerInchesToDegreesRatio(sidewaysTrackerInchesToDegreesRatio)
 {
-  calibrateInertial();
-  resetEncoders();
-  odometry = new Odometry(this, forwardTrackerDistance, sidewaysTrackerDistance);
+  odometry = new Odometry(this,
+                          forwardTrackerDistance,
+                          sidewaysTrackerDistance,
+                          frontDistanceSensorDistance,
+                          rightDistanceSensorDistance,
+                          leftDistanceSensorDistance,
+                          backDistanceSensorDistance,
+                          trackerSetup);
 }
 
 Chassis::~Chassis()
@@ -29,35 +33,21 @@ Chassis::~Chassis()
   delete odometry;
 }
 
-void Chassis::followPath(vector<Pose<double>> path, PursuitParams params)
-{
-  pursuit = new Pursuit(this, params);
-  pursuit->followPath(path);
-}
+// void Chassis::followPath(vector<Pose<double>> path, PursuitParams params)
+// {
+//   pursuit = new Pursuit(this, params);
+//   pursuit->followPath(path);
+// }
 
 Angle<double> Chassis::getAbsoluteHeading()
 {
-  return Angle<double>((Inertial.heading(deg) * 360) / inertialScaling).constrain0To360();
-}
-
-Pair Chassis::getMotorVelocities(double driveOutput, double turnOutput)
-{
-  double left = driveOutput + turnOutput;
-  double right = driveOutput - turnOutput;
-
-  double sum = (driveOutput + turnOutput) / 12;
-  if (sum > 1)
-  {
-    left /= sum;
-    right /= sum;
-  }
-
-  return Pair(left, right);
+  return Angle<double>(Inertial.rotation(deg) * (360 / inertialScaling)).constrain0To360();
 }
 
 Pair Chassis::getMotorsPosition()
 {
-  return Pair(Left.position(deg) * inchesToDegreesRatio, Right.position(deg) * inchesToDegreesRatio);
+  // TODO: Create a seperate inches to degrees ratio for motor positions
+  return Pair(Left.position(vex::rotationUnits::deg) * 0, Right.position(vex::rotationUnits::deg) * 0);
 }
 
 void Chassis::calibrateInertial()
@@ -65,7 +55,7 @@ void Chassis::calibrateInertial()
   Inertial.calibrate();
   while (Inertial.isCalibrating())
     wait(50, msec);
-  // Controller.rumble("..");
+  Controller.rumble("..");
   cout << "Inertial calibrated" << endl;
 }
 
@@ -73,16 +63,16 @@ void Chassis::resetEncoders()
 {
   Left.resetPosition();
   Right.resetPosition();
-  forwardTracker.resetPosition();
-  sidewaysTracker.resetPosition();
+  ForwardTracker.resetPosition();
+  SidewaysTracker.resetPosition();
 }
 
 double Chassis::getForwardTrackerPosition()
 {
-  return forwardTracker.position(deg) * inchesToDegreesRatio;
+  return ForwardTracker.position(deg) * forwardTrackerInchesToDegreesRatio;
 }
 
 double Chassis::getSidewaysTrackerPosition()
 {
-  return sidewaysTracker.position(deg) * inchesToDegreesRatio;
+  return SidewaysTracker.position(deg) * sidewaysTrackerInchesToDegreesRatio;
 }

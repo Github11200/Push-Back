@@ -1,9 +1,9 @@
 #ifndef PID_H
 #define PID_H
 
-#include "../types/params.h"
-#include "../utils/utils.h"
-#include "../vex.h"
+#include "types/params.h"
+#include "utils/utils.h"
+#include "vex.h"
 
 using namespace vex;
 using namespace std;
@@ -24,7 +24,7 @@ protected:
   double kI = 0;
   double kD = 0;
 
-  double stopIntegratingLimit = 0;
+  double startIntegratingLimit = 0;
 
   double timeout = 0;
   double timeSpentRunning = 0;
@@ -58,7 +58,7 @@ public:
   PID(int updateTime, DriveParams driveParams) : kP(driveParams.driveKp),
                                                  kI(driveParams.driveKi),
                                                  kD(driveParams.driveKd),
-                                                 stopIntegratingLimit(driveParams.driveStopIntegratingLimit),
+                                                 startIntegratingLimit(driveParams.driveStartIntegratingLimit),
                                                  timeout(driveParams.driveTimeout),
                                                  settleError(driveParams.driveSettleError),
                                                  settleTime(driveParams.driveSettleTime),
@@ -67,7 +67,7 @@ public:
   PID(int updateTime, TurnParams turnParams) : kP(turnParams.turnKp),
                                                kI(turnParams.turnKi),
                                                kD(turnParams.turnKd),
-                                               stopIntegratingLimit(turnParams.turnStopIntegratingLimit),
+                                               startIntegratingLimit(turnParams.turnStartIntegratingLimit),
                                                timeout(turnParams.turnTimeout),
                                                settleError(turnParams.turnSettleError),
                                                settleTime(turnParams.turnSettleTime),
