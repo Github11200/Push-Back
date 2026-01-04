@@ -19,13 +19,15 @@ void Autons::solo()
   driveParams.driveSettleError = 3;
   driveParams.driveMaxVoltage = 12;
   chassisReference->driveToPose(Pose<double>(-8.5, 31, 45), driveParams, turnParams30_deg(), {}, 0.6);
-  willyNilly.off();
-  willyNilly.delayToggle(1000);
 
-  // Intake the blocks under the long goal
-  driveParams = driveParams20_in();
-  turnParams = turnParams10_deg();
-  chassisReference->driveToPoint(Pose<double>(-8.5, 41, 0), driveParams, turnParams10_deg(), {});
+  // Not getting the blocks under long goal because, quoting jinay, "our little will... it's too thick"
+  // willyNilly.off();
+  // willyNilly.delayToggle(1000);
+
+  // // Intake the blocks under the long goal
+  // driveParams = driveParams20_in();
+  // turnParams = turnParams10_deg();
+  // chassisReference->driveToPoint(Pose<double>(-8.5, 41, 0), driveParams, turnParams10_deg(), {});
 
   // Curve back to in front of loader
   driveParams = driveParams50_in();
