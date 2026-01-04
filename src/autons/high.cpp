@@ -19,6 +19,14 @@ void Autons::high()
   driveParams.driveMaxVoltage = 12;
   chassisReference->driveToPose(Pose<double>(-19, 31, 45), driveParams, turnParams30_deg(), {}, 0.3);
 
+  // Intake the blocks under the long goal
+  willyNilly.off();
+  willyNilly.delayToggle(1000);
+  driveParams = driveParams20_in();
+  turnParams = turnParams10_deg();
+  chassisReference->turnToPoint(Pose<double>(-8.5, 41, 0), turnParams, {});
+  chassisReference->driveToPoint(Pose<double>(-8.5, 41, 0), driveParams, turnParams10_deg(), {});
+
   // Drive back
   turnParams = turnParams10_deg();
   driveParams = driveParams20_in();
