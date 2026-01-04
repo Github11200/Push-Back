@@ -12,13 +12,12 @@ void Autons::solo()
 
   intake.spinFullIntake(vex::directionType::fwd);
 
-  willyNilly.delayToggle(700);
+  willyNilly.delayToggle(650);
 
   // Drive to the middle blocks
   driveParams = driveParams50_in();
-  driveParams.driveSettleError = 3;
   driveParams.driveMaxVoltage = 12;
-  chassisReference->driveToPose(Pose<double>(-8.5, 31, 45), driveParams, turnParams30_deg(), {}, 0.6);
+  chassisReference->driveToPose(Pose<double>(-19, 31, 45), driveParams, turnParams30_deg(), {}, 0.3);
 
   // Not getting the blocks under long goal because, quoting jinay, "our little will... it's too thick"
   // willyNilly.off();
@@ -31,15 +30,18 @@ void Autons::solo()
 
   // Curve back to in front of loader
   driveParams = driveParams50_in();
-  chassisReference->driveToPose(Pose<double>(-47, 50, 315), driveParams, turnParams135_deg(), {.forwards = false}, 0.6);
+  driveParams.driveSettleError = 5;
+  turnParams = turnParams90_deg();
+
+  chassisReference->driveToPose(Pose<double>(-45, 50, 90), driveParams, turnParams, {.forwards = false}, 0.4);
   intake.stopFullIntake();
 
   // Ram into 1st loader
   turnParams = turnParams135_deg();
-  turnParams.turnTimeout = 700;
+  turnParams.turnTimeout = 800;
   driveParams = driveParams20_in();
   driveParams.driveMaxVoltage = 5;
-  driveParams.driveTimeout = 1500;
+  driveParams.driveTimeout = 1200;
   chassisReference->turnTo(Pose<double>(-68, 49, -360), turnParams, {});
   intake.spinFullIntake(vex::directionType::fwd);
   chassisReference->driveToPoint(Pose<double>(-68, 49, 0), driveParams, turnParams10_deg(), {});
@@ -47,8 +49,8 @@ void Autons::solo()
 
   // Score in 1st long goal
   driveParams = driveParams30_in();
-  driveParams.driveMaxVoltage = 5;
-  driveParams.driveTimeout = 2000;
+  driveParams.driveMaxVoltage = 9;
+  driveParams.driveTimeout = 1000;
   chassisReference->driveToPoint(Pose<double>(-27, 49, 0), driveParams, turnParams10_deg(), {.forwards = false});
   // intake.scoreLongGoal(); Not using this since we only need to score 2 blocks
   // intake.spinFullIntake(vex::directionType::fwd);
@@ -65,38 +67,58 @@ void Autons::solo()
 
   // Drive to middle goal
   driveParams = driveParams50_in();
+  driveParams.driveTimeout = 1800;
   turnParams = turnParams45_deg();
   turnParams.turnTimeout = 700;
   chassisReference->turnTo(Pose<double>(-15, 15, -360), turnParams, {.forwards = false});
   chassisReference->driveToPoint(Pose<double>(-15, 15, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  willyNilly.off();
 
   // Score in middle goal
-  // blocker.on();
-  // intake.spinFullIntake(vex::directionType::fwd);
+  blocker.on();
+  intake.spinFullIntake(vex::directionType::fwd);
   wait(200, msec);
-  // blocker.off();
-  // willyNilly.off();
+  blocker.off();
+  willyNilly.off();
+  driveParams = driveParams5_in();
+  driveParams.driveTimeout = 150;
+  driveParams.driveMinVoltage = 7;
+  chassisReference->driveDistance(5, chassisReference->getAbsoluteHeading().angle, driveParams, turnParams10_deg(), {});
 
   // Curve to other group of middle blocks
   driveParams = driveParams50_in();
-  chassisReference->driveToPose(Pose<double>(-23.5, -20, 155), driveParams, turnParams180_deg(), {}, 0.9);
-  willyNilly.on();
+  driveParams.driveMaxVoltage = 12;
+  driveParams.driveTimeout = 1300;
+  turnParams = turnParams90_deg();
+  turnParams.turnTimeout = 1300;
+
+  willyNilly.delayToggle(1300);
+  chassisReference->driveToPose(Pose<double>(-23.5, -20, 155), driveParams, turnParams, {}, 0.2);
+  willyNilly.off();
 
   // Curve to in front of loader
   driveParams = driveParams30_in();
-  chassisReference->driveToPose(Pose<double>(-47, -47, 270), driveParams, turnParams90_deg(), {}, 0.6);
+  driveParams.driveSettleError = 7;
+  driveParams.driveTimeout = 1300;
+
+  turnParams = turnParams90_deg();
+  turnParams.turnTimeout = 1100;
+  chassisReference->driveToPose(Pose<double>(-47, -42, 270), driveParams, turnParams, {}, 0.2);
 
   // Ram into 2nd loader
   turnParams = turnParams10_deg();
+  turnParams.turnTimeout = 300;
   driveParams = driveParams20_in();
-  driveParams.driveMaxVoltage = 5;
-  chassisReference->turnTo(Pose<double>(-68, -49, -360), turnParams, {});
-  chassisReference->driveToPoint(Pose<double>(-68, -49, 0), driveParams, turnParams10_deg(), {});
+  driveParams.driveTimeout = 1200;
+  chassisReference->turnTo(Pose<double>(-68, -42, -360), turnParams, {});
+  willyNilly.on();
+  chassisReference->driveToPoint(Pose<double>(-68, -42, 0), driveParams, turnParams10_deg(), {});
 
   // Score in 2nd long goal
   driveParams = driveParams30_in();
   driveParams.driveMaxVoltage = 12;
-  chassisReference->driveToPoint(Pose<double>(-27, -49, 0), driveParams, turnParams10_deg(), {.forwards = false});
+
+  chassisReference->driveToPoint(Pose<double>(-27, -45, 0), driveParams, turnParams10_deg(), {.forwards = false});
   intake.spinFullIntake(vex::directionType::fwd);
   sloper.on();
   blocker.on();

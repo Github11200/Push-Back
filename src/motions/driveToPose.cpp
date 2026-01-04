@@ -114,7 +114,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
       driveOutput -= driveOutput > 0 ? overTurnVoltage : -overTurnVoltage;
 
     // Constrain to the minimum voltage
-    driveOutput = clampMin(driveOutput, driveParams.driveMinVoltage);
+    driveOutput = clampMin<double>(driveOutput, driveParams.driveMinVoltage);
     previousDriveOutput = driveOutput;
 
     if (!settings.forwards)
