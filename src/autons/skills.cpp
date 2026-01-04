@@ -19,7 +19,7 @@ void Autons::skills()
   driveParams.driveMaxVoltage = 6;
   driveParams.driveSettleError = 1;
 
-  willyNilly.delayToggle(650);
+  willyNilly.delayToggle(700);
   chassisReference->driveToPose(Pose<double>(-15, 31, 45), driveParams, turnParams30_deg(), {}, 0.6);
 
   // Go back to align to middle goal
