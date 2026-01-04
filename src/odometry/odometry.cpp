@@ -94,6 +94,7 @@ void Odometry::resumePositionTrackThread() { this->pauseOdom = false; }
 
 Pose<double> Odometry::getPose() { return currentPose; }
 
+// TODO: Mutex for currentPose
 void Odometry::updatePosition(bool sendLogs)
 {
   TrackerPositions trackerPosition = getTrackersPositions();
