@@ -88,22 +88,25 @@ void Autons::solo()
   // Curve to other group of middle blocks
   driveParams = driveParams50_in();
   driveParams.driveMaxVoltage = 12;
-  driveParams.driveTimeout = 1300;
+  // driveParams.driveTimeout = 1300;
+  driveParams.driveMinVoltage = 5;
+  driveParams.driveSettleError = 5;
+
   turnParams = turnParams90_deg();
-  turnParams.turnTimeout = 1300;
+  // turnParams.turnTimeout = 1300;
 
   willyNilly.delayToggle(1300);
-  chassisReference->driveToPose(Pose<double>(-23.5, -20, 155), driveParams, turnParams, {}, 0.2);
+  chassisReference->driveToPoint(Pose<double>(-23.5, -20, 0), driveParams, turnParams, {});
   willyNilly.off();
 
   // Curve to in front of loader
   driveParams = driveParams30_in();
-  driveParams.driveSettleError = 7;
-  driveParams.driveTimeout = 1300;
+  driveParams.driveMinVoltage = 3;
+  driveParams.driveSettleError = 5;
+  // driveParams.driveTimeout = 1300;
 
   turnParams = turnParams90_deg();
-  turnParams.turnTimeout = 1100;
-  chassisReference->driveToPose(Pose<double>(-47, -42, 270), driveParams, turnParams, {}, 0.2);
+  chassisReference->driveToPoint(Pose<double>(-47, -42, 270), driveParams, turnParams, {});
 
   // Ram into 2nd loader
   turnParams = turnParams10_deg();
