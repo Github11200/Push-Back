@@ -23,7 +23,7 @@ vex::distance rightDistance = vex::distance(PORT9); // Done
 vex::distance leftDistance = vex::distance(PORT2);  // Done
 
 vex::rotation ForwardTracker = vex::rotation(PORT7);
-vex::rotation SidewaysTracker = vex::rotation(PORT5, true);
+vex::rotation SidewaysTracker = vex::rotation(PORT4);
 
 vex::inertial Inertial = vex::inertial(PORT1);
 
