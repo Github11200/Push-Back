@@ -1,6 +1,8 @@
 #include "autons.h"
 #include "vex.h"
 
+//  -986.31
+
 void Autons::solo()
 {
   DriveParams driveParams;
@@ -30,11 +32,13 @@ void Autons::solo()
 
   // Curve back to in front of loader
   driveParams = driveParams50_in();
-  driveParams.driveSettleError = 3;
-  driveParams.driveMinVoltage = 1;
+  // driveParams.driveSettleError = 3;
+  // driveParams.driveMinVoltage = 1;
   turnParams = turnParams90_deg();
 
   chassisReference->driveToPoint(Pose<double>(-40, 42, 0), driveParams, turnParams, {.forwards = false});
+
+  return;
 
   // Ram into 1st loader
   turnParams = turnParams135_deg();
@@ -53,9 +57,11 @@ void Autons::solo()
   intake.spinFullIntake(vex::directionType::fwd);
   sloper.on();
   blocker.on();
-  wait(400, msec);
+  wait(500, msec);
   sloper.off();
   blocker.off();
+
+  return;
 
   // Back away from long goal
   driveParams = driveParams20_in();
