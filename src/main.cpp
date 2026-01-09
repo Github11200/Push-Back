@@ -120,13 +120,6 @@ void usercontrol(void)
 
   Driver driver;
   driver.startJoysticksThread();
-
-  // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
-  // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
-  // cout << chassis.odometry->getPose().position.y << endl;
-  // wait(1, sec);
-  // chassis.odometry->setPosition(5, 5, 90);
-
   driver.startPistonsThread();
 
   // User control code here, inside the loop
