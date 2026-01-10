@@ -51,8 +51,6 @@ void Autons::skills()
   blocker.on();
   intake.spinFullIntake(vex::directionType::fwd, 8);
   wait(1000, msec);
-  blocker.off();
-  intake.stopFullIntake();
 
   chassisReference->driveToPoint(Pose<double>(-47, 49, 0), driveParams, turnParams10_deg(), {});
 
@@ -63,6 +61,7 @@ void Autons::skills()
   intake.spinFullIntake(vex::directionType::fwd);
   chassisReference->turnTo(Pose<double>(-68, 51, -360), turnParams, {});
   willyNilly.on();
+  blocker.off();
 
   driveParams = driveParams20_in();
   driveParams.driveMaxVoltage = 5;
