@@ -68,8 +68,8 @@ void Autons::high()
   turnParams = turnParams10_deg();
   driveParams = driveParams50_in();
   driveParams.driveTimeout = 1000;
-  chassisReference->turnTo(Pose<double>(-25, 46, -360), turnParams, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-25, 46, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-25, 46.25, -360), turnParams, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-25, 46.25, 0), driveParams, turnParams10_deg(), {.forwards = false});
 
   // Pull this thingy up
   willyNilly.off();
@@ -99,7 +99,7 @@ void Autons::high()
   turnParams = turnParams90_deg();
   turnParams.turnTimeout = 550;
   chassisReference->turnTo(Pose<double>(0, 0, 270), turnParams, {});
-  chassisReference->driveDistance(15, chassisReference->getAbsoluteHeading().angle, driveParams10_in(), turnParams, {.forwards = false});
+  chassisReference->driveDistance(10, chassisReference->getAbsoluteHeading().angle, driveParams10_in(), turnParams, {.forwards = false});
   // chassisReference->driveToPoint(Pose<double>(-10, 38.3, 0), driveParams, turnParams10_deg(), {});
 
   wait(2000, msec);

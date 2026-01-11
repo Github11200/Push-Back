@@ -13,5 +13,5 @@ void Autons::testing()
   chassisReference->odometry->setPosition(-46.5, 16.5, 90);
   chassisReference->odometry->startPositionTrackThread(false);
 
-  chassisReference->driveDistance(5, chassisReference->getAbsoluteHeading().angle, driveParams5_in(), turnParams10_deg(), {});
+  chassisReference->driveDistance(3, chassisReference->getAbsoluteHeading().angle, driveParams5_in(), turnParams10_deg(), {});
 }
