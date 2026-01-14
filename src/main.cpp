@@ -115,8 +115,8 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // if (chassis.odometry->isTracking)
-  //   chassis.odometry->stopPositionTrackThread();
+  if (chassis.odometry->isTracking)
+    chassis.odometry->stopPositionTrackThread();
 
   Driver driver;
   driver.startJoysticksThread();
