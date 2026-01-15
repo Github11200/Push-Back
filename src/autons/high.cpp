@@ -24,7 +24,7 @@ void Autons::high()
   willyNilly.delayToggle(1000);
   driveParams = driveParams20_in();
   turnParams = turnParams10_deg();
-  chassisReference->turnToPoint(Pose<double>(-8.5, 41, 0), turnParams, {});
+  chassisReference->turnTo(Pose<double>(-8.5, 41, 0), turnParams, {});
   chassisReference->driveToPoint(Pose<double>(-8.5, 41, 0), driveParams, turnParams10_deg(), {});
 
   // Drive back

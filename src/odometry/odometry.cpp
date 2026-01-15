@@ -247,7 +247,7 @@ void Odometry::getWheelOffsets()
 // Forward tracker - 0, sideways - 1
 void Odometry::getWheelDiameters(int forwardOrSidewaysTracker, double currentWheelDiameter)
 {
-  int iterations = 5;
+  int iterations = 2;
   double totalDistanceTravelled = 0;
 
   for (int i = 0; i < iterations; ++i)

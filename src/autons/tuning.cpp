@@ -31,10 +31,10 @@ void Autons::tuning()
   | forward and sideways trackers. Get the updated diameters    |
   | and plug those back into the function around 3 times. Once  |
   | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
-  | INSIDE main.cpp otherwise the next stop won't work.         |
+  | INSIDE main.cpp otherwise the next step won't work.         |
   =============================================================*/
-  // chassisReference->odometry->getWheelDiameters(0, 2.73952); // Forward tracker  2.7175
-  // chassisReference->odometry->getWheelDiameters(1, 2.00273); // Sideways tracker
+  // chassisReference->odometry->getWheelDiameters(0, 2.71795); // Forward tracker
+  // chassisReference->odometry->getWheelDiameters(1, 1.98922); // Sideways tracker
 
   /*=============================================================
   |                   Part 2 - Wheel Offsets                    |
@@ -128,18 +128,3 @@ void Autons::tuning()
   // Drive 50 inches forward
   // chassisReference->driveDistance(50, 0, driveParams50_in(), turnParams10_deg(), {});
 }
-
-// 5 Iterations turning the bot 5 times each time
-// Gyro scale - 355.726
-// Gyro scale - 355.879
-// Gyro scale - 355.834
-
-// 5 iterations for the wheel diameter
-// Diameter - 2.71363
-// Diameter - 2.7381
-// Diameter - 2.72831
-
-// 5 iterations for the wheel diameter
-// Diameter - 2.71026
-// Diameter - 2.70587
-// Diameter - 2.7154

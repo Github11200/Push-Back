@@ -34,16 +34,16 @@ Chassis chassis(
     // (((drive_ratio) * PI * wheel_diameter) / 360)
 
     // FORWARDS
-    ((M_PI * 2.74167) / 360.0),
+    ((M_PI * 2.71795) / 360.0),
 
     // SIDEWAYS
-    ((M_PI * 2.00472) / 360.0),
+    ((M_PI * 1.98922) / 360.0),
 
     // Forward tracker distance
-    0.0317272,
+    0.2087566,
 
     // Sideways tracker distance
-    5.03637,
+    5.25967,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -129,6 +129,11 @@ void usercontrol(void)
 
   driver.startPistonsThread();
 
+  wait(4, sec);
+  // autons.runAuton(AutonName::TUNING);
+  chassis.odometry->setPosition(0, 0, 0);
+  chassis.odometry->startPositionTrackThread(false);
+
   // User control code here, inside the loop
   while (1)
   {
@@ -140,6 +145,7 @@ void usercontrol(void)
     // update your motors, etc.
     // ........................................................................
     driver.buttonsLoopCallback();
+    cout << chassis.odometry->getPose().position.x << ", " << chassis.odometry->getPose().position.y << endl;
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
