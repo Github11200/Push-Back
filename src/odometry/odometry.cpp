@@ -147,17 +147,17 @@ void Odometry::updatePosition(bool sendLogs)
   currentPose.position.y += globalTranslation.y;
   currentPose.orientation = absoluteHeading.toDeg();
 
-  // if (!sendLogs && cycleCounter % 50 == 0)
-  // {
-  //   Brain.Screen.clearScreen();
-  //   Brain.Screen.setCursor(0, 0);
-  //   Brain.Screen.newLine();
-  //   Brain.Screen.print("X: %.3f", currentPose.position.x);
-  //   Brain.Screen.newLine();
-  //   Brain.Screen.print("Y: %.3f", currentPose.position.y);
-  //   Brain.Screen.newLine();
-  //   Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
-  // }
+  if (!sendLogs && cycleCounter % 50 == 0)
+  {
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(0, 0);
+    Brain.Screen.newLine();
+    Brain.Screen.print("X: %.3f", currentPose.position.x);
+    Brain.Screen.newLine();
+    Brain.Screen.print("Y: %.3f", currentPose.position.y);
+    Brain.Screen.newLine();
+    Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
+  }
 
   // if (sendLogs && cycleCounter % 50 == 0)
   // {
@@ -165,7 +165,7 @@ void Odometry::updatePosition(bool sendLogs)
   //   if (sendLogs)
   //     Logger::sendPositionData(currentPose);
   // }
-  // ++cycleCounter;
+  ++cycleCounter;
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;
@@ -247,7 +247,7 @@ void Odometry::getWheelOffsets()
 // Forward tracker - 0, sideways - 1
 void Odometry::getWheelDiameters(int forwardOrSidewaysTracker, double currentWheelDiameter)
 {
-  int iterations = 2;
+  int iterations = 5;
   double totalDistanceTravelled = 0;
 
   for (int i = 0; i < iterations; ++i)

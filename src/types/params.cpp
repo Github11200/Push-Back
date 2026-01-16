@@ -8,7 +8,7 @@ DriveParams driveParams5_in()
 {
   DriveParams driveParams;
   driveParams.driveKp = 0.9;
-  driveParams.driveKd = 2.5;
+  driveParams.driveKd = 5.9;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -57,9 +57,9 @@ DriveParams driveParams50_in()
 TurnParams turnParams10_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.5;
-  turnParams.turnKd = 2.5;
-  turnParams.turnKi = 0;
+  turnParams.turnKp = 0.5098;
+  turnParams.turnKd = 2.2;
+  turnParams.turnKi = 0.01;
   turnParams.turnStartIntegratingLimit = 0;
   return turnParams;
 }
@@ -76,7 +76,7 @@ TurnParams turnParams45_deg()
 {
   TurnParams turnParams;
   turnParams.turnKp = 0.35;
-  turnParams.turnKd = 2.28;
+  turnParams.turnKd = 2.3;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
   return turnParams;
@@ -112,7 +112,7 @@ TurnParams turnParams180_deg()
 {
   TurnParams turnParams;
   turnParams.turnKp = 0.175;
-  turnParams.turnKd = 1.48;
+  turnParams.turnKd = 1.36;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
   return turnParams;

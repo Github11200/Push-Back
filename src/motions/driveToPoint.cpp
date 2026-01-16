@@ -43,7 +43,7 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
         driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.7);
         turnParams.turnMaxVoltage = 0;
       }
-      // turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
+      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
     }
 
     double driveError = distanceToTarget;
