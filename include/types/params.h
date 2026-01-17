@@ -87,6 +87,7 @@ DriveParams driveParams10_in();
 DriveParams driveParams20_in();
 DriveParams driveParams30_in();
 DriveParams driveParams50_in();
+DriveParams driveParams100_in();
 
 TurnParams turnParams10_deg();
 TurnParams turnParams30_deg();

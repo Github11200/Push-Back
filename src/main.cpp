@@ -129,7 +129,7 @@ void usercontrol(void)
 
   // driver.startPistonsThread();
 
-  // wait(4, sec);
+  // wait(3, sec);
   // autons.runAuton(AutonName::TUNING);
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.odometry->startPositionTrackThread(false);
