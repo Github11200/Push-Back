@@ -100,7 +100,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::SOLO);
+  autons.runAuton(AutonName::TESTING);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -115,8 +115,8 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  // if (chassis.odometry->isTracking)
-  //   chassis.odometry->stopPositionTrackThread();
+  if (chassis.odometry->isTracking)
+    chassis.odometry->stopPositionTrackThread();
 
   // Driver driver;
   // driver.startJoysticksThread();

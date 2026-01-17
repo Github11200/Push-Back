@@ -48,21 +48,13 @@ void Driver::pistonToggle(Pneumatic &piston, vex::controller::button pistonButto
 void Driver::buttonsLoopCallback()
 {
   if (IntakeButton.pressing() || HighGoalScoreButton.pressing() || MiddleGoalScoreButton.pressing())
-  {
     intake.spinFullIntake(vex::directionType::fwd);
-  }
   else if (MiddleGoalSlowScoreButton.pressing())
-  {
     intake.spinFullIntake(vex::directionType::fwd, 8);
-  }
   else if (OuttakeButton.pressing())
-  {
     intake.spinFullIntake(vex::directionType::rev);
-  }
   else
-  {
     intake.stopFullIntake();
-  }
 
   if (MiddleGoalScoreButton.pressing())
     sloper.on();

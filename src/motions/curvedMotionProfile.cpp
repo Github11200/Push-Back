@@ -3,61 +3,34 @@
 using namespace std;
 using namespace vex;
 
-Pair getVelocities(MotionProfilePose<double> currentPoint, double trackWidth)
+struct TrajectoryParams
 {
-  return Pair(0, 0);
+  CurvedMotionProfile profile;
+  double trackWidth;
+};
+
+double constrainVelocity(TrajectoryParams params, double t)
+{
+  // Velocity due to curvature
+  double radius = 1 / params.profile.curve.getCurvature(t);
+  double velocityDueToCurvature = params.profile.maximumVelocity * (radius / (radius + (params.trackWidth / 2)));
+
+  // Maximum attainable velocity
+  double maximumAttainableVelocity = sqrt() return 0;
 }
 
-vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profile, double trackWidth)
+vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
 {
-  double t = 0;
+  double accumulatedTime = 0;
 
-  CubicBezier curve = profile.curve;
+  CubicBezier curve = params.profile.curve;
   vector<MotionProfilePose<double>> trajectory;
-  MotionProfilePose<double> previousPose(curve.getPosition(0).x, curve.getPosition(0).y, atan2(curve.getFirstDerivative(0).y, curve.getFirstDerivative(0).x), 0, 0, 0);
+  MotionProfilePose<double> previousPose(0, curve.getPosition(0).x, curve.getPosition(0).y, atan2(curve.getFirstDerivative(0).y, curve.getFirstDerivative(0).x), 0, 0, 0);
 
   while (t < 1)
   {
-    Vector2D<double> position = curve.getPosition(t);
-    Vector2D<double> velocity = curve.getFirstDerivative(t);
-    Vector2D<double> acceleration = curve.getSecondDerivative(t);
 
-    double curvature = curve.getCurvature(t);
-    double maxVelocityDueToCurvature = (2 * profile.maximumVelocity) / (2 + trackWidth * fabs(curvature));
-    double maxVelocityDueToPrevious = sqrt(previousPose.velocity * previousPose.velocity + 2 * profile.maximumAcceleration * profile.pointsDisplacement);
-
-    double maxVelocity = min(min(maxVelocityDueToCurvature, maxVelocityDueToPrevious), profile.maximumVelocity);
-
-    MotionProfilePose<double> currentPose(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature, curvature);
-    trajectory.push_back(currentPose);
-    previousPose = currentPose;
-    double dt = profile.pointsDisplacement / hypot(velocity.x, velocity.y);
-
-    t += dt;
-  }
-
-  t = 1;
-  previousPose = MotionProfilePose<double>(curve.getPosition(1).x, curve.getPosition(1).y, 0, 0, 0);
-  int i = trajectory.size() - 1;
-  while (t > 0)
-  {
-    trajectory[i] = trajectory[i].velocity > previousPose.velocity ? previousPose : trajectory[i];
-
-    Vector2D<double> position = curve.getPosition(t);
-    Vector2D<double> velocity = curve.getFirstDerivative(t);
-    Vector2D<double> acceleration = curve.getSecondDerivative(t);
-
-    double curvature = curve.getCurvature(t);
-    double maxVelocityDueToCurvature = (2 * profile.maximumVelocity) / (2 + trackWidth * fabs(curvature));
-    double maxVelocityDueToPrevious = sqrt(previousPose.velocity * previousPose.velocity + 2 * profile.maximumAcceleration * profile.pointsDisplacement);
-
-    double maxVelocity = min(min(maxVelocityDueToCurvature, maxVelocityDueToPrevious), profile.maximumVelocity);
-
-    previousPose = MotionProfilePose<double>(position.x, position.y, atan2(velocity.y, velocity.x), maxVelocity, maxVelocity * curvature, curvature);
-
-    double dt = profile.pointsDisplacement / hypot(velocity.x, velocity.y);
-    t -= dt;
-    --i;
+    accumulatedTime += params.profile.dt;
   }
 
   return trajectory;
@@ -65,5 +38,5 @@ vector<MotionProfilePose<double>> generateTrajectory(CurvedMotionProfile &profil
 
 void Chassis::curvedMotionProfile(CurvedMotionProfile profile)
 {
-  vector<MotionProfilePose<double>> trajectory = generateTrajectory(profile, trackWidth);
+  vector<MotionProfilePose<double>> trajectory = generateTrajectory({.profile = profile, .trackWidth = trackWidth});
 }
