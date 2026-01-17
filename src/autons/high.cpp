@@ -16,9 +16,22 @@ void Autons::high()
 
   // Drive to the middle blocks
   driveParams = driveParams50_in();
-  driveParams.driveSettleError = 3;
-  driveParams.driveTimeout = 700;
-  chassisReference->driveToPose(Pose<double>(-19, 31, 45), driveParams, turnParams30_deg(), {}, 0.4);
+  driveParams.driveMaxVoltage = 12;
+  chassisReference->driveToPose(Pose<double>(-19, 31, 45), driveParams, turnParams30_deg(), {}, 0.3);
+
+  // Intake the blocks under the long goal
+  willyNilly.off();
+  willyNilly.delayToggle(1000);
+  driveParams = driveParams20_in();
+  turnParams = turnParams10_deg();
+  chassisReference->turnTo(Pose<double>(-8.5, 41, 0), turnParams, {});
+  chassisReference->driveToPoint(Pose<double>(-8.5, 41, 0), driveParams, turnParams10_deg(), {});
+
+  // Drive back
+  turnParams = turnParams10_deg();
+  driveParams = driveParams20_in();
+  chassisReference->turnTo(Pose<double>(-23, 23, -360), turnParams, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-23, 23, 0), driveParams, turnParams10_deg(), {.forwards = false});
 
   // Turn to face the center goal location (turn to point (14, -14))
   turnParams = turnParams90_deg();

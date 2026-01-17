@@ -38,7 +38,10 @@ void Driver::pistonToggle(Pneumatic &piston, vex::controller::button pistonButto
   if (pistonButton.pressing())
   {
     piston.toggle();
-    wait(400, msec);
+    while (pistonButton.pressing())
+    {
+      wait(50, msec);
+    }
   }
 }
 
@@ -53,12 +56,12 @@ void Driver::buttonsLoopCallback()
   else
     intake.stopFullIntake();
 
-  if (HighGoalScoreButton.pressing())
+  if (MiddleGoalScoreButton.pressing())
     sloper.on();
   else
     sloper.off();
 
-  if (MiddleGoalScoreButton.pressing() || MiddleGoalSlowScoreButton.pressing() || HighGoalScoreButton.pressing())
+  if (HighGoalScoreButton.pressing())
     blocker.on();
   else
     blocker.off();

@@ -25,7 +25,7 @@ competition Competition;
 // define your global instances of motors and other devices here
 Chassis chassis(
     // Inertial scaling
-    355.813,
+    356.324,
 
     // Odometry tracker setup
     TrackerSetup::TWO_TRACKER,
@@ -34,16 +34,16 @@ Chassis chassis(
     // (((drive_ratio) * PI * wheel_diameter) / 360)
 
     // FORWARDS
-    ((M_PI * 2.74167) / 360.0),
+    ((M_PI * 2.72292) / 360.0),
 
     // SIDEWAYS
-    ((M_PI * 2.00472) / 360.0),
+    ((M_PI * 1.98839) / 360.0),
 
     // Forward tracker distance
-    0.0317272,
+    0.06621476,
 
     // Sideways tracker distance
-    5.03637,
+    5.28142,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -77,7 +77,7 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   // Testing::runAllTests();
-  autons.prepareAuton();
+  // autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -118,9 +118,24 @@ void usercontrol(void)
   if (chassis.odometry->isTracking)
     chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
+  // Driver driver;
+  // driver.startJoysticksThread();
+
+  // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
+  // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
+  // cout << chassis.odometry->getPose().position.y << endl;
+  // wait(1, sec);
+  // chassis.odometry->setPosition(5, 5, 90);
+
+  // driver.startPistonsThread();
+
+  // wait(3, sec);
+  // autons.runAuton(AutonName::TUNING);
+  // chassis.odometry->setPosition(0, 0, 0);
+  // chassis.odometry->startPositionTrackThread(false);
+
+  autons.prepareAuton();
+  autons.runAuton(AutonName::TUNING);
 
   // User control code here, inside the loop
   while (1)
@@ -132,7 +147,8 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
+    // cout << chassis.odometry->getPose().position.x << ", " << chassis.odometry->getPose().position.y << endl;
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

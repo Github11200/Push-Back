@@ -43,7 +43,7 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
         driveParams.driveMaxVoltage = max(fabs(previousDriveOutput), 4.7);
         turnParams.turnMaxVoltage = 0;
       }
-      // turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
+      turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
     }
 
     double driveError = distanceToTarget;
@@ -104,7 +104,7 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
       driveOutput = slew(previousDriveOutput, driveOutput, driveParams.driveSlew);
 
     if ((int)elapsedTime % 60 == 0 && settings.sendPositionData)
-      Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, currentPose.orientation.constrainNegative180To180().angle, currentPose.position.y);
+      Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, 0, currentPose.position.y);
 
     previousDriveOutput = driveOutput;
 

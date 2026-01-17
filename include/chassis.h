@@ -27,6 +27,7 @@ public:
   Odometry *odometry;
   // Pursuit *pursuit;
 
+  // TODO: Struct for properties
   Chassis(double inertialScaling,
           TrackerSetup trackerSetup,
           double forwardTrackerInchesToDegreesRatio,

@@ -5,22 +5,24 @@
 using namespace vex;
 using namespace std;
 
-// 2.7330
-// 2.78542
+// Forward tracker
+// 2.72578
+// 2.71704
+// 2.72594
 
-// 2.74552
-// 2.73952
-// 2.73999
+// Sideways tracker
+// 1.98756
+// 1.98922
 
-///// Sideways
-// 5.09216
-// 5.01728
-// 4.99967
+// Forward tracker offset
+// 0.00139928
+// 0.012238
+// 0.185007
 
-///// Forwards
-// 0.0071588
-// 0.0335398
-// 0.0544831
+// Sideways tracker offset
+// -5.2823
+// -5.28078
+// -5.28118
 
 void Autons::tuning()
 {
@@ -31,10 +33,10 @@ void Autons::tuning()
   | forward and sideways trackers. Get the updated diameters    |
   | and plug those back into the function around 3 times. Once  |
   | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
-  | INSIDE main.cpp otherwise the next stop won't work.         |
+  | INSIDE main.cpp otherwise the next step won't work.         |
   =============================================================*/
-  // chassisReference->odometry->getWheelDiameters(0, 2.73952); // Forward tracker  2.7175
-  // chassisReference->odometry->getWheelDiameters(1, 2.00273); // Sideways tracker
+  // chassisReference->odometry->getWheelDiameters(0, 2.72292); // Forward tracker
+  // chassisReference->odometry->getWheelDiameters(1, 1.98839); // Sideways tracker
 
   /*=============================================================
   |                   Part 2 - Wheel Offsets                    |
@@ -44,7 +46,7 @@ void Autons::tuning()
   | the wheel diameters from before so make sure thoser are     |
   | accurate and tuned well.                                    |
   =============================================================*/
-  chassisReference->odometry->getWheelOffsets();
+  // chassisReference->odometry->getWheelOffsets();
 
   /*=============================================================
   |                    Part 3 - Gyro Scaling                    |
@@ -71,7 +73,7 @@ void Autons::tuning()
   | around, curving it, etc. Use the joysticks for this. Use    |
   | the visualizer to see where the bot thinks it is.           |
   =============================================================*/
-  // chassisReference->odometry->startPositionTrackThread(true);
+  chassisReference->odometry->startPositionTrackThread(false);
 
   /*=============================================================
   |                   Part 5 - Tune the PIDs                     |
@@ -87,25 +89,25 @@ void Autons::tuning()
   // -----------------------------
 
   // Turn 10 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 10), turnParams10_deg(), {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 10), turnParams10_deg(), {.sendPositionData = true});
 
   // Turn 30 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 30), turnParams30_deg(), {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 30), turnParams30_deg(), {.sendPositionData = true});
 
   // Turn 45 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 45), turnParams45_deg(), {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 45), turnParams45_deg(), {.sendPositionData = true});
 
   // Turn 60 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 60), turnParams60_deg(), {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 60), turnParams60_deg(), {.sendPositionData = true});
 
   // Turn 90 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 90), turnParams90_deg(), {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 90), turnParams90_deg(), {.sendPositionData = true});
 
   // Turn 135 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 135), turnParams135_deg(), {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 135), turnParams135_deg(), {.sendPositionData = true});
 
   // Turn 180 degrees
-  // chassisReference->turnTo(Pose<double>(0, 0, 180), turnParams180_deg(), {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 180), turnParams180_deg(), {.sendPositionData = true});
 
   // -----------------------------
   // Drive distance tuning (small -> large)
@@ -113,33 +115,21 @@ void Autons::tuning()
   // -----------------------------
 
   // Drive 5 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 5, 0), driveParams5_in(), turnParams10_deg(), {});
+  // chassisReference->driveToPoint(Pose<double>(0, 5, 0), driveParams5_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 10 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 10, 0), driveParams10_in(), turnParams10_deg(), {});
+  // chassisReference->driveToPoint(Pose<double>(0, 10, 0), driveParams10_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 20 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 20, 0), driveParams20_in(), turnParams10_deg(), {});
-  // chassisReference->driveDistance(20, 0, driveParams20_in(), turnParams10_deg(), {});
+  // chassisReference->driveToPoint(Pose<double>(0, 20, 0), driveParams20_in(), turnParams10_deg(), {.sendPositionData = true});
+  // chassisReference->driveDistance(20, 0, driveParams20_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 30 inches forward
-  // chassisReference->driveDistance(30, 0, driveParams30_in(), turnParams10_deg(), {});
+  // chassisReference->driveToPoint(Pose<double>(0, 30, 0), driveParams30_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 50 inches forward
-  // chassisReference->driveDistance(50, 0, driveParams50_in(), turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams10_deg(), {.sendPositionData = true});
+
+  // Drive 100 inches forward
+  // chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
 }
-
-// 5 Iterations turning the bot 5 times each time
-// Gyro scale - 355.726
-// Gyro scale - 355.879
-// Gyro scale - 355.834
-
-// 5 iterations for the wheel diameter
-// Diameter - 2.71363
-// Diameter - 2.7381
-// Diameter - 2.72831
-
-// 5 iterations for the wheel diameter
-// Diameter - 2.71026
-// Diameter - 2.70587
-// Diameter - 2.7154
