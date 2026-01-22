@@ -25,12 +25,14 @@ void Intake::scoreLongGoal()
 
 void Intake::spinFullIntake(vex::directionType direction, double speed)
 {
-  IntakeLeft.spin(direction, speed, vex::voltageUnits::volt);
-  IntakeRight.spin(direction, speed, vex::voltageUnits::volt);
+  IntakeFront.spin(direction, speed, vex::voltageUnits::volt);
+  IntakeMiddle.spin(direction, speed, vex::voltageUnits::volt);
+  IntakeRear.spin(direction, speed, vex::voltageUnits::volt);
 }
 
 void Intake::stopFullIntake()
 {
-  IntakeLeft.stop(vex::brakeType::coast);
-  IntakeRight.stop(vex::brakeType::coast);
+  IntakeFront.stop(vex::brakeType::coast);
+  IntakeMiddle.stop(vex::brakeType::coast);
+  IntakeRear.stop(vex::brakeType::coast);
 }

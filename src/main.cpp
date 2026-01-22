@@ -118,8 +118,8 @@ void usercontrol(void)
   if (chassis.odometry->isTracking)
     chassis.odometry->stopPositionTrackThread();
 
-  // Driver driver;
-  // driver.startJoysticksThread();
+  Driver driver;
+  driver.startJoysticksThread();
 
   // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);
@@ -127,15 +127,15 @@ void usercontrol(void)
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
 
-  // driver.startPistonsThread();
+  driver.startPistonsThread();
 
   // wait(3, sec);
   // autons.runAuton(AutonName::TUNING);
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.odometry->startPositionTrackThread(false);
 
-  autons.prepareAuton();
-  autons.runAuton(AutonName::TUNING);
+  // autons.prepareAuton();
+  // autons.runAuton(AutonName::TUNING);
 
   // User control code here, inside the loop
   while (1)
@@ -147,7 +147,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
     // cout << chassis.odometry->getPose().position.x << ", " << chassis.odometry->getPose().position.y << endl;
 
     wait(20, msec); // Sleep the task for a short amount of time to
