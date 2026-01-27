@@ -48,5 +48,7 @@
 	"editor.fontLigatures": true,
 	"editor.fontFamily": "JetBrains Mono",
 	"editor.formatOnSave": true,
-	"editor.defaultFormatter": null
+	"editor.defaultFormatter": null,
+	"vexrobotics.vexcode.WebsocketServer.Enable": "Enable",
+	"vexrobotics.vexcode.WebsocketServer.HostAddress": "0.0.0.0"
 }

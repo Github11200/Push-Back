@@ -66,7 +66,7 @@ DriveParams driveParams100_in()
 TurnParams turnParams10_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.5098;
+  turnParams.turnKp = 0.51;
   turnParams.turnKd = 2.2;
   turnParams.turnKi = 0.01;
   turnParams.turnStartIntegratingLimit = 0;

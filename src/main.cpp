@@ -40,10 +40,10 @@ Chassis chassis(
     ((M_PI * 1.98839) / 360.0),
 
     // Forward tracker distance
-    0.06621476,
+    0.126971,
 
     // Sideways tracker distance
-    5.28142,
+    5.38079,
 
     // Front distance sensor distance
     (8.3175 - 5.4),
@@ -115,8 +115,8 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  if (chassis.odometry->isTracking)
-    chassis.odometry->stopPositionTrackThread();
+  // if (chassis.odometry->isTracking)
+  //   chassis.odometry->stopPositionTrackThread();
 
   Driver driver;
   driver.startJoysticksThread();
@@ -127,10 +127,11 @@ void usercontrol(void)
   // wait(1, sec);
   // chassis.odometry->setPosition(5, 5, 90);
 
-  driver.startPistonsThread();
+  // driver.startPistonsThread();
 
   // wait(3, sec);
-  // autons.runAuton(AutonName::TUNING);
+  autons.prepareAuton();
+  autons.runAuton(AutonName::TUNING);
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.odometry->startPositionTrackThread(false);
 
@@ -147,7 +148,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
     // cout << chassis.odometry->getPose().position.x << ", " << chassis.odometry->getPose().position.y << endl;
 
     wait(20, msec); // Sleep the task for a short amount of time to
