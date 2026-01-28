@@ -50,5 +50,6 @@
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": null,
 	"vexrobotics.vexcode.WebsocketServer.Enable": "Enable",
+	"vexrobotics.vexcode.WebsocketServer.HostAddress": "0.0.0.0"
 	"makefile.configureOnOpen": true
 }

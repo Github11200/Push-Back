@@ -15,8 +15,9 @@ motor MiddleLeft = motor(PORT13, ratio6_1, false);
 motor BackRight = motor(PORT17, ratio6_1, false);
 motor BackLeft = motor(PORT15, ratio6_1, true);
 
-motor IntakeLeft = motor(PORT1, ratio6_1, false);
-motor IntakeRight = motor(PORT8, ratio6_1, true);
+motor IntakeFront = motor(PORT1, ratio6_1, false);
+motor IntakeMiddle = motor(PORT8, ratio6_1, false);
+motor IntakeRear = motor(PORT14, ratio6_1, true);
 
 vex::distance frontDistance = vex::distance(PORT1);
 vex::distance rightDistance = vex::distance(PORT9);
