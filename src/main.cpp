@@ -25,7 +25,7 @@ competition Competition;
 // define your global instances of motors and other devices here
 Chassis chassis(
     // Inertial scaling
-    356.324,
+    356.418,
 
     // Odometry tracker setup
     TrackerSetup::TWO_TRACKER,

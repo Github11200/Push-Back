@@ -7,7 +7,7 @@
 DriveParams driveParams5_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.9;
+  driveParams.driveKp = 0.928;
   driveParams.driveKd = 5.9;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
@@ -16,8 +16,8 @@ DriveParams driveParams5_in()
 DriveParams driveParams10_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.77;
-  driveParams.driveKd = 5.3;
+  driveParams.driveKp = 0.87;
+  driveParams.driveKd = 4.1;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -25,8 +25,8 @@ DriveParams driveParams10_in()
 DriveParams driveParams20_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.77;
-  driveParams.driveKd = 5.9;
+  driveParams.driveKp = 0.592;
+  driveParams.driveKd = 2;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -66,7 +66,7 @@ DriveParams driveParams100_in()
 TurnParams turnParams10_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.51;
+  turnParams.turnKp = 0.5185;
   turnParams.turnKd = 2.2;
   turnParams.turnKi = 0.01;
   turnParams.turnStartIntegratingLimit = 0;
@@ -75,7 +75,7 @@ TurnParams turnParams10_deg()
 TurnParams turnParams30_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.35;
+  turnParams.turnKp = 0.33;
   turnParams.turnKd = 2.075;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
@@ -84,7 +84,7 @@ TurnParams turnParams30_deg()
 TurnParams turnParams45_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.35;
+  turnParams.turnKp = 0.33;
   turnParams.turnKd = 2.3;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
@@ -102,7 +102,7 @@ TurnParams turnParams60_deg()
 TurnParams turnParams90_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.25;
+  turnParams.turnKp = 0.27;
   turnParams.turnKd = 1.9;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
@@ -111,7 +111,7 @@ TurnParams turnParams90_deg()
 TurnParams turnParams135_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.2;
+  turnParams.turnKp = 0.192;
   turnParams.turnKd = 1.45;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
