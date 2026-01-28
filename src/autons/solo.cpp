@@ -65,8 +65,8 @@ void Autons::solo()
   // Turn toward loader entrance point with a curve
   driveParams = driveParams30_in();
   turnParams = turnParams45_deg();
-  willyNilly.on()
-      chassisReference->driveToPose(Pose<double>(-47, 47, 270), driveParams, turnParams, {}, 0.2);
+  willyNilly.on();
+  chassisReference->driveToPose(Pose<double>(-47, 47, 270), driveParams, turnParams, {}, 0.2);
 
   // Ram into 2nd loader
   turnParams = turnParams10_deg();
