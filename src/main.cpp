@@ -25,7 +25,7 @@ competition Competition;
 // define your global instances of motors and other devices here
 Chassis chassis(
     // Inertial scaling
-    356.324,
+    356.418,
 
     // Odometry tracker setup
     TrackerSetup::TWO_TRACKER,
@@ -118,8 +118,8 @@ void usercontrol(void)
   if (chassis.odometry->isTracking)
     chassis.odometry->stopPositionTrackThread();
 
-  // Driver driver;
-  // driver.startJoysticksThread();
+  Driver driver;
+  driver.startJoysticksThread();
 
   // chassis.trapezoidalMotionProfile(10, {}, driveParams10_in(), turnParams10_deg(), {});
   // chassis.driveToPose(Pose<double>(20, 20, 0), {.driveMaxVoltage = 5}, {}, {}, 0.5, 0, 0);

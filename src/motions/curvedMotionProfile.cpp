@@ -16,7 +16,8 @@ double constrainVelocity(TrajectoryParams params, double t)
   double velocityDueToCurvature = params.profile.maximumVelocity * (radius / (radius + (params.trackWidth / 2)));
 
   // Maximum attainable velocity
-  double maximumAttainableVelocity = sqrt() return 0;
+  double maximumAttainableVelocity = sqrt(0);
+  return 0;
 }
 
 vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
@@ -27,6 +28,7 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
   vector<MotionProfilePose<double>> trajectory;
   MotionProfilePose<double> previousPose(0, curve.getPosition(0).x, curve.getPosition(0).y, atan2(curve.getFirstDerivative(0).y, curve.getFirstDerivative(0).x), 0, 0, 0);
 
+  double t = 0;
   while (t < 1)
   {
 

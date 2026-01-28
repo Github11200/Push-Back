@@ -46,7 +46,7 @@ double CubicBezier::getArcLength()
   for (int i = 0; i < n; ++i)
   {
     double tau = ((b - a) * nodes[i]) / 2 + ((a + b) / 2);
-    length += weights[i] * getSecondDerivative(tau);
+    // length += weights[i] * getSecondDerivative(tau);
   }
   return length * (t / 2);
 }
