@@ -121,8 +121,7 @@ void Autons::tuning()
   // chassisReference->driveToPoint(Pose<double>(0, 10, 0), driveParams10_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 20 inches forward
-  chassisReference->driveToPoint(Pose<double>(0, 20, 0), driveParams20_in(), turnParams10_deg(), {.sendPositionData = true});
-  // chassisReference->driveDistance(20, 0, driveParams20_in(), turnParams10_deg(), {.sendPositionData = true});
+  // chassisReference->driveToPoint(Pose<double>(0, 20, 0), driveParams20_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 30 inches forward
   // chassisReference->driveToPoint(Pose<double>(0, 30, 0), driveParams30_in(), turnParams10_deg(), {.sendPositionData = true});
@@ -131,5 +130,5 @@ void Autons::tuning()
   // chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 100 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
+  chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
 }

@@ -32,7 +32,7 @@ struct DriveParams
 {
   double driveMinVoltage = 0;
   double driveMaxVoltage = 12;
-  double driveSettleError = 0.001;
+  double driveSettleError = 0.5;
   double driveSettleTime = 500;
   double driveTimeout = 4000;
   double driveKp = 1;

@@ -1,6 +1,7 @@
 #include "autons.h"
 #include "subsystems/intake.h"
 #include "vex.h"
+#include "types/params.h"
 
 void Autons::low()
 {

@@ -35,7 +35,7 @@ DriveParams driveParams30_in()
 {
   DriveParams driveParams;
   driveParams.driveKp = 0.51;
-  driveParams.driveKd = 4;
+  driveParams.driveKd = 2;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -43,8 +43,8 @@ DriveParams driveParams30_in()
 DriveParams driveParams50_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.47;
-  driveParams.driveKd = 4;
+  driveParams.driveKp = 0.456;
+  driveParams.driveKd = 2;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -53,7 +53,7 @@ DriveParams driveParams100_in()
 {
   DriveParams driveParams;
   driveParams.driveKp = 0.4;
-  driveParams.driveKd = 3;
+  driveParams.driveKd = 2;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
