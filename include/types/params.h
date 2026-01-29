@@ -79,7 +79,7 @@ struct MotionProfile
 struct CurvedMotionProfile : MotionProfile
 {
   CubicBezier curve;
-  double dt;
+  double distanceBetweenPoints;
 };
 
 DriveParams driveParams5_in();

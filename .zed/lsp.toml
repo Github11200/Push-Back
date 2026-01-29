@@ -1,0 +1,29 @@
+[language_servers."clangd".args]
+1 = "--compile-commands-dir=build"  # Assumes CMake build dir; adjust if using make
+2 = "--header-insertion=iwyu"       # Optional: Include-what-you-use mode
+3 = "--clang-tidy"                  # Optional: Enable linting
+
+[[language_servers."clangd".compilation_database_paths]]
+1 = "build"                         # Path to compile_commands.json from VEX build
+
+[language_servers."clangd".language_ids]
+C = "c"
+Cpp = "cpp"
+
+# Override includes per config (maps to your original Win32/Mac/Linux setups)
+[language_servers."clangd".extra_args]
+"c" = ["-xc"]
+"cpp" = ["-std=gnu++11"]
+"*" = [
+    # Inline vex_sdkIncludes (replace ${...} with actual paths)
+    "-I~/AppData/Roaming/Code/User/globalStorage/vexrobotics.vexcode/tools/cpp/toolchain_win32/clang/8.0.0/include",  # vex_sdkPath/clang/8.0.0/include/**
+    "-I~/AppData/Roaming/Code/User/globalStorage/vexrobotics.vexcode/tools/cpp/sdk/V5/V5_20240802_15_00_00/vexv5/gcc/include/c++/4.9.3/**",  # vex_gcc/**
+    "-I~/AppData/Roaming/Code/User/globalStorage/vexrobotics.vexcode/tools/cpp/sdk/V5/V5_20240802_15_00_00/vexv5/gcc/include/c++/4.9.3/arm-none-eabi/thumb/**",
+    "-I~/AppData/Roaming/Code/User/globalStorage/vexrobotics.vexcode/tools/cpp/sdk/V5/V5_20240802_15_00_00/vexv5/gcc/include",
+    "-I~/AppData/Roaming/Code/User/globalStorage/vexrobotics.vexcode/tools/cpp/sdk/V5/V5_20240802_15_00_00/vexv5/include/**",
+    "-I./include/**",
+    "-I./src/**",
+    # Compiler (for IntelliSense parsing)
+    "-target=arm-none-eabi",
+    "--sysroot=/path/to/vex-sdk/sysroot"  # Optional, if SDK provides one
+]

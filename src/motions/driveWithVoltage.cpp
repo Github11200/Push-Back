@@ -15,9 +15,6 @@ void Chassis::driveWithVoltage(double power, double timeout, double heading, Tur
     turnOutput = clamp<double>(turnOutput, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
     turnOutput = clampMin<double>(turnOutput, turnParams.turnMinVoltage);
 
-    // if ((int)elapsedTime % 60 == 0)
-    //   Logger::sendMotionData(Logger::MotionType::DRIVE_TO_POINT, elapsedTime, odometry->getPose().orientation.constrainNegative180To180().angle, position);
-
     Pair motorOutputs = getMotorVelocities(power, turnOutput);
     Left.spin(fwd, motorOutputs.left, volt);
     Right.spin(fwd, motorOutputs.right, volt);
