@@ -55,6 +55,8 @@ void Autons::solo()
   wait(200, msec);
 
   // Score in low goal
+  turnParams = turnParams10_deg();
+  driveParams = driveParams5_in();
   chassisReference->turnTo(Pose<double>(-10.8, -10.8, -360), turnParams, {});
   chassisReference->driveToPoint(Pose<double>(-10.8, -10.8, 0), driveParams, turnParams10_deg(), {});
   intake.spinFullIntake(vex::directionType::rev, 7);
