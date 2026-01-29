@@ -63,8 +63,8 @@ void Autons::solo()
   wait(800, msec);
 
   // Back up from low goal
-  driveParams = driveParams10_in();
-  turnParams = turnParams180_deg();
+  driveParams = driveParams20_in();
+  turnParams = turnParams10_deg();
   intake.spinFullIntake(vex::directionType::fwd, 12);
   chassisReference->turnTo(Pose<double>(-23, -23, -360), turnParams, {.forwards = false});
   chassisReference->driveToPose(Pose<double>(-23, -23, 0), driveParams, turnParams10_deg(), {.forwards = false});
