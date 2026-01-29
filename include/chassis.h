@@ -42,6 +42,7 @@ public:
   ~Chassis();
 
   void driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings);
+  void driveWithVoltage(double power, double timeout, double heading, TurnParams turnParams, Settings settings);
   void driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead = 0, double setback = 0, double driveCompensation = 0);
   void turnTo(const Pose<double> &target, TurnParams params, Settings settings);

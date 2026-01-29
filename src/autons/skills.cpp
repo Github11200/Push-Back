@@ -9,35 +9,49 @@ void Autons::skills()
   TurnParams turnParams;
 
   // Set starting coordinates
-  chassisReference->odometry->setPosition(-46.5, 16.5, 90);
+  chassisReference->odometry->setPosition(-63, -16, 0);
   chassisReference->odometry->startPositionTrackThread(false);
 
-  // Intake the middle 4 blocks
+  // Start up the intake
   intake.spinFullIntake(vex::directionType::fwd);
-  blocker.off();
+  sloper.on();
 
-  driveParams = driveParams20_in();
-  driveParams.driveSettleError = 1;
+  // Drive through park zone
+  chassisReference->driveWithVoltage(12, 2000, 0, turnParams10_deg(), {});
 
-  willyNilly.delayToggle(700);
-  chassisReference->driveToPose(Pose<double>(-15, 31, 45), driveParams, turnParams30_deg(), {}, 0.6);
+  // Drive back against park zone and distance reset y-position
+  chassisReference->driveWithVoltage(-5, 1000, 0, turnParams10_deg(), {});
+  chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, 16, chassisReference->odometry->getPose().orientation.angle);
 
-  // Go back to align to middle goal
+  // Go forwards a bit
   driveParams = driveParams5_in();
-  driveParams.driveTimeout = 500;
+  chassisReference->driveToPoint(Pose<double>(-63, 23, 0), driveParams, turnParams10_deg(), {});
 
-  chassisReference->driveToPoint(Pose<double>(-20.293, 24.674, 0), driveParams, turnParams10_deg(), {.forwards = false});
-  intake.stopFullIntake();
-
-  // Go up to middle goal
-  driveParams = driveParams10_in();
-  driveParams.driveMaxVoltage = 5;
-  driveParams.driveTimeout = 1000;
-
+  // Distance reset x-position against the wall
   turnParams = turnParams90_deg();
-  turnParams.turnTimeout = 1000;
-  chassisReference->turnTo(Pose<double>(-13.3, 15.287, -360), turnParams, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-13.3, 15.287, -360), driveParams, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-23, 23, -360), turnParams, {});
+  chassisReference->driveWithVoltage(-5, 700, 0, turnParams10_deg(), {});
+  chassisReference->odometry->setPosition(-62, chassisReference->odometry->getPose().position.y, chassisReference->odometry->getPose().orientation.angle);
+
+  // Eat center blocks
+  turnParams = turnParams10_deg();
+  driveParams = driveParams30_in();
+  chassisReference->turnTo(Pose<double>(-23, 23, -360), turnParams, {});
+  chassisReference->driveToPoint(Pose<double>(-23, 23, 0), driveParams, turnParams10_deg(), {});
+
+  // Align to middle goal
+  turnParams = turnParams135_deg();
+  driveParams = driveParams10_in();
+  chassisReference->turnTo(Pose<double>(-13, 13, -360), turnParams, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-13, 13, 0), driveParams, turnParams10_deg(), {.forwards = false});
+
+  // Score in middle goal
+  sloper.off();
+  intake.spinFullIntake(vex::directionType::fwd, 5);
+  wait(1500, msec);
+  sloper.on();
+
+  return;
 
   // Drive to 1st dispenser
   turnParams = turnParams10_deg();
