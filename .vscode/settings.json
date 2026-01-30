@@ -51,5 +51,6 @@
 	"editor.defaultFormatter": null,
 	"vexrobotics.vexcode.WebsocketServer.Enable": "Enable",
 	"vexrobotics.vexcode.WebsocketServer.HostAddress": "0.0.0.0",
-	"editor.tabSize": 2
+	"editor.tabSize": 2,
+	"editor.fontSize": 15
 }

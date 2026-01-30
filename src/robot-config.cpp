@@ -40,6 +40,7 @@ vex::controller::button FingerButton = Controller.ButtonR1;
 vex::controller::button HighGoalScoreButton = Controller.ButtonR2;
 vex::controller::button MiddleGoalScoreButton = Controller.ButtonL2;
 vex::controller::button MiddleGoalSlowScoreButton = Controller.ButtonY;
+vex::controller::button HoodToggleButton = Controller.ButtonX;
 
 bool stopPlease = false;
 

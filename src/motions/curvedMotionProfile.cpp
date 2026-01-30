@@ -33,6 +33,10 @@ double constrainVelocity(TrajectoryParams params, double t)
   return min(params.profile.maximumVelocity, min(velocityDueToCurvature, maximumAttainableVelocity));
 }
 
+void pass(vector<MotionProfilePose<double>> &trajectory)
+{
+}
+
 vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
 {
   double accumulatedDistance = 0;
@@ -64,7 +68,7 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
                                                    curvature));
   }
 
-    return trajectory;
+  return trajectory;
 }
 
 void Chassis::curvedMotionProfile(CurvedMotionProfile profile)
