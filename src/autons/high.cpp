@@ -52,6 +52,7 @@ void Autons::high()
   intake.spinFullIntake(vex::directionType::fwd, 8);
   wait(700, msec);
   sloper.on();
+  intake.stopFullIntake();
 
   // Drive in front of the loader
   driveParams = driveParams30_in();
@@ -63,6 +64,7 @@ void Autons::high()
   turnParams.turnTimeout = 700;
   driveParams = driveParams20_in();
   chassisReference->turnTo(Pose<double>(-68, 47, -360), turnParams, {});
+  intake.spinFullIntake(vex::directionType::fwd, 12);
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 500, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
   chassisReference->driveWithVoltage(5, 300, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
@@ -83,10 +85,11 @@ void Autons::high()
   blocker.on();
   wait(900, msec);
   blocker.off();
+  intake.stopFullIntake();
 
   // Back away from goal
   driveParams = driveParams10_in();
-  driveParams.driveTimeout = 300;
+  driveParams.driveTimeout = 600;
   chassisReference->driveDistance(10, 90, driveParams, turnParams10_deg(), {});
   // chassisReference->driveToPoint(Pose<double>(-37, 47, 0), driveParams, turnParams10_deg(), {});
 

@@ -19,7 +19,6 @@ void Intake::scoreLongGoal()
   sloper.on();
   blocker.on();
   wait(2500, msec);
-  sloper.off();
   blocker.off();
 }
 
