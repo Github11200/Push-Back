@@ -12,6 +12,7 @@ void Autons::high()
   chassisReference->odometry->startPositionTrackThread(false);
 
   intake.spinFullIntake(vex::directionType::fwd);
+  sloper.on();
 
   willyNilly.delayToggle(500);
 
@@ -46,9 +47,10 @@ void Autons::high()
   // turnParams.turnTimeout = 400;
   // chassisReference->turnTo(Pose<double>(-46.67, 47, -360), turnParams, {});
 
-  blocker.on();
+  sloper.off();
   intake.spinFullIntake(vex::directionType::fwd, 8);
   wait(700, msec);
+  sloper.on();
 
   // Drive in front of the loader
   driveParams = driveParams50_in();
@@ -61,22 +63,19 @@ void Autons::high()
   turnParams = turnParams45_deg();
   turnParams.turnTimeout = 800;
   chassisReference->turnTo(Pose<double>(-70, 45.75, -360), turnParams, {});
-  blocker.off();
 
   // Slap down the willy nilly
   willyNilly.on();
 
   // Ram into loader
-  intake.spinFullIntake(vex::directionType::fwd);
-  driveParams = driveParams50_in();
-  driveParams.driveTimeout = 600;
-  driveParams.driveMaxVoltage = 6;
-  chassisReference->driveToPoint(Pose<double>(-90, 45.75, 0), driveParams, turnParams10_deg(), {});
-  Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
-  Right.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
-  wait(500, msec);
-  Left.stop(vex::brakeType::coast);
-  Right.stop(vex::brakeType::coast);
+  turnParams = turnParams90_deg();
+  turnParams.turnTimeout = 700;
+  driveParams = driveParams20_in();
+  intake.spinFullIntake(vex::directionType::fwd, 12);
+  chassisReference->turnTo(Pose<double>(-68, -47, -360), turnParams, {});
+  // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(12, 500, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, 400, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
 
   // Line up to long goal
   turnParams = turnParams10_deg();
@@ -89,10 +88,9 @@ void Autons::high()
   willyNilly.off();
 
   // Score and NOT CHILL >:(
-  sloper.on();
   blocker.on();
-  wait(1000, msec);
-  sloper.off();
+  wait(900, msec);
+  blocker.off();
 
   // Back away from goal
   driveParams = driveParams5_in();

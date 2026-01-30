@@ -77,7 +77,7 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   // Testing::runAllTests();
-  // autons.prepareAuton();
+  autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -100,7 +100,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::TESTING);
+  autons.runAuton(AutonName::HIGH);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -128,10 +128,6 @@ void usercontrol(void)
   // chassis.odometry->setPosition(5, 5, 90);
 
   // driver.startPistonsThread();
-
-  autons.prepareAuton();
-  wait(3, sec);
-  autons.runAuton(AutonName::SOLO);
   // chassis.odometry->setPosition(0, 0, 0);
   // chassis.odometry->startPositionTrackThread(false);
 

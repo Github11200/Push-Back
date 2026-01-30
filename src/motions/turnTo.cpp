@@ -3,7 +3,7 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings settings)
+void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings settings, SwingDirection swing)
 {
   PID turnPID(settings.updateTime, params);
 
@@ -45,6 +45,10 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     // Make the motors move
     Left.spin(fwd, turnOutput, volt);
     Right.spin(fwd, -turnOutput, volt);
+    if (swing == SwingDirection::SWING_RIGHT)
+      Right.stop(vex::brakeType::hold);
+    if (swing == SwingDirection::SWING_LEFT)
+      Left.stop(vex::brakeType::hold);
 
     if ((int)elapsedTime % 30 == 0 && settings.sendPositionData)
       Logger::sendMotionData(Logger::MotionType::TURN_TO_ANGLE, elapsedTime, abs(currentPose.orientation.constrainNegative180To180().angle));
