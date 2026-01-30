@@ -2,7 +2,7 @@
 #define CHASSIS_H
 
 #include "odometry/odometry.h"
-#include "pid/pid.h"
+#include "controlSystems/pid.h"
 #include "pursuit.h"
 #include "utils/logger.h"
 #include "utils/utils.h"
