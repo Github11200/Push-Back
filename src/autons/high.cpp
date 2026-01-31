@@ -70,7 +70,7 @@ void Autons::high()
   intake.spinFullIntake(vex::directionType::fwd, 12);
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 200, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, 700, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, 600, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
 
   // Line up to long goal
   turnParams = turnParams10_deg();
@@ -100,17 +100,17 @@ void Autons::high()
   turnParams.turnTimeout = 500;
   driveParams = driveParams10_in();
   driveParams.driveTimeout = 900;
-  chassisReference->turnTo(Pose<double>(-37, 36.5, -360), turnParams, {});
-  chassisReference->driveToPoint(Pose<double>(-37, 36.5, 0), driveParams, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-37, 35.2, -360), turnParams, {});
+  chassisReference->driveToPoint(Pose<double>(-37, 35.2, 0), driveParams, turnParams10_deg(), {});
 
   // Push blocks in goal
   turnParams = turnParams90_deg();
   turnParams.turnTimeout = 550;
   driveParams = driveParams10_in();
-  driveParams.driveMaxVoltage = 8;
-  chassisReference->turnTo(Pose<double>(-15, 37.5, -360), turnParams, {.forwards = false});
+  driveParams.driveMaxVoltage = 6;
+  chassisReference->turnTo(Pose<double>(-15, 37, -360), turnParams, {.forwards = false});
   driveParams.driveTimeout = 10000;
-  chassisReference->driveToPoint(Pose<double>(-15, 37.5, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-15, 37, 0), driveParams, turnParams10_deg(), {.forwards = false});
 
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);

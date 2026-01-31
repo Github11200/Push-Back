@@ -41,17 +41,17 @@ void Autons::low()
   // Drive towards and score in low goal
   turnParams = turnParams45_deg();
   driveParams = driveParams10_in();
-  chassisReference->turnTo(Pose<double>(-13, -13, -360), turnParams, {});
+  chassisReference->turnTo(Pose<double>(-13, -14, -360), turnParams, {});
   willyNilly.off();
-  intake.spinFullIntake(vex::directionType::rev, 6);
-  chassisReference->driveToPoint(Pose<double>(-13, -13, 0), driveParams, turnParams10_deg(), {});
-  wait(300, msec);
+  chassisReference->driveToPoint(Pose<double>(-13, -14, 0), driveParams, turnParams10_deg(), {});
+  intake.spinFullIntake(vex::directionType::rev, 8);
+  wait(1000, msec);
 
   // Drive (in reverse) in front of the loader
   driveParams = driveParams30_in();
   driveParams.driveTimeout = 2000;
-  willyNilly.on();
   chassisReference->driveToPoint(Pose<double>(-47, -47.5, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  willyNilly.on();
 
   // Ram into 1st loader
   turnParams = turnParams135_deg();
@@ -61,7 +61,7 @@ void Autons::low()
   intake.spinFullIntake(vex::directionType::fwd, 12);
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 200, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, 700, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, 600, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
 
   // Line up to long goal
   turnParams = turnParams10_deg();
@@ -91,8 +91,8 @@ void Autons::low()
   turnParams.turnTimeout = 500;
   driveParams = driveParams10_in();
   driveParams.driveTimeout = 900;
-  chassisReference->turnTo(Pose<double>(-37, -59.5, -360), turnParams, {});
-  chassisReference->driveToPoint(Pose<double>(-37, -59.5, 0), driveParams, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-37, -61, -360), turnParams, {});
+  chassisReference->driveToPoint(Pose<double>(-37, -61, 0), driveParams, turnParams10_deg(), {});
 
   // Push blocks in goal
   turnParams = turnParams90_deg();
