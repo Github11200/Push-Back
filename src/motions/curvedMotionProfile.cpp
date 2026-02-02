@@ -113,6 +113,21 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
 {
   vector<MotionProfilePose<double>> trajectory = generateTrajectory({.profile = profile, .trackWidth = trackWidth});
 
+  for (MotionProfilePose<double> profilePose : trajectory)
+  {
+    cout << "Time: " << profilePose.time << endl
+         << "X: " << profilePose.pose.position.x << endl
+         << "Y: " << profilePose.pose.position.y << endl
+         << "Angle: " << profilePose.pose.orientation.angle << endl
+         << "Velocity: " << profilePose.velocity << endl
+         << "Angular Velocity: " << profilePose.angularVelocity << endl
+         << "Acceleration: " << profilePose.acceleration << endl;
+
+    cout << "====================================" << endl;
+  }
+
+  return;
+
   for (int i = 0; i < trajectory.size(); ++i)
   {
     double desiredVelocity = trajectory[i].velocity;
