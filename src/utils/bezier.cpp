@@ -40,13 +40,13 @@ double CubicBezier::getCurvature(double t)
   return numerator / denominator;
 }
 
-double CubicBezier::getArcLength()
+double CubicBezier::getArcLength(double t)
 {
   double length = 0;
   for (int i = 0; i < n; ++i)
   {
     double tau = ((b - a) * nodes[i]) / 2 + ((a + b) / 2);
-    length += weights[i] * getSecondDerivative(tau).magnitude();
+    length += weights[i] * getFirstDerivative(tau).magnitude();
   }
   return length * (t / 2);
 }

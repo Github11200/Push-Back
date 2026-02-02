@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <complex>
 #include <iostream>
+#include <algorithm>
 
 using namespace vex;
 using namespace std;
