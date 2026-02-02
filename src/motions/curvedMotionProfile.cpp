@@ -161,7 +161,7 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
     Right.spin(vex::directionType::fwd, rightPower, vex::voltageUnits::volt);
 
     if (i != trajectory.size() - 1)
-      wait(trajectory[i + 1].time - trajectory[i].time);
+      vex::wait(trajectory[i + 1].time - trajectory[i].time, vex::timeUnits::sec);
   }
 
   Left.stop(coast);

@@ -1,4 +1,5 @@
 #include "autons.h"
+#include "config.h"
 #include "vex.h"
 #include "types/params.h"
 
@@ -35,8 +36,8 @@ void Autons::tuning()
   | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
   | INSIDE main.cpp otherwise the next step won't work.         |
   =============================================================*/
-  // chassisReference->odometry->getWheelDiameters(0, 2.72292); // Forward tracker
-  // chassisReference->odometry->getWheelDiameters(1, 1.98839); // Sideways tracker
+  // chassisReference->odometry->getWheelDiameters(0, Config::kForwardTrackerWheelDiameter); // Forward tracker
+  // chassisReference->odometry->getWheelDiameters(1, Config::kSidewaysTrackerWheelDiameter); // Sideways tracker
 
   /*=============================================================
   |                   Part 2 - Wheel Offsets                    |

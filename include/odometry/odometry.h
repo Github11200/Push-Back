@@ -84,14 +84,7 @@ public:
   bool pauseOdom = false;
 
   Odometry() = default;
-  Odometry(Chassis *chassis,
-           double forwardTrackerCenterDistance,
-           double sidewaysTrackerCenterDistance,
-           double frontDistanceSensorDistance,
-           double rightDistanceSensorDistance,
-           double leftDistanceSensorDistance,
-           double backDistanceSensorDistance,
-           TrackerSetup trackerSetup);
+  Odometry(Chassis *chassis);
   ~Odometry();
 
   TrackerPositions getTrackersPositions();

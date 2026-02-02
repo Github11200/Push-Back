@@ -23,44 +23,9 @@ using namespace vex;
 competition Competition;
 
 // define your global instances of motors and other devices here
-Chassis chassis(
-    // Inertial scaling
-    356.418,
+Chassis chassis;
 
-    // Odometry tracker setup
-    TrackerSetup::TWO_TRACKER,
-
-    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
-    // (((drive_ratio) * PI * wheel_diameter) / 360)
-
-    // FORWARDS
-    ((M_PI * 2.72292) / 360.0),
-
-    // SIDEWAYS
-    ((M_PI * 1.98839) / 360.0),
-
-    // Forward tracker distance
-    0.126971,
-
-    // Sideways tracker distance
-    5.38079,
-
-    // Front distance sensor distance
-    (8.3175 - 5.4),
-
-    // Left distance sensor distance
-    (6.8845 - 0.3), // 0.4 from side
-
-    // Right distance sensor distance
-    (6.8845 - 0.2),
-
-    // Back distance sensor distance
-    (8.3175 - 3.4),
-
-    // Enable logs (false by default)
-    true);
-
-Autons autons(std::make_unique<Chassis>(chassis));
+Autons autons(std::make_unique<Chassis>());
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -120,7 +85,10 @@ void usercontrol(void)
 
   Driver driver;
   driver.startJoysticksThread();
-  driver.startPistonsThread();
+  // driver.startPistonsThread();
+
+  autons.prepareAuton();
+  autons.runAuton(AutonName::TUNING);
 
   // User control code here, inside the loop
   while (1)
@@ -132,7 +100,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

@@ -1,4 +1,5 @@
 #include "autons.h"
+#include "config.h"
 #include "subsystems/intake.h"
 #include "vex.h"
 #include "types/params.h"
@@ -7,10 +8,6 @@ void Autons::skills()
 {
   DriveParams driveParams;
   TurnParams turnParams;
-
-  int scoreTime = 1100; // how long the robot should score at the long goal for
-  int ramTime = 200;    // how long the robot should charge 12V at the loader for
-  int loadTime = 1000;  // how long the robot should push 5V at the loader for
 
   // Set starting coordinates
   chassisReference->odometry->setPosition(-63, -16, 0);
@@ -71,8 +68,8 @@ void Autons::skills()
   turnParams = turnParams90_deg();
   chassisReference->turnTo(Pose<double>(-68, 47, -360), turnParams, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
-  chassisReference->driveWithVoltage(12, ramTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, loadTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, Config::kSkillsLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
 
   // Curve towards alleyway
   driveParams = driveParams50_in();
@@ -101,7 +98,7 @@ void Autons::skills()
   // 1st score
   blocker.on();
   willyNilly.on();
-  wait(scoreTime, msec);
+  wait(Config::kSkillsScoreTimeMs, msec);
   blocker.off();
   intake.stopFullIntake();
 
@@ -109,8 +106,8 @@ void Autons::skills()
   turnParams = turnParams10_deg();
   chassisReference->turnTo(Pose<double>(68, 47, -360), turnParams, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
-  chassisReference->driveWithVoltage(12, ramTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, loadTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, Config::kSkillsLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
 
   // Align to long goal
   turnParams = turnParams10_deg();
@@ -120,7 +117,7 @@ void Autons::skills()
 
   // 2nd score
   blocker.on();
-  wait(scoreTime, msec);
+  wait(Config::kSkillsScoreTimeMs, msec);
   blocker.off();
   intake.stopFullIntake();
   willyNilly.off();
@@ -141,8 +138,8 @@ void Autons::skills()
   turnParams = turnParams90_deg();
   chassisReference->turnTo(Pose<double>(68, -47, -360), turnParams, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
-  chassisReference->driveWithVoltage(12, ramTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, loadTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, Config::kSkillsLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
 
   // Curve through alleyway
   finger.on();
@@ -173,7 +170,7 @@ void Autons::skills()
   // 3rd score
   blocker.on();
   willyNilly.on();
-  wait(scoreTime, msec);
+  wait(Config::kSkillsScoreTimeMs, msec);
   blocker.off();
   intake.stopFullIntake();
 
@@ -181,8 +178,8 @@ void Autons::skills()
   turnParams = turnParams10_deg();
   chassisReference->turnTo(Pose<double>(-68, -47, -360), turnParams, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
-  chassisReference->driveWithVoltage(12, ramTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, loadTime, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, Config::kSkillsLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams = turnParams10_deg(), {});
 
   // Align to long goal
   turnParams = turnParams10_deg();
@@ -192,7 +189,7 @@ void Autons::skills()
 
   // 4th score
   blocker.on();
-  wait(scoreTime, msec);
+  wait(Config::kSkillsScoreTimeMs, msec);
   blocker.off();
   intake.stopFullIntake();
   willyNilly.off();

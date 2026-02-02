@@ -1,27 +1,20 @@
 #include "odometry/odometry.h"
 #include "chassis.h"
+#include "config.h"
 
 using namespace vex;
 using namespace std;
 
-Odometry::Odometry(Chassis *chassis,
-                   double forwardTrackerCenterDistance,
-                   double sidewaysTrackerDistance,
-                   double frontDistanceSensorDistance,
-                   double rightDistanceSensorDistance,
-                   double leftDistanceSensorDistance,
-                   double backDistanceSensorDistance,
-                   TrackerSetup trackerSetup)
+Odometry::Odometry(Chassis *chassis)
 {
   this->chassis = chassis;
-  this->trackerSetup = TWO_TRACKER;
-  this->forwardTrackerCenterDistance = forwardTrackerCenterDistance;
-  this->sidewaysTrackerCenterDistance = sidewaysTrackerDistance;
-  this->trackerSetup = trackerSetup;
+  this->trackerSetup = Config::kTrackerSetup;
+  this->forwardTrackerCenterDistance = Config::kForwardTrackerDistance;
+  this->sidewaysTrackerCenterDistance = Config::kSidewaysTrackerDistance;
 
-  this->distanceSensorDistances.push_back(frontDistanceSensorDistance);
-  this->distanceSensorDistances.push_back(rightDistanceSensorDistance);
-  this->distanceSensorDistances.push_back(leftDistanceSensorDistance);
+  this->distanceSensorDistances.push_back(Config::kFrontDistanceSensorDistance);
+  this->distanceSensorDistances.push_back(Config::kRightDistanceSensorDistance);
+  this->distanceSensorDistances.push_back(Config::kLeftDistanceSensorDistance);
   // this->distanceSensorDistances.push_back(backDistanceSensorDistance);
 }
 

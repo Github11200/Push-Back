@@ -36,17 +36,7 @@ public:
   // Pursuit *pursuit;
 
   // TODO: Struct for properties
-  Chassis(double inertialScaling,
-          TrackerSetup trackerSetup,
-          double forwardTrackerInchesToDegreesRatio,
-          double sidewaysTrackerInchesToDegreesRatio,
-          double forwardTrackerDistance,
-          double sidewaysTrackerDistance,
-          double frontDistanceSensorDistance,
-          double leftDistanceSensorDistance,
-          double rightDistanceSensorDistance,
-          double backDistanceSensorDistance,
-          bool enableLogs = false);
+  Chassis();
   ~Chassis();
 
   void driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings);
