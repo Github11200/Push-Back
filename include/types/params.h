@@ -82,6 +82,12 @@ struct CurvedMotionProfile : MotionProfile
   double distanceBetweenPoints;
 };
 
+struct RamseteParams
+{
+  double beta;
+  double zeta;
+};
+
 DriveParams driveParams5_in();
 DriveParams driveParams10_in();
 DriveParams driveParams20_in();

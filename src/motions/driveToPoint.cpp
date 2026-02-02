@@ -121,6 +121,3 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
   Left.stop(brake);
   Right.stop(brake);
 }
-
-// Forward tracker position (fast): 418.97
-// Forward tracker position (slow): 408.25

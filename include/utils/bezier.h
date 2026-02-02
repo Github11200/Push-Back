@@ -21,7 +21,7 @@ public:
   Vector2D<double> getFirstDerivative(double t);
   Vector2D<double> getSecondDerivative(double t);
   double getCurvature(double t);
-  double getArcLength();
+  double getArcLength(double t);
 };
 
 #endif
