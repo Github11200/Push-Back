@@ -23,44 +23,8 @@ using namespace vex;
 competition Competition;
 
 // define your global instances of motors and other devices here
-Chassis chassis(
-    // Inertial scaling
-    356.418,
-
-    // Odometry tracker setup
-    TrackerSetup::TWO_TRACKER,
-
-    // Inches to degrees ratio, this is for calculating how far the drive has moved based on the encoders
-    // (((drive_ratio) * PI * wheel_diameter) / 360)
-
-    // FORWARDS
-    ((M_PI * 2.72292) / 360.0),
-
-    // SIDEWAYS
-    ((M_PI * 1.98839) / 360.0),
-
-    // Forward tracker distance
-    0.126971,
-
-    // Sideways tracker distance
-    5.38079,
-
-    // Front distance sensor distance
-    (8.3175 - 5.4),
-
-    // Left distance sensor distance
-    (6.8845 - 0.3), // 0.4 from side
-
-    // Right distance sensor distance
-    (6.8845 - 0.2),
-
-    // Back distance sensor distance
-    (8.3175 - 3.4),
-
-    // Enable logs (false by default)
-    true);
-
-Autons autons(std::make_unique<Chassis>(chassis));
+Chassis chassis;
+Autons autons(std::make_unique<Chassis>());
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -122,6 +86,9 @@ void usercontrol(void)
   driver.startJoysticksThread();
   driver.startPistonsThread();
 
+  // autons.prepareAuton();
+  // autons.runAuton(AutonName::TUNING);
+
   // User control code here, inside the loop
   while (1)
   {
@@ -159,12 +126,3 @@ int main()
     wait(100, msec);
   }
 }
-
-// Forward: 0.0634636
-// Sideways: 4.97877
-
-// Forward: 0.00324508
-// Sideways: 4.95606
-
-// Forward: -0.00615135
-// Sideways: 4.9561

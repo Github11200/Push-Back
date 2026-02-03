@@ -8,25 +8,25 @@ brain Brain;
 // VEXcode device constructors
 controller Controller;
 
-motor FrontRight = motor(PORT19, ratio6_1, false);
-motor FrontLeft = motor(PORT11, ratio6_1, true);
-motor MiddleRight = motor(PORT9, ratio6_1, true);
-motor MiddleLeft = motor(PORT13, ratio6_1, false);
-motor BackRight = motor(PORT17, ratio6_1, false);
-motor BackLeft = motor(PORT15, ratio6_1, true);
+motor FrontRight = motor(PORT9, ratio6_1, false);
+motor FrontLeft = motor(PORT19, ratio6_1, true);
+motor MiddleRight = motor(PORT7, ratio6_1, true);
+motor MiddleLeft = motor(PORT20, ratio6_1, false);
+motor BackRight = motor(PORT1, ratio6_1, false);
+motor BackLeft = motor(PORT17, ratio6_1, true);
 
-motor IntakeFront = motor(PORT1, ratio6_1, false);
-motor IntakeMiddle = motor(PORT8, ratio6_1, false);
-motor IntakeRear = motor(PORT14, ratio6_1, true);
+motor IntakeFront = motor(PORT16, ratio6_1, false);
+motor IntakeMiddle = motor(PORT5, ratio6_1, false);
+motor IntakeRear = motor(PORT11, ratio6_1, true);
 
 vex::distance frontDistance = vex::distance(PORT1);
 vex::distance rightDistance = vex::distance(PORT9);
 vex::distance leftDistance = vex::distance(PORT2);
 
 vex::rotation ForwardTracker = vex::rotation(PORT4, true);
-vex::rotation SidewaysTracker = vex::rotation(PORT20, true);
+vex::rotation SidewaysTracker = vex::rotation(PORT10, true);
 
-vex::inertial Inertial = vex::inertial(PORT5);
+vex::inertial Inertial = vex::inertial(PORT15);
 
 vex::optical IntakeOptical = vex::optical(PORT2);
 

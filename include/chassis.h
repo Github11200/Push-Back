@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <complex>
 #include <iostream>
+#include <algorithm>
 
 using namespace vex;
 using namespace std;
@@ -35,17 +36,7 @@ public:
   // Pursuit *pursuit;
 
   // TODO: Struct for properties
-  Chassis(double inertialScaling,
-          TrackerSetup trackerSetup,
-          double forwardTrackerInchesToDegreesRatio,
-          double sidewaysTrackerInchesToDegreesRatio,
-          double forwardTrackerDistance,
-          double sidewaysTrackerDistance,
-          double frontDistanceSensorDistance,
-          double leftDistanceSensorDistance,
-          double rightDistanceSensorDistance,
-          double backDistanceSensorDistance,
-          bool enableLogs = false);
+  Chassis();
   ~Chassis();
 
   void driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings);
@@ -53,7 +44,7 @@ public:
   void driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead = 0, double setback = 0, double driveCompensation = 0);
   void turnTo(const Pose<double> &target, TurnParams params, Settings settings, SwingDirection swing = NONE);
-  void curvedMotionProfile(CurvedMotionProfile profile);
+  void curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ramseteParams, double kv);
 
   // void followPath(vector<Pose<double>> path, PursuitParams params);
 

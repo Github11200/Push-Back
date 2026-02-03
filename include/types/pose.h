@@ -21,26 +21,4 @@ struct Pose
   constexpr Pose(double x, double y, Angle<T> angle) : position(Vector2D<T>(x, y)), orientation(angle) {}
 };
 
-template <class T>
-struct MotionProfilePose : Pose<T>
-{
-  double time;
-  double velocity;
-  double angularVelocity;
-  double curvature;
-
-  MotionProfilePose() = default;
-  MotionProfilePose(double time,
-                    double x,
-                    double y,
-                    Angle<T> angle,
-                    double speed,
-                    double acceleration,
-                    double curvature) : time(time),
-                                        Pose<T>(x, y, angle),
-                                        velocity(speed),
-                                        angularVelocity(acceleration),
-                                        curvature(curvature) {}
-};
-
 #endif

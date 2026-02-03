@@ -1,4 +1,5 @@
 #include "autons.h"
+#include "config.h"
 #include "vex.h"
 #include "types/params.h"
 

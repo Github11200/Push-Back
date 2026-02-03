@@ -1,31 +1,15 @@
 #include "chassis.h"
+#include "config.h"
 
 using namespace vex;
 using namespace std;
 
 // TODO: Update the ports for all the sensors
-Chassis::Chassis(double inertialScaling,
-                 TrackerSetup trackerSetup,
-                 double forwardTrackerInchesToDegreesRatio,
-                 double sidewaysTrackerInchesToDegreesRatio,
-                 double forwardTrackerDistance,
-                 double sidewaysTrackerDistance,
-                 double frontDistanceSensorDistance,
-                 double rightDistanceSensorDistance,
-                 double leftDistanceSensorDistance,
-                 double backDistanceSensorDistance,
-                 bool enableLogs) : inertialScaling(inertialScaling),
-                                    forwardTrackerInchesToDegreesRatio(forwardTrackerInchesToDegreesRatio),
-                                    sidewaysTrackerInchesToDegreesRatio(sidewaysTrackerInchesToDegreesRatio)
+Chassis::Chassis() : inertialScaling(Config::kInertialScaling),
+                     forwardTrackerInchesToDegreesRatio(Config::kForwardTrackerInchesToDegreesRatio),
+                     sidewaysTrackerInchesToDegreesRatio(Config::kSidewaysTrackerInchesToDegreesRatio)
 {
-  odometry = new Odometry(this,
-                          forwardTrackerDistance,
-                          sidewaysTrackerDistance,
-                          frontDistanceSensorDistance,
-                          rightDistanceSensorDistance,
-                          leftDistanceSensorDistance,
-                          backDistanceSensorDistance,
-                          trackerSetup);
+  odometry = new Odometry(this);
 }
 
 Chassis::~Chassis()
