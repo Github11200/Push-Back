@@ -107,8 +107,8 @@ void Autons::solo()
   turnParams = turnParams10_deg();
   driveParams = driveParams30_in();
   driveParams.driveTimeout = 1050;
-  chassisReference->turnTo(Pose<double>(-27, 48, -360), turnParams, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-27, 48, 0), driveParams, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-27, 47, -360), turnParams, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-27, 47, 0), driveParams, turnParams10_deg(), {.forwards = false});
   willyNilly.off();
 
   // Score and chill

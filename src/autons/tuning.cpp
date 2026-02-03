@@ -36,7 +36,7 @@ void Autons::tuning()
   | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
   | INSIDE main.cpp otherwise the next step won't work.         |
   =============================================================*/
-  chassisReference->odometry->getWheelDiameters(0, 2.72292); // Forward tracker
+  // chassisReference->odometry->getWheelDiameters(0, 2.72292); // Forward tracker
   // chassisReference->odometry->getWheelDiameters(1, 1.98839); // Sideways tracker
 
   /*=============================================================
@@ -131,5 +131,5 @@ void Autons::tuning()
   // chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 100 inches forward
-  chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
+  // chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
 }

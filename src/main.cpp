@@ -14,6 +14,7 @@
 #include "autons.h"
 #include "driver.h"
 #include "types/params.h"
+#include "config.h"
 
 #include "vex.h"
 
@@ -64,7 +65,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::TUNING);
+  autons.runAuton(AutonName::SOLO);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -81,13 +82,9 @@ void usercontrol(void)
 {
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
-
-  Driver driver;
-  driver.startJoysticksThread();
-  driver.startPistonsThread();
-
-  // autons.prepareAuton();
-  // autons.runAuton(AutonName::TUNING);
+  // Driver driver;
+  // driver.startJoysticksThread();
+  // driver.startPistonsThread();
 
   // User control code here, inside the loop
   while (1)
@@ -99,7 +96,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    driver.buttonsLoopCallback();
+    // driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
@@ -126,3 +123,12 @@ int main()
     wait(100, msec);
   }
 }
+
+// Forward tracker: -0.806302
+// Sideways tracker: 5.39924
+
+// Forward tracker: -0.8105
+// Sideways tracker: 5.4022
+
+// Forward tracker average: 0.808401
+// Sideways tracker average: 5.40072
