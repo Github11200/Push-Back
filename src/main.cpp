@@ -24,7 +24,6 @@ competition Competition;
 
 // define your global instances of motors and other devices here
 Chassis chassis;
-
 Autons autons(std::make_unique<Chassis>());
 
 /*---------------------------------------------------------------------------*/
@@ -85,10 +84,10 @@ void usercontrol(void)
 
   Driver driver;
   driver.startJoysticksThread();
-  // driver.startPistonsThread();
+  driver.startPistonsThread();
 
-  autons.prepareAuton();
-  autons.runAuton(AutonName::TUNING);
+  // autons.prepareAuton();
+  // autons.runAuton(AutonName::TUNING);
 
   // User control code here, inside the loop
   while (1)
@@ -100,7 +99,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
@@ -127,12 +126,3 @@ int main()
     wait(100, msec);
   }
 }
-
-// Forward: 0.0634636
-// Sideways: 4.97877
-
-// Forward: 0.00324508
-// Sideways: 4.95606
-
-// Forward: -0.00615135
-// Sideways: 4.9561

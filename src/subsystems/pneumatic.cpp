@@ -51,7 +51,7 @@ void Pneumatic::delayToggle(int milliseconds)
                     milliseconds);
 }
 
-Pneumatic willyNilly(Port::H);
-Pneumatic finger(Port::E);
-Pneumatic sloper(Port::F);
-Pneumatic blocker(Port::G);
+Pneumatic willyNilly(Port::A);
+Pneumatic finger(Port::B);
+Pneumatic sloper(Port::C);
+Pneumatic blocker(Port::D);
