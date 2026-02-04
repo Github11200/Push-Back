@@ -5,22 +5,27 @@ using namespace std;
 
 void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings settings, SwingDirection swing)
 {
+  Pose<double> currentPose = odometry->getPose();
+  Angle<double> turnError;
+  Angle<double> additionalAngle = Angle<double>(settings.forwards ? 0 : -180);
+
+  if (target.orientation.angle == -360)
+    turnError = (currentPose.position.angleTo(target.position) - currentPose.orientation + additionalAngle).constrainNegative180To180();
+  else // we want to turn to an angle
+    turnError = currentPose.orientation.angleTo(target.orientation);
+
+  modifyTurnParams(turnError.angle, params);
   PID turnPID(settings.updateTime, params);
 
   double turnOutput = 0;
   double previousTurnOutput = 0;
 
-  Angle<double> turnError;
   Angle<double> previousTurnError = Angle<double>(-360);
-
-  Pose<double> currentPose;
 
   double elapsedTime = 0;
   while (!turnPID.isSettled())
   {
     currentPose = odometry->getPose();
-
-    Angle<double> additionalAngle = Angle<double>(settings.forwards ? 0 : -180);
 
     // If the angle is -360 that means we want to turn to a point
     if (target.orientation.angle == -360)

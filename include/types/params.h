@@ -103,4 +103,14 @@ TurnParams turnParams90_deg();
 TurnParams turnParams135_deg();
 TurnParams turnParams180_deg();
 
+enum ParamsType
+{
+  DRIVE,
+  TURN,
+  DRIVE_AND_TURN
+};
+
+void modifyTurnParams(double turnError, TurnParams &params);
+void modifyDriveParams(double driveError, DriveParams &params);
+
 #endif

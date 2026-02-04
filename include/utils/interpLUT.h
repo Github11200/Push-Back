@@ -12,10 +12,11 @@ private:
   std::vector<Vector2D<double>> points;
   std::vector<double> slopes;
 
-public:
-  InterpolatedLUT(std::vector<Vector2D<double>> &points);
-
   double hermite(double point, Pair x, Pair y, Pair slope);
+
+public:
+  InterpolatedLUT(std::vector<Vector2D<double>> points);
+
   double interpolate(double point);
 };
 

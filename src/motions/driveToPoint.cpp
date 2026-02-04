@@ -5,10 +5,20 @@ using namespace std;
 
 void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings)
 {
+  Pose<double> currentPose = odometry->getPose();
+
+  Angle<double> rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
+  Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
+  Angle<double> turnError = (rawTurnError + additionalAngle).constrainNegative180To180();
+
+  double distanceToTarget = currentPose.position.distanceTo(target.position);
+  double driveError = distanceToTarget;
+
+  modifyTurnParams(turnError.angle, turnParams);
+  modifyDriveParams(driveError, driveParams);
+
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
-
-  Pose<double> currentPose = odometry->getPose();
 
   double driveOutput = 0;
   double turnOutput = 0;
@@ -25,14 +35,13 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
   Logger::sendMotionStart(Logger::MotionType::DRIVE_TO_POINT, Logger::MotionData(target, driveParams, turnParams));
 
   Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
-  Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
 
   double elapsedTime = 0;
   while (!drivePID.isSettled())
   {
     currentPose = odometry->getPose();
 
-    double distanceToTarget = currentPose.position.distanceTo(target.position);
+    distanceToTarget = currentPose.position.distanceTo(target.position);
 
     // If the distance is less than 7.5 then limit the max drive voltage and the max turn voltage can follow a sigmoid function
     if (distanceToTarget <= 7.5)
@@ -45,10 +54,10 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
       turnParams.turnMaxVoltage = sigmoid(distanceToTarget, 2, -0.2, 1);
     }
 
-    double driveError = distanceToTarget;
+    driveError = distanceToTarget;
 
-    Angle<double> rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
-    Angle<double> turnError = (rawTurnError + additionalAngle).constrainNegative180To180();
+    rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
+    turnError = (rawTurnError + additionalAngle).constrainNegative180To180();
 
     // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*

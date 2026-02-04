@@ -3,7 +3,7 @@
 using namespace std;
 using namespace vex;
 
-InterpolatedLUT::InterpolatedLUT(vector<Vector2D<double>> &points)
+InterpolatedLUT::InterpolatedLUT(vector<Vector2D<double>> points)
 {
   this->points = points;
   int n = points.size();

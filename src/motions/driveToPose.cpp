@@ -5,10 +5,23 @@ using namespace std;
 
 void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driftCompensation)
 {
+  Pose<double> currentPose = odometry->getPose();
+
+  double targetDistance = currentPose.position.distanceTo(target.position);
+  double carrotX = target.position.x - sin(target.orientation.toRad().angle) * (lead * targetDistance + setback);
+  double carrotY = target.position.y - cos(target.orientation.toRad().angle) * (lead * targetDistance + setback);
+
+  Vector2D<double> carrotPoint = Vector2D<double>(carrotX, carrotY);
+
+  double driveError = currentPose.position.distanceTo(carrotPoint);
+  Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
+  Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
+
+  modifyTurnParams(turnError.angle, turnParams);
+  modifyDriveParams(driveError, driveParams);
+
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
-
-  Pose<double> currentPose;
 
   double driveOutput = 0;
   double turnOutput = 0;
@@ -21,13 +34,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   bool isClose = false;
   bool previousSameSide = false;
 
-  Vector2D<double> carrotPoint;
-  double targetDistance = 0;
-  double carrotX = 0;
-  double carrotY = 0;
-
   Vector2D<double> projectedPerpendicularLine(-sin(target.orientation.toRad().angle), cos(target.orientation.toRad().angle));
-  Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
 
   while (!drivePID.isSettled() && !turnPID.isSettled())
   {
@@ -45,8 +52,8 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     carrotY = target.position.y - cos(target.orientation.toRad().angle) * (lead * targetDistance + setback);
     carrotPoint = Vector2D<double>(carrotX, carrotY);
 
-    double driveError = currentPose.position.distanceTo(carrotPoint);
-    Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
+    driveError = currentPose.position.distanceTo(carrotPoint);
+    turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
 
     headingScaleFactor = cos(turnError.toRad().angle);
 
