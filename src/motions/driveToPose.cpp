@@ -3,7 +3,7 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead, double setback, double driftCompensation)
+void Chassis::driveToPose(const Pose<double> &target, Settings settings, double lead, double setback, double driftCompensation)
 {
   Pose<double> currentPose = odometry->getPose();
 
@@ -16,6 +16,9 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   double driveError = currentPose.position.distanceTo(carrotPoint);
   Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
   Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
+
+  DriveParams driveParams;
+  TurnParams turnParams;
 
   modifyTurnParams(turnError.angle, turnParams);
   modifyDriveParams(driveError, driveParams);

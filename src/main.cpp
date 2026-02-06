@@ -42,7 +42,7 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   // Testing::runAllTests();
-  autons.prepareAuton();
+  // autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -82,10 +82,13 @@ void usercontrol(void)
 {
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
-  // Driver driver;
-  // driver.startJoysticksThread();
+  Driver driver;
+  driver.startJoysticksThread();
   // driver.startPistonsThread();
 
+  autons.prepareAuton();
+  chassis.odometry->setPosition(0, 0, 0);
+  chassis.odometry->startPositionTrackThread(false);
   // User control code here, inside the loop
   while (1)
   {

@@ -197,7 +197,7 @@ void modifyTurnParams(double turnError, TurnParams &params)
 
 void modifyDriveParams(double driveError, DriveParams &params)
 {
-  params.driveKp = turnParamsKpLUT.interpolate(driveError);
-  params.driveKi = turnParamsKiLUT.interpolate(driveError);
-  params.driveKd = turnParamsKdLUT.interpolate(driveError);
+  params.driveKp = driveParamsKpLUT.interpolate(driveError);
+  params.driveKi = driveParamsKiLUT.interpolate(driveError);
+  params.driveKd = driveParamsKdLUT.interpolate(driveError);
 }
