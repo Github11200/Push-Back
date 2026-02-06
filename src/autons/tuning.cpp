@@ -3,28 +3,6 @@
 #include "vex.h"
 #include "types/params.h"
 
-using namespace vex;
-using namespace std;
-
-// Forward tracker
-// 2.72578
-// 2.71704
-// 2.72594
-
-// Sideways tracker
-// 1.98756
-// 1.98922
-
-// Forward tracker offset
-// 0.00139928
-// 0.012238
-// 0.185007
-
-// Sideways tracker offset
-// -5.2823
-// -5.28078
-// -5.28118
-
 void Autons::tuning()
 {
   /*=============================================================

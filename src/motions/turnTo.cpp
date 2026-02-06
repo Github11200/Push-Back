@@ -3,7 +3,7 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::turnTo(const Pose<double> &target, Settings settings, SwingDirection swing)
+void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings settings, SwingDirection swing)
 {
   Pose<double> currentPose = odometry->getPose();
   Angle<double> turnError;
@@ -14,7 +14,6 @@ void Chassis::turnTo(const Pose<double> &target, Settings settings, SwingDirecti
   else // we want to turn to an angle
     turnError = currentPose.orientation.angleTo(target.orientation);
 
-  TurnParams params;
   modifyTurnParams(turnError.angle, params);
   PID turnPID(settings.updateTime, params);
 

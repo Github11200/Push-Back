@@ -3,7 +3,7 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::driveToPoint(const Pose<double> &target, Settings settings)
+void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings)
 {
   Pose<double> currentPose = odometry->getPose();
 
@@ -13,9 +13,6 @@ void Chassis::driveToPoint(const Pose<double> &target, Settings settings)
 
   double distanceToTarget = currentPose.position.distanceTo(target.position);
   double driveError = distanceToTarget;
-
-  DriveParams driveParams;
-  TurnParams turnParams;
 
   modifyTurnParams(turnError.angle, turnParams);
   modifyDriveParams(driveError, driveParams);
@@ -128,7 +125,6 @@ void Chassis::driveToPoint(const Pose<double> &target, Settings settings)
     elapsedTime += settings.updateTime;
   }
 
-  cout << "Drive error: " << driveError << endl;
   cout << "drive done" << endl;
 
   Left.stop(brake);

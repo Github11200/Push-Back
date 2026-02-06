@@ -52,13 +52,13 @@ void Driver::buttonsLoopCallback()
     intake.spinFullIntake(vex::directionType::fwd);
     // Comment in for skills
     if (MiddleGoalScoreButton.pressing())
-      IntakeRear.spin(fwd, 5, vex::voltageUnits::volt);
+      IntakeRear.spin(vex::directionType::fwd, 5, vex::voltageUnits::volt);
   }
   else if (OuttakeButton.pressing())
   {
     intake.spinFullIntake(vex::directionType::rev);
     // Comment in for skills
-    IntakeFront.spin(rev, 5, vex::voltageUnits::volt);
+    IntakeFront.spin(vex::directionType::fwd, 5, vex::voltageUnits::volt);
   }
   else
     intake.stopFullIntake();

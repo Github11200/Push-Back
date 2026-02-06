@@ -7,9 +7,8 @@ using namespace std;
 
 void Autons::testing()
 {
-  DriveParams driveParams;
-  TurnParams turnParams;
-
-  chassisReference->odometry->setPosition(0, 0, 0);
+  chassisReference->odometry->setPosition(-46.5, 16.5, 90);
   chassisReference->odometry->startPositionTrackThread(false);
+
+  chassisReference->driveDistance(3, chassisReference->getAbsoluteHeading().angle, {}, turnParams10_deg(), {});
 }
