@@ -82,13 +82,15 @@ void usercontrol(void)
 {
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
-  Driver driver;
-  driver.startJoysticksThread();
+  // Driver driver;
+  // driver.startJoysticksThread();
   // driver.startPistonsThread();
 
   autons.prepareAuton();
-  chassis.odometry->setPosition(0, 0, 0);
-  chassis.odometry->startPositionTrackThread(false);
+  // chassis.odometry->setPosition(0, 0, 0);
+  // chassis.odometry->startPositionTrackThread(false);
+  wait(3, sec);
+  autons.runAuton(AutonName::SKILLS);
   // User control code here, inside the loop
   while (1)
   {

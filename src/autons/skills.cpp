@@ -15,19 +15,25 @@ void Autons::skills()
   sloper.on();
 
   // Drive through park zone
-  chassisReference->driveWithVoltage(12, 2000, 0, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(12, 1400, 0, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(2, 500, 0, turnParams10_deg(), {});
 
-  // Drive back against park zone and distance reset y-position
-  chassisReference->driveWithVoltage(-5, 1000, 0, turnParams10_deg(), {});
+  // Drive back against park zone and reset position
+  chassisReference->driveWithVoltage(-3, 400, 0, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(-8, 800, 0, turnParams10_deg(), {});
+  cout << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, 16, chassisReference->odometry->getPose().orientation.angle);
+  cout << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
+  chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::LEFT);
+  cout << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
 
-  // Go forwards a bit
-  chassisReference->driveToPoint(Pose<double>(-63, 23, 0), {}, turnParams10_deg(), {});
+  // // Go forwards a bit
+  // chassisReference->driveToPoint(Pose<double>(-63, 23, 0), {}, turnParams10_deg(), {});
 
-  // Distance reset x-position against the wall
-  chassisReference->turnTo(Pose<double>(-23, 23, -360), {}, {});
-  chassisReference->driveWithVoltage(-5, 700, 0, turnParams10_deg(), {});
-  chassisReference->odometry->setPosition(-62, chassisReference->odometry->getPose().position.y, chassisReference->odometry->getPose().orientation.angle);
+  // // Distance reset x-position against the wall
+  // chassisReference->turnTo(Pose<double>(-23, 23, -360), {}, {});
+  // chassisReference->driveWithVoltage(-5, 700, 0, turnParams10_deg(), {});
+  // chassisReference->odometry->setPosition(-62, chassisReference->odometry->getPose().position.y, chassisReference->odometry->getPose().orientation.angle);
 
   // Slap down willynilly to grab center blocks
   willyNilly.delayToggle(1100);
@@ -35,12 +41,15 @@ void Autons::skills()
   // Eat center blocks
   chassisReference->turnTo(Pose<double>(-23, 23, -360), {}, {});
   chassisReference->driveToPoint(Pose<double>(-23, 23, 0), {}, turnParams10_deg(), {});
+  cout << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
 
   // Align to middle goal
   chassisReference->turnTo(Pose<double>(-13, 13, -360), {}, {.forwards = false});
   intake.stopFullIntake();
   sloper.off();
   chassisReference->driveToPoint(Pose<double>(-13, 13, 0), {}, turnParams10_deg(), {.forwards = false});
+
+  return;
 
   // Score in middle goal
   IntakeRear.spin(vex::directionType::fwd, 5, vex::voltageUnits::volt);

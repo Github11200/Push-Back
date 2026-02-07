@@ -185,7 +185,7 @@ void Odometry::wallReset(DistanceSensor distanceSensor, Wall wall)
   }
 
   double distanceSensorReading = sensor.objectDistance(vex::distanceUnits::in) + distanceToTrackingCenter;
-  cout << sensor.objectDistance(vex::distanceUnits::in) << endl;
+  cout << "wall distance sensed: " << sensor.objectDistance(vex::distanceUnits::in) << endl;
   int sign = (wall == Wall::FRONT || wall == Wall::RIGHT) ? 1 : -1;
   double distance = (70.31 - (cos(angle) * distanceSensorReading)) * sign;
 

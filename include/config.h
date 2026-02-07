@@ -20,7 +20,7 @@ namespace Config
   inline constexpr double kSidewaysTrackerDistance = 5.40072;
 
   inline constexpr double kFrontDistanceSensorDistance = 8.3175 - 5.4;
-  inline constexpr double kLeftDistanceSensorDistance = 6.8845 - 0.3;
+  inline constexpr double kLeftDistanceSensorDistance = 6.8845 - 1.45;
   inline constexpr double kRightDistanceSensorDistance = 6.8845 - 0.2;
   inline constexpr double kBackDistanceSensorDistance = 8.3175 - 3.4;
 
