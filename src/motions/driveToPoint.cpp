@@ -14,8 +14,8 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
   double distanceToTarget = currentPose.position.distanceTo(target.position);
   double driveError = distanceToTarget;
 
-  modifyTurnParams(turnError.angle, turnParams);
-  modifyDriveParams(driveError, driveParams);
+  modifyTurnParams(abs(turnError.angle), turnParams);
+  modifyDriveParams(abs(driveError), driveParams);
 
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);

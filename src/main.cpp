@@ -65,7 +65,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::SOLO);
+  autons.runAuton(AutonName::SKILLS);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -86,11 +86,12 @@ void usercontrol(void)
   // driver.startJoysticksThread();
   // driver.startPistonsThread();
 
-  autons.prepareAuton();
+  // cout << Config::kForwardTrackerDistance << endl;
+  // autons.prepareAuton();
   // chassis.odometry->setPosition(0, 0, 0);
-  // chassis.odometry->startPositionTrackThread(false);
-  wait(3, sec);
-  autons.runAuton(AutonName::SKILLS);
+  // chassis.odometry->startPositionTrackThread(true);
+  // wait(3, sec);
+  // autons.runAuton(AutonName::SKILLS);
   // User control code here, inside the loop
   while (1)
   {

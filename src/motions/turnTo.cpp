@@ -14,7 +14,7 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
   else // we want to turn to an angle
     turnError = currentPose.orientation.angleTo(target.orientation);
 
-  modifyTurnParams(turnError.angle, params);
+  modifyTurnParams(abs(turnError.angle), params);
   PID turnPID(settings.updateTime, params);
 
   double turnOutput = 0;

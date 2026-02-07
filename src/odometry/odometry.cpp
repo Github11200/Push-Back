@@ -152,12 +152,12 @@ void Odometry::updatePosition(bool sendLogs)
     Brain.Screen.print("Theta: %.3f", currentPose.orientation.angle);
   }
 
-  // if (sendLogs && cycleCounter % 50 == 0)
-  // {
-  //   cycleCounter = 0;
-  //   if (sendLogs)
-  //     Logger::sendPositionData(currentPose);
-  // }
+  if (sendLogs && cycleCounter % 50 == 0)
+  {
+    cycleCounter = 0;
+    if (sendLogs)
+      Logger::sendPositionData(currentPose);
+  }
   ++cycleCounter;
 
   previousTrackerPositions = trackerPosition;
