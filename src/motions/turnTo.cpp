@@ -62,8 +62,8 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     elapsedTime += settings.updateTime;
   }
 
-  cout << "Turn done" << endl;
-  Logger::sendMotionEnd(elapsedTime);
+  // cout << "Turn done" << endl;
+  // Logger::sendMotionEnd(elapsedTime);
   Left.stop(hold);
   Right.stop(hold);
 }
