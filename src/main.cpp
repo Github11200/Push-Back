@@ -82,9 +82,9 @@ void usercontrol(void)
 {
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
-  // Driver driver;
-  // driver.startJoysticksThread();
-  // driver.startPistonsThread();
+  Driver driver;
+  driver.startJoysticksThread();
+  driver.startPistonsThread();
 
   // cout << Config::kForwardTrackerDistance << endl;
   // autons.prepareAuton();
@@ -102,7 +102,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
