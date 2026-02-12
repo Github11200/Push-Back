@@ -181,11 +181,11 @@ void Autons::skills()
   willyNilly.off();
 
   // Drive towards red parking zone
-  chassisReference->turnTo(Pose<double>(-58, -30, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-58, -30, 0), {}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-53, -34, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-53, -34, 0), {}, turnParams10_deg(), {});
 
   // Turn into alignment in front of the red parking zone
-  chassisReference->turnTo(Pose<double>(-63, 0, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(-63, 0, -360), {}, {SwingDirection::SWING_RIGHT});
 
   // Park
   chassisReference->driveWithVoltage(12, 1500, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
