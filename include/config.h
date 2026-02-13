@@ -28,7 +28,8 @@ namespace Config
 
   inline constexpr int kSkillsScoreTimeMs = 1100;
   inline constexpr int kSkillsRamTimeMs = 200;
-  inline constexpr int kSkillsLoadTimeMs = 1500;
+  inline constexpr int kSkillsLoadTimeMs = 1000;
+  inline constexpr int kSkillsLoadLoadTimeMs = 1300;
 }
 
 #endif

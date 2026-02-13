@@ -9,7 +9,7 @@ void Joysticks::control(double power, double turning)
 {
   // New drive curve :)
   power = curve(deadband<double>(power, 1.0), 12);
-  turning = curve(deadband<double>(turning, 1.0), 12);
+  turning = curve(deadband<double>(turning, 1.0), 6);
 
   power = pow(power, 3) / pow(10, 4);
   turning = pow(turning, 3) / pow(10, 4);
