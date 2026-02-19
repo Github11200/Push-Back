@@ -52,13 +52,13 @@ void Driver::buttonsLoopCallback()
     intake.spinFullIntake(vex::directionType::fwd);
     // Comment in for skills
     if (MiddleGoalScoreButton.pressing())
-      IntakeRear.spin(vex::directionType::fwd, 4, vex::voltageUnits::volt);
+      IntakeRear.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   }
   else if (OuttakeButton.pressing())
   {
     intake.spinFullIntake(vex::directionType::rev);
     // Comment in for skills
-    IntakeFront.spin(vex::directionType::rev, 4, vex::voltageUnits::volt);
+    IntakeFront.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
   }
   else
     intake.stopFullIntake();
@@ -72,6 +72,11 @@ void Driver::buttonsLoopCallback()
     blocker.on();
   else
     blocker.off();
+
+  if (OuttakeButton.pressing())
+    raiser.on();
+  else
+    raiser.off();
 }
 
 void Driver::pistonsLoopCallback()

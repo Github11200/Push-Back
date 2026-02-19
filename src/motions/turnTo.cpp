@@ -48,12 +48,23 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     previousTurnOutput = turnOutput;
 
     // Make the motors move
-    Left.spin(fwd, turnOutput, volt);
-    Right.spin(fwd, -turnOutput, volt);
-    if (swing == SwingDirection::SWING_RIGHT)
+    if (swing == SWING_RIGHT)
+    {
+      cout << "RIGHT" << endl;
+      Left.spin(fwd, turnOutput, volt);
       Right.stop(vex::brakeType::hold);
-    if (swing == SwingDirection::SWING_LEFT)
+    }
+    else if (swing == SWING_LEFT)
+    {
+      cout << "LEFT" << endl;
       Left.stop(vex::brakeType::hold);
+      Right.spin(fwd, -turnOutput, volt);
+    }
+    else
+    {
+      Left.spin(fwd, turnOutput, volt);
+      Right.spin(fwd, -turnOutput, volt);
+    }
 
     if ((int)elapsedTime % 30 == 0 && settings.sendPositionData)
       Logger::sendMotionData(Logger::MotionType::TURN_TO_ANGLE, elapsedTime, abs(currentPose.orientation.constrainNegative180To180().angle));

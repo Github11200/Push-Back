@@ -55,3 +55,4 @@ Pneumatic willyNilly(Port::A);
 Pneumatic finger(Port::B);
 Pneumatic sloper(Port::C);
 Pneumatic blocker(Port::D);
+Pneumatic raiser(Port::E);
