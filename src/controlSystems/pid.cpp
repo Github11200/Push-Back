@@ -42,6 +42,10 @@ bool PID::isSettled()
     return true;
   }
   if (timeSpentSettled > settleTime)
+  {
+    cout << "Settled" << endl;
     return true;
+  }
+
   return false;
 }

@@ -86,6 +86,20 @@ void usercontrol(void)
   driver.startJoysticksThread();
   driver.startPistonsThread();
 
+  // CurvedMotionProfile motionProfile;
+  // Vector2D<double> points[4] = {Vector2D<double>(0, 0), Vector2D<double>(0, 5), Vector2D<double>(10, 5), Vector2D<double>(10, 10)};
+  // motionProfile.curve = CubicBezier(points);
+  // motionProfile.distanceBetweenPoints = 0.1;
+  // motionProfile.finalVelocity = 0;
+  // motionProfile.kA = 10;
+  // motionProfile.maximumAcceleration = 100;
+  // motionProfile.maximumVelocity = 100;
+
+  // RamseteParams params;
+  // params.beta = 0.1;
+  // params.zeta = 0.1;
+  // chassis.curvedMotionProfile(motionProfile, params, 100);
+
   // cout << Config::kForwardTrackerDistance << endl;
   // autons.prepareAuton();
   // chassis.odometry->setPosition(0, 0, 0);
@@ -130,11 +144,11 @@ int main()
   }
 }
 
-// Forward tracker: -0.274349
-// Sideways tracker: -4.00246
+// 0.07782561
+// -3.66028
 
-// -0.228952
-// -4.13406
+// 0.129966
+// 3.67144
 
-// 0.2516505
-// 4.06826
+// 0.0709169
+// 3.67061

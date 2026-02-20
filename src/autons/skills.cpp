@@ -23,9 +23,9 @@ void Autons::skills()
 
   // Align to middle goal
   intake.stopFullIntake();
-  chassisReference->turnTo(Pose<double>(-11, 13, -360), {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-11, 14, -360), {}, {.forwards = false});
   sloper.off();
-  chassisReference->driveToPoint(Pose<double>(-11, 13, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-11, 14, 0), {}, {}, {.forwards = false});
 
   // Score in middle goal
   IntakeRear.spin(vex::directionType::fwd, 8, vex::voltageUnits::volt);
@@ -37,35 +37,35 @@ void Autons::skills()
   willyNilly.on();
 
   // Drive in front of the loader
-  chassisReference->driveToPoint(Pose<double>(-47, 48, 0), {.driveTimeout = 2000}, turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(-47, 48.5, 0), {.driveTimeout = 2000}, turnParams10_deg(), {});
 
   // Ram into 1st loader
-  chassisReference->turnTo(Pose<double>(-68, 48, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(-68, 49, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
   chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(5, Config::kSkillsLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(10, Config::kSkillsLoadLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Curve towards alleyway
-  chassisReference->driveToPoint(Pose<double>(-40, 62.5, 0), {.driveTimeout = 1300}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-40, 64, 0), {.driveTimeout = 1300}, {}, {.forwards = false});
   willyNilly.off();
   intake.stopFullIntake();
 
   // Drive through alleyway
-  chassisReference->turnTo(Pose<double>(42, 62.5, -360), {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(42, 64, -360), {}, {.forwards = false});
   cout << "x pod position before: " << chassisReference->odometry->getTrackersPositions().sideways << endl;
   cout << "Position before alleyway 1: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
-  chassisReference->driveToPoint(Pose<double>(42, 62.5, 0), {}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(42, 64, 0), {}, turnParams10_deg(), {.forwards = false});
   cout << "Position after alleyway 1: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   cout << "x pod position after: " << chassisReference->odometry->getTrackersPositions().sideways << endl;
 
   // Turn out of alleyway
-  chassisReference->turnTo(Pose<double>(42, 51, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(42, 51, 0), {}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(42, 50.5, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(42, 50.5, 0), {}, turnParams10_deg(), {.forwards = false});
 
   // Align to long goal
-  chassisReference->turnTo(Pose<double>(27, 51, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(27, 51, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(27, 50.5, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(27, 50.5, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
   cout << "Position before resetting 1: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, 47, chassisReference->odometry->getPose().orientation.angle);
 

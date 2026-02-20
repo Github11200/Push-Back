@@ -12,7 +12,7 @@ void Autons::solo()
   willyNilly.on();
 
   // Drive in front of the loader
-  chassisReference->driveToPoint(Pose<double>(-47, -47, 0), {.driveTimeout = 700}, turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(-47, -45, 0), {.driveTimeout = 700}, turnParams10_deg(), {});
 
   // Ram into 1st loader
   chassisReference->turnTo(Pose<double>(-68, -47, -360), {.turnTimeout = 700}, {});
@@ -33,7 +33,7 @@ void Autons::solo()
   // Back away from 1st long goal
   chassisReference->driveToPoint(Pose<double>(-47, -47, 0), {.driveTimeout = 1100}, {}, {});
 
-  chassisReference->turnTo(Pose<double>(-10, -10, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(-10, -10, -360), {.turnSettleError = 3}, {});
   // chassisReference->driveToPoint(Pose<double>(-18.5, -18.5, 0), {.driveSettleError = 5, .driveMinVoltage = 3}, {}, {});
   wait(300, msec);
 
@@ -41,9 +41,11 @@ void Autons::solo()
   // chassisReference->turnTo(Pose<double>(-10, -10, -360), turnParams10_deg(), {});
   chassisReference->driveToPoint(Pose<double>(-10, -10, 0), {}, turnParams10_deg(), {});
   razer.on();
-  intake.spinFullIntake(vex::directionType::rev, 8);
+  intake.spinFullIntake(vex::directionType::rev, 6);
   wait(800, msec);
   razer.off();
+
+  finger.on();
 
   // Back up from low goal
   chassisReference->turnTo(Pose<double>(-23, -23, -360), {.turnTimeout = 100}, {.forwards = false});
@@ -51,15 +53,17 @@ void Autons::solo()
   intake.spinFullIntake(vex::directionType::fwd, 12);
 
   // Eat other middle blocks
-  chassisReference->turnTo(Pose<double>(-22, 30, -360), {.turnTimeout = 300}, {});
+  // chassisReference->turnTo(Pose<double>(-22, 30, -360), {.turnTimeout = 300}, {});
   willyNilly.delayToggle(1300);
-  finger.on();
-  chassisReference->driveToPoint(Pose<double>(-22, 30, 0), {.driveMinVoltage = 5, .driveSettleError = 25}, {}, {});
+  // finger.on();
+  // chassisReference->driveToPoint(Pose<double>(-22, 30, 0), {.driveMinVoltage = 5, .driveSettleError = 25}, {}, {});
 
   // Go towards loader entrance point
-  willyNilly.on();
-  chassisReference->turnTo(Pose<double>(-47, 47, -360), {.turnTimeout = 600}, {});
-  chassisReference->driveToPoint(Pose<double>(-47, 47, 0), {.driveTimeout = 800, .driveSlew = 12}, {}, {});
+  // willyNilly.on();
+  // chassisReference->turnTo(Pose<double>(-47, 47, -360), {.turnTimeout = 600}, {});
+  // chassisReference->driveToPoint(Pose<double>(-47, 47, 0), {.driveTimeout = 800, .driveSlew = 12}, {}, {});
+
+  chassisReference->driveToPose(Pose<double>(-47, 45, 270), {.driveSettleError = 0.3}, {.turnSettleError = 0.3}, {}, 0.65, 0, 2.4);
 
   // Ram into 2nd loader
   chassisReference->turnTo(Pose<double>(-68, 47, -360), {}, {});
@@ -71,6 +75,9 @@ void Autons::solo()
   chassisReference->turnTo(Pose<double>(-27, 47, -360), {}, {.forwards = false});
   chassisReference->driveToPoint(Pose<double>(-27, 47, 0), {.driveTimeout = 1050}, {}, {.forwards = false});
   willyNilly.off();
+
+  chassisReference->driveToPose(Pose<double>(-45, 36, 270), {}, {}, {}, 0.5);
+  chassisReference->driveDistance(30, 270, driveParams30_in(), turnParams10_deg(), {.forwards = false});
 
   // Score and chill
   blocker.on();

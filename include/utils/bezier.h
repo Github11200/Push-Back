@@ -15,6 +15,7 @@ private:
   double weights[4] = {0.347855, 0.652145, 0.652145, 0.347855};
 
 public:
+  CubicBezier() = default;
   CubicBezier(Vector2D<double> points[4]);
 
   Vector2D<double> getPosition(double t);

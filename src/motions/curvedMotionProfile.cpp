@@ -44,6 +44,7 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
   vector<double> accelerations;
 
   // First constrain based on only the curvature
+  cout << "Arc length: " << curve.getArcLength(1) << endl;
   int numberOfSegments = curve.getArcLength(1) / params.profile.distanceBetweenPoints;
   for (int i = 0; i < numberOfSegments; ++i)
   {
@@ -62,6 +63,15 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
     distances.push_back(currentDistance);
     velocities.push_back(constrainedSpeed);
     accelerations.push_back(acceleration);
+
+    cout << "X: " << curve.getPosition(t).x << endl;
+    cout << "Y: " << curve.getPosition(t).y << endl;
+    cout << "Curvature: " << curvature << endl;
+    cout << "Current distance: " << currentDistance << endl;
+    cout << "Constrained speed: " << constrainedSpeed << endl;
+    cout << "Acceleration: " << acceleration << endl;
+    cout << "=================================" << endl;
+    wait(20, msec);
   }
 
   vector<double> leftPass = pass(distances, velocities, accelerations);
@@ -113,6 +123,9 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
 {
   vector<MotionProfilePose<double>> trajectory = generateTrajectory({.profile = profile, .trackWidth = trackWidth});
 
+  return;
+
+  cout << trajectory.size() << endl;
   for (MotionProfilePose<double> profilePose : trajectory)
   {
     cout << "Time: " << profilePose.time << endl
@@ -124,6 +137,7 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
          << "Acceleration: " << profilePose.acceleration << endl;
 
     cout << "====================================" << endl;
+    wait(20, msec);
   }
 
   return;
