@@ -16,8 +16,8 @@ namespace Config
   inline constexpr double kForwardTrackerInchesToDegreesRatio = (M_PI * kForwardTrackerWheelDiameter) / 360.0;
   inline constexpr double kSidewaysTrackerInchesToDegreesRatio = (M_PI * kSidewaysTrackerWheelDiameter) / 360.0;
 
-  inline constexpr double kForwardTrackerDistance = 0.808401;
-  inline constexpr double kSidewaysTrackerDistance = 5.40072;
+  inline constexpr double kForwardTrackerDistance = 0.2516505;
+  inline constexpr double kSidewaysTrackerDistance = 4.06826;
 
   inline constexpr double kFrontDistanceSensorDistance = 8.3175 - 5.4;
   inline constexpr double kLeftDistanceSensorDistance = 6.8845 - 1.45;

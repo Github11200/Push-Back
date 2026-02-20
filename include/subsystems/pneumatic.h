@@ -36,6 +36,6 @@ extern Pneumatic willyNilly;
 extern Pneumatic finger;
 extern Pneumatic sloper;
 extern Pneumatic blocker;
-extern Pneumatic raiser;
+extern Pneumatic razer;
 
 #endif

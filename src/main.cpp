@@ -65,7 +65,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::SKILLS);
+  autons.runAuton(AutonName::SOLO);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -89,9 +89,9 @@ void usercontrol(void)
   // cout << Config::kForwardTrackerDistance << endl;
   // autons.prepareAuton();
   // chassis.odometry->setPosition(0, 0, 0);
-  // chassis.odometry->startPositionTrackThread(true);
+  // chassis.odometry->startPositionTrackThread(false);
   // wait(3, sec);
-  // autons.runAuton(AutonName::SKILLS);
+  // autons.runAuton(AutonName::TUNING);
   // User control code here, inside the loop
   while (1)
   {
@@ -130,11 +130,11 @@ int main()
   }
 }
 
-// Forward tracker: -0.806302
-// Sideways tracker: 5.39924
+// Forward tracker: -0.274349
+// Sideways tracker: -4.00246
 
-// Forward tracker: -0.8105
-// Sideways tracker: 5.4022
+// -0.228952
+// -4.13406
 
-// Forward tracker average: 0.808401
-// Sideways tracker average: 5.40072
+// 0.2516505
+// 4.06826

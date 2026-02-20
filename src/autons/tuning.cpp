@@ -25,7 +25,7 @@ void Autons::tuning()
   | the wheel diameters from before so make sure thoser are     |
   | accurate and tuned well.                                    |
   =============================================================*/
-  // chassisReference->odometry->getWheelOffsets();
+  chassisReference->odometry->getWheelOffsets();
 
   /*=============================================================
   |                    Part 3 - Gyro Scaling                    |
@@ -52,7 +52,7 @@ void Autons::tuning()
   | around, curving it, etc. Use the joysticks for this. Use    |
   | the visualizer to see where the bot thinks it is.           |
   =============================================================*/
-  chassisReference->odometry->startPositionTrackThread(false);
+  // chassisReference->odometry->startPositionTrackThread(false);
 
   /*=============================================================
   |                   Part 5 - Tune the PIDs                     |
