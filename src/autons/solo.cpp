@@ -85,6 +85,9 @@ void Autons::solo()
   wait(700, msec);
 
   chassisReference->driveToPoint(Pose<double>(-45, 36, 0), {}, {}, {});
-  chassisReference->driveToPoint(Pose<double>(-10, 36, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-15, 36, 0), {}, {}, {.forwards = false});
   // chassisReference->driveDistance(30, 270, driveParams30_in(), turnParams10_deg(), {.forwards = false});
+
+  Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
+  Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
 }
