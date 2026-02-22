@@ -53,6 +53,14 @@ void Autons::runAuton(AutonName name)
     Logger::sendMessage("Running the TUNING auton.");
     tuning();
     break;
+  case AutonName::RUSH_HIGH:
+    Logger::sendMessage("Running the RUSH HIGH auton.");
+    rush_high();
+    break;
+  case AutonName::RUSH_LOW:
+    Logger::sendMessage("Running the RUSH LOW auton.");
+    rush_low();
+    break;
   default:
     break;
   }
