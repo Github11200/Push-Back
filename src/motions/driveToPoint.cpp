@@ -59,7 +59,6 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
     turnError = (rawTurnError + additionalAngle).constrainNegative180To180();
 
-    // TODO: Try seeing if there's another way you could scale it (using a different function perhaps?)
     /*
       What it's meant to do is that when the robot is facing perpendicular to the target (90 degrees) then
       cos(90) = 0 so there is no lateral movement, it focuses just on turning, but as it gets closer to the

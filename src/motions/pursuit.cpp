@@ -89,7 +89,6 @@
 //   return Pose<double>(lastLookAhead);
 // }
 
-// // TODO: Make the full state feedback function go slower if the robot is off the path
 // double Pursuit::fullStateFeedback(Vector2D<double> target, double targetVelocity, double currentVelocity)
 // {
 //   Pose<double> robotPose = chassis->odometry->getPose();

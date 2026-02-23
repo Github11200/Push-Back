@@ -4,7 +4,6 @@
 using namespace vex;
 using namespace std;
 
-// TODO: Update the ports for all the sensors
 Chassis::Chassis() : inertialScaling(Config::kInertialScaling),
                      forwardTrackerInchesToDegreesRatio(Config::kForwardTrackerInchesToDegreesRatio),
                      sidewaysTrackerInchesToDegreesRatio(Config::kSidewaysTrackerInchesToDegreesRatio)
@@ -30,8 +29,7 @@ Angle<double> Chassis::getAbsoluteHeading()
 
 Pair Chassis::getMotorsPosition()
 {
-  // TODO: Create a seperate inches to degrees ratio for motor positions
-  return Pair(Left.position(vex::rotationUnits::deg) * 0, Right.position(vex::rotationUnits::deg) * 0);
+  return Pair(Left.position(vex::rotationUnits::deg) * Config::kMotorsInchesToDegreesRatio, Right.position(vex::rotationUnits::deg) * Config::kMotorsInchesToDegreesRatio);
 }
 
 void Chassis::calibrateInertial()

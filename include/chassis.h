@@ -35,7 +35,6 @@ public:
   Odometry *odometry;
   // Pursuit *pursuit;
 
-  // TODO: Struct for properties
   Chassis();
   ~Chassis();
 

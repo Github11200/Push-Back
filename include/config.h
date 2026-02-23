@@ -13,8 +13,13 @@ namespace Config
   inline constexpr double kForwardTrackerWheelDiameter = 2.72292;
   inline constexpr double kSidewaysTrackerWheelDiameter = 1.98839;
 
+  inline constexpr double kDriveWheelDiameters = 3.25;
+  inline constexpr double kDriveGearRatio = 36 / static_cast<double>(48);
+
   inline constexpr double kForwardTrackerInchesToDegreesRatio = (M_PI * kForwardTrackerWheelDiameter) / 360.0;
   inline constexpr double kSidewaysTrackerInchesToDegreesRatio = (M_PI * kSidewaysTrackerWheelDiameter) / 360.0;
+
+  inline constexpr double kMotorsInchesToDegreesRatio = (M_PI * kDriveWheelDiameters * kDriveGearRatio) / 360.0;
 
   inline constexpr double kForwardTrackerDistance = 0.2516505;
   inline constexpr double kSidewaysTrackerDistance = 4.06826;

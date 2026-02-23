@@ -65,6 +65,7 @@ private:
   Angle<double> previousHeading = Angle<double>(0);
 
   Pose<double> currentPose;
+  mutex poseMutex;
 
   thread *positionTrackThread;
   TrackerSetup trackerSetup;

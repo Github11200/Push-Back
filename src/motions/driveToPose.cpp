@@ -20,6 +20,11 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   modifyTurnParams(abs(turnError.angle), turnParams);
   modifyDriveParams(abs(driveError), driveParams);
 
+  PID exitDrivePID(settings.updateTime, driveParams);
+  PID exitTurnPID(settings.updateTime, turnParams);
+
+  driveParams.driveSettleError = 0.1;
+  turnParams.turnSettleError = 0.1;
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
 
@@ -36,11 +41,10 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
 
   Vector2D<double> projectedPerpendicularLine(-sin(target.orientation.toRad().angle), cos(target.orientation.toRad().angle));
 
-  while (!drivePID.isSettled() && !turnPID.isSettled())
+  while (!exitDrivePID.isSettled() && !exitTurnPID.isSettled())
   {
     currentPose = odometry->getPose();
 
-    // TODO: Make the 7.0 dynamic or a parameter
     if (!isClose && currentPose.position.distanceTo(target.position) <= 7.0)
     {
       isClose = true;
@@ -85,6 +89,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     =============================*/
 
     turnOutput = turnPID.compute(turnError.angle);
+    exitTurnPID.compute((currentPose.position.angleTo(target) - currentPose.orientation - additionalAngle).constrainNegative180To180().angle);
 
     // Clamp the values
     turnOutput = clamp(turnOutput, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
@@ -98,6 +103,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
 
     driveOutput = drivePID.compute(driveError) * headingScaleFactor;
     driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
+    exitDrivePID.compute(targetDistance);
 
     // Limit accleration
     if (!isClose)
