@@ -85,18 +85,11 @@ void Odometry::stopPositionTrackThread()
 void Odometry::pausePositionTrackThread() { this->pauseOdom = true; }
 void Odometry::resumePositionTrackThread() { this->pauseOdom = false; }
 
-Pose<double> Odometry::getPose()
-{
-  poseMutex.lock();
-  Pose<double> pose = currentPose;
-  poseMutex.unlock();
-  return pose;
-}
+Pose<double> Odometry::getPose() { return currentPose; }
 
+// TODO: Mutex for currentPose
 void Odometry::updatePosition(bool sendLogs)
 {
-  poseMutex.lock();
-
   TrackerPositions trackerPosition = getTrackersPositions();
   Angle<double> absoluteHeading = chassis->getAbsoluteHeading().toRad();
 
@@ -169,8 +162,6 @@ void Odometry::updatePosition(bool sendLogs)
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;
-
-  poseMutex.unlock();
 }
 
 void Odometry::setPosition(double xPosition, double yPosition, double theta)
