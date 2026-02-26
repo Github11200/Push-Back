@@ -9,11 +9,11 @@ void Autons::low()
   chassisReference->odometry->startPositionTrackThread(false);
 
   IntakeRear.stop();
-  IntakeMiddle.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
+  IntakeMiddle.spin(vex::directionType::fwd, 4, vex::voltageUnits::volt);
   IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   sloper.on();
 
-  willyNilly.delayToggle(1250);
+  willyNilly.delayToggle(1200);
 
   // Drive to the middle blocks
   chassisReference->turnTo(Pose<double>(-22, -23, -360), {}, {});
@@ -30,14 +30,15 @@ void Autons::low()
   // chassisReference->driveToPoint(Pose<double>(-23, 23, 0), {}, turnParams10_deg(), {.forwards = false});
 
   // Drive towards and score in low goal
-  chassisReference->turnTo(Pose<double>(-10, -11.5, -360), {}, {});
   willyNilly.off();
-  chassisReference->driveToPoint(Pose<double>(-10, -11.5, 0), {.driveTimeout = 1100}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-9, -12, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-9, -12, 0), {.driveTimeout = 1100}, turnParams10_deg(), {});
   razer.on();
   intake.spinFullIntake(vex::directionType::rev, 12);
-  IntakeFront.spin(vex::directionType::rev, 6, volt);
-  wait(1000, msec);
+  IntakeFront.spin(vex::directionType::rev, 9, volt);
+  wait(1200, msec);
   razer.off();
+  intake.spinFullIntake(vex::directionType::fwd, 12);
 
   // Drive (in reverse) in front of the loader
   chassisReference->driveToPoint(Pose<double>(-47, -47, 0), {.driveTimeout = 2000}, turnParams10_deg(), {.forwards = false});
@@ -45,7 +46,6 @@ void Autons::low()
 
   // Ram into 1st loader
   chassisReference->turnTo(Pose<double>(-68, -47, -360), {.turnTimeout = 700}, {});
-  intake.spinFullIntake(vex::directionType::fwd, 12);
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 200, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(5, 500, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
@@ -60,19 +60,19 @@ void Autons::low()
   // Score and NOT CHILL >:(
   blocker.on();
   wait(900, msec);
-  blocker.off();
   intake.stopFullIntake();
 
   // // Back away from goal
   // chassisReference->driveToPoint(Pose<double>(-37, -47, 0), {.driveTimeout = 600}, turnParams10_deg(), {});
 
   // Reposition to align wing
-  chassisReference->turnTo(Pose<double>(-40, -61.5, -360), {.turnTimeout = 500}, {});
-  chassisReference->driveToPoint(Pose<double>(-40, -61.5, 0), {.driveTimeout = 900}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-40, -61.9, -360), {.turnTimeout = 500}, {});
+  chassisReference->driveToPoint(Pose<double>(-40, -61.9, 0), {.driveTimeout = 900}, turnParams10_deg(), {});
+  blocker.off();
 
   // Push blocks in goal
-  chassisReference->turnTo(Pose<double>(-15, -59, -360), {.turnTimeout = 550}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-15, -59, 0), {.driveMaxVoltage = 8, .driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-15, -60, -360), {.turnTimeout = 550}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-15, -60, 0), {.driveMaxVoltage = 8, .driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
 
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);

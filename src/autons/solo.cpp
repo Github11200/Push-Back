@@ -42,16 +42,17 @@ void Autons::solo()
   blocker.off();
 
   // Score in low goal
-  chassisReference->turnTo(Pose<double>(-10, -10, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {});
-  intake.spinFullIntake(vex::directionType::fwd, 5);
-  chassisReference->driveToPoint(Pose<double>(-10, -10, 0), {.driveTimeout = 1000}, {}, {});
+  chassisReference->turnTo(Pose<double>(-9, -12, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {});
+  intake.stopFullIntake();
+  IntakeFront.spin(vex::directionType::fwd, 12, volt);
+  chassisReference->driveToPoint(Pose<double>(-9, -12, 0), {.driveTimeout = 1000}, {}, {});
   razer.on();
 
-  // This fixes the angle before outtaking
-  chassisReference->turnTo(Pose<double>(-23, -23, -360), {.turnTimeout = 100}, {.forwards = false});
+  // // This fixes the angle before outtaking
+  // chassisReference->turnTo(Pose<double>(-23, -23, -360), {.turnTimeout = 100}, {.forwards = false});
 
   intake.spinFullIntake(vex::directionType::rev, 12);
-  IntakeFront.spin(vex::directionType::rev, 9, volt);
+  IntakeFront.spin(vex::directionType::rev, 7, volt);
   wait(700, msec);
   razer.off();
 
@@ -90,9 +91,10 @@ void Autons::solo()
   wait(800, msec);
 
   finger.off();
-  chassisReference->driveToPoint(Pose<double>(-40, 39, 0), {.driveSettleError = 3, .driveSettleTime = 0}, {}, {});
-  chassisReference->turnTo(Pose<double>(-5, 37, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-5, 37, 0), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-40, 36, 0), {.driveSettleError = 3, .driveSettleTime = 0}, {}, {});
+  blocker.off();
+  chassisReference->turnTo(Pose<double>(-15, 37, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-15, 37, 0), {}, {}, {.forwards = false});
   // chassisReference->driveDistance(30, 270, driveParams30_in(), turnParams10_deg(), {.forwards = false});
 
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);

@@ -11,7 +11,7 @@ void Autons::rush_low()
   intake.spinFullIntake(vex::directionType::fwd, 12);
   sloper.on();
 
-  willyNilly.delayToggle(1250);
+  willyNilly.delayToggle(1200);
 
   // Drive to the middle blocks
   chassisReference->turnTo(Pose<double>(-22, 23, -360), {}, {});
@@ -35,12 +35,12 @@ void Autons::rush_low()
   intake.stopFullIntake();
 
   // Reposition to align wing
-  chassisReference->turnTo(Pose<double>(-40, -61.5, -360), {.turnTimeout = 500}, {});
-  chassisReference->driveToPoint(Pose<double>(-40, -61.5, 0), {.driveTimeout = 900}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-40, -61.9, -360), {.turnTimeout = 500}, {});
+  chassisReference->driveToPoint(Pose<double>(-40, -61.9, 0), {.driveTimeout = 900}, turnParams10_deg(), {});
 
   // Push blocks in goal
-  chassisReference->turnTo(Pose<double>(-15, -59, -360), {.turnTimeout = 550}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-15, -59, 0), {.driveMaxVoltage = 8, .driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-15, -60, -360), {.turnTimeout = 550}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-15, -60, 0), {.driveMaxVoltage = 8, .driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
 
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);

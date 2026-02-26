@@ -32,9 +32,9 @@ namespace Config
   inline constexpr bool kEnableLogs = true;
 
   inline constexpr int kSkillsScoreTimeMs = 1100;
-  inline constexpr int kSkillsRamTimeMs = 0;
+  inline constexpr int kSkillsRamTimeMs = 300;
   inline constexpr int kSkillsLoadTimeMs = 2500;
-  inline constexpr int kSkillsLoadLoadTimeMs = 200;
+  inline constexpr int kSkillsLoadLoadTimeMs = 0;
 }
 
 #endif

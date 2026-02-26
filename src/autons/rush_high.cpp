@@ -11,7 +11,7 @@ void Autons::rush_high()
   intake.spinFullIntake(vex::directionType::fwd);
   sloper.on();
 
-  willyNilly.delayToggle(1250);
+  willyNilly.delayToggle(1200);
 
   // Drive to the middle blocks
   chassisReference->turnTo(Pose<double>(-22, 23, -360), {}, {});
