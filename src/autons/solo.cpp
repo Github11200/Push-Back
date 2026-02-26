@@ -41,7 +41,7 @@ void Autons::solo()
 
   blocker.off();
 
-  // Score in low goal
+  // Go up to low goal
   chassisReference->turnTo(Pose<double>(-9, -12, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {});
   intake.stopFullIntake();
   IntakeFront.spin(vex::directionType::fwd, 12, volt);
@@ -51,9 +51,11 @@ void Autons::solo()
   // // This fixes the angle before outtaking
   // chassisReference->turnTo(Pose<double>(-23, -23, -360), {.turnTimeout = 100}, {.forwards = false});
 
+  // Score in low goal
   intake.spinFullIntake(vex::directionType::rev, 12);
+  wait(200, msec);
   IntakeFront.spin(vex::directionType::rev, 7, volt);
-  wait(700, msec);
+  wait(500, msec);
   razer.off();
 
   finger.on();
