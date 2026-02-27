@@ -11,11 +11,11 @@ void Autons::high()
   intake.spinFullIntake(vex::directionType::fwd);
   sloper.on();
 
-  willyNilly.delayToggle(1200);
+  willyNilly.delayToggle(1350);
 
   // Drive to the middle blocks
   chassisReference->turnTo(Pose<double>(-22, 23, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-22, 23, 0), {}, turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(-22, 23, 0), {.driveMaxVoltage = 8}, {}, {});
 
   // // Intake the blocks under the long goal
   // willyNilly.off();
@@ -30,7 +30,7 @@ void Autons::high()
   // Turn to face the center goal location (turn to point (14, -14))
   chassisReference->turnTo(Pose<double>(-13.5, 13.25, -360), {.turnTimeout = 1000}, {.forwards = false});
   intake.stopFullIntake();
-  chassisReference->driveToPoint(Pose<double>(-13.5, 13.25, 0), {}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-13.5, 13.25, 0), {}, {}, {.forwards = false});
 
   // Score middle goal
   sloper.off();

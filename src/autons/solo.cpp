@@ -18,7 +18,7 @@ void Autons::solo()
   chassisReference->turnTo(Pose<double>(-68, -45.5, -360), {.turnTimeout = 700}, {});
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 100, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, 600, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, 650, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Line up to long goal
   chassisReference->turnTo(Pose<double>(-27, -47.5, -360), {.turnTimeout = 200}, {.forwards = false});
@@ -37,15 +37,15 @@ void Autons::solo()
 
   // chassisReference->driveToPose(Pose<double>(-18, -18, 45), {.driveSettleError = 0.1}, {.turnSettleError = 0.1}, {}, 0.4, 0, 0);
 
-  chassisReference->driveToPoint(Pose<double>(-25, -32, 0), {.driveSettleError = 3, .driveSettleTime = 0}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-25, -30, 0), {.driveSettleError = 3, .driveSettleTime = 0}, {}, {});
 
   blocker.off();
 
   // Go up to low goal
-  chassisReference->turnTo(Pose<double>(-9, -12, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {});
+  chassisReference->turnTo(Pose<double>(-7, -11, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {});
   intake.stopFullIntake();
   IntakeFront.spin(vex::directionType::fwd, 12, volt);
-  chassisReference->driveToPoint(Pose<double>(-9, -12, 0), {.driveTimeout = 1000}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-7, -11, 0), {.driveTimeout = 1000}, {}, {});
   razer.on();
 
   // // This fixes the angle before outtaking
@@ -75,7 +75,7 @@ void Autons::solo()
   // chassisReference->turnTo(Pose<double>(-47, 47, -360), {.turnTimeout = 600}, {});
   // chassisReference->driveToPoint(Pose<double>(-47, 47, 0), {.driveTimeout = 800, .driveSlew = 12}, {}, {});
 
-  chassisReference->driveToPose(Pose<double>(-47, 46, 270), {.driveSettleError = 0.1}, {.turnSettleError = 0.1}, {}, 0.3); //.turnSettleError = 0.3, {}, 0.8, 0, 2.4
+  chassisReference->driveToPose(Pose<double>(-47, 44, 270), {.driveSettleError = 0.1}, {.turnSettleError = 0.1}, {}, 0.28); //.turnSettleError = 0.3, {}, 0.8, 0, 2.4
 
   // Ram into 2nd loader
   chassisReference->turnTo(Pose<double>(-68, 47, -360), {}, {});
@@ -95,8 +95,8 @@ void Autons::solo()
   finger.off();
   chassisReference->driveToPoint(Pose<double>(-40, 36, 0), {.driveSettleError = 3, .driveSettleTime = 0}, {}, {});
   blocker.off();
-  chassisReference->turnTo(Pose<double>(-15, 37, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-15, 37, 0), {}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-10, 36.5, -360), {.turnSettleError = 3, .turnSettleTime = 0}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-10, 36.5, 0), {}, {}, {.forwards = false});
   // chassisReference->driveDistance(30, 270, driveParams30_in(), turnParams10_deg(), {.forwards = false});
 
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);

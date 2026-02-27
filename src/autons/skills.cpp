@@ -28,7 +28,7 @@ void Autons::skills()
 
   // Score in middle goal
   sloper.off();
-  IntakeRear.spin(vex::directionType::fwd, 8, vex::voltageUnits::volt);
+  IntakeRear.spin(vex::directionType::fwd, 6, vex::voltageUnits::volt);
   IntakeMiddle.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   wait(800, msec);
@@ -105,7 +105,7 @@ void Autons::skills()
   // Drive through park zone
   chassisReference->turnTo(Pose<double>(66, -27, -360), {}, {});
   blocker.off();
-  chassisReference->driveWithVoltage(9, 2000, 170, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(9, 2100, 170, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(7, 900, 170, turnParams10_deg(), {});
 
   // Drive back against park zone and reset position
@@ -125,8 +125,8 @@ void Autons::skills()
 
   // Align to middle goal
   intake.stopFullIntake();
-  chassisReference->turnTo(Pose<double>(13.2, -10.2, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(13.2, -10.2, 135), {}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(12.2, -10.2, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(12.2, -10.2, 135), {}, turnParams10_deg(), {.forwards = false});
   sloper.off();
 
   // Score in middle goal
@@ -134,13 +134,13 @@ void Autons::skills()
   IntakeMiddle.spin(vex::directionType::fwd, 8, vex::voltageUnits::volt);
   IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   wait(2000, msec);
-  sloper.on();
   intake.stopFullIntake();
   willyNilly.on();
 
   // Drive towards 3rd dispenser
-  chassisReference->turnTo(Pose<double>(39, -49.5, -360), {.turnTimeout = 500}, {});
+  // chassisReference->turnTo(Pose<double>(39, -49.5, -360), {.turnTimeout = 500}, {});
   chassisReference->driveToPoint(Pose<double>(39, -49.5, 0), {}, turnParams10_deg(), {});
+  sloper.on();
 
   // Ram into 3rd loader
   chassisReference->turnTo(Pose<double>(68, -49.5, -360), {}, {});
@@ -150,7 +150,7 @@ void Autons::skills()
   chassisReference->driveWithVoltage(10, Config::kSkillsLoadLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Curve through alleyway
-  chassisReference->driveToPoint(Pose<double>(25, -62, 90), {}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(25, -61, 90), {}, {}, {.forwards = false});
   willyNilly.off();
   intake.stopFullIntake();
 
@@ -176,7 +176,7 @@ void Autons::skills()
   intake.stopFullIntake();
 
   // Ram into 4th loader
-  chassisReference->turnTo(Pose<double>(-68, -45, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(-68, -40, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
   chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   blocker.off();
