@@ -65,7 +65,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::LOW);
+  autons.runAuton(AutonName::SKILLS);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -86,26 +86,6 @@ void usercontrol(void)
   driver.startJoysticksThread();
   driver.startPistonsThread();
 
-  // CurvedMotionProfile motionProfile;
-  // Vector2D<double> points[4] = {Vector2D<double>(0, 0), Vector2D<double>(0, 5), Vector2D<double>(10, 5), Vector2D<double>(10, 10)};
-  // motionProfile.curve = CubicBezier(points);
-  // motionProfile.distanceBetweenPoints = 0.1;
-  // motionProfile.finalVelocity = 0;
-  // motionProfile.kA = 10;
-  // motionProfile.maximumAcceleration = 100;
-  // motionProfile.maximumVelocity = 100;
-
-  // RamseteParams params;
-  // params.beta = 0.1;
-  // params.zeta = 0.1;
-  // chassis.curvedMotionProfile(motionProfile, params, 100);
-
-  // cout << Config::kForwardTrackerDistance << endl;
-  // autons.prepareAuton();
-  // chassis.odometry->setPosition(0, 0, 0);
-  // chassis.odometry->startPositionTrackThread(false);
-  // wait(3, sec);
-  // autons.runAuton(AutonName::TUNING);
   // User control code here, inside the loop
   while (1)
   {
