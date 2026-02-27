@@ -61,6 +61,10 @@ void Autons::runAuton(AutonName name)
     Logger::sendMessage("Running the RUSH LOW auton.");
     rush_low();
     break;
+  case AutonName::SKILLS_77:
+    Logger::sendMessage("Running the SKILLS 77 auton.");
+    skills77();
+    break;
   default:
     break;
   }

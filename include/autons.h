@@ -16,6 +16,7 @@ enum AutonName
   TUNING = 5,
   RUSH_HIGH = 6,
   RUSH_LOW = 7,
+  SKILLS_77 = 8
 };
 
 enum Side
@@ -38,6 +39,7 @@ public:
   void low();
   void solo();
   void skills();
+  void skills77();
   void tuning();
   void rush_high();
   void rush_low();

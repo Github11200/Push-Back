@@ -5,11 +5,17 @@ using namespace std;
 
 void Chassis::driveDistance(double distance, double heading, DriveParams driveParams, TurnParams turnParams, Settings settings)
 {
-  PID drivePID(settings.updateTime, driveParams);
-  PID turnPID(settings.updateTime, turnParams);
-
   double startingPosition = getForwardTrackerPosition();
   double position = startingPosition;
+
+  double driveError = distance + startingPosition - position;
+  double turnError = odometry->getPose().orientation.angleTo(heading).angle;
+
+  modifyTurnParams(abs(turnError), turnParams);
+  modifyDriveParams(abs(driveError), driveParams);
+
+  PID drivePID(settings.updateTime, driveParams);
+  PID turnPID(settings.updateTime, turnParams);
 
   double elapsedTime = 0;
 
@@ -19,8 +25,8 @@ void Chassis::driveDistance(double distance, double heading, DriveParams drivePa
   while (!drivePID.isSettled())
   {
     position = getForwardTrackerPosition();
-    double driveError = distance + startingPosition - position;
-    double turnError = odometry->getPose().orientation.angleTo(heading).angle;
+    driveError = distance + startingPosition - position;
+    turnError = odometry->getPose().orientation.angleTo(heading).angle;
 
     double driveOutput = drivePID.compute(driveError);
     double turnOutput = turnPID.compute(turnError);

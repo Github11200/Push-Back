@@ -65,7 +65,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::SKILLS);
+  autons.runAuton(AutonName::SKILLS_77);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -110,7 +110,7 @@ void usercontrol(void)
 //
 int main()
 {
-  // Set up callbacks for autonom`ous and driver control periods.
+  // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
