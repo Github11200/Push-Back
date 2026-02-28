@@ -51,14 +51,14 @@ void Driver::buttonsLoopCallback()
   {
     intake.spinFullIntake(vex::directionType::fwd);
     // Comment in for skills
-    if (MiddleGoalScoreButton.pressing())
-      IntakeRear.spin(vex::directionType::fwd, 4, vex::voltageUnits::volt); // BRANDON HERE IS MIDDLE GOAL SPEED
+    // if (MiddleGoalScoreButton.pressing())
+    //   IntakeRear.spin(vex::directionType::fwd, 4, vex::voltageUnits::volt); // BRANDON HERE IS MIDDLE GOAL SPEED
   }
   else if (OuttakeButton.pressing())
   {
     intake.spinFullIntake(vex::directionType::rev);
     // Comment in for skills
-    IntakeFront.spin(vex::directionType::rev, 4, vex::voltageUnits::volt); // BRANDON HERE IS LOW GOAL SPEED
+    // IntakeFront.spin(vex::directionType::rev, 4, vex::voltageUnits::volt); // BRANDON HERE IS LOW GOAL SPEED
   }
   else
     intake.stopFullIntake();

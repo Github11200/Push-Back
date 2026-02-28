@@ -11,7 +11,7 @@ void Autons::high()
   intake.spinFullIntake(vex::directionType::fwd);
   sloper.on();
 
-  willyNilly.delayToggle(1350);
+  willyNilly.delayToggle(1050);
 
   // Drive to the middle blocks
   chassisReference->turnTo(Pose<double>(-22, 23, -360), {}, {});
@@ -37,7 +37,7 @@ void Autons::high()
   IntakeRear.spin(vex::directionType::fwd, 7, vex::voltageUnits::volt);
   IntakeMiddle.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
-  wait(400, msec);
+  wait(600, msec);
   sloper.on();
   intake.stopFullIntake();
 
@@ -49,7 +49,7 @@ void Autons::high()
   intake.spinFullIntake(vex::directionType::fwd, 12);
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 200, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, 500, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, 600, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Line up to long goal
   chassisReference->turnTo(Pose<double>(-27, 47, -360), {.turnTimeout = 200}, {.forwards = false});
