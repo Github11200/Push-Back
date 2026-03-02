@@ -47,7 +47,10 @@ void Pneumatic::delayToggle(int milliseconds)
 {
   static Pneumatic *thisPointer = this;
   Brain.Timer.event([]()
-                    { thisPointer->toggle(); },
+                    { if (thisPointer->getPiston().value() == true)
+                      thisPointer->getPiston().set(false);
+                    else
+                      thisPointer->getPiston().set(true); },
                     milliseconds);
 }
 
