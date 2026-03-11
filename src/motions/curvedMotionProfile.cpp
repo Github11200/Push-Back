@@ -79,14 +79,15 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
   accelerations.push_back(min(curve.getSecondDerivative(1).magnitude(),
                               params.profile.maximumAcceleration));
 
-  vector<double> leftPass = pass(distances, velocities, accelerations);
+  // Left -> Right pass
+  pass(distances, velocities, accelerations);
 
   std::reverse(distances.begin(), distances.end());
   std::reverse(velocities.begin(), velocities.end());
   std::reverse(accelerations.begin(), accelerations.end());
 
   // Right --> Left pass
-  vector<double> rightPass = pass(distances, velocities, accelerations);
+  pass(distances, velocities, accelerations);
 
   std::reverse(distances.begin(), distances.end());
   std::reverse(velocities.begin(), velocities.end());
