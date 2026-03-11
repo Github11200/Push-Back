@@ -10,24 +10,29 @@ struct TrajectoryParams
   double trackWidth;
 };
 
-double limitSpeedDueToCurvature(double speed, double curvature, double trackWidth)
+double limitSpeedDueToCurvature(double maxSpeed, double curvature,
+                                double trackWidth)
 {
   double radius = 1 / curvature;
-  return speed * (radius / (radius + (trackWidth / 2)));
+  return (2 * maxSpeed) / (2 + trackWidth * curvature);
 }
 
-vector<double> pass(const vector<double> &distances, const vector<double> &velocities, const vector<double> &accelerations)
+vector<double> pass(const vector<double> &distances, vector<double> &velocities,
+                    const vector<double> &accelerations)
 {
   vector<double> constrainedVelocities;
   constrainedVelocities.push_back(velocities[0]);
 
   int length = distances.size();
+  double previousVelocity = velocities[0];
   for (int i = 1; i < length; ++i)
   {
-    double deltaD = distances[i] - distances[i - 1];
-    double maxAttainableVelocity = sqrt(pow(velocities[i - 1], 2) + 2 * accelerations[i] * deltaD);
+    double deltaD = abs(distances[i] - distances[i - 1]);
 
-    constrainedVelocities.push_back(min(velocities[i], maxAttainableVelocity));
+    double maxAttainableVelocity =
+        sqrt(pow(velocities[i - 1], 2) + 2 * accelerations[i] * deltaD);
+
+    velocities[i] = min(velocities[i], maxAttainableVelocity);
   }
 
   return constrainedVelocities;
@@ -37,16 +42,16 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
 {
   CubicBezier curve = params.profile.curve;
 
-  vector<Vector2D<double>> positions;
-  vector<double> curvatures;
-  vector<double> distances;
-  vector<double> velocities;
-  vector<double> accelerations;
+  vector<Vector2D<double>> positions({curve.getPosition(0)});
+  vector<double> curvatures({curve.getCurvature(0)});
+  vector<double> distances({0});
+  vector<double> velocities({params.profile.initialVelocity});
+  vector<double> accelerations({curve.getSecondDerivative(0).magnitude()});
 
   // First constrain based on only the curvature
-  cout << "Arc length: " << curve.getArcLength(1) << endl;
-  int numberOfSegments = curve.getArcLength(1) / params.profile.distanceBetweenPoints;
-  for (int i = 0; i < numberOfSegments; ++i)
+  int numberOfSegments =
+      curve.getArcLength(1) / params.profile.distanceBetweenPoints;
+  for (int i = 1; i < numberOfSegments; ++i)
   {
     double t = static_cast<double>(i) / static_cast<double>(numberOfSegments);
 
@@ -55,24 +60,24 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
     double speed = curve.getFirstDerivative(t).magnitude();
     double curvature = curve.getCurvature(t);
 
-    double constrainedSpeed = limitSpeedDueToCurvature(speed, curvature, params.trackWidth);
+    double constrainedSpeed = limitSpeedDueToCurvature(
+        params.profile.maximumVelocity, curvature, params.trackWidth);
     double acceleration = curve.getSecondDerivative(t).magnitude();
+    acceleration = min(acceleration, params.profile.maximumAcceleration);
 
     positions.push_back(curve.getPosition(t));
     curvatures.push_back(curvature);
     distances.push_back(currentDistance);
-    velocities.push_back(constrainedSpeed);
+    velocities.push_back(min(constrainedSpeed, speed));
     accelerations.push_back(acceleration);
-
-    cout << "X: " << curve.getPosition(t).x << endl;
-    cout << "Y: " << curve.getPosition(t).y << endl;
-    cout << "Curvature: " << curvature << endl;
-    cout << "Current distance: " << currentDistance << endl;
-    cout << "Constrained speed: " << constrainedSpeed << endl;
-    cout << "Acceleration: " << acceleration << endl;
-    cout << "=================================" << endl;
-    wait(20, msec);
   }
+
+  positions.push_back(curve.getPosition(1));
+  curvatures.push_back(curve.getCurvature(1));
+  distances.push_back(curve.getArcLength(1));
+  velocities.push_back(params.profile.finalVelocity);
+  accelerations.push_back(min(curve.getSecondDerivative(1).magnitude(),
+                              params.profile.maximumAcceleration));
 
   vector<double> leftPass = pass(distances, velocities, accelerations);
 
@@ -87,9 +92,6 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
   std::reverse(velocities.begin(), velocities.end());
   std::reverse(accelerations.begin(), accelerations.end());
 
-  for (int i = 0; i < leftPass.size(); ++i)
-    velocities[i] = min(leftPass[i], rightPass[i]);
-
   vector<double> times({0.0});
 
   // Distances --> Times
@@ -97,7 +99,10 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
   for (int i = 1; i < velocities.size(); ++i)
   {
     double deltaD = distances[i] - distances[i - 1];
-    double acceleration = (pow(velocities[i], 2) - pow(velocities[i - 1], 2)) / (2 * deltaD);
+    double acceleration =
+        (pow(velocities[i], 2) - pow(velocities[i - 1], 2)) / (2 * deltaD);
+
+    acceleration = min(acceleration, params.profile.maximumAcceleration);
 
     if (acceleration == 0.0)
       time += deltaD / velocities[i];
@@ -109,12 +114,12 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
 
   vector<MotionProfilePose<double>> trajectory;
   for (int i = 0; i < times.size(); ++i)
-    trajectory.push_back(MotionProfilePose<double>(times[i],
-                                                   Pose<double>(positions[i],
-                                                                atan2(positions[i].y, positions[i].x)),
-                                                   velocities[i],
-                                                   curvatures[i] * velocities[i],
-                                                   accelerations[i]));
+  {
+    trajectory.push_back(MotionProfilePose<double>(
+        times[i],
+        Pose<double>(positions[i], atan2(positions[i].y, positions[i].x)),
+        velocities[i], curvatures[i] * velocities[i], accelerations[i]));
+  }
 
   return trajectory;
 }
@@ -122,8 +127,6 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
 void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ramseteParams, double kv)
 {
   vector<MotionProfilePose<double>> trajectory = generateTrajectory({.profile = profile, .trackWidth = trackWidth});
-
-  return;
 
   cout << trajectory.size() << endl;
   for (MotionProfilePose<double> profilePose : trajectory)
