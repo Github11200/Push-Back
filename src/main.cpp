@@ -80,6 +80,24 @@ void autonomous(void)
 
 void usercontrol(void)
 {
+  CurvedMotionProfile motionProfile;
+  Vector2D<double> points[4] = {
+      Vector2D<double>(13, 36), Vector2D<double>(13, 60),
+      Vector2D<double>(36, 36), Vector2D<double>(36, 60)};
+  motionProfile.curve = CubicBezier(points);
+  motionProfile.distanceBetweenPoints = 0.5;
+  motionProfile.initialVelocity = 0;
+  motionProfile.finalVelocity = 0;
+  motionProfile.kA = 10;
+  motionProfile.maximumAcceleration = 2;
+  motionProfile.maximumVelocity = 100;
+
+  RamseteParams params;
+  params.beta = 0.1;
+  params.zeta = 0.1;
+
+  chassis.curvedMotionProfile(motionProfile, params, 0.5);
+
   // if (chassis.odometry->isTracking)
   //   chassis.odometry->stopPositionTrackThread();
   Driver driver;
