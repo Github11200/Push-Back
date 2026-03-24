@@ -10,12 +10,21 @@ void Autons::testing()
   chassisReference->odometry->setPosition(0, 0, 0);
   chassisReference->odometry->startPositionTrackThread(false);
 
-  // TurnParams params = turnParams45_deg();
-  // DriveParams driveParams = driveParams50_in();
-  // driveParams.driveTimeout = 10000;
-  // driveParams.driveSettleError = 0.5;
-  // params.turnSettleError = 0.5;
-  // params.turnTimeout = 10000;
-  // chassisReference->driveToPose(Pose<double>(-47, 47, 270), driveParams, params, {}, 0.5, 0, 2.5);
-  chassisReference->turnTo(Pose<double>(0, 0, 90), {}, {}, SwingDirection::SWING_RIGHT);
+  CurvedMotionProfile motionProfile;
+  Vector2D<double> points[4] = {
+      Vector2D<double>(0, 0), Vector2D<double>(0, 0),
+      Vector2D<double>(0, 10), Vector2D<double>(0, 10)};
+  motionProfile.curve = CubicBezier(points);
+  motionProfile.distanceBetweenPoints = 0.25;
+  motionProfile.initialVelocity = 0;
+  motionProfile.finalVelocity = 0;
+  motionProfile.kA = 2;
+  motionProfile.maximumAcceleration = 4;
+  motionProfile.maximumVelocity = 50;
+
+  RamseteParams params;
+  params.beta = 5;
+  params.zeta = 0.1;
+
+  chassisReference->curvedMotionProfile(motionProfile, params, 1.2);
 }

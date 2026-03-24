@@ -24,7 +24,6 @@ vector<double> pass(const vector<double> &distances, vector<double> &velocities,
   constrainedVelocities.push_back(velocities[0]);
 
   int length = distances.size();
-  double previousVelocity = velocities[0];
   for (int i = 1; i < length; ++i)
   {
     double deltaD = abs(distances[i] - distances[i - 1]);
@@ -118,7 +117,7 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
   {
     trajectory.push_back(MotionProfilePose<double>(
         times[i],
-        Pose<double>(positions[i], atan2(positions[i].y, positions[i].x)),
+        Pose<double>(positions[i], Angle<double>(atan2(positions[i].y, positions[i].x) - (M_PI / 2)).toDeg().angle),
         velocities[i], curvatures[i] * velocities[i], accelerations[i]));
   }
 
@@ -129,23 +128,24 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
 {
   vector<MotionProfilePose<double>> trajectory = generateTrajectory({.profile = profile, .trackWidth = trackWidth});
 
-  cout << trajectory.size() << endl;
-  for (MotionProfilePose<double> profilePose : trajectory)
-  {
-    cout << "Time: " << profilePose.time << endl
-         << "X: " << profilePose.pose.position.x << endl
-         << "Y: " << profilePose.pose.position.y << endl
-         << "Angle: " << profilePose.pose.orientation.angle << endl
-         << "Velocity: " << profilePose.velocity << endl
-         << "Angular Velocity: " << profilePose.angularVelocity << endl
-         << "Acceleration: " << profilePose.acceleration << endl;
+  // cout << trajectory.size() << endl;
+  // for (MotionProfilePose<double> profilePose : trajectory)
+  // {
+  //   cout << "Time: " << profilePose.time << endl
+  //        << "X: " << profilePose.pose.position.x << endl
+  //        << "Y: " << profilePose.pose.position.y << endl
+  //        << "Angle: " << profilePose.pose.orientation.angle << endl
+  //        << "Velocity: " << profilePose.velocity << endl
+  //        << "Angular Velocity: " << profilePose.angularVelocity << endl
+  //        << "Acceleration: " << profilePose.acceleration << endl;
 
-    cout << "====================================" << endl;
-    wait(20, msec);
-  }
+  //   cout << "====================================" << endl;
+  //   wait(20, msec);
+  // }
 
-  return;
+  // return;
 
+  cout << trajectory[0].pose.orientation.angle << endl;
   for (int i = 0; i < trajectory.size(); ++i)
   {
     double desiredVelocity = trajectory[i].velocity;
@@ -157,7 +157,7 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
 
     double xError = desiredPose.position.x - currentPose.position.x;
     double yError = desiredPose.position.y - currentPose.position.y;
-    double angleError = (desiredPose.orientation - currentPose.orientation).constrainNegative180To180().angle;
+    double angleError = (currentPose.orientation - desiredPose.orientation).constrainNegative180To180().angle;
 
     double transformationMatrix[3][3] = {{cos(currentAngle.toRad().angle), sin(currentAngle.toRad().angle), 0},
                                          {-sin(currentAngle.toRad().angle), cos(currentAngle.toRad().angle), 0},
@@ -166,14 +166,35 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
     double localXError = xError * transformationMatrix[0][0] + yError * transformationMatrix[0][1] + angleError * transformationMatrix[0][2];
     double localYError = xError * transformationMatrix[1][0] + yError * transformationMatrix[1][1] + angleError * transformationMatrix[1][2];
     double localAngleError = xError * transformationMatrix[2][0] + yError * transformationMatrix[2][1] + angleError * transformationMatrix[2][2];
+    cout << "angle: " << Angle<double>(localAngleError).angle << endl;
 
+    // cout << "desired av: " << desiredAngularVelocity << endl;
+    // cout << "desired v: " << desiredVelocity << endl;
     double gainValue = 2 * ramseteParams.zeta * sqrt(pow(desiredAngularVelocity, 2) + ramseteParams.beta * pow(desiredVelocity, 2));
 
-    double linearVelocity = (desiredVelocity * cos(localAngleError) + gainValue * localXError) / (3.25 * M_PI);
-    double angularVelocity = desiredAngularVelocity + gainValue * localAngleError + ((ramseteParams.beta * desiredVelocity * sin(localAngleError) * localYError) / localAngleError);
+    double localAngleErrorRadians = Angle<double>(localAngleError).toRad().angle;
+    double linearVelocity = (desiredVelocity * cos(localAngleErrorRadians) + gainValue * localXError) / (3.25 * M_PI);
+    double angularVelocity = desiredAngularVelocity + gainValue * localAngleError + ((ramseteParams.beta * desiredVelocity * sin(localAngleErrorRadians) * localYError) / localAngleError);
 
     double leftPower = (linearVelocity + angularVelocity) * kv;
     double rightPower = (linearVelocity - angularVelocity) * kv;
+
+    cout << "desired v: " << desiredVelocity << endl;
+    // cout << "desired pose y: " << desiredPose.position.y << endl;
+    // cout << "local x error:" << localXError << endl;
+    // cout << "local y error:" << localYError << endl;
+    cout << "gain value: " << gainValue << endl;
+    cout << "linear velocity: " << linearVelocity << endl;
+    cout << "angular velocity: " << angularVelocity << endl;
+    cout << "lp: " << leftPower << endl;
+    cout << "rp: " << rightPower << endl;
+    cout << "====================" << endl;
+
+    // cout << leftPower << "," << rightPower << "," << gainValue << "," << angularVelocity << ","
+    //      << linearVelocity << "," << localAngleError << "," << localXError << "," << localYError << ","
+    //      << xError << "," << yError << "," << angleError << "," << desiredVelocity << ","
+    //      << desiredAngularVelocity << "," << desiredPose.position.x << "," << desiredPose.position.y << ","
+    //      << desiredPose.orientation.angle << endl;
 
     Left.spin(vex::directionType::fwd, leftPower, vex::voltageUnits::volt);
     Right.spin(vex::directionType::fwd, rightPower, vex::voltageUnits::volt);

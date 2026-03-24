@@ -45,7 +45,7 @@ double CubicBezier::getCurvature(double t)
                            1.5);
 
   // Prevents divide by 0 errors
-  if (denominator == 1e-9)
+  if (denominator == 0)
     return 0;
 
   return abs(numerator) / denominator;
