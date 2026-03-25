@@ -24,7 +24,7 @@ void Autons::testing()
   motionProfile.maximumAcceleration = 15;
   motionProfile.maximumVelocity = 50;
   motionProfile.kV = 0.005;
-  motionProfile.kA = 0.02;
+  motionProfile.kA = 0.03;
 
   RamseteParams params;
   params.beta = 45;
