@@ -35,6 +35,9 @@ template <class T>
 T toVoltage(T percent);
 
 template <class T>
+T sinc(T x);
+
+template <class T>
 Vector2D<T> lerp(Vector2D<T> startPoint, Vector2D<T> endPoint, T t);
 
 // Visualization (still a work in progress): https://www.desmos.com/calculator/znrpd1hpwu

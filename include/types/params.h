@@ -74,7 +74,8 @@ struct MotionProfile
   double initialVelocity = 0;
   double finalVelocity = 0;
   double maximumAcceleration = 5;
-  double kA = 0.1;
+  double kA = 0;
+  double kV = 0;
 };
 
 struct CurvedMotionProfile : MotionProfile

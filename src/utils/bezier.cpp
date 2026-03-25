@@ -48,7 +48,7 @@ double CubicBezier::getCurvature(double t)
   if (denominator == 0)
     return 0;
 
-  return abs(numerator) / denominator;
+  return numerator / denominator;
 }
 
 double CubicBezier::getArcLength(double t)

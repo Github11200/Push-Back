@@ -43,7 +43,7 @@ public:
   void driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings);
   void driveToPose(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings, double lead = 0, double setback = 0, double driveCompensation = 0);
   void turnTo(const Pose<double> &target, TurnParams params, Settings settings, SwingDirection swing = NONE);
-  void curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ramseteParams, double kv);
+  void curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ramseteParams);
 
   // void followPath(vector<Pose<double>> path, PursuitParams params);
 

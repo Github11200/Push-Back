@@ -55,6 +55,14 @@ T toVoltage(T percent)
 }
 
 template <class T>
+T sinc(T x)
+{
+  if (x == 0.0)
+    return 1;
+  return sin(x) / x;
+}
+
+template <class T>
 Vector2D<T> lerp(Vector2D<T> startPoint, Vector2D<T> endPoint, T t)
 {
   return startPoint + Vector2D<double>((endPoint - startPoint).x * t, (endPoint - startPoint).y * t);
@@ -119,5 +127,9 @@ template float slew<float>(float current, float target, float maxChange);
 template int toVoltage<int>(int percent);
 template double toVoltage<double>(double percent);
 template float toVoltage<float>(float percent);
+
+template int sinc<int>(int x);
+template double sinc<double>(double x);
+template float sinc<float>(float x);
 
 template Vector2D<double> lerp(Vector2D<double> startPoint, Vector2D<double> endPoint, double t);
