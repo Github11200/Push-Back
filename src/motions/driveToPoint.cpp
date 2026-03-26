@@ -3,8 +3,11 @@
 using namespace vex;
 using namespace std;
 
-void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, TurnParams turnParams, Settings settings)
+void Chassis::driveToPoint(Pose<double> target, DriveParams driveParams, TurnParams turnParams, Settings settings, bool useClassTargetVariable)
 {
+  if (useClassTargetVariable)
+    target = this->target;
+
   Pose<double> currentPose = odometry->getPose();
 
   Angle<double> rawTurnError = currentPose.position.angleTo(target.position) - currentPose.orientation;
@@ -37,8 +40,12 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
   Vector2D<double> projectedPerpendicularLine(-sin(initialHeading.toRad().angle), cos(initialHeading.toRad().angle));
 
   double elapsedTime = 0;
-  while (!drivePID.isSettled())
+  driveToPointRunning = true;
+  while (!drivePID.isSettled() && !cancelDriveToPoint)
   {
+    if (useClassTargetVariable)
+      target = this->target;
+
     currentPose = odometry->getPose();
 
     distanceToTarget = currentPose.position.distanceTo(target.position);
@@ -123,6 +130,7 @@ void Chassis::driveToPoint(const Pose<double> &target, DriveParams driveParams, 
     wait(settings.updateTime, msec);
     elapsedTime += settings.updateTime;
   }
+  driveToPointRunning = false;
 
   // cout << "drive done" << endl;
 

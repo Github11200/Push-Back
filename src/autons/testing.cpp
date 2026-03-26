@@ -11,9 +11,6 @@ void Autons::testing()
   chassisReference->odometry->startPositionTrackThread(false);
 
   CurvedMotionProfile motionProfile;
-  // Vector2D<double> points[4] = {
-  //     Vector2D<double>(0, 0), Vector2D<double>(0, 20),
-  //     Vector2D<double>(0, 20), Vector2D<double>(20, 20)};
   Vector2D<double> points[4] = {
       Vector2D<double>(0, 0), Vector2D<double>(0, 15),
       Vector2D<double>(0, 15), Vector2D<double>(-20, 20)};

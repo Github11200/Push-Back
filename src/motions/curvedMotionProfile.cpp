@@ -175,29 +175,6 @@ void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ram
     double leftPower = (linearVelocity + angularVelocity);
     double rightPower = (linearVelocity - angularVelocity);
 
-    // leftPower *= kv, rightPower *= kv;
-
-    // cout << "angle: " << Angle<double>(localAngleError).toDeg().angle << endl;
-    cout << "curr x: " << currentPose.position.x << endl;
-    cout << "curr y: " << currentPose.position.y << endl;
-    // cout << "desired y: " << desiredPose.position.y << endl;
-    // cout << "desired y: " << desiredPose.position.y << endl;
-    // cout << "local x error: " << localYError << endl;
-    // cout << "local y error: " << localXError << endl;
-    // cout << "desired v: " << desiredVelocity << endl;
-    // cout << "gain value: " << gainValue << endl;
-    // cout << "linear velocity: " << linearVelocity << endl;
-    // cout << "angular velocity: " << angularVelocity << endl;
-    // cout << "lp: " << leftPower << endl;
-    // cout << "rp: " << rightPower << endl;
-    cout << "====================" << endl;
-
-    // cout << leftPower << "," << rightPower << "," << gainValue << "," << angularVelocity << ","
-    //      << linearVelocity << "," << localAngleError << "," << localXError << "," << localYError << ","
-    //      << xError << "," << yError << "," << angleError << "," << desiredVelocity << ","
-    //      << desiredAngularVelocity << "," << desiredPose.position.x << "," << desiredPose.position.y << ","
-    //      << desiredPose.orientation.angle << endl;
-
     Left.spin(vex::directionType::fwd, leftPower, vex::voltageUnits::volt);
     Right.spin(vex::directionType::fwd, rightPower, vex::voltageUnits::volt);
 

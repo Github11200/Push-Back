@@ -24,10 +24,10 @@ namespace Config
   inline constexpr double kForwardTrackerDistance = 0.2516505;
   inline constexpr double kSidewaysTrackerDistance = 4.06826;
 
-  inline constexpr double kFrontDistanceSensorDistance = 8.3175 - 5.4;
-  inline constexpr double kLeftDistanceSensorDistance = 6.8845 - 1.45;
-  inline constexpr double kRightDistanceSensorDistance = 6.8845 - 0.2;
-  inline constexpr double kBackDistanceSensorDistance = 8.3175 - 3.4;
+  // Get the tracking center then subtract the distance sensor reading from that
+  inline constexpr double kFrontDistanceSensorDistance = 14 - 2;
+  inline constexpr double kLeftDistanceSensorDistance = 14 - 2;
+  inline constexpr double kRightDistanceSensorDistance = 14 - 2;
 
   inline constexpr bool kEnableLogs = true;
 
