@@ -9,8 +9,6 @@ class CubicBezier
 private:
   Vector2D<double> points[4];
   int n = 4;
-  int a = 0;
-  int b = 1;
   double nodes[4] = {-0.861136, -0.339981, 0.339981, -0.861136};
   double weights[4] = {0.347855, 0.652145, 0.652145, 0.347855};
 
