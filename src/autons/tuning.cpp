@@ -5,6 +5,8 @@
 
 void Autons::tuning()
 {
+  chassisReference->odometry->setPosition(-63, 0, 90);
+
   /*=============================================================
   |                   Part 1 - Wheel Diameters                  |
   |                                                             |
@@ -14,8 +16,8 @@ void Autons::tuning()
   | it's tuned PLUG THE VALUES INTO THE DEGREES TO INCHES RATIO |
   | INSIDE main.cpp otherwise the next step won't work.         |
   =============================================================*/
-  // chassisReference->odometry->getWheelDiameters(0, 2.72292); // Forward tracker
-  // chassisReference->odometry->getWheelDiameters(1, 1.98839); // Sideways tracker
+  // chassisReference->odometry->getWheelDiameters(0, 2.749489); // Forward tracker
+  // chassisReference->odometry->getWheelDiameters(1, 1.97717); // Sideways tracker
 
   /*=============================================================
   |                   Part 2 - Wheel Offsets                    |
@@ -25,34 +27,35 @@ void Autons::tuning()
   | the wheel diameters from before so make sure thoser are     |
   | accurate and tuned well.                                    |
   =============================================================*/
-  chassisReference->odometry->getWheelOffsets();
+  // chassisReference->odometry->getWheelOffsets();
 
   /*=============================================================
   |                    Part 3 - Gyro Scaling                    |
   | Rotate the bot around 10 times, get the degrees from the    |
   | inertial and divide that by 3600 to get the gyro scale.     |
   =============================================================*/
-  // int iterations = 5;
-  // double differences = 0;
-  // for (int i = 0; i < iterations; ++i)
-  // {
-  //   chassisReference->calibrateInertial();
-  //   Logger::sendMessage("Rotate the bot 5 times. Then press A.");
-  //   while (!Controller.ButtonA.pressing())
-  //     wait(50, msec);
-  //   wait(500, msec);
-  //   differences += 360 - Inertial.heading(deg);
-  //   cout << (360 - Inertial.heading(deg)) << endl;
-  // }
-  // cout << "Gryo scale: " << (360 * iterations - (differences / iterations)) / iterations << endl;
+  /*int iterations = 5;
+  double differences = 0;
+  for (int i = 0; i < iterations; ++i)
+  {
+    chassisReference->calibrateInertial();
+    Logger::sendMessage("Rotate the bot 5 times. Then press A.");
+    while (!Controller.ButtonA.pressing())
+      wait(50, msec);
+    wait(500, msec);
+    differences += 360 - Inertial.heading(deg);
+    cout << (360 - Inertial.heading(deg)) << endl;
+  }
+  cout << "Gryo scale: " << (360 * iterations - (differences / iterations)) / iterations << endl;
+  */
 
   /*=============================================================
-  |                   Part 4 - Test odometry                    |
-  | Simply make sure the odom is accurate now by moving the bot |
-  | around, curving it, etc. Use the joysticks for this. Use    |
-  | the visualizer to see where the bot thinks it is.           |
-  =============================================================*/
-  // chassisReference->odometry->startPositionTrackThread(false);
+|                   Part 4 - Test odometry                    |
+| Simply make sure the odom is accurate now by moving the bot |
+| around, curving it, etc. Use the joysticks for this. Use    |
+| the visualizer to see where the bot thinks it is.           |
+=============================================================*/
+  chassisReference->odometry->startPositionTrackThread(true);
 
   /*=============================================================
   |                   Part 5 - Tune the PIDs                     |
