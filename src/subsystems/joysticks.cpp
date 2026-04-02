@@ -1,8 +1,5 @@
 #include "subsystems/joysticks.h"
 
-bool stopIsBrake = false;
-bool CurveToggle = false;
-
 double Joysticks::curve(double input, double curveValue)
 {
   return (std::exp(-(curveValue / 10)) + std::exp((std::fabs(input) - 127) / 10) * (1 - std::exp(-(curveValue / 10)))) * input;
@@ -10,38 +7,19 @@ double Joysticks::curve(double input, double curveValue)
 
 void Joysticks::control(double power, double turning)
 {
-  if (CurveToggle)
-  {
-    power = curve(deadband<double>(power, 1.0), 12);
-    turning = curve(deadband<double>(turning, 1.0), 6);
+  // New drive curve :)
+  power = curve(deadband<double>(power, 1.0), 12);
+  turning = curve(deadband<double>(turning, 1.0), 6);
 
-    power = pow(power, 3) / pow(10, 4);
-    turning = pow(turning, 3) / pow(10, 4);
-  }
-  else
-  {
-    power = deadband<double>(power, 0.5);
-    turning = deadband<double>(turning, 0.05);
-  }
+  power = pow(power, 3) / pow(10, 4);
+  turning = pow(turning, 3) / pow(10, 4);
 
   Pair outputs = getMotorVelocities(power, turning);
 
-  if (outputs.left == 0 && stopIsBrake)
-  {
+  if (outputs.left == 0)
     Left.stop(brake);
-  }
-  else
-  {
-    Left.stop(coast);
-  }
-  if (outputs.right == 0 && stopIsBrake)
-  {
+  if (outputs.right == 0)
     Right.stop(brake);
-  }
-  else
-  {
-    Right.stop(coast);
-  }
 
   Right.spin(vex::directionType::fwd, outputs.right, vex::voltageUnits::volt);
   Left.spin(vex::directionType::fwd, outputs.left, vex::voltageUnits::volt);
