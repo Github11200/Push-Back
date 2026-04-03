@@ -5,7 +5,8 @@
 
 void Autons::tuning()
 {
-  chassisReference->odometry->setPosition(-63, 0, 90);
+  cout << "sideways offset: " << Config::kSidewaysTrackerDistance << endl;
+  chassisReference->odometry->setPosition(0, 0, 0);
 
   /*=============================================================
   |                   Part 1 - Wheel Diameters                  |

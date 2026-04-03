@@ -49,13 +49,15 @@ void Pneumatic::delayToggle(int milliseconds)
   Brain.Timer.event([]()
                     { if (thisPointer->getPiston().value() == true)
                       thisPointer->getPiston().set(false);
-                    else
-                      thisPointer->getPiston().set(true); },
+                    else {
+                      thisPointer->getPiston().set(true);
+                      cout << "turning on" << endl;
+                    } },
                     milliseconds);
 }
 
-Pneumatic willyNilly(Port::A);
-Pneumatic finger(Port::B);
-Pneumatic sloper(Port::C);
-Pneumatic blocker(Port::D);
-Pneumatic razer(Port::E);
+Pneumatic willyNilly(Port::B);
+Pneumatic finger(Port::A);
+Pneumatic sloper(Port::C); //
+Pneumatic blocker(Port::E);
+Pneumatic razer(Port::D);

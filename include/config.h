@@ -7,7 +7,7 @@
 
 namespace Config
 {
-  inline constexpr double kInertialScaling = 355.562;
+  inline constexpr double kInertialScaling = 359.8;
   inline constexpr TrackerSetup kTrackerSetup = TrackerSetup::TWO_TRACKER;
 
   inline constexpr double kForwardTrackerWheelDiameter = 2.749489;
@@ -21,8 +21,8 @@ namespace Config
 
   inline constexpr double kMotorsInchesToDegreesRatio = (M_PI * kDriveWheelDiameters * kDriveGearRatio) / 360.0;
 
-  inline constexpr double kForwardTrackerDistance = 1.29845;
-  inline constexpr double kSidewaysTrackerDistance = -1.9652;
+  inline constexpr double kForwardTrackerDistance = 0.52390;
+  inline constexpr double kSidewaysTrackerDistance = 2.65866;
 
   // Get the tracking center then subtract the distance sensor reading from that
   inline constexpr double kFrontDistanceSensorDistance = 14 - 2;
@@ -30,6 +30,10 @@ namespace Config
   inline constexpr double kRightDistanceSensorDistance = 14 - 2;
 
   inline constexpr bool kEnableLogs = true;
+
+  // Set to true to enable controller-driven PID tuning via TuningUtil::run().
+  // When true, usercontrol enters tuning mode instead of normal driver operation.
+  inline constexpr bool kTuningMode = false;
 
   inline constexpr int kSkillsScoreTimeMs = 1100;
   inline constexpr int kSkillsRamTimeMs = 300;

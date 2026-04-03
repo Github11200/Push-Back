@@ -15,6 +15,7 @@
 #include "driver.h"
 #include "types/params.h"
 #include "config.h"
+#include "tuningUtil.h"
 
 #include "vex.h"
 
@@ -77,18 +78,13 @@ void autonomous(void)
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-
 void usercontrol(void)
 {
-  // if (chassis.odometry->isTracking)
-  //   chassis.odometry->stopPositionTrackThread();
-
-  // chassis.odometry->startPositionTrackThread(false);
+  // User control code here, inside the loop
 
   Driver driver;
   driver.startJoysticksThread();
   driver.startPistonsThread();
-
   autons.runAuton(AutonName::TUNING);
 
   // User control code here, inside the loop
