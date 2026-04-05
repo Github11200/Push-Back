@@ -86,6 +86,9 @@ void usercontrol(void)
   driver.startJoysticksThread();
   driver.startPistonsThread();
 
+  wait(4, sec);
+  autons.runAuton(AutonName::TUNING);
+
   // User control code here, inside the loop
   while (1)
   {
