@@ -14,20 +14,9 @@ void Joysticks::control(double power, double turning)
   power = pow(power, 3) / pow(10, 4);
   turning = pow(turning, 3) / pow(10, 4);
 
-  if (power < 0.01 && power > -0.01 && turning > 0.1)
-  {
-    if (turning < 2)
-    {
-      turning = 2;
-    }
-  }
-  else if (power < 0.01 && power > -0.01 && turning < -0.1)
-  {
-    if (turning > -2)
-    {
-      turning = -2;
-    }
-  }
+  if (abs(power) < 0.01 && abs(turning) > 0.1)
+    if (abs(turning) < 2)
+      turning = 2 * sgn(turning);
 
   Pair outputs = getMotorVelocities(power, turning);
 
