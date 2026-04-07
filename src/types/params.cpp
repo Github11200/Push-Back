@@ -10,7 +10,7 @@ DriveParams driveParams5_in()
 {
   DriveParams driveParams;
   driveParams.driveKp = 0.928;
-  driveParams.driveKd = 5.9;
+  driveParams.driveKd = 5.6;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -18,8 +18,8 @@ DriveParams driveParams5_in()
 DriveParams driveParams10_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 1.5;
-  driveParams.driveKd = 5.5;
+  driveParams.driveKp = 1;
+  driveParams.driveKd = 7;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -27,8 +27,8 @@ DriveParams driveParams10_in()
 DriveParams driveParams20_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 1.892;
-  driveParams.driveKd = 2;
+  driveParams.driveKp = 0.5;
+  driveParams.driveKd = 3.2;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -36,8 +36,8 @@ DriveParams driveParams20_in()
 DriveParams driveParams30_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.51;
-  driveParams.driveKd = 2;
+  driveParams.driveKp = 0.5;
+  driveParams.driveKd = 3.15;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -45,8 +45,8 @@ DriveParams driveParams30_in()
 DriveParams driveParams50_in()
 {
   DriveParams driveParams;
-  driveParams.driveKp = 0.6;
-  driveParams.driveKd = 2;
+  driveParams.driveKp = 0.45;
+  driveParams.driveKd = 3;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -55,7 +55,7 @@ DriveParams driveParams100_in()
 {
   DriveParams driveParams;
   driveParams.driveKp = 0.4;
-  driveParams.driveKd = 2;
+  driveParams.driveKd = 3;
   driveParams.driveKi = 0;
   driveParams.driveStartIntegratingLimit = 0;
   return driveParams;
@@ -68,8 +68,8 @@ DriveParams driveParams100_in()
 TurnParams turnParams10_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.5185;
-  turnParams.turnKd = 2.2;
+  turnParams.turnKp = 0.516;
+  turnParams.turnKd = 2;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
   return turnParams;
@@ -86,7 +86,7 @@ TurnParams turnParams30_deg()
 TurnParams turnParams45_deg()
 {
   TurnParams turnParams;
-  turnParams.turnKp = 0.33;
+  turnParams.turnKp = 0.35;
   turnParams.turnKd = 2.3;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
@@ -105,7 +105,7 @@ TurnParams turnParams90_deg()
 {
   TurnParams turnParams;
   turnParams.turnKp = 0.27;
-  turnParams.turnKd = 1.9;
+  turnParams.turnKd = 1.95;
   turnParams.turnKi = 0;
   turnParams.turnStartIntegratingLimit = 0;
   return turnParams;

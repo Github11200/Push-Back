@@ -43,7 +43,7 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   // Testing::runAllTests();
-  autons.prepareAuton();
+  // autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -86,8 +86,9 @@ void usercontrol(void)
   driver.startJoysticksThread();
   driver.startPistonsThread();
 
-  wait(4, sec);
-  autons.runAuton(AutonName::TUNING);
+  // wait(4, sec);
+  // autons.prepareAuton();
+  // autons.runAuton(AutonName::TUNING);
 
   // User control code here, inside the loop
   while (1)
@@ -99,7 +100,7 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    // driver.buttonsLoopCallback();
+    driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

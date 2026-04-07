@@ -56,7 +56,7 @@ void Autons::tuning()
 | around, curving it, etc. Use the joysticks for this. Use    |
 | the visualizer to see where the bot thinks it is.           |
 =============================================================*/
-  chassisReference->odometry->startPositionTrackThread(true);
+  chassisReference->odometry->startPositionTrackThread(false);
 
   /*=============================================================
   |                   Part 5 - Tune the PIDs                     |
@@ -113,5 +113,5 @@ void Autons::tuning()
   // chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 100 inches forward
-  // chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
+  chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
 }

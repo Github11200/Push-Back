@@ -5,7 +5,7 @@
 void Autons::solo()
 {
   chassisReference->odometry->setPosition(-45, 0, 180);
-  chassisReference->odometry->startPositionTrackThread(true);
+  chassisReference->odometry->startPositionTrackThread(false);
 
   cout << DriveParams().driveSettleTime << endl;
   cout << Config::kSidewaysTrackerDistance << endl;
@@ -14,16 +14,16 @@ void Autons::solo()
   sloper.on();
 
   // Push our alliance
-  chassisReference->driveToPoint(Pose<double>(-45, -5, 0), {.driveTimeout = 700}, turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(-45, -3, 0), {.driveTimeout = 700}, turnParams10_deg(), {});
 
   // Drive in front of the loader
-  chassisReference->driveToPoint(Pose<double>(-47, 47, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-47, 47, 0), {}, turnParams10_deg(), {.forwards = false});
 
   // Ram into 1st loader
   willyNilly.on();
   chassisReference->turnTo(Pose<double>(-68, 47, -360), {.turnTimeout = 700}, {});
   chassisReference->driveWithVoltage(12, 200, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, 650, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, 500, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Go up to long goal
   chassisReference->turnTo(Pose<double>(-26, 47, -360), {.turnTimeout = 200}, {.forwards = false});
@@ -33,6 +33,7 @@ void Autons::solo()
   // Score
   blocker.on();
   wait(800, msec);
+  blocker.off();
 
   cout << "X: " << chassisReference->odometry->getPose().position.x << endl;
   cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
@@ -42,7 +43,7 @@ void Autons::solo()
   chassisReference->turnTo(Pose<double>(-23, 23, -360), {.turnTimeout = 1000}, {});
 
   // Eat middle blocks
-  willyNilly.delayToggle(800);
+  willyNilly.delayToggle(1100);
   chassisReference->driveToPoint(Pose<double>(-23, -23, 0), {.driveSettleError = 1, .driveSettleTime = 100, .driveTimeout = 1100}, {}, {});
 
   // Drive across the field
@@ -50,19 +51,20 @@ void Autons::solo()
   chassisReference->driveToPoint(Pose<double>(-47, -47, 0), {.driveSettleError = 1, .driveSettleTime = 100, .driveTimeout = 2000}, {}, {});
 
   // Ram into 2nd loader
-  chassisReference->turnTo(Pose<double>(-68, -47, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(-68, -46, -360), {}, {});
   // chassisReference->driveToPoint(Pose<double>(-80, 48, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 300, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(5, 650, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Line up to long goal
-  chassisReference->turnTo(Pose<double>(-24, -47, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-24, -47, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-24, -46, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-24, -46, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
   willyNilly.off();
 
   // Score and NOT chill >:(
   blocker.on();
   wait(1000, msec);
+  blocker.off();
 
   // Turn by clipping onto the goal
   chassisReference->turnTo(Pose<double>(-23, -23, -360), {.turnTimeout = 1000}, {});
