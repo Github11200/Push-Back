@@ -14,6 +14,21 @@ void Joysticks::control(double power, double turning)
   power = pow(power, 3) / pow(10, 4);
   turning = pow(turning, 3) / pow(10, 4);
 
+  if (power < 0.01 && power > -0.01 && turning > 0.1)
+  {
+    if (turning < 2)
+    {
+      turning = 2;
+    }
+  }
+  else if (power < 0.01 && power > -0.01 && turning < -0.1)
+  {
+    if (turning > -2)
+    {
+      turning = -2;
+    }
+  }
+
   Pair outputs = getMotorVelocities(power, turning);
 
   if (outputs.left == 0)
@@ -21,7 +36,7 @@ void Joysticks::control(double power, double turning)
   if (outputs.right == 0)
     Right.stop(brake);
 
-  Right.spin(vex::directionType::fwd, outputs.right * 1.05, vex::voltageUnits::volt);
+  Right.spin(vex::directionType::fwd, outputs.right * 1.01, vex::voltageUnits::volt);
   Left.spin(vex::directionType::fwd, outputs.left, vex::voltageUnits::volt);
 }
 

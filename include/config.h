@@ -21,8 +21,8 @@ namespace Config
 
   inline constexpr double kMotorsInchesToDegreesRatio = (M_PI * kDriveWheelDiameters * kDriveGearRatio) / 360.0;
 
-  inline constexpr double kForwardTrackerDistance = 0.52390;
-  inline constexpr double kSidewaysTrackerDistance = 2.65866;
+  inline constexpr double kForwardTrackerDistance = 0.249837;
+  inline constexpr double kSidewaysTrackerDistance = 2.99544;
 
   // Get the tracking center then subtract the distance sensor reading from that
   inline constexpr double kFrontDistanceSensorDistance = 14 - 2;
