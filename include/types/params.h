@@ -8,6 +8,7 @@ struct Settings
   int updateTime = 10;
   bool forwards = true;
   bool sendPositionData = false;
+  bool doNotEditTurnConstants = false;
 
   Settings() = default;
 };

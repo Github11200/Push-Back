@@ -43,7 +43,7 @@ void pre_auton(void)
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
   // Testing::runAllTests();
-  // autons.prepareAuton();
+  autons.prepareAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -88,7 +88,7 @@ void usercontrol(void)
 
   // wait(4, sec);
   // autons.prepareAuton();
-  // autons.runAuton(AutonName::TUNING);
+  // autons.runAuton(AutonName::TESTING);
 
   // User control code here, inside the loop
   while (1)

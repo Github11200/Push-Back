@@ -7,7 +7,7 @@ using namespace std;
 
 void Autons::testing()
 {
-  chassisReference->odometry->setPosition(0, 0, 0);
+  chassisReference->odometry->setPosition(0, 0, 180);
   chassisReference->odometry->startPositionTrackThread(false);
 
   CurvedMotionProfile motionProfile;
@@ -28,4 +28,6 @@ void Autons::testing()
   params.zeta = 0.4;
 
   chassisReference->curvedMotionProfile(motionProfile, params);
+
+  // chassisReference->driveToPose(Pose<double>(-20, -20, 0), {.driveSettleTime = 2000}, {.turnSettleTime = 2000}, {}, 0.8, 0.8);
 }
