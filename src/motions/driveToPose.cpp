@@ -14,14 +14,20 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   Vector2D<double> carrotPoint = Vector2D<double>(carrotX, carrotY);
 
   double driveError = currentPose.position.distanceTo(carrotPoint);
+  double settlingDriveError = currentPose.position.distanceTo(target.position);
+
   Angle<double> additionalAngle = Angle<double>(!settings.forwards ? 180 : 0);
   Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
+  Angle<double> settlingTurnError = (currentPose.position.angleTo(target.position) - currentPose.orientation - additionalAngle).constrainNegative180To180();
 
   modifyTurnParams(abs(turnError.angle), turnParams);
   modifyDriveParams(abs(driveError), driveParams);
 
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);
+
+  PID settlingDrivePID(settings.updateTime, driveParams);
+  PID settlingTurnPID(settings.updateTime, turnParams);
 
   double driveOutput = 0;
   double turnOutput = 0;
@@ -36,7 +42,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
 
   Vector2D<double> projectedPerpendicularLine(-sin(target.orientation.toRad().angle), cos(target.orientation.toRad().angle));
 
-  while (!drivePID.isSettled() && !turnPID.isSettled())
+  while (!settlingDrivePID.isSettled() && !settlingTurnPID.isSettled())
   {
     currentPose = odometry->getPose();
 
@@ -53,7 +59,10 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     carrotPoint = Vector2D<double>(carrotX, carrotY);
 
     driveError = currentPose.position.distanceTo(carrotPoint);
+    settlingDriveError = currentPose.position.distanceTo(target.position);
+
     turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
+    settlingTurnError = (currentPose.position.angleTo(target.position) - currentPose.orientation - additionalAngle).constrainNegative180To180();
 
     headingScaleFactor = cos(turnError.toRad().angle);
 
@@ -85,6 +94,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     =============================*/
 
     turnOutput = turnPID.compute(turnError.angle);
+    settlingTurnPID.compute(settlingTurnError.angle);
 
     // Clamp the values
     turnOutput = clamp(turnOutput, -turnParams.turnMaxVoltage, turnParams.turnMaxVoltage);
@@ -97,6 +107,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
     =============================*/
 
     driveOutput = drivePID.compute(driveError) * headingScaleFactor;
+    settlingDrivePID.compute(settlingDriveError);
     driveOutput = clamp(driveOutput, -driveParams.driveMaxVoltage * headingScaleFactor, driveParams.driveMaxVoltage * headingScaleFactor);
 
     // Limit accleration
