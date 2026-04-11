@@ -24,7 +24,7 @@ motor IntakeRear = motor(PORT16, ratio6_1, true); // DONE
 
 vex::distance frontDistance = vex::distance(PORT1);
 vex::distance rightDistance = vex::distance(PORT9);
-vex::distance leftDistance = vex::distance(PORT13);
+vex::distance leftDistance = vex::distance(PORT11);
 
 vex::rotation ForwardTracker = vex::rotation(PORT1, true);    // DONE
 vex::rotation SidewaysTracker = vex::rotation(PORT14, false); // DONE

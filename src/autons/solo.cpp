@@ -62,7 +62,7 @@ void Autons::solo()
 
   // Line up to long goal
   chassisReference->turnTo(Pose<double>(-24, -47.5, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-24, -47.5, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-24, -47.5, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false, .doNotEditTurnConstants = true});
   willyNilly.off();
 
   // Score and NOT chill >:(
@@ -75,13 +75,13 @@ void Autons::solo()
   chassisReference->turnTo(Pose<double>(-22, -23, -360), {.turnTimeout = 1000}, {});
 
   // Eat middle blocks
-  chassisReference->driveToPoint(Pose<double>(-23, -23, 0), {.driveTimeout = 1100, .driveSettleTime = 0}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-23, -23, 0), {.driveTimeout = 1100, .driveSettleTime = 0}, turnParams10_deg(), {.doNotEditTurnConstants = true});
 
   // Go up to low goal
   chassisReference->turnTo(Pose<double>(-9, -9, -360), {.turnSettleTime = 0, .turnSettleError = 3}, {});
   Brain.Timer.event([](void *)
                     { IntakeFront.spin(vex::directionType::rev, 6, volt); }, 200);
-  chassisReference->driveToPoint(Pose<double>(-9, -9, 0), {.driveTimeout = 1000}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-9, -9, 0), {.driveTimeout = 1000}, turnParams10_deg(), {.doNotEditTurnConstants = true});
   razer.on();
   willyNilly.off();
 

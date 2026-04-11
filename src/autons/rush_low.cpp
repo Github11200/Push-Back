@@ -20,12 +20,12 @@ void Autons::rush_low()
   wait(200, msec);
 
   // Drive (in reverse) in front of the loader
-  chassisReference->turnTo(Pose<double>(-47, -47, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-47, -48.5, 0), {.driveTimeout = 1100}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-47, -47.5, -360), {}, {});
+  chassisReference->driveToPoint(Pose<double>(-47, -47.5, 0), {}, turnParams10_deg(), {});
   willyNilly.on();
 
   // Ram into 1st loader
-  chassisReference->turnTo(Pose<double>(-68, -48.5, -360), {.turnTimeout = 700}, {});
+  chassisReference->turnTo(Pose<double>(-68, -48, -360), {.turnTimeout = 700}, {});
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 100, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(5, 520, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});

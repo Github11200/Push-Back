@@ -11,7 +11,7 @@ void Autons::skills()
   cout << DriveParams().driveSettleTime << endl;
 
   // Set starting coordinates
-  chassisReference->odometry->setPosition(-45, 18, 90);
+  chassisReference->odometry->setPosition(-47.5, 15, 90);
   chassisReference->odometry->startPositionTrackThread(false);
 
   sloper.on();
@@ -24,24 +24,26 @@ void Autons::skills()
   cout << "center blocks position: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
 
   // Align to middle goal
-  chassisReference->turnTo(Pose<double>(-13, 13, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-13, 13, 0), {}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-11, 11, -360), {.turnTimeout = 700}, {.forwards = false});
+  sloper.off();
+  chassisReference->driveToPoint(Pose<double>(-11, 11, 0), {}, {}, {.forwards = false});
 
   // Score in middle goal
-  sloper.off();
+  blocker.on();
   IntakeRear.spin(vex::directionType::fwd, 6, vex::voltageUnits::volt);
   IntakeMiddle.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   wait(800, msec);
-  sloper.on();
   intake.stopFullIntake();
   willyNilly.on();
 
   // Drive in front of the loader
-  chassisReference->driveToPoint(Pose<double>(-47, 48.25, 0), {.driveTimeout = 2000}, turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(-47, 47, 0), {.driveTimeout = 2000}, turnParams10_deg(), {});
+  sloper.on();
+  blocker.off();
 
   // Ram into 1st loader
-  chassisReference->turnTo(Pose<double>(-68, 48.5, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(-68, 47, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
   chassisReference->driveWithVoltage(12, (Config::kSkillsRamTimeMs - 100), chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {}); // decreased since the robot is closer to the loader this time
   chassisReference->driveWithVoltage(4, Config::kSkillsLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
@@ -61,8 +63,8 @@ void Autons::skills()
   cout << "x pod position after: " << chassisReference->odometry->getTrackersPositions().sideways << endl;
 
   // Turn out of alleyway
-  chassisReference->turnTo(Pose<double>(42, 48, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(42, 48, 0), {}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(42, 47.75, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(42, 47.75, 0), {}, turnParams10_deg(), {.forwards = false});
 
   // Align to long goal
   chassisReference->turnTo(Pose<double>(27, 48, -360), {}, {.forwards = false});
@@ -78,7 +80,7 @@ void Autons::skills()
   intake.stopFullIntake();
 
   // Ram into 2nd loader
-  chassisReference->turnTo(Pose<double>(68, 47, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(68, 46.5, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
   chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   blocker.off();
@@ -97,80 +99,89 @@ void Autons::skills()
   willyNilly.off();
 
   // Back away from 1st goal
-  chassisReference->driveToPoint(Pose<double>(52, 47, 0), {}, turnParams10_deg(), {});
+  // chassisReference->driveToPoint(Pose<double>(52, 47, 0), {}, turnParams10_deg(), {});
+  chassisReference->driveToPose(Pose<double>(61.165, 13.46, 180), {}, {}, {}, 0.2, 0, 0);
   blocker.off();
 
   // Align to blue park zone
-  chassisReference->turnTo(Pose<double>(60, 23, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(60, 23, 0), {.driveTimeout = 1000}, turnParams10_deg(), {});
+  // chassisReference->turnTo(Pose<double>(60, 23, -360), {}, {});
+  // chassisReference->driveToPoint(Pose<double>(60, 23, 0), {.driveTimeout = 1000}, turnParams10_deg(), {});
 
-  chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {}, SwingDirection::SWING_RIGHT);
+  // chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {}, SwingDirection::SWING_RIGHT);
 
   // Drive through park zone
   // chassisReference->turnTo(Pose<double>(66, -27, -360), {}, {});
   // chassisReference->driveToPoint(Pose<double>(66, -20, 0), {.driveTimeout = 1200}, {}, {});
   blocker.off();
   cout << "current position before park zone: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
-  chassisReference->driveWithVoltage(11, 1700, 175, turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(7, 900, 175, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(9, 1700, 175, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(6, 900, 175, turnParams10_deg(), {});
 
   // Drive back against park zone and reset position
   chassisReference->driveWithVoltage(-4, 1500, 185, turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(-5, 1100, 200, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(-5, 1000, 180, turnParams10_deg(), {});
   cout << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, -20, chassisReference->odometry->getPose().orientation.angle);
   cout << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
-  chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
+  // chassisReference->turnTo(Pose<double>(0, 0, 180), {}, {});
   chassisReference->odometry->wallReset(DistanceSensor::PORT, Wall::RIGHT);
   cout << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
 
   // Eat center blocks
-  chassisReference->turnTo(Pose<double>(22, -20, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(22, -20, 0), {}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(16, -19, -360), {}, {});
+  sloper.off();
+  chassisReference->driveToPoint(Pose<double>(16, -19, 0), {}, turnParams10_deg(), {});
+  Brain.Timer.event([](void *)
+                    { IntakeRear.spin(vex::directionType::fwd, 0, vex::voltageUnits::volt);
+                      IntakeMiddle.spin(vex::directionType::fwd, 0, vex::voltageUnits::volt);
+                      IntakeFront.spin(vex::directionType::fwd, 0, vex::voltageUnits::volt); }, 500);
   cout << "center blocks position: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
 
   // Align to middle goal
   intake.stopFullIntake();
-  chassisReference->turnTo(Pose<double>(13, -11, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(13, -11, 135), {}, turnParams10_deg(), {.forwards = false});
-  sloper.off();
+  chassisReference->turnTo(Pose<double>(8, -10, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(8, -10, 135), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
 
   // Score in middle goal
+  blocker.on();
   IntakeRear.spin(vex::directionType::fwd, 3.5, vex::voltageUnits::volt);
   IntakeMiddle.spin(vex::directionType::fwd, 8, vex::voltageUnits::volt);
   IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
-  wait(2000, msec);
+  wait(1200, msec);
+  chassisReference->driveDistance(2, chassisReference->odometry->getPose().orientation.angle, {.driveTimeout = 500}, turnParams10_deg(), {});
+  wait(800, msec);
   intake.stopFullIntake();
   willyNilly.on();
 
   // Drive towards 3rd dispenser
-  chassisReference->turnTo(Pose<double>(39, -49.5, -360), {.turnTimeout = 500}, {});
-  chassisReference->driveToPoint(Pose<double>(39, -49.5, 0), {}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(39, -48, -360), {.turnTimeout = 500}, {});
+  chassisReference->driveToPoint(Pose<double>(39, -48, 0), {.driveTimeout = 1500}, turnParams10_deg(), {});
+  blocker.off();
   sloper.on();
 
   // Ram into 3rd loader
-  chassisReference->turnTo(Pose<double>(68, -49.5, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(68, -48, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
   chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(4, Config::kSkillsLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(10, Config::kSkillsLoadLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Curve through alleyway
-  chassisReference->driveToPoint(Pose<double>(25, -61, 90), {.driveTimeout = 1300}, {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(25, -63, 90), {.driveTimeout = 1300}, {}, {.forwards = false});
   willyNilly.off();
   intake.stopFullIntake();
 
   // Drive through alleyway
-  chassisReference->turnTo(Pose<double>(-42, -52, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-42, -52, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-42, -63, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-42, -63, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
 
   // Turn out of alleyway
-  chassisReference->turnTo(Pose<double>(-42, -41, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-42, -41, 0), {}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-42, -49, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-42, -49, 0), {}, {}, {.forwards = false});
 
   // Align to long goal
-  chassisReference->turnTo(Pose<double>(-27, -41, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-27, -41, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-27, -49, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-27, -49, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
   cout << "Position before resetting 3: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, -47, chassisReference->odometry->getPose().orientation.angle);
   cout << "Position after resetting 3: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
@@ -183,7 +194,7 @@ void Autons::skills()
   intake.stopFullIntake();
 
   // Ram into 4th loader
-  chassisReference->turnTo(Pose<double>(-68, -43, -360), {}, {});
+  chassisReference->turnTo(Pose<double>(-68, -47, -360), {}, {});
   intake.spinFullIntake(vex::directionType::fwd, 12);
   chassisReference->driveWithVoltage(12, Config::kSkillsRamTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   blocker.off();
@@ -202,24 +213,26 @@ void Autons::skills()
   intake.stopFullIntake();
   willyNilly.off();
 
+  chassisReference->driveToPose(Pose<double>(-61.5, -13.46, 0), {}, {}, {}, 0.2, 0, 0);
+
   // Drive forward a bit
-  chassisReference->driveToPoint(Pose<double>(-54, -47, 0), {}, {}, {});
-  // chassisReference->driveDistance(20, chassisReference->getAbsoluteHeading().angle, {.driveTimeout = 1200}, {}, {});
+  // chassisReference->driveToPoint(Pose<double>(-54, -47, 0), {}, {}, {});
+  // // chassisReference->driveDistance(20, chassisReference->getAbsoluteHeading().angle, {.driveTimeout = 1200}, {}, {});
 
-  // Drive towards red parking zone
-  chassisReference->turnTo(Pose<double>(-61, -18, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-61, -18, 0), {.driveTimeout = 1200}, turnParams10_deg(), {});
-  blocker.off();
+  // // Drive towards red parking zone
+  // chassisReference->turnTo(Pose<double>(-61, -18, -360), {}, {});
+  // chassisReference->driveToPoint(Pose<double>(-61, -18, 0), {.driveTimeout = 1200}, turnParams10_deg(), {});
+  // blocker.off();
 
-  // Turn into alignment in front of the red parking zone
-  chassisReference->turnTo(Pose<double>(0, 0, 0), {}, {}, SwingDirection::SWING_RIGHT);
+  // // Turn into alignment in front of the red parking zone
+  // chassisReference->turnTo(Pose<double>(0, 0, 0), {}, {}, SwingDirection::SWING_RIGHT);
 
   // Park
   intake.spinFullIntake(vex::directionType::rev, 12);
-  chassisReference->driveWithVoltage(12, 1000, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(12, 850, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   wait(10000, msec);
 }
 
-// First wall distance - 4.76378
-// Second wall distance - 5.82677
+// 63.4336, -20, 178.178
+//
