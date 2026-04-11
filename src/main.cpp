@@ -66,7 +66,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::RUSH_LOW);
+  autons.runAuton(AutonName::SOLO);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -83,7 +83,9 @@ void usercontrol(void)
   // User control code here, inside the loop
 
   Driver driver;
-  driver.startJoysticksThread();
+  Joysticks joysticks;
+
+  // driver.startJoysticksThread();
   driver.startPistonsThread();
 
   // wait(4, sec);
@@ -100,6 +102,8 @@ void usercontrol(void)
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
+
+    joysticks.arcade();
     driver.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to

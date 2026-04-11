@@ -88,7 +88,7 @@ void Autons::solo()
   // Score in low goal
   intake.spinFullIntake(vex::directionType::rev, 12);
   wait(200, msec);
-  IntakeFront.spin(vex::directionType::rev, 6.5, volt);
+  IntakeFront.spin(vex::directionType::rev, 6, volt);
 
   wait(10000, sec);
 }
