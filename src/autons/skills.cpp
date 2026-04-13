@@ -88,8 +88,8 @@ void Autons::skills()
   chassisReference->driveWithVoltage(10, Config::kSkillsLoadLoadTimeMs, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Align to long goal
-  chassisReference->turnTo(Pose<double>(27, 47, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(27, 47, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(27, 47.25, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(27, 47.25, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
   cout << "Position before resetting 2: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, 47, chassisReference->odometry->getPose().orientation.angle);
 
@@ -139,8 +139,8 @@ void Autons::skills()
 
   // Align to middle goal
   intake.stopFullIntake();
-  chassisReference->turnTo(Pose<double>(8, -10, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(8, -10, 135), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(8, -9, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(8, -9, 135), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
 
   // Score in middle goal
   blocker.on();
@@ -176,12 +176,12 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(-42, -63, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
 
   // Turn out of alleyway
-  chassisReference->turnTo(Pose<double>(-42, -49, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-42, -49, 0), {}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-42, -49.25, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-42, -49.25, 0), {}, {}, {.forwards = false});
 
   // Align to long goal
-  chassisReference->turnTo(Pose<double>(-27, -49, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-27, -49, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-27, -49.25, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-27, -49.25, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
   cout << "Position before resetting 3: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, -47, chassisReference->odometry->getPose().orientation.angle);
   cout << "Position after resetting 3: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
