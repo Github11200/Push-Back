@@ -59,6 +59,13 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
 
     double speed = curve.getFirstDerivative(t).magnitude();
     double curvature = curve.getCurvature(t);
+    double radius = 1 / curvature;
+
+    // TODO: Test the following stuff to cancel out the centripetal force
+    double appliedForce = Config::kRobotMass * curve.getSecondDerivative(t).magnitude();
+    double centripetalForce = (Config::kRobotMass * pow(speed, 2)) / radius;
+
+    double angle = atan2(centripetalForce, appliedForce) - atan2(curve.getFirstDerivative(t).y, curve.getFirstDerivative(t).x);
 
     double constrainedSpeed = limitSpeedDueToCurvature(
         params.profile.maximumVelocity, abs(curvature), params.trackWidth);
@@ -70,7 +77,7 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
     distances.push_back(currentDistance);
     velocities.push_back(min(constrainedSpeed, speed));
     accelerations.push_back(acceleration);
-    angles.push_back(atan2(curve.getFirstDerivative(t).y, curve.getFirstDerivative(t).x));
+    angles.push_back(angle);
   }
 
   positions.push_back(curve.getPosition(1));
@@ -130,8 +137,6 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
 void Chassis::curvedMotionProfile(CurvedMotionProfile profile, RamseteParams ramseteParams)
 {
   vector<MotionProfilePose<double>> trajectory = generateTrajectory({.profile = profile, .trackWidth = trackWidth});
-
-  cout << trajectory[0].pose.orientation.angle << endl;
 
   // .first = linear, .second = angular
   pair<double, double> previousVelocities(0, 0);

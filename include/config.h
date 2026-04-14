@@ -39,6 +39,8 @@ namespace Config
   inline constexpr int kSkillsRamTimeMs = 300;
   inline constexpr int kSkillsLoadTimeMs = 2500;
   inline constexpr int kSkillsLoadLoadTimeMs = 0;
+
+  inline constexpr double kRobotMass = 8.16466; // kg
 }
 
 #endif

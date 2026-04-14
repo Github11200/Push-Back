@@ -66,7 +66,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::MID_GOALS);
+  autons.runAuton(AutonName::SOLO);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -86,7 +86,6 @@ void usercontrol(void)
   Driver driver;
   Joysticks joysticks;
 
-  // driver.startJoysticksThread();
   driver.startPistonsThread();
 
   // User control code here, inside the loop
