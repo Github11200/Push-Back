@@ -65,12 +65,20 @@ vector<MotionProfilePose<double>> generateTrajectory(TrajectoryParams params)
     double appliedForce = Config::kRobotMass * curve.getSecondDerivative(t).magnitude();
     double centripetalForce = (Config::kRobotMass * pow(speed, 2)) / radius;
 
+    // Add the two forces together to get the new acceleration and velocities
+    double summedForce = sqrt(pow(appliedForce, 2) + pow(centripetalForce, 2));
+
+    double acceleration = summedForce / Config::kRobotMass;
+    acceleration = min(acceleration, params.profile.maximumAcceleration);
+
+    // Get the centripetal velocity and add it to the tangential velocity to get the new velocity
+    double centripetalVelocity = sqrt((centripetalForce * radius) / Config::kRobotMass);
+    speed = sqrt(pow(centripetalVelocity, 2) + pow(speed, 2));
+
     double angle = atan2(centripetalForce, appliedForce) - atan2(curve.getFirstDerivative(t).y, curve.getFirstDerivative(t).x);
 
     double constrainedSpeed = limitSpeedDueToCurvature(
         params.profile.maximumVelocity, abs(curvature), params.trackWidth);
-    double acceleration = curve.getSecondDerivative(t).magnitude();
-    acceleration = min(acceleration, params.profile.maximumAcceleration);
 
     positions.push_back(curve.getPosition(t));
     curvatures.push_back(curvature);
