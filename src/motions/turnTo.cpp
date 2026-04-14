@@ -50,13 +50,11 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     // Make the motors move
     if (swing == SWING_RIGHT)
     {
-      cout << "RIGHT" << endl;
       Left.spin(fwd, turnOutput, volt);
       Right.stop(vex::brakeType::hold);
     }
     else if (swing == SWING_LEFT)
     {
-      cout << "LEFT" << endl;
       Left.stop(vex::brakeType::hold);
       Right.spin(fwd, -turnOutput, volt);
     }

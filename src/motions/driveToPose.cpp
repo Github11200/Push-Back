@@ -20,8 +20,8 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   Angle<double> turnError = (currentPose.position.angleTo(carrotPoint) - currentPose.orientation - additionalAngle).constrainNegative180To180();
   Angle<double> settlingTurnError = (currentPose.position.angleTo(target.position) - currentPose.orientation - additionalAngle).constrainNegative180To180();
 
-  modifyTurnParams(abs(turnError.angle), turnParams);
-  modifyDriveParams(abs(driveError), driveParams);
+  modifyTurnParams(abs(settlingTurnError.angle), turnParams);
+  modifyDriveParams(abs(settlingDriveError), driveParams);
 
   PID drivePID(settings.updateTime, driveParams);
   PID turnPID(settings.updateTime, turnParams);

@@ -16,7 +16,6 @@ void Autons::solo()
   // Push our alliance
   chassisReference->driveWithVoltage(12, 300, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   // chassisReference->driveDistance(3, chassisReference->getAbsoluteHeading().angle, {.driveTimeout = 500}, {}, {});
-  // chassisReference->driveToPoint(Pose<double>(-45, -3, 0), {.driveTimeout = 700}, turnParams10_deg(), {});
 
   // Drive in front of the loader
   chassisReference->driveToPoint(Pose<double>(-47, 42, 0), {.driveTimeout = 1200, .driveSettleTime = 0}, turnParams10_deg(), {.forwards = false, .doNotEditTurnConstants = true});
@@ -37,10 +36,6 @@ void Autons::solo()
   wait(700, msec);
   blocker.off();
 
-  cout << "X: " << chassisReference->odometry->getPose().position.x << endl;
-  cout << "Y: " << chassisReference->odometry->getPose().position.y << endl;
-  cout << "Angle: " << chassisReference->odometry->getPose().orientation.angle << endl;
-
   // Turn by clipping onto the goal
   chassisReference->turnTo(Pose<double>(-22, 23, -360), {.turnTimeout = 850}, {});
 
@@ -49,16 +44,10 @@ void Autons::solo()
   chassisReference->driveToPoint(Pose<double>(-20, -23, 0), {.driveTimeout = 1500, .driveSettleTime = 0, .driveSettleError = 4, .driveMaxVoltage = 10}, {}, {});
 
   // Drive in front of the 2nd loader
-  // chassisReference->turnTo(Pose<double>(-47, -47, -360), {.turnSettleError = 5, .turnSettleTime = 0}, {});
-  chassisReference->driveToPoint(Pose<double>(-47, -46, 0), {.driveTimeout = 1300, .driveSettleTime = 0}, {}, {});
-  // willyNilly.on();
-  // willyNilly.on();
-  // willyNilly.on();
+  chassisReference->driveToPoint(Pose<double>(-47, -46, 0), {.driveTimeout = 1300, .driveSettleTime = 0}, {}, {.doNotEditTurnConstants = true});
 
   // Ram into 2nd loader
   chassisReference->turnTo(Pose<double>(-68, -46, -360), {.turnSettleTime = 0, .turnTimeout = 700}, {});
-  // chassisReference->driveToPoint(Pose<double>(-80, 48, 0), driveParams, turnParams10_deg(), {});
-  // chassisReference->driveWithVoltage(12, 100, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(6.5, 550, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Line up to long goal

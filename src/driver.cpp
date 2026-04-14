@@ -72,11 +72,6 @@ void Driver::buttonsLoopCallback()
     blocker.on();
   else
     blocker.off();
-
-  if (OuttakeButton.pressing())
-    razer.on();
-  else
-    razer.off();
 }
 
 void Driver::pistonsLoopCallback()

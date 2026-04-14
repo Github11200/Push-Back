@@ -16,7 +16,9 @@ enum AutonName
   TUNING = 5,
   RUSH_HIGH = 6,
   RUSH_LOW = 7,
-  SKILLS_77 = 8
+  SKILLS_77 = 8,
+  FOUR_BALL_LOW = 9,
+  MID_GOALS = 10
 };
 
 enum Side
@@ -43,6 +45,8 @@ public:
   void tuning();
   void rush_high();
   void rush_low();
+  void fourBallLow();
+  void midGoals();
 
   void printMessage(std::string message);
   void prepareAuton();

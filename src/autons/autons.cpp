@@ -65,6 +65,14 @@ void Autons::runAuton(AutonName name)
     Logger::sendMessage("Running the SKILLS 77 auton.");
     skills77();
     break;
+  case AutonName::FOUR_BALL_LOW:
+    Logger::sendMessage("Running the FOUR BALL LOW auton.");
+    fourBallLow();
+    break;
+  case AutonName::MID_GOALS:
+    Logger::sendMessage("Running the MID GOALS auton.");
+    midGoals();
+    break;
   default:
     break;
   }
