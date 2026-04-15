@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Compile and Run C++",
+    "command": "g++ $ZED_FILE -o $ZED_STEM && ./$ZED_STEM && rm ./$ZED_STEM",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "shell": "system",
+  },
+]
