@@ -11,6 +11,7 @@ class Driver
 private:
   Joysticks joysticks;
   Intake intake;
+  bool longGoalScoring = false;
 
   void pistonPressing(Pneumatic &piston, vex::controller::button pistonButton);
   void pistonToggle(Pneumatic &piston, vex::controller::button pistonButton);

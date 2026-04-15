@@ -47,6 +47,20 @@ void Driver::pistonToggle(Pneumatic &piston, vex::controller::button pistonButto
 
 void Driver::buttonsLoopCallback()
 {
+  // Long goal is being scored
+  if (HighGoalScoreButton.pressing())
+    longGoalScoring = true;
+
+  // Suck the block air back in a bit
+  if (!HighGoalScoreButton.pressing() && longGoalScoring)
+  {
+    longGoalScoring = false;
+    IntakeRear.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
+    IntakeMiddle.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
+    wait(250, msec);
+    intake.stopFullIntake();
+  }
+
   if (IntakeButton.pressing() || HighGoalScoreButton.pressing() || MiddleGoalScoreButton.pressing())
   {
     intake.spinFullIntake(vex::directionType::fwd);
