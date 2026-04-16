@@ -66,7 +66,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::SOLO);
+  autons.runAuton(AutonName::FOUR_BALL_HIGH);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -18,7 +18,8 @@ enum AutonName
   RUSH_LOW = 7,
   SKILLS_77 = 8,
   FOUR_BALL_LOW = 9,
-  MID_GOALS = 10
+  MID_GOALS = 10,
+  FOUR_BALL_HIGH = 11
 };
 
 enum Side
@@ -46,6 +47,7 @@ public:
   void rush_high();
   void rush_low();
   void fourBallLow();
+  void fourBallHigh();
   void midGoals();
 
   void printMessage(std::string message);

@@ -51,11 +51,11 @@ void Chassis::turnTo(const Pose<double> &target, TurnParams params, Settings set
     if (swing == SWING_RIGHT)
     {
       Left.spin(fwd, turnOutput, volt);
-      Right.stop(vex::brakeType::hold);
+      Right.stop(vex::brakeType::brake);
     }
     else if (swing == SWING_LEFT)
     {
-      Left.stop(vex::brakeType::hold);
+      Left.stop(vex::brakeType::brake);
       Right.spin(fwd, -turnOutput, volt);
     }
     else

@@ -5,53 +5,71 @@
 
 void Autons::midGoals()
 {
-  chassisReference->odometry->setPosition(-46.5, -14, 90);
+  chassisReference->odometry->setPosition(-45, 0, 180);
   chassisReference->odometry->startPositionTrackThread(false);
 
-  IntakeRear.stop();
-  IntakeMiddle.stop();
-  IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
+  intake.spinFullIntake(vex::directionType::fwd);
   sloper.on();
+  willyNilly.on();
 
-  // Drive to the middle blocks
-  finger.on();
-  willyNilly.delayToggle(800);
-  chassisReference->driveToPoint(Pose<double>(-19, -22, 0), {}, turnParams10_deg(), {});
-  finger.off();
-  wait(200, msec);
+  // Drive in front of the dispenser
+  chassisReference->driveToPoint(Pose<double>(-47, -43, 0), {.driveTimeout = 1100, .driveSettleTime = 0}, turnParams10_deg(), {});
 
-  // Drive towards and score in low goal
+  // Ram into 1st loader
+  chassisReference->turnTo(Pose<double>(-68, -47, -360), {.turnTimeout = 700}, {});
+  chassisReference->driveWithVoltage(12, 200, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(6, 650, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
+
+  // Back up a bit
+  chassisReference->driveToPoint(Pose<double>(-41, -47, 0), {.driveTimeout = 1100, .driveSettleTime = 0}, turnParams10_deg(), {.forwards = false});
   willyNilly.off();
-  cout << "current x: " << chassisReference->odometry->getPose().position.x << endl;
-  cout << "current y: " << chassisReference->odometry->getPose().position.y << endl;
-  cout << "current theta: " << chassisReference->odometry->getPose().orientation.angle << endl;
-  chassisReference->turnTo(Pose<double>(-2, -2, -360), {}, {});
-  return;
-  chassisReference->driveToPoint(Pose<double>(-2, -2, 0), {}, turnParams10_deg(), {});
+
+  // Turn towards the low goal and score in it
+  chassisReference->turnTo(Pose<double>(-11, -11, -360), {}, {});
+  // willyNilly.delayToggle(800);
+  // willyNilly.toggle();
+  chassisReference->driveToPoint(Pose<double>(-11, -11, 0), {.driveTimeout = 1500}, turnParams10_deg(), {});
+
+  // Outtake there
+  intake.spinFullIntake(vex::directionType::rev);
   razer.on();
-  intake.spinFullIntake(vex::directionType::rev, 12);
-  IntakeFront.spin(vex::directionType::rev, 7, volt);
-  wait(650, msec);
+  IntakeFront.spin(vex::directionType::rev, 6, vex::voltageUnits::volt);
+  wait(800, msec);
+  intake.spinFullIntake(vex::directionType::fwd);
   razer.off();
-  intake.spinFullIntake(vex::directionType::fwd, 12);
 
   // Drive back from the low goal
-  chassisReference->driveToPoint(Pose<double>(-19, -22, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-19, -22, 0), {.driveTimeout = 1000}, turnParams10_deg(), {.forwards = false});
 
   // Drive to the other three stack
-  chassisReference->turnTo(Pose<double>(-22, 22, -360), {.turnTimeout = 650}, {});
+  chassisReference->turnTo(Pose<double>(-22, 22, -360), {.turnTimeout = 650, .turnSettleTime = 0}, {});
   chassisReference->driveToPoint(Pose<double>(-22, 22, 0), {.driveTimeout = 1500}, turnParams10_deg(), {});
 
   // Drive into the mid goal
-  chassisReference->turnTo(Pose<double>(-11, 11, -360), {.turnTimeout = 650}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-8.5, 8.5, -360), {.turnTimeout = 650, .turnSettleTime = 0}, {.forwards = false});
   sloper.off();
-  chassisReference->driveToPoint(Pose<double>(-11, 11, 0), {.driveTimeout = 1500}, turnParams10_deg(), {});
+  chassisReference->driveToPoint(Pose<double>(-8.5, 8.5, 0), {.driveTimeout = 1300}, turnParams10_deg(), {.forwards = false});
 
   // Score in the mid goal
   blocker.on();
-  IntakeRear.spin(vex::directionType::fwd, 6, vex::voltageUnits::volt);
+  IntakeRear.spin(vex::directionType::fwd, 4, vex::voltageUnits::volt);
   IntakeMiddle.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   IntakeFront.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
+  wait(700, msec);
+  blocker.off();
+  intake.stopFullIntake();
+
+  sloper.on();
+  chassisReference->driveDistance(5, chassisReference->getAbsoluteHeading().angle, {.driveTimeout = 900}, turnParams10_deg(), {});
+
+  double currentTime = 0;
+  while (static_cast<int>(currentTime) != 14)
+  {
+    currentTime = Brain.Timer.time(seconds);
+    wait(100, msec);
+  }
+
+  chassisReference->driveWithVoltage(-4, 2000, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {.forwards = false});
 
   wait(10, sec);
 }

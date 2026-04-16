@@ -55,10 +55,15 @@ void Driver::buttonsLoopCallback()
   if (!HighGoalScoreButton.pressing() && longGoalScoring)
   {
     longGoalScoring = false;
-    IntakeRear.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
-    IntakeMiddle.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
-    wait(250, msec);
-    intake.stopFullIntake();
+    thread([]()
+           {
+             IntakeRear.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
+             IntakeMiddle.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
+             wait(250, msec);
+             IntakeFront.stop(vex::brakeType::coast);
+              IntakeMiddle.stop(vex::brakeType::coast);
+              IntakeRear.stop(vex::brakeType::coast); })
+        .detach();
   }
 
   if (IntakeButton.pressing() || HighGoalScoreButton.pressing() || MiddleGoalScoreButton.pressing())

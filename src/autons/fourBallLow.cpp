@@ -35,7 +35,7 @@ void Autons::fourBallLow()
 
   // Push blocks in goal
   // chassisReference->turnTo(Pose<double>(-8, -58.5, -360), {.turnTimeout = 300}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-8, -58.5, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-8, -58, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
 
   Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
   Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);

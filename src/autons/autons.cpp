@@ -69,6 +69,10 @@ void Autons::runAuton(AutonName name)
     Logger::sendMessage("Running the FOUR BALL LOW auton.");
     fourBallLow();
     break;
+  case AutonName::FOUR_BALL_HIGH:
+    Logger::sendMessage("Running the FOUR BALL HIGH auton.");
+    fourBallHigh();
+    break;
   case AutonName::MID_GOALS:
     Logger::sendMessage("Running the MID GOALS auton.");
     midGoals();
