@@ -11,7 +11,7 @@ controller Controller;
 motor FrontRight = motor(PORT2, ratio6_1, true);  // DONE
 motor FrontLeft = motor(PORT12, ratio6_1, false); // DONE
 
-motor MiddleRight = motor(PORT8, ratio6_1, false); // DONE
+motor MiddleRight = motor(PORT7, ratio6_1, false); // DONE
 motor MiddleLeft = motor(PORT13, ratio6_1, true);  // DONE
 
 motor BackRight = motor(PORT10, ratio6_1, false); // DONE

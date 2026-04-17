@@ -13,29 +13,26 @@ void Autons::rush_low()
 
   // Drive to the middle blocks
   finger.on();
-  chassisReference->turnTo(Pose<double>(-19, -22, -360), {.turnTimeout = 50}, {});
-  willyNilly.delayToggle(780);
-  chassisReference->driveToPoint(Pose<double>(-19, -22, 0), {.driveMaxVoltage = 6, .driveTimeout = 950}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-24, -22, -360), {.turnTimeout = 50}, {});
+  willyNilly.delayToggle(600);
+  chassisReference->driveToPoint(Pose<double>(-24, -22, 0), {.driveTimeout = 850}, turnParams10_deg(), {});
   finger.off();
   wait(200, msec);
 
   // Drive (in reverse) in front of the loader
-  chassisReference->turnTo(Pose<double>(-47, -47.5, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-47, -47.5, 0), {}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-47, -45, -360), {.turnSettleTime = 0, .turnSettleError = 5}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-47, -45, 0), {.driveSettleTime = 0, .driveSettleError = 6}, {.turnSettleTime = 0}, {.forwards = false});
   willyNilly.on();
 
   // Ram into 1st loader
-  chassisReference->turnTo(Pose<double>(-68, -48, -360), {.turnTimeout = 700}, {});
+  chassisReference->turnTo(Pose<double>(-68, -47, -360), {.turnTimeout = 700}, {});
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 100, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
-  chassisReference->driveWithVoltage(5, 520, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
+  chassisReference->driveWithVoltage(5, 610, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Line up to long goal
-  chassisReference->turnTo(Pose<double>(-24, -48.5, -360), {.turnTimeout = 1100}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-24, -48.5, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
-
-  // Pull this thingy up
-  willyNilly.off();
+  // chassisReference->turnTo(Pose<double>(-24, -47.5, -360), {.turnTimeout = 1100}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-24, -47.5, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
 
   // Score and NOT CHILL >:(
   blocker.on();

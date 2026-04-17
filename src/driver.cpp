@@ -70,14 +70,18 @@ void Driver::buttonsLoopCallback()
   {
     intake.spinFullIntake(vex::directionType::fwd);
     // Comment in for skills
-    // if (MiddleGoalScoreButton.pressing())
-    //   IntakeRear.spin(vex::directionType::fwd, 3.5, vex::voltageUnits::volt); // BRANDON HERE IS MIDDLE GOAL SPEED
+    if (MiddleGoalScoreButton.pressing())
+    {
+      intake.spinFullIntake(vex::directionType::fwd, 5);
+      IntakeRear.spin(vex::directionType::fwd, 2, vex::voltageUnits::volt); // BRANDON HERE IS MIDDLE GOAL SPEED
+    }
   }
   else if (OuttakeButton.pressing())
   {
     intake.spinFullIntake(vex::directionType::rev);
     // Comment in for skills
-    // IntakeFront.spin(vex::directionType::rev, 3.5, vex::voltageUnits::volt); // BRANDON HERE IS LOW GOAL SPEED
+    IntakeFront.spin(vex::directionType::rev, 3.5, vex::voltageUnits::volt); // BRANDON HERE IS LOW GOAL SPEED
+    razer.on();
   }
   else
     intake.stopFullIntake();
@@ -91,6 +95,9 @@ void Driver::buttonsLoopCallback()
     blocker.on();
   else
     blocker.off();
+
+  if (!OuttakeButton.pressing())
+    razer.off();
 }
 
 void Driver::pistonsLoopCallback()

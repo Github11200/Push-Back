@@ -42,7 +42,7 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
 
   Vector2D<double> projectedPerpendicularLine(-sin(target.orientation.toRad().angle), cos(target.orientation.toRad().angle));
 
-  while (!settlingDrivePID.isSettled() && !settlingTurnPID.isSettled())
+  while (!settlingDrivePID.isSettled() || !settlingTurnPID.isSettled())
   {
     currentPose = odometry->getPose();
 
@@ -88,6 +88,10 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
       }
       previousSameSide = sameSide;
     }
+
+    cout << "driving: " << settlingDriveError << endl;
+    cout << "turning: " << settlingTurnError.angle << endl;
+    cout << "=================" << endl;
 
     /*=============================
                 Turning
@@ -147,6 +151,11 @@ void Chassis::driveToPose(const Pose<double> &target, DriveParams driveParams, T
   }
 
   cout << "drive to pose done" << endl;
+
+  if (settlingTurnPID.isSettled())
+    cout << "turn pid settled" << endl;
+  if (settlingDrivePID.isSettled())
+    cout << "drive pid settled" << endl;
 
   Left.stop(hold);
   Right.stop(hold);
