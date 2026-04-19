@@ -66,7 +66,7 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::RUSH_HIGH);
+  autons.runAuton(AutonName::SOLO);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -83,10 +83,10 @@ void usercontrol(void)
   if (chassis.odometry->isTracking)
     chassis.odometry->stopPositionTrackThread();
 
-  Driver driver;
+  Driver harry;
   Joysticks joysticks;
 
-  driver.startPistonsThread();
+  harry.startPistonsThread();
 
   // User control code here, inside the loop
   while (1)
@@ -100,7 +100,7 @@ void usercontrol(void)
     // ........................................................................
 
     joysticks.arcade();
-    driver.buttonsLoopCallback();
+    harry.buttonsLoopCallback();
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.

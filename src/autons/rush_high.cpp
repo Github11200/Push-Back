@@ -19,8 +19,8 @@ void Autons::rush_high()
 
   // Drive in front of the loader
   chassisReference->turnTo(Pose<double>(-47, 43.5, -360), {.turnSettleTime = 0, .turnSettleError = 5}, {});
-  chassisReference->driveToPoint(Pose<double>(-47, 43.5, 0), {.driveSettleTime = 0, .driveSettleError = 6}, {.turnSettleTime = 0}, {});
   willyNilly.on();
+  chassisReference->driveToPoint(Pose<double>(-47, 43.5, 0), {.driveSettleTime = 0, .driveSettleError = 6}, {.turnSettleTime = 0}, {});
   sloper.on();
   blocker.off();
 

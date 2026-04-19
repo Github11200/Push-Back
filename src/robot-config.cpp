@@ -12,10 +12,10 @@ motor FrontRight = motor(PORT2, ratio6_1, true);  // DONE
 motor FrontLeft = motor(PORT12, ratio6_1, false); // DONE
 
 motor MiddleRight = motor(PORT7, ratio6_1, false); // DONE
-motor MiddleLeft = motor(PORT13, ratio6_1, true);  // DONE
+motor MiddleLeft = motor(PORT15, ratio6_1, true);  // DONE
 
 motor BackRight = motor(PORT10, ratio6_1, false); // DONE
-motor BackLeft = motor(PORT15, ratio6_1, true);   // DONE
+motor BackLeft = motor(PORT13, ratio6_1, true);   // DONE
 
 motor IntakeFront = motor(PORT18, ratio6_1, false); // DONE
 motor IntakeMiddle = motor(PORT3, ratio6_1, false); // DONE

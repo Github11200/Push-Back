@@ -38,7 +38,7 @@ void Autons::low()
   willyNilly.on();
 
   // Ram into 1st loader
-  chassisReference->turnTo(Pose<double>(-68, -47, -360), {.turnTimeout = 700}, {});
+  chassisReference->turnTo(Pose<double>(-68, -46.5, -360), {.turnTimeout = 700}, {});
   // chassisReference->driveToPoint(Pose<double>(-80, -47, 0), driveParams, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(12, 100, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
   chassisReference->driveWithVoltage(5, 610, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
