@@ -27,8 +27,8 @@ void Autons::low()
   chassisReference->driveToPoint(Pose<double>(-9, -9, 0), {.driveTimeout = 900, .driveSettleTime = 0, .driveSettleError = 3}, turnParams10_deg(), {});
   razer.on();
   intake.spinFullIntake(vex::directionType::rev, 12);
-  IntakeFront.spin(vex::directionType::rev, 7, volt);
-  wait(650, msec);
+  IntakeFront.spin(vex::directionType::rev, 4, volt);
+  wait(850, msec);
   razer.off();
   intake.spinFullIntake(vex::directionType::fwd, 12);
 
@@ -62,10 +62,10 @@ void Autons::low()
 
   // Push blocks in goal
   chassisReference->turnTo(Pose<double>(-8, -57, -360), {.turnTimeout = 300}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-8, -57, 0), {.driveTimeout = 1300}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-8, -57, 0), {.driveTimeout = 1300, .driveMaxVoltage = 4}, turnParams10_deg(), {.forwards = false});
 
-  Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
-  Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
+  // Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
+  // Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
 
   wait(2000, msec);
 }

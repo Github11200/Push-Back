@@ -28,20 +28,20 @@ void Autons::solo()
 
   // Go up to long goal
   chassisReference->turnTo(Pose<double>(-24, 47.5, -360), {.turnTimeout = 200}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-24, 47.5, 0), {.driveTimeout = 1050}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-24, 47.5, 0), {.driveTimeout = 1050}, turnParams10_deg(), {.forwards = false, .doNotEditTurnConstants = true});
   willyNilly.off();
 
   // Score
   blocker.on();
   wait(750, msec);
-  blocker.off();
 
   // Turn by clipping onto the goal
-  chassisReference->turnTo(Pose<double>(-22, 23, -360), {.turnTimeout = 850}, {});
+  chassisReference->turnTo(Pose<double>(-22, 23, -360), {.turnTimeout = 900}, {});
+  blocker.off();
 
   // Eat middle blocks and drive across the field
   willyNilly.delayToggle(1300);
-  chassisReference->driveToPoint(Pose<double>(-21, -23, 0), {.driveTimeout = 1500, .driveSettleTime = 0, .driveSettleError = 4, .driveMaxVoltage = 10}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-19, -23, 0), {.driveTimeout = 1500, .driveSettleTime = 0, .driveSettleError = 4, .driveMaxVoltage = 10}, {}, {});
 
   // Drive in front of the 2nd loader
   chassisReference->driveToPoint(Pose<double>(-49, -46.5, 0), {.driveTimeout = 1200, .driveSettleTime = 200}, {}, {});
@@ -57,15 +57,15 @@ void Autons::solo()
 
   // Score and NOT chill >:(
   blocker.on();
-  wait(650, msec);
+  wait(700, msec);
   IntakeRear.spin(vex::directionType::rev, 12, volt);
   IntakeMiddle.spin(vex::directionType::rev, 12, volt);
 
   // Turn by clipping onto the goal
-  chassisReference->turnTo(Pose<double>(-22, -23, -360), {.turnTimeout = 1000}, {});
+  chassisReference->turnTo(Pose<double>(-22, -24, -360), {.turnTimeout = 1000}, {});
 
   // Eat middle blocks
-  chassisReference->driveToPoint(Pose<double>(-23, -22, 0), {.driveTimeout = 1100, .driveSettleTime = 0}, turnParams10_deg(), {.doNotEditTurnConstants = true});
+  chassisReference->driveToPoint(Pose<double>(-23, -24, 0), {.driveTimeout = 1100, .driveSettleTime = 0}, turnParams10_deg(), {.doNotEditTurnConstants = true});
 
   // Go up to low goal
   chassisReference->turnTo(Pose<double>(-9, -9, -360), {.turnSettleTime = 0, .turnSettleError = 3}, {});
