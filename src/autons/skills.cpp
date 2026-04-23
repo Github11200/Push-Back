@@ -175,12 +175,12 @@ void Autons::skills()
   chassisReference->driveToPoint(Pose<double>(-42, -64, 0), {.driveTimeout = 1500}, {}, {.forwards = false});
 
   // Turn out of alleyway
-  chassisReference->turnTo(Pose<double>(-42, -51, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-42, -51, 0), {}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-42, -51.75, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-42, -51.75, 0), {}, {}, {.forwards = false});
 
   // Align to long goal
-  chassisReference->turnTo(Pose<double>(-27, -51, -360), {}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-27, -51, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-27, -51.75, -360), {}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-27, -51.75, 0), {.driveTimeout = 1200}, {}, {.forwards = false});
   cout << "Position before resetting 3: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;
   chassisReference->odometry->setPosition(chassisReference->odometry->getPose().position.x, -47, chassisReference->odometry->getPose().orientation.angle);
   cout << "Position after resetting 3: " << chassisReference->odometry->getPose().position.x << ", " << chassisReference->odometry->getPose().position.y << ", " << chassisReference->odometry->getPose().orientation.angle << endl;

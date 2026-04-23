@@ -45,7 +45,7 @@ void Autons::low()
 
   // Line up to long goal
   // chassisReference->turnTo(Pose<double>(-24, -47.5, -360), {.turnTimeout = 1100}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-24, -47.5, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-24, -47, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
 
   // Score and NOT CHILL >:(
   blocker.on();
@@ -56,16 +56,16 @@ void Autons::low()
   // chassisReference->driveToPoint(Pose<double>(-37, -47, 0), {.driveTimeout = 600}, turnParams10_deg(), {});
 
   // Reposition to align wing
-  chassisReference->turnTo(Pose<double>(-35, -57, -360), {.turnTimeout = 300}, {});
-  chassisReference->driveToPoint(Pose<double>(-35, -57, 0), {.driveTimeout = 500}, turnParams10_deg(), {});
+  chassisReference->turnTo(Pose<double>(-35, -58, -360), {.turnTimeout = 300}, {});
+  chassisReference->driveToPoint(Pose<double>(-35, -58, 0), {.driveTimeout = 500}, turnParams10_deg(), {});
   blocker.off();
 
   // Push blocks in goal
-  chassisReference->turnTo(Pose<double>(-8, -57, -360), {.turnTimeout = 300}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-8, -57, 0), {.driveTimeout = 1300, .driveMaxVoltage = 4}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-8, -58, -360), {.turnTimeout = 300}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-8, -58, 0), {.driveTimeout = 1300, .driveMaxVoltage = 6}, turnParams10_deg(), {.forwards = false});
 
-  // Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
-  // Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
+  Left.spin(vex::directionType::fwd, 12, vex::voltageUnits::volt);
+  Right.spin(vex::directionType::rev, 12, vex::voltageUnits::volt);
 
   wait(2000, msec);
 }
