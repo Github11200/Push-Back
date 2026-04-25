@@ -66,8 +66,8 @@ void autonomous(void)
     cout << "Forward tracker not installed!" << endl;
     return;
   }
-  autons.runAuton(AutonName::SKILLS);
-}
+  autons.runAuton(AutonName::RUSH_LOW); 
+}   
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -80,14 +80,16 @@ void autonomous(void)
 /*---------------------------------------------------------------------------*/
 void usercontrol(void)
 {
-  if (chassis.odometry->isTracking)
-    chassis.odometry->stopPositionTrackThread();
+  if (chassis.odometry->isTracking) 
+    chassis.odometry->stopPositionTrackThread();  
+ 
+  razer.off();
 
   Driver harry;
   Joysticks joysticks;
 
   harry.startPistonsThread();
-
+ 
   // User control code here, inside the loop
   while (1)
   {
@@ -128,13 +130,5 @@ int main()
   }
 }
 
-// 0.07782561
-// -3.66028
-
-// 0.129966
-// 3.67144
-
-// 0.0709169
-// 3.67061
-
-//-2491.12
+// 358.869
+// 358.72358.72

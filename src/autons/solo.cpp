@@ -40,29 +40,30 @@ void Autons::solo()
   blocker.off();
 
   // Eat middle blocks and drive across the field
-  willyNilly.delayToggle(1050);
+  willyNilly.delayToggle(1000);
   chassisReference->driveToPoint(Pose<double>(-21, -23, 0), {.driveTimeout = 1500, .driveSettleTime = 0, .driveSettleError = 4, .driveMaxVoltage = 10}, {}, {});
 
   // Drive in front of the 2nd loader
-  chassisReference->driveToPoint(Pose<double>(-49, -47, 0), {.driveTimeout = 1100, .driveSettleTime = 200}, {}, {});
+  chassisReference->turnTo(Pose<double>(-49, -46.5, -360), {.turnSettleTime = 0, .turnSettleError = 30, .turnMinVoltage = 2}, {});
+  chassisReference->driveToPoint(Pose<double>(-49, -46.5, 0), {.driveTimeout = 1100, .driveSettleTime = 200}, {}, {});
 
   // Ram into 2nd loader
-  chassisReference->turnTo(Pose<double>(-68, -47.5, -360), {.turnSettleTime = 0, .turnTimeout = 700}, {});
+  chassisReference->turnTo(Pose<double>(-68, -47, -360), {.turnSettleTime = 0, .turnTimeout = 700}, {});
   chassisReference->driveWithVoltage(6.5, 500, chassisReference->getAbsoluteHeading().angle, turnParams10_deg(), {});
 
   // Line up to long goal
-  chassisReference->turnTo(Pose<double>(-24, -48, -360), {.turnTimeout = 300}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-24, -48, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
+  chassisReference->turnTo(Pose<double>(-24, -47.25, -360), {.turnTimeout = 300}, {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-24, -47.25, 0), {.driveTimeout = 1200}, turnParams10_deg(), {.forwards = false});
   willyNilly.off();
 
   // Score and NOT chill >:(
   blocker.on();
-  wait(675, msec);
+  wait(500, msec);
   IntakeRear.spin(vex::directionType::rev, 12, volt);
   IntakeMiddle.spin(vex::directionType::rev, 12, volt);
 
   // Turn by clipping onto the goal
-  chassisReference->turnTo(Pose<double>(-22, -27, -360), {.turnTimeout = 1000}, {});
+  chassisReference->turnTo(Pose<double>(-22, -27, -360), {.turnTimeout = 800}, {});
 
   // Eat middle blocks
   chassisReference->driveToPoint(Pose<double>(-23, -27, 0), {.driveTimeout = 1100, .driveSettleTime = 0}, turnParams10_deg(), {.doNotEditTurnConstants = true});
@@ -70,7 +71,7 @@ void Autons::solo()
   // Go up to low goal
   chassisReference->turnTo(Pose<double>(-9, -9, -360), {.turnSettleTime = 0, .turnSettleError = 3}, {});
   Brain.Timer.event([](void *)
-                    { IntakeFront.spin(vex::directionType::rev, 5, volt); wait(100, msec); IntakeFront.stop(vex::brakeType::coast); }, 150);
+                    { IntakeFront.spin(vex::directionType::rev, 5, volt); wait(200, msec); IntakeFront.stop(vex::brakeType::coast); }, 150);
   chassisReference->driveToPoint(Pose<double>(-9, -9, 0), {.driveTimeout = 1000}, turnParams10_deg(), {.doNotEditTurnConstants = true});
   razer.on();
   willyNilly.off();
@@ -78,7 +79,7 @@ void Autons::solo()
   // Score in low goal
   intake.spinFullIntake(vex::directionType::rev, 12);
   wait(200, msec);
-  IntakeFront.spin(vex::directionType::rev, 4, volt);
+  IntakeFront.spin(vex::directionType::rev, 5, volt);
 
   wait(10000, sec);
 }

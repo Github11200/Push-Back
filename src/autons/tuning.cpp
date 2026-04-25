@@ -5,8 +5,8 @@
 
 void Autons::tuning()
 {
-  cout << "sideways offset: " << Config::kSidewaysTrackerDistance << endl;
-  chassisReference->odometry->setPosition(0, 0, 0);
+  // cout << "sideways offset: " << Config::kSidewaysTrackerDistance << endl;
+  // chassisReference->odometry->setPosition(0, 0, 0);
 
   /*=============================================================
   |                   Part 1 - Wheel Diameters                  |
@@ -35,7 +35,7 @@ void Autons::tuning()
   | Rotate the bot around 10 times, get the degrees from the    |
   | inertial and divide that by 3600 to get the gyro scale.     |
   =============================================================*/
-  /*int iterations = 5;
+  int iterations = 5;
   double differences = 0;
   for (int i = 0; i < iterations; ++i)
   {
@@ -48,7 +48,6 @@ void Autons::tuning()
     cout << (360 - Inertial.heading(deg)) << endl;
   }
   cout << "Gryo scale: " << (360 * iterations - (differences / iterations)) / iterations << endl;
-  */
 
   /*=============================================================
 |                   Part 4 - Test odometry                    |
@@ -56,7 +55,7 @@ void Autons::tuning()
 | around, curving it, etc. Use the joysticks for this. Use    |
 | the visualizer to see where the bot thinks it is.           |
 =============================================================*/
-  chassisReference->odometry->startPositionTrackThread(false);
+  // chassisReference->odometry->startPositionTrackThread(false);
 
   /*=============================================================
   |                   Part 5 - Tune the PIDs                     |
@@ -113,5 +112,5 @@ void Autons::tuning()
   // chassisReference->driveToPoint(Pose<double>(0, 50, 0), driveParams50_in(), turnParams10_deg(), {.sendPositionData = true});
 
   // Drive 100 inches forward
-  chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
+  // chassisReference->driveToPoint(Pose<double>(0, 100, 0), driveParams100_in(), turnParams10_deg(), {.sendPositionData = true});
 }

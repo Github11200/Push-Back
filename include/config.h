@@ -7,7 +7,7 @@
 
 namespace Config
 {
-  inline constexpr double kInertialScaling = 359.8;
+  inline constexpr double kInertialScaling = 358.7945; // New - 358.7945 (after solo is run)  Old - 359.8
   inline constexpr TrackerSetup kTrackerSetup = TrackerSetup::TWO_TRACKER;
 
   inline constexpr double kForwardTrackerWheelDiameter = 2.749489;

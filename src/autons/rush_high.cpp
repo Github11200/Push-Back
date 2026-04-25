@@ -11,11 +11,11 @@ void Autons::rush_high()
   intake.spinFullIntake(vex::directionType::fwd, 12);
   sloper.on();
 
-  willyNilly.delayToggle(600);
+  willyNilly.delayToggle(500);
 
   // Drive to the middle blocks
   // chassisReference->turnTo(Pose<double>(-23, 23, -360), {}, {});
-  chassisReference->driveToPoint(Pose<double>(-24, 23, 0), {.driveTimeout = 900, .driveSettleTime = 0}, {}, {});
+  chassisReference->driveToPoint(Pose<double>(-24, 24, 0), {.driveTimeout = 900, .driveSettleTime = 0}, {}, {});
 
   // Drive in front of the loader
   chassisReference->turnTo(Pose<double>(-47, 43.5, -360), {.turnSettleTime = 0, .turnSettleError = 5}, {});
@@ -33,7 +33,7 @@ void Autons::rush_high()
 
   // Line up to long goal
   // chassisReference->turnTo(Pose<double>(-20, 50, -360), {.turnTimeout = 300}, {.forwards = false});
-  chassisReference->driveToPoint(Pose<double>(-20, 46.5, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
+  chassisReference->driveToPoint(Pose<double>(-20, 47, 0), {.driveTimeout = 1100}, turnParams10_deg(), {.forwards = false});
 
   // Score and NOT CHILL >:(
   blocker.on();

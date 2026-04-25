@@ -162,6 +162,11 @@ void Odometry::updatePosition(bool sendLogs)
 
   previousTrackerPositions = trackerPosition;
   previousHeading = absoluteHeading;
+
+  // if (!ForwardTracker.installed())
+  //   cout << "forward disconnected" << endl;
+  // if (!SidewaysTracker.installed())
+  //   cout << "sideways disconnected" << endl;
 }
 
 void Odometry::setPosition(double xPosition, double yPosition, double theta)
